@@ -10,7 +10,7 @@ For instructions on how to use the library, visit the wiki [here](https://github
 # Releases
 Stable releases can be downloaded here 
 
-https://mvnrepository.com/artifact/com.ghgande/j2mod
+https://mvnrepository.com/artifact/com.ciprianpascu/j2mod
 
 Snapshot releases can be downloaded here 
 

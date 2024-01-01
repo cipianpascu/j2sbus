@@ -38,16 +38,16 @@ public class ModbusSerialListener extends AbstractModbusListener {
     private final AbstractSerialConnection serialCon;
 
     /**
-     * Constructs a new <tt>ModbusSerialListener</tt> instance.
+     * Constructs a new <code>ModbusSerialListener</code> instance.
      *
-     * @param params a <tt>SerialParameters</tt> instance.
+     * @param params a <code>SerialParameters</code> instance.
      */
     public ModbusSerialListener(SerialParameters params) {
         serialCon = new SerialConnection(params);
     }
 
     /**
-     * Constructs a new <tt>ModbusSerialListener</tt> instance specifying the serial connection interface
+     * Constructs a new <code>ModbusSerialListener</code> instance specifying the serial connection interface
      *
      * @param serialCon Serial connection to use
      */

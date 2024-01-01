@@ -16,7 +16,7 @@
 package com.ghgande.j2mod.modbus.procimg;
 
 /**
- * Class implementing a simple <tt>DigitalOut</tt>.
+ * Class implementing a simple <code>DigitalOut</code>.
  *
  * @author Dieter Wimberger
  * @author Steve O'Hara (4NG)
@@ -30,14 +30,14 @@ public class SimpleDigitalOut implements DigitalOut {
     protected boolean set;
 
     /**
-     * Constructs a new <tt>SimpleDigitalOut</tt> instance.
+     * Constructs a new <code>SimpleDigitalOut</code> instance.
      * It's state will be invalid.
      */
     public SimpleDigitalOut() {
     }
 
     /**
-     * Constructs a new <tt>SimpleDigitalOut</tt> instance
+     * Constructs a new <code>SimpleDigitalOut</code> instance
      * with the given state.
      *
      * @param b true if set, false otherwise.

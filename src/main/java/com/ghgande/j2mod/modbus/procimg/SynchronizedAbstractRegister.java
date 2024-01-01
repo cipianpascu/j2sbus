@@ -25,7 +25,7 @@ package com.ghgande.j2mod.modbus.procimg;
 public abstract class SynchronizedAbstractRegister implements Register {
 
     /**
-     * The word (<tt>byte[2]</tt>) holding the state of this register.
+     * The word (<code>byte[2]</code>) holding the state of this register.
      *
      * Note that a superclass may set register to null to create a
      * gap in a Modbus map.

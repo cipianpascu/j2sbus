@@ -47,14 +47,14 @@ public abstract class AbstractModbusListener implements Runnable {
     protected String threadName;
 
     /**
-     * Stop the listener thread for this <tt>ModbusListener</tt> instance.
+     * Stop the listener thread for this <code>ModbusListener</code> instance.
      */
     public abstract void stop();
 
     /**
      * Sets the port to be listened to.
      *
-     * @param port the number of the IP port as <tt>int</tt>.
+     * @param port the number of the IP port as <code>int</code>.
      */
     public void setPort(int port) {
         this.port = ((port > 0) ? port : Modbus.DEFAULT_PORT);
@@ -72,7 +72,7 @@ public abstract class AbstractModbusListener implements Runnable {
     /**
      * Sets the address of the interface to be listened to.
      *
-     * @param addr an <tt>InetAddress</tt> instance.
+     * @param addr an <code>InetAddress</code> instance.
      */
     public void setAddress(InetAddress addr) {
         address = addr;
@@ -88,7 +88,7 @@ public abstract class AbstractModbusListener implements Runnable {
     }
 
     /**
-     * Tests if this <tt>ModbusTCPListener</tt> is listening and accepting
+     * Tests if this <code>ModbusTCPListener</code> is listening and accepting
      * incoming connections.
      *
      * @return true if listening (and accepting incoming connections), false
@@ -99,9 +99,9 @@ public abstract class AbstractModbusListener implements Runnable {
     }
 
     /**
-     * Set the listening state of this <tt>ModbusTCPListener</tt> object.
-     * A <tt>ModbusTCPListener</tt> will silently drop any requests if the
-     * listening state is set to <tt>false</tt>.
+     * Set the listening state of this <code>ModbusTCPListener</code> object.
+     * A <code>ModbusTCPListener</code> will silently drop any requests if the
+     * listening state is set to <code>false</code>.
      *
      * @param b listening state
      */

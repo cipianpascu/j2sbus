@@ -17,7 +17,7 @@ package com.ghgande.j2mod.modbus.procimg;
 
 /**
  * Interface defining a process image in an object oriented manner.
- * <p>
+ *
  * The process image is understood as a shared memory area used form
  * communication between slave and master or device side.
  *
@@ -28,201 +28,201 @@ package com.ghgande.j2mod.modbus.procimg;
 public interface ProcessImage {
 
     /**
-     * Returns a range of <tt>DigitalOut</tt> instances.
+     * Returns a range of <code>DigitalOut</code> instances.
      *
      * @param offset the start offset.
-     * @param count  the amount of <tt>DigitalOut</tt> from the offset.
+     * @param count  the amount of <code>DigitalOut</code> from the offset.
      *
-     * @return an array of <tt>DigitalOut</tt> instances.
+     * @return an array of <code>DigitalOut</code> instances.
      *
      * @throws IllegalAddressException if the range from offset to offset+count is non existant.
      */
     DigitalOut[] getDigitalOutRange(int offset, int count) throws IllegalAddressException;
 
     /**
-     * Returns the <tt>DigitalOut</tt> instance at the given reference.
+     * Returns the <code>DigitalOut</code> instance at the given reference.
      *
      * @param ref the reference.
      *
-     * @return the <tt>DigitalOut</tt> instance at the given address.
+     * @return the <code>DigitalOut</code> instance at the given address.
      *
      * @throws IllegalAddressException if the reference is invalid.
      */
     DigitalOut getDigitalOut(int ref) throws IllegalAddressException;
 
     /**
-     * Returns the number of <tt>DigitalOut</tt> instances in this
-     * <tt>ProcessImage</tt>.
+     * Returns the number of <code>DigitalOut</code> instances in this
+     * <code>ProcessImage</code>.
      *
-     * @return the number of digital outs as <tt>int</tt>.
+     * @return the number of digital outs as <code>int</code>.
      */
     int getDigitalOutCount();
 
     /**
-     * Returns a range of <tt>DigitalIn</tt> instances.
+     * Returns a range of <code>DigitalIn</code> instances.
      *
      * @param offset the start offset.
-     * @param count  the amount of <tt>DigitalIn</tt> from the offset.
+     * @param count  the amount of <code>DigitalIn</code> from the offset.
      *
-     * @return an array of <tt>DigitalIn</tt> instances.
+     * @return an array of <code>DigitalIn</code> instances.
      *
      * @throws IllegalAddressException if the range from offset to offset+count is non existant.
      */
     DigitalIn[] getDigitalInRange(int offset, int count) throws IllegalAddressException;
 
     /**
-     * Returns the <tt>DigitalIn</tt> instance at the given reference.
+     * Returns the <code>DigitalIn</code> instance at the given reference.
      *
      * @param ref the reference.
      *
-     * @return the <tt>DigitalIn</tt> instance at the given address.
+     * @return the <code>DigitalIn</code> instance at the given address.
      *
      * @throws IllegalAddressException if the reference is invalid.
      */
     DigitalIn getDigitalIn(int ref) throws IllegalAddressException;
 
     /**
-     * Returns the number of <tt>DigitalIn</tt> instances in this
-     * <tt>ProcessImage</tt>.
+     * Returns the number of <code>DigitalIn</code> instances in this
+     * <code>ProcessImage</code>.
      *
-     * @return the number of digital ins as <tt>int</tt>.
+     * @return the number of digital ins as <code>int</code>.
      */
     int getDigitalInCount();
 
     /**
-     * Returns a range of <tt>InputRegister</tt> instances.
+     * Returns a range of <code>InputRegister</code> instances.
      *
      * @param offset the start offset.
-     * @param count  the amount of <tt>InputRegister</tt> from the offset.
+     * @param count  the amount of <code>InputRegister</code> from the offset.
      *
-     * @return an array of <tt>InputRegister</tt> instances.
+     * @return an array of <code>InputRegister</code> instances.
      *
      * @throws IllegalAddressException if the range from offset to offset+count is non existant.
      */
     InputRegister[] getInputRegisterRange(int offset, int count) throws IllegalAddressException;
 
     /**
-     * Returns the <tt>InputRegister</tt> instance at the given reference.
+     * Returns the <code>InputRegister</code> instance at the given reference.
      *
      * @param ref the reference.
      *
-     * @return the <tt>InputRegister</tt> instance at the given address.
+     * @return the <code>InputRegister</code> instance at the given address.
      *
      * @throws IllegalAddressException if the reference is invalid.
      */
     InputRegister getInputRegister(int ref) throws IllegalAddressException;
 
     /**
-     * Returns the number of <tt>InputRegister</tt> instances in this
-     * <tt>ProcessImage</tt>.
+     * Returns the number of <code>InputRegister</code> instances in this
+     * <code>ProcessImage</code>.
      *
-     * <p>
+     *
      * This is not the same as the value of the highest addressable register.
      *
-     * @return the number of input registers as <tt>int</tt>.
+     * @return the number of input registers as <code>int</code>.
      */
     int getInputRegisterCount();
 
     /**
-     * Returns a range of <tt>Register</tt> instances.
+     * Returns a range of <code>Register</code> instances.
      *
      * @param offset the start offset.
-     * @param count  the amount of <tt>Register</tt> from the offset.
+     * @param count  the amount of <code>Register</code> from the offset.
      *
-     * @return an array of <tt>Register</tt> instances.
+     * @return an array of <code>Register</code> instances.
      *
      * @throws IllegalAddressException if the range from offset to offset+count is non existant.
      */
     Register[] getRegisterRange(int offset, int count) throws IllegalAddressException;
 
     /**
-     * Returns the <tt>Register</tt> instance at the given reference.
-     * <p>
+     * Returns the <code>Register</code> instance at the given reference.
+     *
      *
      * @param ref the reference.
      *
-     * @return the <tt>Register</tt> instance at the given address.
+     * @return the <code>Register</code> instance at the given address.
      *
      * @throws IllegalAddressException if the reference is invalid.
      */
     Register getRegister(int ref) throws IllegalAddressException;
 
     /**
-     * Returns the number of <tt>Register</tt> instances in this
-     * <tt>ProcessImage</tt>.
+     * Returns the number of <code>Register</code> instances in this
+     * <code>ProcessImage</code>.
      *
-     * <p>
+     *
      * This is not the same as the value of the highest addressable register.
      *
-     * @return the number of registers as <tt>int</tt>.
+     * @return the number of registers as <code>int</code>.
      */
     int getRegisterCount();
 
     /**
-     * Returns the <tt>File</tt> instance at the given reference.
-     * <p>
+     * Returns the <code>File</code> instance at the given reference.
+     *
      *
      * @param ref the reference.
      *
-     * @return the <tt>File</tt> instance at the given address.
+     * @return the <code>File</code> instance at the given address.
      *
      * @throws IllegalAddressException if the reference is invalid.
      */
     File getFile(int ref) throws IllegalAddressException;
 
     /**
-     * Returns the <tt>File</tt> instance having the specified file number.
+     * Returns the <code>File</code> instance having the specified file number.
      *
      * @param ref The file number for the File object to be returned.
      *
-     * @return the <tt>File</tt> instance having the given number.
+     * @return the <code>File</code> instance having the given number.
      *
      * @throws IllegalAddressException if a File with the given number does not exist.
      */
     File getFileByNumber(int ref) throws IllegalAddressException;
 
     /**
-     * Returns the number of <tt>File</tt> instances in this
-     * <tt>ProcessImage</tt>.
+     * Returns the number of <code>File</code> instances in this
+     * <code>ProcessImage</code>.
      *
-     * <p>
+     *
      * This is not the same as the value of the highest addressable register.
      *
-     * @return the number of registers as <tt>int</tt>.
+     * @return the number of registers as <code>int</code>.
      */
     int getFileCount();
 
     /**
-     * Returns the <tt>FIFO</tt> instance in the list of all FIFO objects
+     * Returns the <code>FIFO</code> instance in the list of all FIFO objects
      * in this ProcessImage.
      *
      * @param ref the reference.
      *
-     * @return the <tt>File</tt> instance at the given address.
+     * @return the <code>File</code> instance at the given address.
      *
      * @throws IllegalAddressException if the reference is invalid.
      */
     FIFO getFIFO(int ref) throws IllegalAddressException;
 
     /**
-     * Returns the <tt>FIFO</tt> instance having the specified base address.
+     * Returns the <code>FIFO</code> instance having the specified base address.
      *
      * @param ref The address for the FIFO object to be returned.
      *
-     * @return the <tt>FIFO</tt> instance having the given base address
+     * @return the <code>FIFO</code> instance having the given base address
      *
      * @throws IllegalAddressException if a File with the given number does not exist.
      */
     FIFO getFIFOByAddress(int ref) throws IllegalAddressException;
 
     /**
-     * Returns the number of <tt>File</tt> instances in this
-     * <tt>ProcessImage</tt>.
+     * Returns the number of <code>File</code> instances in this
+     * <code>ProcessImage</code>.
      *
-     * <p>
+     *
      * This is not the same as the value of the highest addressable register.
      *
-     * @return the number of registers as <tt>int</tt>.
+     * @return the number of registers as <code>int</code>.
      */
     int getFIFOCount();
 }

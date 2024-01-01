@@ -23,11 +23,11 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * <p>
- * Class implementing a <tt>ModbusRequest</tt> which is created for illegal or
+ *
+ * Class implementing a <code>ModbusRequest</code> which is created for illegal or
  * non implemented function codes.
  *
- * <p>
+ *
  * This is just a helper class to keep the implementation patterns the same for
  * all cases.
  *
@@ -38,27 +38,27 @@ import java.io.IOException;
 public class IllegalFunctionRequest extends ModbusRequest {
 
     /**
-     * Constructs a new <tt>IllegalFunctionRequest</tt> instance for a given
+     * Constructs a new <code>IllegalFunctionRequest</code> instance for a given
      * function code.
      *
-     * <p>Used to implement slave devices when an illegal function code
+     *Used to implement slave devices when an illegal function code
      * has been requested.
      *
-     * @param function the function code as <tt>int</tt>.
+     * @param function the function code as <code>int</code>.
      */
     public IllegalFunctionRequest(int function) {
         setFunctionCode(function);
     }
 
     /**
-     * Constructs a new <tt>IllegalFunctionRequest</tt> instance for a given
+     * Constructs a new <code>IllegalFunctionRequest</code> instance for a given
      * function code.
      *
-     * <p>Used to implement slave devices when an illegal function code
+     *Used to implement slave devices when an illegal function code
      * has been requested.
      *
      * @param unit Unit ID
-     * @param function the function code as <tt>int</tt>.
+     * @param function the function code as <code>int</code>.
      */
     public IllegalFunctionRequest(int unit, int function) {
         setUnitID(unit);

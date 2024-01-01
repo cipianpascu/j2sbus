@@ -26,11 +26,11 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>ReadCoilsRequest</tt>. The implementation directly
+ * Class implementing a <code>ReadCoilsRequest</code>. The implementation directly
  * correlates with the class 1 function <i>read coils (FC 1)</i>. It
  * encapsulates the corresponding request message.
  *
- * <p>
+ *
  * Coils are understood as bits that can be manipulated (i.e. set or unset).
  *
  * @author Dieter Wimberger
@@ -45,7 +45,7 @@ public class ReadCoilsRequest extends ModbusRequest {
     private int bitCount;
 
     /**
-     * Constructs a new <tt>ReadCoilsRequest</tt> instance.
+     * Constructs a new <code>ReadCoilsRequest</code> instance.
      */
     public ReadCoilsRequest() {
         super();
@@ -55,9 +55,9 @@ public class ReadCoilsRequest extends ModbusRequest {
     }
 
     /**
-     * Constructs a new <tt>ReadCoilsRequest</tt> instance with a given
+     * Constructs a new <code>ReadCoilsRequest</code> instance with a given
      * reference and count of coils (i.e. bits) to be read.
-     * <p>
+     *
      *
      * @param ref   the reference number of the register to read from.
      * @param count the number of bits to be read.
@@ -104,11 +104,11 @@ public class ReadCoilsRequest extends ModbusRequest {
 
     /**
      * Returns the reference of the register to to start reading from with this
-     * <tt>ReadCoilsRequest</tt>.
-     * <p>
+     * <code>ReadCoilsRequest</code>.
+     *
      *
      * @return the reference of the register to start reading from as
-     * <tt>int</tt>.
+     * <code>int</code>.
      */
     public int getReference() {
         return reference;
@@ -116,8 +116,8 @@ public class ReadCoilsRequest extends ModbusRequest {
 
     /**
      * Sets the reference of the register to start reading from with this
-     * <tt>ReadCoilsRequest</tt>.
-     * <p>
+     * <code>ReadCoilsRequest</code>.
+     *
      *
      * @param ref the reference of the register to start reading from.
      */
@@ -127,8 +127,8 @@ public class ReadCoilsRequest extends ModbusRequest {
 
     /**
      * Returns the number of bits (i.e. coils) to be read with this
-     * <tt>ReadCoilsRequest</tt>.
-     * <p>
+     * <code>ReadCoilsRequest</code>.
+     *
      *
      * @return the number of bits to be read.
      */
@@ -138,8 +138,8 @@ public class ReadCoilsRequest extends ModbusRequest {
 
     /**
      * Sets the number of bits (i.e. coils) to be read with this
-     * <tt>ReadCoilsRequest</tt>.
-     * <p>
+     * <code>ReadCoilsRequest</code>.
+     *
      *
      * @param count the number of bits to be read.
      */

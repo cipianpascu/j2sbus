@@ -133,7 +133,7 @@ public class ModbusRTUTransport extends ModbusSerialTransport {
     }
 
     /**
-     * getResponse - Read a <tt>ModbusResponse</tt> from a slave.
+     * getResponse - Read a <code>ModbusResponse</code> from a slave.
      *
      * @param function The function code of the request
      * @param out      The output buffer to put the result
@@ -402,7 +402,7 @@ public class ModbusRTUTransport extends ModbusSerialTransport {
     /**
      * readResponse - Read the bytes for the response from the slave.
      *
-     * @return a <tt>ModbusRespose</tt>
+     * @return a <code>ModbusRespose</code>
      *
      * @throws com.ghgande.j2mod.modbus.ModbusIOException If the response cannot be read from the socket/port
      */

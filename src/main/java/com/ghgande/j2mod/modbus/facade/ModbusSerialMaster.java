@@ -84,7 +84,7 @@ public class ModbusSerialMaster extends AbstractModbusMaster {
     }
 
     /**
-     * Connects this <tt>ModbusSerialMaster</tt> with the slave.
+     * Connects this <code>ModbusSerialMaster</code> with the slave.
      *
      * @throws Exception if the connection cannot be established.
      */
@@ -99,7 +99,7 @@ public class ModbusSerialMaster extends AbstractModbusMaster {
     }
 
     /**
-     * Disconnects this <tt>ModbusSerialMaster</tt> from the slave.
+     * Disconnects this <code>ModbusSerialMaster</code> from the slave.
      */
     @Override
     public synchronized void disconnect() {

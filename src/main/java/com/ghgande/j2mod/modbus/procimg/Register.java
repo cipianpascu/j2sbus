@@ -18,7 +18,7 @@ package com.ghgande.j2mod.modbus.procimg;
 /**
  * Interface defining a register.
  *
- * <p>
+ *
  * A register is read-write from slave and master or device side. Therefore
  * implementations have to be carefully designed for concurrency.
  *
@@ -29,10 +29,10 @@ package com.ghgande.j2mod.modbus.procimg;
 public interface Register extends InputRegister {
 
     /**
-     * Sets the content of this <tt>Register</tt> from the given unsigned 16-bit
+     * Sets the content of this <code>Register</code> from the given unsigned 16-bit
      * value (unsigned short).
      *
-     * @param v the value as unsigned short (<tt>int</tt>).
+     * @param v the value as unsigned short (<code>int</code>).
      */
     void setValue(int v);
 
@@ -40,14 +40,14 @@ public interface Register extends InputRegister {
      * Sets the content of this register from the given signed 16-bit value
      * (short).
      *
-     * @param s the value as <tt>short</tt>.
+     * @param s the value as <code>short</code>.
      */
     void setValue(short s);
 
     /**
      * Sets the content of this register from the given raw bytes.
      *
-     * @param bytes the raw data as <tt>byte[]</tt>.
+     * @param bytes the raw data as <code>byte[]</code>.
      */
     void setValue(byte[] bytes);
 }

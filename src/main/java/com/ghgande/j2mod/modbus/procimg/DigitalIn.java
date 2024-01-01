@@ -17,7 +17,7 @@ package com.ghgande.j2mod.modbus.procimg;
 
 /**
  * Interface defining a digital input.
- * <p>
+ *
  * In Modbus terms this represents an
  * input discrete, it is read only from
  * the slave side.
@@ -29,8 +29,8 @@ package com.ghgande.j2mod.modbus.procimg;
 public interface DigitalIn {
 
     /**
-     * Tests if this <tt>DigitalIn</tt> is set.
-     * <p>
+     * Tests if this <code>DigitalIn</code> is set.
+     *
      *
      * @return true if set, false otherwise.
      */

@@ -76,8 +76,8 @@ public interface ProcessImageFactory {
      * Returns a new InputRegister instance with a
      * given value.
      *
-     * @param b1 the first <tt>byte</tt>.
-     * @param b2 the second <tt>byte</tt>.
+     * @param b1 the first <code>byte</code>.
+     * @param b2 the second <code>byte</code>.
      *
      * @return an InputRegister instance.
      */
@@ -94,8 +94,8 @@ public interface ProcessImageFactory {
      * Returns a new Register instance with a
      * given value.
      *
-     * @param b1 the first <tt>byte</tt>.
-     * @param b2 the second <tt>byte</tt>.
+     * @param b1 the first <code>byte</code>.
+     * @param b2 the second <code>byte</code>.
      *
      * @return a Register instance.
      */

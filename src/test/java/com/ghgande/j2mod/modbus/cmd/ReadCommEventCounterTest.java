@@ -31,16 +31,16 @@ import java.io.IOException;
  * Class that implements a simple command line tool for reading the coomunications
  * event counter.
  *
- * <p>
+ *
  * Note that if you read from a remote I/O with a Modbus protocol stack, it will
  * most likely expect that the communication is <i>kept alive</i> after the
  * first read message.
  *
- * <p>
+ *
  * This can be achieved either by sending any kind of message, or by repeating
  * the read message within a given period of time.
  *
- * <p>
+ *
  * If the time period is exceeded, then the device might react by turning off
  * all signals of the I/O modules. After this timeout, the device might require
  * a reset message.

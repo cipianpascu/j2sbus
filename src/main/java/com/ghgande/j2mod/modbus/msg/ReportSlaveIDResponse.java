@@ -22,7 +22,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>ReadMEIResponse</tt>.
+ * Class implementing a <code>ReadMEIResponse</code>.
  *
  * Derived from similar class for Read Coils response.
  *
@@ -39,7 +39,7 @@ public class ReportSlaveIDResponse extends ModbusResponse {
     int slaveId;
 
     /**
-     * Constructs a new <tt>ReportSlaveIDResponse</tt>
+     * Constructs a new <code>ReportSlaveIDResponse</code>
      * instance.
      */
     public ReportSlaveIDResponse() {

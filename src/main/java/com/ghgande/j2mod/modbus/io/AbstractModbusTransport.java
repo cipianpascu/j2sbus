@@ -25,7 +25,7 @@ import java.io.IOException;
 
 /**
  * Interface defining the I/O mechanisms for
- * <tt>ModbusMessage</tt> instances.
+ * <code>ModbusMessage</code> instances.
  *
  * @author Dieter Wimberger
  * @author Steve O'Hara (4NG)
@@ -46,8 +46,7 @@ public abstract class AbstractModbusTransport {
 
     /**
      * Closes the raw input and output streams of
-     * this <tt>ModbusTransport</tt>.
-     * <p>
+     * this <code>ModbusTransport</code>.
      *
      * @throws IOException if a stream
      *                     cannot be closed properly.
@@ -62,56 +61,54 @@ public abstract class AbstractModbusTransport {
     public abstract ModbusTransaction createTransaction();
 
     /**
-     * Writes a <tt>ModbusMessage</tt> to the
-     * output stream of this <tt>ModbusTransport</tt>.
-     * <p>
+     * Writes a <code>ModbusMessage</code> to the
+     * output stream of this <code>ModbusTransport</code>.
      *
-     * @param msg a <tt>ModbusMessage</tt>.
+     * @param msg a <code>ModbusMessage</code>.
      *
      * @throws ModbusIOException data cannot be
      *                           written properly to the raw output stream of
-     *                           this <tt>ModbusTransport</tt>.
+     *                           this <code>ModbusTransport</code>.
      */
     public abstract void writeRequest(ModbusRequest msg) throws ModbusIOException;
 
     /**
-     * Writes a <tt>ModbusResponseMessage</tt> to the
-     * output stream of this <tt>ModbusTransport</tt>.
-     * <p>
+     * Writes a <code>ModbusResponseMessage</code> to the
+     * output stream of this <code>ModbusTransport</code>.
      *
-     * @param msg a <tt>ModbusMessage</tt>.
+     * @param msg a <code>ModbusMessage</code>.
      *
      * @throws ModbusIOException data cannot be
      *                           written properly to the raw output stream of
-     *                           this <tt>ModbusTransport</tt>.
+     *                           this <code>ModbusTransport</code>.
      */
     public abstract void writeResponse(ModbusResponse msg) throws ModbusIOException;
 
     /**
-     * Reads a <tt>ModbusRequest</tt> from the
-     * input stream of this <tt>ModbusTransport</tt>.
-     * <p>
+     * Reads a <code>ModbusRequest</code> from the
+     * input stream of this <code>ModbusTransport</code>.
+     *
      *
      * @param listener Listener the request was received by
      *
-     * @return req the <tt>ModbusRequest</tt> read from the underlying stream.
+     * @return req the <code>ModbusRequest</code> read from the underlying stream.
      *
      * @throws ModbusIOException data cannot be
      *                           read properly from the raw input stream of
-     *                           this <tt>ModbusTransport</tt>.
+     *                           this <code>ModbusTransport</code>.
      */
     public abstract ModbusRequest readRequest(AbstractModbusListener listener) throws ModbusIOException;
 
     /**
-     * Reads a <tt>ModbusResponse</tt> from the
-     * input stream of this <tt>ModbusTransport</tt>.
-     * <p>
+     * Reads a <code>ModbusResponse</code> from the
+     * input stream of this <code>ModbusTransport</code>.
      *
-     * @return res the <tt>ModbusResponse</tt> read from the underlying stream.
+     *
+     * @return res the <code>ModbusResponse</code> read from the underlying stream.
      *
      * @throws ModbusIOException data cannot be
      *                           read properly from the raw input stream of
-     *                           this <tt>ModbusTransport</tt>.
+     *                           this <code>ModbusTransport</code>.
      */
     public abstract ModbusResponse readResponse() throws ModbusIOException;
 

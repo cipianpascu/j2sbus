@@ -101,7 +101,7 @@ public class ModbusUtil {
     private ModbusUtil() {}
 
     /**
-     * Converts a <tt>ModbusMessage</tt> instance into
+     * Converts a <code>ModbusMessage</code> instance into
      * a hex encoded string representation.
      *
      * @param msg the message to be converted.
@@ -133,10 +133,10 @@ public class ModbusUtil {
     }
 
     /**
-     * Returns a <tt>String</tt> containing unsigned hexadecimal
+     * Returns a <code>String</code> containing unsigned hexadecimal
      * numbers as digits.
-     * The <tt>String</tt> will coontain two hex digit characters
-     * for each byte from the passed in <tt>byte[]</tt>.<br>
+     * The <code>String</code> will coontain two hex digit characters
+     * for each byte from the passed in <code>byte[]</code>.<br>
      * The bytes will be separated by a space character.
      *
      * @param data   the array of bytes to be converted into a hex-string.
@@ -165,7 +165,7 @@ public class ModbusUtil {
     }
 
     /**
-     * Returns a <tt>byte[]</tt> containing the given
+     * Returns a <code>byte[]</code> containing the given
      * byte as unsigned hexadecimal number digits.
      *
      * @param i the int to be converted into a hex string.
@@ -195,11 +195,11 @@ public class ModbusUtil {
      * <pre><code>(((a &amp; 0xff) &lt;&lt; 8) | (b &amp; 0xff))</code></pre>
      *
      * This conversion has been taken from the documentation of
-     * the <tt>DataInput</tt> interface.
+     * the <code>DataInput</code> interface.
      *
-     * @param bytes a register as <tt>byte[2]</tt>.
+     * @param bytes a register as <code>byte[2]</code>.
      *
-     * @return the unsigned short value as <tt>int</tt>.
+     * @return the unsigned short value as <code>int</code>.
      *
      * @see java.io.DataInput
      */
@@ -219,11 +219,11 @@ public class ModbusUtil {
      * </code></pre>
      *
      * This conversion has been taken from the documentation of
-     * the <tt>DataOutput</tt> interface.
+     * the <code>DataOutput</code> interface.
      *
      * @param v Value to convert
      *
-     * @return the register as <tt>byte[2]</tt>.
+     * @return the register as <code>byte[2]</code>.
      *
      * @see java.io.DataOutput
      */
@@ -236,7 +236,7 @@ public class ModbusUtil {
 
     /**
      * Converts the given register (16-bit value) into
-     * a <tt>short</tt>.
+     * a <code>short</code>.
      * The value returned is:
      *
      * <pre><code>
@@ -244,11 +244,11 @@ public class ModbusUtil {
      * </code></pre>
      *
      * This conversion has been taken from the documentation of
-     * the <tt>DataInput</tt> interface.
+     * the <code>DataInput</code> interface.
      *
-     * @param bytes bytes a register as <tt>byte[2]</tt>.
+     * @param bytes bytes a register as <code>byte[2]</code>.
      *
-     * @return the signed short as <tt>short</tt>.
+     * @return the signed short as <code>short</code>.
      */
     public static short registerToShort(byte[] bytes) {
         return (short)((bytes[0] << 8) | (bytes[1] & 0xff));
@@ -256,7 +256,7 @@ public class ModbusUtil {
 
     /**
      * Converts the register (16-bit value) at the given index
-     * into a <tt>short</tt>.
+     * into a <code>short</code>.
      * The value returned is:
      *
      * <pre><code>
@@ -264,19 +264,19 @@ public class ModbusUtil {
      * </code></pre>
      *
      * This conversion has been taken from the documentation of
-     * the <tt>DataInput</tt> interface.
+     * the <code>DataInput</code> interface.
      *
-     * @param bytes a <tt>byte[]</tt> containing a short value.
+     * @param bytes a <code>byte[]</code> containing a short value.
      * @param idx   an offset into the given byte[].
      *
-     * @return the signed short as <tt>short</tt>.
+     * @return the signed short as <code>short</code>.
      */
     public static short registerToShort(byte[] bytes, int idx) {
         return (short)((bytes[idx] << 8) | (bytes[idx + 1] & 0xff));
     }
 
     /**
-     * Converts the given <tt>short</tt> into a register
+     * Converts the given <code>short</code> into a register
      * (2 bytes).
      * The byte values in the register, in the  order
      * shown, are:
@@ -306,7 +306,7 @@ public class ModbusUtil {
      * &#32;((c &amp; 0xff) &lt;&lt; 8) | (d &amp; 0xff))
      * </code></pre>
      *
-     * @param bytes registers as <tt>byte[4]</tt>.
+     * @param bytes registers as <code>byte[4]</code>.
      *
      * @return the integer contained in the given register bytes.
      */

@@ -99,7 +99,7 @@ public class TestModbusUDPRead extends AbstractTestModbusUDPMaster {
     @Test
     public void testBadUnitIdRequest() {
         try {
-            master.readCoils(UNIT_ID + 10, 0, 1).getBit(0);
+            master.readCoils(SUBNET_ID, UNIT_ID + 10, 0, 1).getBit(0);
             fail("Failed check for invalid Unit ID");
         }
         catch (Exception e) {

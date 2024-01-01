@@ -46,11 +46,11 @@ public class ModbusUDPTransport extends AbstractModbusTransport {
     private final BytesInputStream byteInputStream = new BytesInputStream(Modbus.MAX_MESSAGE_LENGTH);
 
     /**
-     * Constructs a new <tt>ModbusTransport</tt> instance,
-     * for a given <tt>UDPTerminal</tt>.
-     * <p>
+     * Constructs a new <code>ModbusTransport</code> instance,
+     * for a given <code>UDPTerminal</code>.
      *
-     * @param terminal the <tt>UDPTerminal</tt> used for message transport.
+     *
+     * @param terminal the <code>UDPTerminal</code> used for message transport.
      */
     public ModbusUDPTransport(AbstractUDPTerminal terminal) {
         this.terminal = terminal;

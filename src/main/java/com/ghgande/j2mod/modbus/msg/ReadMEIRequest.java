@@ -24,7 +24,7 @@ import java.io.EOFException;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>Read MEI Data</tt> request.
+ * Class implementing a <code>Read MEI Data</code> request.
  *
  * @author jfhaugh (jfh@ghgande.com)
  * @author Steve O'Hara (4NG)
@@ -38,7 +38,7 @@ public class ReadMEIRequest extends ModbusRequest {
     private int fieldId;
 
     /**
-     * Constructs a new <tt>Read MEI Data request</tt> instance.
+     * Constructs a new <code>Read MEI Data request</code> instance.
      */
     public ReadMEIRequest() {
         super();
@@ -51,9 +51,9 @@ public class ReadMEIRequest extends ModbusRequest {
     }
 
     /**
-     * Constructs a new <tt>Read MEI Data request</tt> instance with a given
+     * Constructs a new <code>Read MEI Data request</code> instance with a given
      * reference and count of coils (i.e. bits) to be read.
-     * <p>
+     *
      *
      * @param level the reference number of the register to read from.
      * @param id    the number of bits to be read.
@@ -96,11 +96,11 @@ public class ReadMEIRequest extends ModbusRequest {
 
     /**
      * Returns the reference of the register to to start reading from with this
-     * <tt>ReadCoilsRequest</tt>.
-     * <p>
+     * <code>ReadCoilsRequest</code>.
+     *
      *
      * @return the reference of the register to start reading from as
-     * <tt>int</tt>.
+     * <code>int</code>.
      */
     public int getLevel() {
         return fieldLevel;
@@ -108,8 +108,8 @@ public class ReadMEIRequest extends ModbusRequest {
 
     /**
      * Sets the reference of the register to start reading from with this
-     * <tt>ReadCoilsRequest</tt>.
-     * <p>
+     * <code>ReadCoilsRequest</code>.
+     *
      *
      * @param level the reference of the register to start reading from.
      */
@@ -119,8 +119,8 @@ public class ReadMEIRequest extends ModbusRequest {
 
     /**
      * Returns the number of bits (i.e. coils) to be read with this
-     * <tt>ReadCoilsRequest</tt>.
-     * <p>
+     * <code>ReadCoilsRequest</code>.
+     *
      *
      * @return the number of bits to be read.
      */
@@ -130,8 +130,8 @@ public class ReadMEIRequest extends ModbusRequest {
 
     /**
      * Sets the number of bits (i.e. coils) to be read with this
-     * <tt>ReadCoilsRequest</tt>.
-     * <p>
+     * <code>ReadCoilsRequest</code>.
+     *
      *
      * @param id the number of bits to be read.
      */

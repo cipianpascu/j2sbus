@@ -23,7 +23,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Abstract class implementing a <tt>ModbusMessage</tt>. This class provides
+ * Abstract class implementing a <code>ModbusMessage</code>. This class provides
  * specialised implementations with the functionality they have in common.
  *
  * @author Dieter Wimberger
@@ -36,6 +36,7 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
     private int transactionID = Modbus.DEFAULT_TRANSACTION_ID;
     private int protocolID = Modbus.DEFAULT_PROTOCOL_ID;
     private int dataLength;
+    private int subnetID = Modbus.DEFAULT_SUBNET_ID;
     private int unitID = Modbus.DEFAULT_UNIT_ID;
     private int functionCode;
     private boolean headless = false; // flag for header-less (serial)
@@ -56,13 +57,13 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
     }
 
     /**
-     * Sets the transaction identifier of this <tt>ModbusMessage</tt>.
+     * Sets the transaction identifier of this <code>ModbusMessage</code>.
      *
-     * <p>
+     *
      * The identifier must be a 2-byte (short) non negative integer value valid
      * in the range of 0-65535.<br>
      *
-     * @param tid the transaction identifier as <tt>int</tt>.
+     * @param tid the transaction identifier as <code>int</code>.
      */
     public void setTransactionID(int tid) {
         transactionID = tid & 0x0000FFFF;
@@ -74,13 +75,13 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
     }
 
     /**
-     * Sets the protocol identifier of this <tt>ModbusMessage</tt>.
-     * <p>
+     * Sets the protocol identifier of this <code>ModbusMessage</code>.
+     *
      * The identifier should be a 2-byte (short) non negative integer value
      * valid in the range of 0-65535.<br>
-     * <p>
      *
-     * @param pid the protocol identifier as <tt>int</tt>.
+     *
+     * @param pid the protocol identifier as <code>int</code>.
      */
     public void setProtocolID(int pid) {
         protocolID = pid;
@@ -94,24 +95,24 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
     /**
      * Sets the length of the data appended after the protocol header.
      *
-     * <p>
+     *
      * Note that this library, a bit in contrast to the specification, counts
      * the unit identifier and the function code in the header, because it is
-     * part of each and every message. Thus this method will add two (2) to the
+     * part of each and every message. Thus this method will add three (3) to the
      * passed in integer value.
      *
-     * <p>
+     *
      * This method does not include the length of a final CRC/LRC for those
      * protocols which requirement.
      *
-     * @param length the data length as <tt>int</tt>.
+     * @param length the data length as <code>int</code>.
      */
     public void setDataLength(int length) {
-        if (length < 0 || length + 2 > 255) {
+        if (length < 0 || length + 3 > 255) {
             throw new IllegalArgumentException("Invalid length: " + length);
         }
 
-        dataLength = length + 2;
+        dataLength = length + 3;
     }
 
     @Override
@@ -120,7 +121,7 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
     }
 
     /**
-     * Sets the unit identifier of this <tt>ModbusMessage</tt>.<br>
+     * Sets the unit identifier of this <code>ModbusMessage</code>.<br>
      * The identifier should be a 1-byte non negative integer value valid in the
      * range of 0-255.
      *
@@ -130,17 +131,32 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
         unitID = num;
     }
 
-    @Override
+    public int getSubnetID() {
+		return subnetID;
+	}
+
+    /**
+     * Sets the subnet identifier of this <code>ModbusMessage</code>.<br>
+     * The identifier should be a 1-byte non negative integer value valid in the
+     * range of 0-255.
+     *
+     * @param subnetID the unit identifier number to be set.
+     */
+	public void setSubnetID(int subnetID) {
+		this.subnetID = subnetID;
+	}
+
+	@Override
     public int getFunctionCode() {
         return functionCode;
     }
 
     /**
-     * Sets the function code of this <tt>ModbusMessage</tt>.<br>
+     * Sets the function code of this <code>ModbusMessage</code>.<br>
      * The function code should be a 1-byte non negative integer value valid in
      * the range of 0-127.<br>
      * Function codes are ordered in conformance classes their values are
-     * specified in <tt>com.ghgande.j2mod.modbus.Modbus</tt>.
+     * specified in <code>com.ghgande.j2mod.modbus.Modbus</code>.
      *
      * @param code the code of the function to be set.
      *
@@ -166,9 +182,9 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
 
     @Override
     public int getOutputLength() {
-        int l = 2 + getDataLength();
+        int l = 3 + getDataLength();
         if (!isHeadless()) {
-            l = l + 4;
+            l = l + 6;
         }
         return l;
     }
@@ -181,6 +197,7 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
             dout.writeShort(getProtocolID());
             dout.writeShort(getDataLength());
         }
+        dout.write(getSubnetID());
         dout.writeByte(getUnitID());
         dout.writeByte(getFunctionCode());
 
@@ -194,6 +211,7 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
             setProtocolID(din.readUnsignedShort());
             dataLength = din.readUnsignedShort();
         }
+        setSubnetID(din.readUnsignedByte());
         setUnitID(din.readUnsignedByte());
         setFunctionCode(din.readUnsignedByte());
         readData(din);

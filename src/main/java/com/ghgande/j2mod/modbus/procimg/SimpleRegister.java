@@ -16,9 +16,9 @@
 package com.ghgande.j2mod.modbus.procimg;
 
 /**
- * Class implementing a simple <tt>Register</tt>.
- * <p>
- * The <tt>setValue()</tt> method is synchronized, which ensures atomic access, * but no specific access order.
+ * Class implementing a simple <code>Register</code>.
+ *
+ * The <code>setValue()</code> method is synchronized, which ensures atomic access, * but no specific access order.
  *
  * @author Dieter Wimberger
  * @author Julie Haugh
@@ -29,7 +29,7 @@ public class SimpleRegister extends SynchronizedAbstractRegister implements
         Register {
 
     /**
-     * Constructs a new <tt>SimpleRegister</tt> instance.
+     * Constructs a new <code>SimpleRegister</code> instance.
      *
      * @param b1 the first (hi) byte of the word.
      * @param b2 the second (low) byte of the word.
@@ -40,16 +40,16 @@ public class SimpleRegister extends SynchronizedAbstractRegister implements
     }
 
     /**
-     * Constructs a new <tt>SimpleRegister</tt> instance with the given value.
+     * Constructs a new <code>SimpleRegister</code> instance with the given value.
      *
-     * @param value the value of this <tt>SimpleRegister</tt> as <tt>int</tt>.
+     * @param value the value of this <code>SimpleRegister</code> as <code>int</code>.
      */
     public SimpleRegister(int value) {
         setValue(value);
     }
 
     /**
-     * Constructs a new <tt>SimpleRegister</tt> instance. It's state will be
+     * Constructs a new <code>SimpleRegister</code> instance. It's state will be
      * invalid.
      *
      * Attempting to access this register will result in an

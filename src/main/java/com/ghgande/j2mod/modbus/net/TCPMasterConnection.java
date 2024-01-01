@@ -62,18 +62,18 @@ public class TCPMasterConnection {
     private boolean useUrgentData = false;
 
     /**
-     * Constructs a <tt>TCPMasterConnection</tt> instance with a given
+     * Constructs a <code>TCPMasterConnection</code> instance with a given
      * destination address.
      *
-     * @param adr the destination <tt>InetAddress</tt>.
+     * @param adr the destination <code>InetAddress</code>.
      */
     public TCPMasterConnection(InetAddress adr) {
         address = adr;
     }
 
     /**
-     * Prepares the associated <tt>ModbusTransport</tt> of this
-     * <tt>TCPMasterConnection</tt> for use.
+     * Prepares the associated <code>ModbusTransport</code> of this
+     * <code>TCPMasterConnection</code> for use.
      *
      * @param useRtuOverTcp True if the RTU protocol should be used over TCP
      *
@@ -107,7 +107,7 @@ public class TCPMasterConnection {
     }
 
     /**
-     * Opens this <tt>TCPMasterConnection</tt>.
+     * Opens this <code>TCPMasterConnection</code>.
      *
      * @throws Exception if there is a network failure.
      */
@@ -116,7 +116,7 @@ public class TCPMasterConnection {
     }
 
     /**
-     * Opens this <tt>TCPMasterConnection</tt>.
+     * Opens this <code>TCPMasterConnection</code>.
      *
      * @param useRtuOverTcp True if the RTU protocol should be used over TCP
      *
@@ -153,9 +153,9 @@ public class TCPMasterConnection {
     }
 
     /**
-     * Tests if this <tt>TCPMasterConnection</tt> is connected.
+     * Tests if this <code>TCPMasterConnection</code> is connected.
      *
-     * @return <tt>true</tt> if connected, <tt>false</tt> otherwise.
+     * @return <code>true</code> if connected, <code>false</code> otherwise.
      */
     public synchronized boolean isConnected() {
         if (connected && socket != null) {
@@ -201,7 +201,7 @@ public class TCPMasterConnection {
     }
 
     /**
-     * Closes this <tt>TCPMasterConnection</tt>.
+     * Closes this <code>TCPMasterConnection</code>.
      */
     public void close() {
         if (connected) {
@@ -218,18 +218,18 @@ public class TCPMasterConnection {
     }
 
     /**
-     * Returns the <tt>ModbusTransport</tt> associated with this
-     * <tt>TCPMasterConnection</tt>.
+     * Returns the <code>ModbusTransport</code> associated with this
+     * <code>TCPMasterConnection</code>.
      *
-     * @return the connection's <tt>ModbusTransport</tt>.
+     * @return the connection's <code>ModbusTransport</code>.
      */
     public AbstractModbusTransport getModbusTransport() {
         return transport;
     }
 
     /**
-     * Set the <tt>ModbusTransport</tt> associated with this
-     * <tt>TCPMasterConnection</tt>
+     * Set the <code>ModbusTransport</code> associated with this
+     * <code>TCPMasterConnection</code>
      * @param trans associated transport
      */
     public void setModbusTransport(ModbusTCPTransport trans) {
@@ -237,19 +237,19 @@ public class TCPMasterConnection {
     }
 
     /**
-     * Returns the timeout (msec) for this <tt>TCPMasterConnection</tt>.
+     * Returns the timeout (msec) for this <code>TCPMasterConnection</code>.
      *
-     * @return the timeout as <tt>int</tt>.
+     * @return the timeout as <code>int</code>.
      */
     public synchronized int getTimeout() {
         return timeout;
     }
 
     /**
-     * Sets the timeout (msec) for this <tt>TCPMasterConnection</tt>. This is both the
+     * Sets the timeout (msec) for this <code>TCPMasterConnection</code>. This is both the
      * connection timeout and the transaction timeout
      *
-     * @param timeout - the timeout in milliseconds as an <tt>int</tt>.
+     * @param timeout - the timeout in milliseconds as an <code>int</code>.
      */
     public synchronized void setTimeout(int timeout) {
         try {
@@ -264,60 +264,60 @@ public class TCPMasterConnection {
     }
 
     /**
-     * Returns the destination port of this <tt>TCPMasterConnection</tt>.
+     * Returns the destination port of this <code>TCPMasterConnection</code>.
      *
-     * @return the port number as <tt>int</tt>.
+     * @return the port number as <code>int</code>.
      */
     public int getPort() {
         return port;
     }
 
     /**
-     * Sets the destination port of this <tt>TCPMasterConnection</tt>. The
-     * default is defined as <tt>Modbus.DEFAULT_PORT</tt>.
+     * Sets the destination port of this <code>TCPMasterConnection</code>. The
+     * default is defined as <code>Modbus.DEFAULT_PORT</code>.
      *
-     * @param port the port number as <tt>int</tt>.
+     * @param port the port number as <code>int</code>.
      */
     public void setPort(int port) {
         this.port = port;
     }
 
     /**
-     * Returns the destination <tt>InetAddress</tt> of this
-     * <tt>TCPMasterConnection</tt>.
+     * Returns the destination <code>InetAddress</code> of this
+     * <code>TCPMasterConnection</code>.
      *
-     * @return the destination address as <tt>InetAddress</tt>.
+     * @return the destination address as <code>InetAddress</code>.
      */
     public InetAddress getAddress() {
         return address;
     }
 
     /**
-     * Sets the destination <tt>InetAddress</tt> of this
-     * <tt>TCPMasterConnection</tt>.
+     * Sets the destination <code>InetAddress</code> of this
+     * <code>TCPMasterConnection</code>.
      *
-     * @param adr the destination address as <tt>InetAddress</tt>.
+     * @param adr the destination address as <code>InetAddress</code>.
      */
     public void setAddress(InetAddress adr) {
         address = adr;
     }
 
     /**
-     * Gets the local <tt>NetworkInterface</tt> that this socket is bound
+     * Gets the local <code>NetworkInterface</code> that this socket is bound
      * to. If null (the default), the socket is bound to the adapter chosen by the system
      * based on routing to the destination address when the connection is made
      *
-     * @return the network card as <tt>NetworkInterface</tt>.
+     * @return the network card as <code>NetworkInterface</code>.
      */
     public NetworkInterface getNetworkInterface() {
         return networkInterface;
     }
 
     /**
-     * Sets the local <tt>NetworkInterface</tt> to bind to for this
-     * <tt>TCPMasterConnection</tt>.
+     * Sets the local <code>NetworkInterface</code> to bind to for this
+     * <code>TCPMasterConnection</code>.
      *
-     * @param networkInterface of the network card as <tt>NetworkInterface</tt>.
+     * @param networkInterface of the network card as <code>NetworkInterface</code>.
      */
     public void setNetworkInterface(NetworkInterface networkInterface) {
         this.networkInterface = networkInterface;

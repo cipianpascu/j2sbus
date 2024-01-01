@@ -26,12 +26,12 @@ package com.ghgande.j2mod.modbus.util;
 public interface Observer {
 
     /**
-     * Updates the state of this <tt>Observer</tt> to be in
-     * synch with an <tt>Observable</tt> instance.
+     * Updates the state of this <code>Observer</code> to be in
+     * synch with an <code>Observable</code> instance.
      * The argument should usually be an indication of the
-     * aspects that changed in the <tt>Observable</tt>.
+     * aspects that changed in the <code>Observable</code>.
      *
-     * @param o   an <tt>Observable</tt> instance.
+     * @param o   an <code>Observable</code> instance.
      * @param arg an arbitrary argument to be passed.
      */
     void update(Observable o, Object arg);

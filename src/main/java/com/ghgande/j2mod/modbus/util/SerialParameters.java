@@ -59,7 +59,7 @@ public class SerialParameters {
     private int rs485DelayAfterTxMicroseconds;
 
     /**
-     * Constructs a new <tt>SerialParameters</tt> instance with
+     * Constructs a new <code>SerialParameters</code> instance with
      * default values.
      */
     public SerialParameters() {
@@ -83,7 +83,7 @@ public class SerialParameters {
     }
 
     /**
-     * Constructs a new <tt>SerialParameters</tt> instance with
+     * Constructs a new <code>SerialParameters</code> instance with
      * given parameters for a regular serial interface.
      *
      * @param portName       The name of the port.
@@ -116,13 +116,13 @@ public class SerialParameters {
     }
 
     /**
-     * Constructs a new <tt>SerialParameters</tt> instance with given
+     * Constructs a new <code>SerialParameters</code> instance with given
      * parameters for a serial interface in RS-485 mode on Linux.
-     * <p>
+     *
      * RS-485 half-duplex mode is only available on Linux and only if the
      * device driver supports it. Its configuration parameters have no effect
      * on other platforms.
-     * <p>
+     *
      * There are interfaces operating in RS-485 mode by default and don't
      * require explicitly configuring this mode.
      *
@@ -167,10 +167,10 @@ public class SerialParameters {
     }
 
     /**
-     * Constructs a new <tt>SerialParameters</tt> instance with
-     * parameters obtained from a <tt>Properties</tt> instance.
+     * Constructs a new <code>SerialParameters</code> instance with
+     * parameters obtained from a <code>Properties</code> instance.
      *
-     * @param props  a <tt>Properties</tt> instance.
+     * @param props  a <code>Properties</code> instance.
      * @param prefix a prefix for the properties keys if embedded into
      *               other properties.
      */
@@ -223,9 +223,9 @@ public class SerialParameters {
     }
 
     /**
-     * Return the baud rate as <tt>int</tt>.
+     * Return the baud rate as <code>int</code>.
      *
-     * @return the baud rate as <tt>int</tt>.
+     * @return the baud rate as <code>int</code>.
      */
     public int getBaudRate() {
         return baudRate;
@@ -241,9 +241,9 @@ public class SerialParameters {
     }
 
     /**
-     * Returns the baud rate as a <tt>String</tt>.
+     * Returns the baud rate as a <code>String</code>.
      *
-     * @return the baud rate as <tt>String</tt>.
+     * @return the baud rate as <code>String</code>.
      */
     public String getBaudRateString() {
         return Integer.toString(baudRate);
@@ -251,7 +251,7 @@ public class SerialParameters {
 
     /**
      * Sets the type of flow control for the input
-     * as given by the passed in <tt>int</tt>.
+     * as given by the passed in <code>int</code>.
      *
      * @param flowControl the new flow control type.
      * @throws IllegalArgumentException on invalid flowControl
@@ -265,9 +265,9 @@ public class SerialParameters {
     }
 
     /**
-     * Returns the input flow control type as <tt>int</tt>.
+     * Returns the input flow control type as <code>int</code>.
      *
-     * @return the input flow control type as <tt>int</tt>.
+     * @return the input flow control type as <code>int</code>.
      */
     public int getFlowControlIn() {
         return flowControlIn;
@@ -275,7 +275,7 @@ public class SerialParameters {
 
     /**
      * Sets the type of flow control for the input
-     * as given by the passed in <tt>String</tt>.
+     * as given by the passed in <code>String</code>.
      *
      * @param flowControl the flow control for reading type.
      * @throws IllegalArgumentException on invalid flowControl
@@ -285,9 +285,9 @@ public class SerialParameters {
     }
 
     /**
-     * Returns the input flow control type as <tt>String</tt>.
+     * Returns the input flow control type as <code>String</code>.
      *
-     * @return the input flow control type as <tt>String</tt>.
+     * @return the input flow control type as <code>String</code>.
      */
     public String getFlowControlInString() {
         return flowToString(flowControlIn);
@@ -295,9 +295,9 @@ public class SerialParameters {
 
     /**
      * Sets the output flow control type as given
-     * by the passed in <tt>int</tt>.
+     * by the passed in <code>int</code>.
      *
-     * @param flowControlOut new output flow control type as <tt>int</tt>.
+     * @param flowControlOut new output flow control type as <code>int</code>.
      */
     public void setFlowControlOut(int flowControlOut) {
         if (!this.isValidFlowControlInt(flowControlOut)) {
@@ -333,9 +333,9 @@ public class SerialParameters {
     }
 
     /**
-     * Returns the output flow control type as <tt>int</tt>.
+     * Returns the output flow control type as <code>int</code>.
      *
-     * @return the output flow control type as <tt>int</tt>.
+     * @return the output flow control type as <code>int</code>.
      */
     public int getFlowControlOut() {
         return flowControlOut;
@@ -343,18 +343,18 @@ public class SerialParameters {
 
     /**
      * Sets the output flow control type as given
-     * by the passed in <tt>String</tt>.
+     * by the passed in <code>String</code>.
      *
-     * @param flowControlOut the new output flow control type as <tt>String</tt>.
+     * @param flowControlOut the new output flow control type as <code>String</code>.
      */
     public void setFlowControlOut(String flowControlOut) {
         this.flowControlOut = stringToFlow(flowControlOut);
     }
 
     /**
-     * Returns the output flow control type as <tt>String</tt>.
+     * Returns the output flow control type as <code>String</code>.
      *
-     * @return the output flow control type as <tt>String</tt>.
+     * @return the output flow control type as <code>String</code>.
      */
     public String getFlowControlOutString() {
         return flowToString(flowControlOut);
@@ -370,18 +370,18 @@ public class SerialParameters {
     }
 
     /**
-     * Returns the number of data bits as <tt>int</tt>.
+     * Returns the number of data bits as <code>int</code>.
      *
-     * @return the number of data bits as <tt>int</tt>.
+     * @return the number of data bits as <code>int</code>.
      */
     public int getDatabits() {
         return databits;
     }
 
     /**
-     * Sets the number of data bits from the given <tt>String</tt>.
+     * Sets the number of data bits from the given <code>String</code>.
      *
-     * @param databits the new number of data bits as <tt>String</tt>.
+     * @param databits the new number of data bits as <code>String</code>.
      */
     public void setDatabits(String databits) {
         if (!ModbusUtil.isBlank(databits) && databits.matches("[0-9]+")) {
@@ -393,9 +393,9 @@ public class SerialParameters {
     }
 
     /**
-     * Returns the number of data bits as <tt>String</tt>.
+     * Returns the number of data bits as <code>String</code>.
      *
-     * @return the number of data bits as <tt>String</tt>.
+     * @return the number of data bits as <code>String</code>.
      */
     public String getDatabitsString() {
         return databits + "";
@@ -414,18 +414,18 @@ public class SerialParameters {
     }
 
     /**
-     * Returns the number of stop bits as <tt>int</tt>. com.fazecast.jSerialComm.SerialPort stop-bit constants are used in this method (ONE_STOP_BIT, ONE_POINT_FIVE_STOP_BITS, TWO_STOP_BITS)
+     * Returns the number of stop bits as <code>int</code>. com.fazecast.jSerialComm.SerialPort stop-bit constants are used in this method (ONE_STOP_BIT, ONE_POINT_FIVE_STOP_BITS, TWO_STOP_BITS)
      *
-     * @return the number of stop bits as <tt>int</tt>.
+     * @return the number of stop bits as <code>int</code>.
      */
     public int getStopbits() {
         return stopbits;
     }
 
     /**
-     * Sets the number of stop bits from the given <tt>String</tt>.
+     * Sets the number of stop bits from the given <code>String</code>.
      *
-     * @param stopbits the number of stop bits as <tt>String</tt>.
+     * @param stopbits the number of stop bits as <code>String</code>.
      */
     public void setStopbits(String stopbits) {
         if ("1".equals(stopbits)) {
@@ -443,9 +443,9 @@ public class SerialParameters {
     }
 
     /**
-     * Returns the number of stop bits as <tt>String</tt>.
+     * Returns the number of stop bits as <code>String</code>.
      *
-     * @return the number of stop bits as <tt>String</tt>.
+     * @return the number of stop bits as <code>String</code>.
      */
     public String getStopbitsString() {
         switch (stopbits) {
@@ -463,16 +463,16 @@ public class SerialParameters {
     /**
      * Sets the parity schema.
      *
-     * @param parity the new parity schema as <tt>int</tt>.
+     * @param parity the new parity schema as <code>int</code>.
      */
     public void setParity(int parity) {
         this.parity = parity;
     }
 
     /**
-     * Returns the parity schema as <tt>int</tt>.
+     * Returns the parity schema as <code>int</code>.
      *
-     * @return the parity schema as <tt>int</tt>.
+     * @return the parity schema as <code>int</code>.
      */
     public int getParity() {
         return parity;
@@ -480,9 +480,9 @@ public class SerialParameters {
 
     /**
      * Sets the parity schema from the given
-     * <tt>String</tt>.
+     * <code>String</code>.
      *
-     * @param parity the new parity schema as <tt>String</tt>.
+     * @param parity the new parity schema as <code>String</code>.
      * @throws IllegalArgumentException on invalid parity
      */
     public void setParity(String parity) {
@@ -507,9 +507,9 @@ public class SerialParameters {
     }
 
     /**
-     * Returns the parity schema as <tt>String</tt>.
+     * Returns the parity schema as <code>String</code>.
      *
-     * @return the parity schema as <tt>String</tt>.
+     * @return the parity schema as <code>String</code>.
      */
     public String getParityString() {
         switch (parity) {
@@ -579,11 +579,11 @@ public class SerialParameters {
     }
 
     /**
-     * Converts a <tt>String</tt> describing a flow control type to the
-     * <tt>int</tt> which is defined in SerialPort.
+     * Converts a <code>String</code> describing a flow control type to the
+     * <code>int</code> which is defined in SerialPort.
      *
-     * @param flowControl the <tt>String</tt> describing the flow control type.
-     * @return the <tt>int</tt> describing the flow control type.
+     * @param flowControl the <code>String</code> describing the flow control type.
+     * @return the <code>int</code> describing the flow control type.
      * @throws IllegalArgumentException on invalid flowControl
      */
     private int stringToFlow(String flowControl) {
@@ -609,12 +609,12 @@ public class SerialParameters {
     }
 
     /**
-     * Converts an <tt>int</tt> describing a flow control type to a
+     * Converts an <code>int</code> describing a flow control type to a
      * String describing a flow control type.
      *
-     * @param flowcontrol the <tt>int</tt> describing the
+     * @param flowcontrol the <code>int</code> describing the
      *                    flow control type.
-     * @return the <tt>String</tt> describing the flow control type.
+     * @return the <code>String</code> describing the flow control type.
      */
     private String flowToString(int flowcontrol) {
         switch (flowcontrol) {
@@ -668,7 +668,7 @@ public class SerialParameters {
 
     /**
      * Returns whether RS-485 half-duplex mode is enabled.
-     * <p>
+     *
      * RS-485 half-duplex mode is only available on Linux and only if the
      * device driver supports it. Its configuration parameters have no effect
      * on other platforms.
@@ -682,7 +682,7 @@ public class SerialParameters {
     /**
      * Sets whether to configure the serial interface into RS-485 half-duplex
      * mode.
-     * <p>
+     *
      * RS-485 half-duplex mode is only available on Linux and only if the
      * device driver supports it. Its configuration parameters have no effect
      * on other platforms.
@@ -696,13 +696,13 @@ public class SerialParameters {
     /**
      * Returns whether the RS-485 transmitter is enabled by a high or low
      * control signal.
-     * <p>
+     *
      * RS-485 half-duplex mode is only available on Linux and only if the
      * device driver supports it. Its configuration parameters have no effect
      * on other platforms.
      *
      * @return Wether the RS-485 transmitter is enabled by a high control
-     *         signal level. Otherwise it returns <tt>false</tt>.
+     *         signal level. Otherwise it returns <code>false</code>.
      */
     public boolean getRs485TxEnableActiveHigh() {
         return rs485TxEnableActiveHigh;
@@ -711,12 +711,12 @@ public class SerialParameters {
     /**
      * Sets whether the RS-485 transmitter is enabled by a high or low control
      * signal.
-     * <p>
+     *
      * RS-485 half-duplex mode is only available on Linux and only if the
      * device driver supports it. Its configuration parameters have no effect
      * on other platforms.
      *
-     * @param activeHigh If <tt>true</tt>, the transmitter is activated by a
+     * @param activeHigh If <code>true</code>, the transmitter is activated by a
      *                   high control signal level. Otherwise, it is activated
      *                   by a low level.
      */
@@ -727,7 +727,7 @@ public class SerialParameters {
     /**
      * Returns whether the RS-485 interface shall enable internal bus
      * termination.
-     * <p>
+     *
      * This configuration option is only available under Linux and only if
      * device driver and hardware support it.
      *
@@ -740,11 +740,11 @@ public class SerialParameters {
 
     /**
      * Sets whether the RS-485 interface shall enable internal bus termination.
-     * <p>
+     *
      * This configuration option is only available under Linux and only if
      * device driver and hardware support it.
      *
-     * @param enable If <tt>true</tt>, the serial interface shall enable its
+     * @param enable If <code>true</code>, the serial interface shall enable its
      *               internal bus termination.
      */
     public void setRs485EnableTermination(boolean enable) {
@@ -753,10 +753,10 @@ public class SerialParameters {
 
     /**
      * Returns whether the RS-485 interface receives data it sends.
-     * <p>
+     *
      * This configuration option is only available under Linux and only if
      * device driver and hardware support it.
-     * <p>
+     *
      * See {@link #setRs485RxDuringTx} for more details.
      *
      * @return Whether the serial interface shall receive the data it transmits
@@ -768,16 +768,16 @@ public class SerialParameters {
 
     /**
      * Sets whether the RS-485 interface receives the data its sends.
-     * <p>
+     *
      * This configuration option is only available under Linux and only if
      * device driver and hardware support it.
-     * <p>
+     *
      * <b>BEWARE: For normal operation, j2mod expects this feature do be
      * disable. This method is provided only for fixing the behaviour with
      * certain device drivers which require this feature to be enabled for
      * normal operation.</b>
      *
-     * @param enable If <tt>true</tt>, the serial interface is expected to
+     * @param enable If <code>true</code>, the serial interface is expected to
      *               receive the data it transmits itself too.
      */
     public void setRs485RxDuringTx(boolean enable) {
@@ -788,11 +788,11 @@ public class SerialParameters {
      * Returns the delay between activating the RS-485 transmitter and actually
      * sending data. There are devices in the field requiring such a delay for
      * start bit detection.
-     * <p>
+     *
      * Please note that the actual interface might not support a resolution
      * down to microseconds and might require appropriately large values for
      * actually generating a delay.
-     * <p>
+     *
      * RS-485 half-duplex mode is only available on Linux and only if the
      * device driver supports it. Its configuration parameters have no effect
      * on other platforms.
@@ -807,11 +807,11 @@ public class SerialParameters {
      * Sets the delay between activating the RS-485 transmitter and actually
      * sending data. There are devices in the field requiring such a delay for
      * start bit detection.
-     * <p>
+     *
      * Please note that the actual interface might not support a resolution
      * down to microseconds and might require appropriately large values for
      * actually generating a delay.
-     * <p>
+     *
      * RS-485 half-duplex mode is only available on Linux and only if the
      * device driver supports it. Its configuration parameters have no effect
      * on other platforms.
@@ -831,7 +831,7 @@ public class SerialParameters {
      * Sets the delay between activating the RS-485 transmitter and actually
      * sending data. There are devices in the field requiring such a delay for
      * start bit detection.
-     * <p>
+     *
      * This is a convenience wrapper around
      * {@link #setRs485DelayBeforeTxMicroseconds(int)} which parses the delay
      * from the supplied string. See the documentation of this method for more
@@ -846,11 +846,11 @@ public class SerialParameters {
     /**
      * Returns the delay between the end of transmitting data and deactivating
      * the RS-485 transmitter.
-     * <p>
+     *
      * Please note that the actual interface might not support a resolution
      * down to microseconds and might require appropriately large values for
      * actually generating a delay.
-     * <p>
+     *
      * RS-485 half-duplex mode is only available on Linux and only if the
      * device driver supports it. Its configuration parameters have no effect
      * on other platforms.
@@ -864,11 +864,11 @@ public class SerialParameters {
     /**
      * Sets the delay between the end of transmitting data and deactivating the
      * RS-485 transmitter.
-     * <p>
+     *
      * Please note that the actual interface might not support a resolution
      * down to microseconds and might require appropriately large values for
      * actually generating a delay.
-     * <p>
+     *
      * RS-485 half-duplex mode is only available on Linux and only if the
      * device driver supports it. Its configuration parameters have no effect
      * on other platforms.
@@ -886,7 +886,7 @@ public class SerialParameters {
     /**
      * Sets the delay between end of transmitting data and deactivating the
      * RS-458 transmitter.
-     * <p>
+     *
      * This is a convenience wrapper around
      * {@link #setRs485DelayAfterTxMicroseconds(int)} which parses the delay
      * from the supplied string. See the documentation of this method for more

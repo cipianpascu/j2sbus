@@ -26,10 +26,10 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>ReadInputDiscretesRequest</tt>. The implementation
+ * Class implementing a <code>ReadInputDiscretesRequest</code>. The implementation
  * directly correlates with the class 1 function <i>read input discretes (FC
  * 2)</i>. It encapsulates the corresponding request message.
- * <p>
+ *
  * Input Discretes are understood as bits that cannot be manipulated (i.e. set
  * or unset).
  *
@@ -45,7 +45,7 @@ public class ReadInputDiscretesRequest extends ModbusRequest {
     private int bitCount;
 
     /**
-     * Constructs a new <tt>ReadInputDiscretesRequest</tt> instance.
+     * Constructs a new <code>ReadInputDiscretesRequest</code> instance.
      */
     public ReadInputDiscretesRequest() {
         super();
@@ -57,9 +57,9 @@ public class ReadInputDiscretesRequest extends ModbusRequest {
     }
 
     /**
-     * Constructs a new <tt>ReadInputDiscretesRequest</tt> instance with a given
+     * Constructs a new <code>ReadInputDiscretesRequest</code> instance with a given
      * reference and count of input discretes (i.e. bits) to be read.
-     * <p>
+     *
      *
      * @param ref   the reference number of the register to read from.
      * @param count the number of bits to be read.
@@ -105,10 +105,10 @@ public class ReadInputDiscretesRequest extends ModbusRequest {
 
     /**
      * Returns the reference of the discrete to to start reading from with
-     * this <tt>ReadInputDiscretesRequest</tt>.
+     * this <code>ReadInputDiscretesRequest</code>.
      *
      * @return the reference of the discrete to start reading from as
-     * <tt>int</tt>.
+     * <code>int</code>.
      */
     public int getReference() {
         return reference;
@@ -116,8 +116,8 @@ public class ReadInputDiscretesRequest extends ModbusRequest {
 
     /**
      * Sets the reference of the register to start reading from with this
-     * <tt>ReadInputDiscretesRequest</tt>.
-     * <p>
+     * <code>ReadInputDiscretesRequest</code>.
+     *
      *
      * @param ref the reference of the register to start reading from.
      */
@@ -127,8 +127,8 @@ public class ReadInputDiscretesRequest extends ModbusRequest {
 
     /**
      * Returns the number of bits (i.e. input discretes) to be read with this
-     * <tt>ReadInputDiscretesRequest</tt>.
-     * <p>
+     * <code>ReadInputDiscretesRequest</code>.
+     *
      *
      * @return the number of bits to be read.
      */
@@ -138,7 +138,7 @@ public class ReadInputDiscretesRequest extends ModbusRequest {
 
     /**
      * Sets the number of bits (i.e. input discretes) to be read with this
-     * <tt>ReadInputDiscretesRequest</tt>.
+     * <code>ReadInputDiscretesRequest</code>.
      *
      * @param count the number of bits to be read.
      */

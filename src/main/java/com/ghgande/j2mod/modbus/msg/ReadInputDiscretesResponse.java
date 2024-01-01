@@ -23,11 +23,11 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>ReadInputDiscretesResponse</tt>.
+ * Class implementing a <code>ReadInputDiscretesResponse</code>.
  * The implementation directly correlates with the class 1
  * function <i>read input discretes (FC 2)</i>. It encapsulates
  * the corresponding response message.
- * <p>
+ *
  * Input Discretes are understood as bits that cannot be
  * manipulated (i.e. set or unset).
  *
@@ -42,7 +42,7 @@ public class ReadInputDiscretesResponse extends ModbusResponse {
     private BitVector discretes;
 
     /**
-     * Constructs a new <tt>ReadInputDiscretesResponse</tt>
+     * Constructs a new <code>ReadInputDiscretesResponse</code>
      * instance.
      */
     public ReadInputDiscretesResponse() {
@@ -51,7 +51,7 @@ public class ReadInputDiscretesResponse extends ModbusResponse {
     }
 
     /**
-     * Constructs a new <tt>ReadInputDiscretesResponse</tt>
+     * Constructs a new <code>ReadInputDiscretesResponse</code>
      * instance with a given count of input discretes
      * (i.e. bits).
      *
@@ -86,11 +86,11 @@ public class ReadInputDiscretesResponse extends ModbusResponse {
     }
 
     /**
-     * Returns the <tt>BitVector</tt> that stores
+     * Returns the <code>BitVector</code> that stores
      * the collection of bits that have been read.
-     * <p>
      *
-     * @return the <tt>BitVector</tt> holding the
+     *
+     * @return the <code>BitVector</code> holding the
      * bits that have been read.
      */
     public BitVector getDiscretes() {
@@ -100,7 +100,7 @@ public class ReadInputDiscretesResponse extends ModbusResponse {
     /**
      * Convenience method that returns the state
      * of the bit at the given index.
-     * <p>
+     *
      *
      * @param index the index of the input discrete
      *              for which the status should be returned.

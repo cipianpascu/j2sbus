@@ -26,7 +26,7 @@ import java.io.IOException;
 import static com.ghgande.j2mod.modbus.msg.ModbusResponse.AuxiliaryMessageTypes.NONE;
 
 /**
- * Abstract class implementing a <tt>ModbusResponse</tt>. This class provides
+ * Abstract class implementing a <code>ModbusResponse</code>. This class provides
  * specialised implementations with the functionality they have in common.
  *
  * @author Dieter Wimberger
@@ -44,10 +44,10 @@ public abstract class ModbusResponse extends ModbusMessageImpl {
     private AuxiliaryMessageTypes auxiliaryType = NONE;
 
     /**
-     * Factory method creating the required specialized <tt>ModbusResponse</tt>
+     * Factory method creating the required specialized <code>ModbusResponse</code>
      * instance.
      *
-     * @param functionCode the function code of the response as <tt>int</tt>.
+     * @param functionCode the function code of the response as <code>int</code>.
      *
      * @return a ModbusResponse instance specific for the given function code.
      */
@@ -127,9 +127,9 @@ public abstract class ModbusResponse extends ModbusMessageImpl {
     /**
      * Utility method to set the raw data of the message. Should not be used
      * except under rare circumstances.
-     * <p>
      *
-     * @param msg the <tt>byte[]</tt> resembling the raw modbus response
+     *
+     * @param msg the <code>byte[]</code> resembling the raw modbus response
      *            message.
      */
     protected void setMessage(byte[] msg) {

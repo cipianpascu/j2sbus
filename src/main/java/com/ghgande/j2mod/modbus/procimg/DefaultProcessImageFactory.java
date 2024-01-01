@@ -16,8 +16,8 @@
 package com.ghgande.j2mod.modbus.procimg;
 
 /**
- * The default ProcessImageFactory. It creates a new <tt>SimpleProcessImage</tt>
- * each time <tt>createProcessImageImplementation()</tt> is invoked.
+ * The default ProcessImageFactory. It creates a new <code>SimpleProcessImage</code>
+ * each time <code>createProcessImageImplementation()</code> is invoked.
  *
  * @author Dieter Wimberger
  * @author jfhaugh
@@ -93,8 +93,8 @@ public class DefaultProcessImageFactory implements ProcessImageFactory {
     /**
      * Returns a new InputRegister instance with a given value.
      *
-     * @param b1 the first <tt>byte</tt>.
-     * @param b2 the second <tt>byte</tt>.
+     * @param b1 the first <code>byte</code>.
+     * @param b2 the second <code>byte</code>.
      *
      * @return an InputRegister instance.
      */
@@ -116,8 +116,8 @@ public class DefaultProcessImageFactory implements ProcessImageFactory {
     /**
      * Returns a new Register instance with a given value.
      *
-     * @param b1 the first <tt>byte</tt>.
-     * @param b2 the second <tt>byte</tt>.
+     * @param b1 the first <code>byte</code>.
+     * @param b2 the second <code>byte</code>.
      *
      * @return a Register instance.
      */
@@ -129,7 +129,7 @@ public class DefaultProcessImageFactory implements ProcessImageFactory {
     /**
      * Returns a new InputRegister instance with a given value.
      *
-     * @param value the value of the register as an <tt>int</tt>
+     * @param value the value of the register as an <code>int</code>
      *
      * @return an InputRegister instance.
      */

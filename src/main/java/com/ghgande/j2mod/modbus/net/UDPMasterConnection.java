@@ -42,17 +42,17 @@ public class UDPMasterConnection {
     private int port = Modbus.DEFAULT_PORT;
 
     /**
-     * Constructs a <tt>UDPMasterConnection</tt> instance
+     * Constructs a <code>UDPMasterConnection</code> instance
      * with a given destination address.
      *
-     * @param adr the destination <tt>InetAddress</tt>.
+     * @param adr the destination <code>InetAddress</code>.
      */
     public UDPMasterConnection(InetAddress adr) {
         address = adr;
     }
 
     /**
-     * Opens this <tt>UDPMasterConnection</tt>.
+     * Opens this <code>UDPMasterConnection</code>.
      *
      * @throws Exception if there is a network failure.
      */
@@ -67,7 +67,7 @@ public class UDPMasterConnection {
     }
 
     /**
-     * Closes this <tt>UDPMasterConnection</tt>.
+     * Closes this <code>UDPMasterConnection</code>.
      */
     public void close() {
         if (connected) {
@@ -82,10 +82,10 @@ public class UDPMasterConnection {
     }
 
     /**
-     * Returns the <tt>ModbusTransport</tt> associated with this
-     * <tt>UDPMasterConnection</tt>.
+     * Returns the <code>ModbusTransport</code> associated with this
+     * <code>UDPMasterConnection</code>.
      *
-     * @return the connection's <tt>ModbusTransport</tt>.
+     * @return the connection's <code>ModbusTransport</code>.
      */
     public AbstractModbusTransport getModbusTransport() {
         return terminal == null ? null : terminal.getTransport();
@@ -94,25 +94,25 @@ public class UDPMasterConnection {
     /**
      * Returns the terminal used for handling the package traffic.
      *
-     * @return a <tt>UDPTerminal</tt> instance.
+     * @return a <code>UDPTerminal</code> instance.
      */
     public AbstractUDPTerminal getTerminal() {
         return terminal;
     }
 
     /**
-     * Returns the timeout for this <tt>UDPMasterConnection</tt>.
+     * Returns the timeout for this <code>UDPMasterConnection</code>.
      *
-     * @return the timeout as <tt>int</tt>.
+     * @return the timeout as <code>int</code>.
      */
     public synchronized int getTimeout() {
         return timeout;
     }
 
     /**
-     * Sets the timeout for this <tt>UDPMasterConnection</tt>.
+     * Sets the timeout for this <code>UDPMasterConnection</code>.
      *
-     * @param timeout the timeout as <tt>int</tt>.
+     * @param timeout the timeout as <code>int</code>.
      */
     public synchronized void setTimeout(int timeout) {
         this.timeout = timeout;
@@ -123,9 +123,9 @@ public class UDPMasterConnection {
 
     /**
      * Returns the destination port of this
-     * <tt>UDPMasterConnection</tt>.
+     * <code>UDPMasterConnection</code>.
      *
-     * @return the port number as <tt>int</tt>.
+     * @return the port number as <code>int</code>.
      */
     public int getPort() {
         return port;
@@ -133,39 +133,39 @@ public class UDPMasterConnection {
 
     /**
      * Sets the destination port of this
-     * <tt>UDPMasterConnection</tt>.
-     * The default is defined as <tt>Modbus.DEFAULT_PORT</tt>.
+     * <code>UDPMasterConnection</code>.
+     * The default is defined as <code>Modbus.DEFAULT_PORT</code>.
      *
-     * @param port the port number as <tt>int</tt>.
+     * @param port the port number as <code>int</code>.
      */
     public void setPort(int port) {
         this.port = port;
     }
 
     /**
-     * Returns the destination <tt>InetAddress</tt> of this
-     * <tt>UDPMasterConnection</tt>.
+     * Returns the destination <code>InetAddress</code> of this
+     * <code>UDPMasterConnection</code>.
      *
-     * @return the destination address as <tt>InetAddress</tt>.
+     * @return the destination address as <code>InetAddress</code>.
      */
     public InetAddress getAddress() {
         return address;
     }
 
     /**
-     * Sets the destination <tt>InetAddress</tt> of this
-     * <tt>UDPMasterConnection</tt>.
+     * Sets the destination <code>InetAddress</code> of this
+     * <code>UDPMasterConnection</code>.
      *
-     * @param adr the destination address as <tt>InetAddress</tt>.
+     * @param adr the destination address as <code>InetAddress</code>.
      */
     public void setAddress(InetAddress adr) {
         address = adr;
     }
 
     /**
-     * Tests if this <tt>UDPMasterConnection</tt> is connected.
+     * Tests if this <code>UDPMasterConnection</code> is connected.
      *
-     * @return <tt>true</tt> if connected, <tt>false</tt> otherwise.
+     * @return <code>true</code> if connected, <code>false</code> otherwise.
      */
     public boolean isConnected() {
         return connected;

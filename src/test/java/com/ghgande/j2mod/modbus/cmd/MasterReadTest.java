@@ -22,7 +22,7 @@ public class MasterReadTest {
             master.connect();
             for (int i = 0; i < 10; i++) {
                 int ref = 100;
-                Register[] regs = master.readMultipleRegisters(1, ref, 10);
+                Register[] regs = master.readMultipleRegisters(1, 1, ref, 10);
                 for (Register reg : regs) {
                     System.out.printf("Reg: %d Val: %d\n", ref, reg.getValue());
                     ref++;

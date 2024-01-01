@@ -26,70 +26,70 @@ public interface Modbus {
 
     /**
      * Defines the class 1 function code
-     * for <tt>read coils</tt>.
+     * for <code>read coils</code>.
      */
     int READ_COILS = 1;
 
     /**
      * Defines a class 1 function code
-     * for <tt>read input discretes</tt>.
+     * for <code>read input discretes</code>.
      */
     int READ_INPUT_DISCRETES = 2;
 
     /**
      * Defines a class 1 function code
-     * for <tt>read holding registers</tt>
+     * for <code>read holding registers</code>
      */
     int READ_HOLDING_REGISTERS = 3;
 
     /**
      * Defines the class 0 function code
-     * for <tt>read multiple registers</tt>.  The
+     * for <code>read multiple registers</code>.  The
      * proper name is "Read Holding Registers".
      */
     int READ_MULTIPLE_REGISTERS = 3;
 
     /**
      * Defines a class 1 function code
-     * for <tt>read input registers</tt>.
+     * for <code>read input registers</code>.
      */
     int READ_INPUT_REGISTERS = 4;
 
     /**
      * Defines a class 1 function code
-     * for <tt>write coil</tt>.
+     * for <code>write coil</code>.
      */
     int WRITE_COIL = 5;
 
     /**
      * Defines a class 1 function code
-     * for <tt>write single register</tt>.
+     * for <code>write single register</code>.
      */
     int WRITE_SINGLE_REGISTER = 6;
 
     /**
-     * <tt>read exception status</tt>
+     * <code>read exception status</code>
      *
      * Serial devices only.
      */
     int READ_EXCEPTION_STATUS = 7;
 
     /**
-     * <tt>get serial diagnostics</tt>
+     * <code>get serial diagnostics</code>
      *
      * Serial devices only.
      */
     int READ_SERIAL_DIAGNOSTICS = 8;
 
     /**
-     * <tt>get comm event counter</tt>
+     * <code>get comm event counter</code>
      *
      * Serial devices only.
      */
     int READ_COMM_EVENT_COUNTER = 11;
 
     /**
-     * <tt>get comm event log</tt>
+     * <code>get comm event log</code>
      *
      * Serial devices only.
      */
@@ -97,34 +97,34 @@ public interface Modbus {
 
     /**
      * Defines a standard function code
-     * for <tt>write multiple coils</tt>.
+     * for <code>write multiple coils</code>.
      */
     int WRITE_MULTIPLE_COILS = 15;
 
     /**
      * Defines the class 0 function code
-     * for <tt>write multiple registers</tt>.
+     * for <code>write multiple registers</code>.
      */
     int WRITE_MULTIPLE_REGISTERS = 16;
 
     /**
      * Defines a standard function code
-     * for <tt>read slave ID</tt>.
+     * for <code>read slave ID</code>.
      */
     int REPORT_SLAVE_ID = 17;
 
     /**
-     * <tt>read file record</tt>
+     * <code>read file record</code>
      */
     int READ_FILE_RECORD = 20;
 
     /**
-     * <tt>write file record</tt>
+     * <code>write file record</code>
      */
     int WRITE_FILE_RECORD = 21;
 
     /**
-     * <tt>mask write register</tt>
+     * <code>mask write register</code>
      *
      * Update a single register using its current value and an AND
      * and OR mask.
@@ -132,7 +132,7 @@ public interface Modbus {
     int MASK_WRITE_REGISTER = 22;
 
     /**
-     * <tt>read / write multiple registers</tt>
+     * <code>read / write multiple registers</code>
      *
      * Write some number of registers, then read some number of
      * potentially other registers back.
@@ -140,7 +140,7 @@ public interface Modbus {
     int READ_WRITE_MULTIPLE = 23;
 
     /**
-     * <tt>read FIFO queue</tt>
+     * <code>read FIFO queue</code>
      *
      * Read from a FIFO queue.
      */
@@ -186,7 +186,7 @@ public interface Modbus {
     int EXCEPTION_OFFSET = 128;            //the last valid function code is 127
 
     /**
-     * Defines the Modbus slave exception type <tt>illegal function</tt>.
+     * Defines the Modbus slave exception type <code>illegal function</code>.
      * This exception code is returned if the slave:
      * <ul>
      * <li>does not implement the function code <b>or</b></li>
@@ -196,7 +196,7 @@ public interface Modbus {
     int ILLEGAL_FUNCTION_EXCEPTION = 1;
 
     /**
-     * Defines the Modbus slave exception type <tt>illegal data address</tt>.
+     * Defines the Modbus slave exception type <code>illegal data address</code>.
      * This exception code is returned if the reference:
      * <ul>
      * <li>does not exist on the slave <b>or</b></li>
@@ -208,7 +208,7 @@ public interface Modbus {
     int ILLEGAL_ADDRESS_EXCEPTION = 2;
 
     /**
-     * Defines the Modbus slave exception type <tt>illegal data value</tt>.
+     * Defines the Modbus slave exception type <code>illegal data value</code>.
      * This exception code indicates a fault in the structure of the data values
      * of a complex request, such as an incorrect implied length.<br>
      * <b>This code does not indicate a problem with application specific validity
@@ -217,86 +217,91 @@ public interface Modbus {
     int ILLEGAL_VALUE_EXCEPTION = 3;
 
     /**
-     * Defines the Modbus slave exception type <tt>slave device failure</tt>.
+     * Defines the Modbus slave exception type <code>slave device failure</code>.
      * This exception code indicates a fault in the slave device itself.
      */
     int SLAVE_DEVICE_FAILURE = 4;
 
     /**
-     * Defines the Modbus slave exception type <tt>slave busy</tt>.  This
+     * Defines the Modbus slave exception type <code>slave busy</code>.  This
      * exception indicates the the slave is unable to perform the operation
      * because it is performing an operation which cannot be interrupted.
      */
     int SLAVE_BUSY_EXCEPTION = 6;
 
     /**
-     * Defines the Modbus slave exception type <tt>negative acknowledgment</tt>.
+     * Defines the Modbus slave exception type <code>negative acknowledgment</code>.
      * This exception code indicates the slave cannot perform the requested
      * action.
      */
     int NEGATIVE_ACKNOWLEDGEMENT = 7;
 
     /**
-     * Defines the Modbus slave exception type <tt>Gateway target failed to
-     * respond</tt>.  This exception code indicates that a Modbus gateway
+     * Defines the Modbus slave exception type <code>Gateway target failed to
+     * respond</code>.  This exception code indicates that a Modbus gateway
      * failed to receive a response from the specified target.
      */
     int GATEWAY_TARGET_NO_RESPONSE = 11;
 
     /**
      * Defines the default port number of Modbus
-     * (=<tt>502</tt>).
+     * (=<code>502</code>).
      */
     int DEFAULT_PORT = 502;
 
     /**
      * Defines the maximum message length in bytes
-     * (=<tt>256</tt>).
+     * (=<code>256</code>).
      */
     int MAX_MESSAGE_LENGTH = 256;
 
     /**
-     * Defines the default transaction identifier (=<tt>0</tt>).
+     * Defines the default transaction identifier (=<code>0</code>).
      */
     int DEFAULT_TRANSACTION_ID = 0;
 
     /**
-     * Defines the default protocol identifier (=<tt>0</tt>).
+     * Defines the default protocol identifier (=<code>0</code>).
      */
     int DEFAULT_PROTOCOL_ID = 0;
 
     /**
-     * Defines the default unit identifier (=<tt>0</tt>).
+     * Defines the default unit identifier (=<code>0</code>).
      */
     int DEFAULT_UNIT_ID = 0;
 
     /**
+     * Defines the default subnet identifier (=<code>0</code>).
+     */
+    int DEFAULT_SUBNET_ID = 0;
+
+    /**
      * Defines the default setting for validity checking
-     * in transactions (=<tt>true</tt>).
+     * in transactions (=<code>true</code>).
      */
     boolean DEFAULT_VALIDITYCHECK = true;
 
     /**
      * Defines the default setting for I/O operation timeouts
-     * in milliseconds (=<tt>3000</tt>).
+     * in milliseconds (=<code>3000</code>).
      */
     int DEFAULT_TIMEOUT = 3000;
 
     /**
      * Defines the sleep period between transaction retries
-     * in milliseconds (=<tt>200</tt>).
+     * in milliseconds (=<code>200</code>).
      */
     int RETRY_SLEEP_TIME = 500;
 
     /**
      * Defines the default reconnecting setting for
-     * transactions (=<tt>false</tt>).
+     * transactions (=<code>false</code>).
      */
     boolean DEFAULT_RECONNECTING = false;
 
     /**
      * Defines the default amount of retires for opening
-     * a connection (=<tt>3</tt>).
+     * a connection (=<code>3</code>).
      */
     int DEFAULT_RETRIES = 5;
 
@@ -305,13 +310,13 @@ public interface Modbus {
      * Inter-message delays are managed by the SerialTransaction object automatically based on the
      * baud rate. Setting this value to anything other than zero will bypass that process and force
      * a specific inter-message delay
-     * (=<tt>0</tt>).
+     * (=<code>0</code>).
      */
     int DEFAULT_TRANSMIT_DELAY = 0;
 
     /**
      * Defines the default number of msec to delay before transmission if not overridden by DEFAULT_TRANSMIT_DELAY
-     * (=<tt>2</tt>).
+     * (=<code>2</code>).
      */
     int MINIMUM_TRANSMIT_DELAY = 2;
 
@@ -330,7 +335,7 @@ public interface Modbus {
     /**
      * Defines the maximum value of the transaction identifier.
      *
-     * <p><b>Note:</b> The standard requires that the server copy whatever
+     *<b>Note:</b> The standard requires that the server copy whatever
      * value the client provides. However, the transaction ID is being
      * limited to signed 16-bit integers to prevent problems with servers
      * that might incorrectly assume the value is a signed value.

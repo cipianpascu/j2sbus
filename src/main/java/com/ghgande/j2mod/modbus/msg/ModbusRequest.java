@@ -19,7 +19,7 @@ import com.ghgande.j2mod.modbus.Modbus;
 import com.ghgande.j2mod.modbus.net.AbstractModbusListener;
 
 /**
- * Abstract class implementing a <tt>ModbusRequest</tt>. This class provides
+ * Abstract class implementing a <code>ModbusRequest</code>. This class provides
  * specialised implementations with the functionality they have in common.
  *
  * @author Dieter Wimberger
@@ -30,10 +30,10 @@ import com.ghgande.j2mod.modbus.net.AbstractModbusListener;
 public abstract class ModbusRequest extends ModbusMessageImpl {
 
     /**
-     * Factory method creating the required specialized <tt>ModbusRequest</tt>
+     * Factory method creating the required specialized <code>ModbusRequest</code>
      * instance.
      *
-     * @param functionCode the function code of the request as <tt>int</tt>.
+     * @param functionCode the function code of the request as <code>int</code>.
      *
      * @return a ModbusRequest instance specific for the given function type.
      */
@@ -106,37 +106,37 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
     }
 
     /**
-     * Returns the <tt>ModbusResponse</tt> that correlates with this
-     * <tt>ModbusRequest</tt>.
+     * Returns the <code>ModbusResponse</code> that correlates with this
+     * <code>ModbusRequest</code>.
      *
-     * <p>
+     *
      * The response must include the unit number, function code, as well as any
      * transport-specific header information.
      *
-     * <p>
+     *
      * This method is used to create an empty response which must be populated
      * by the caller. It is commonly used to un-marshal responses from Modbus
      * slaves.
      *
-     * @return the corresponding <tt>ModbusResponse</tt>.
+     * @return the corresponding <code>ModbusResponse</code>.
      */
     public abstract ModbusResponse getResponse();
 
     /**
-     * Returns the <tt>ModbusResponse</tt> that represents the answer to this
-     * <tt>ModbusRequest</tt>.
+     * Returns the <code>ModbusResponse</code> that represents the answer to this
+     * <code>ModbusRequest</code>.
      *
-     * <p>
+     *
      * The implementation should take care about assembling the reply to this
-     * <tt>ModbusRequest</tt>.
+     * <code>ModbusRequest</code>.
      *
-     * <p>
+     *
      * This method is used to create responses from the process image associated
      * with the listener. It is commonly used to implement Modbus slave
      * instances.
      *
      * @param listener Listener that received the request
-     * @return the corresponding <tt>ModbusResponse</tt>.
+     * @return the corresponding <code>ModbusResponse</code>.
      */
     public abstract ModbusResponse createResponse(AbstractModbusListener listener);
 

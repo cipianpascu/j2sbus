@@ -17,7 +17,7 @@ package com.ghgande.j2mod.modbus.procimg;
 
 /**
  * Interface defining an input register.
- * <p>
+ *
  * This register is read only from the slave side.
  *
  * @author Dieter Wimberger
@@ -27,33 +27,33 @@ package com.ghgande.j2mod.modbus.procimg;
 public interface InputRegister {
 
     /**
-     * Returns the value of this <tt>InputRegister</tt>. The value is stored as
-     * <tt>int</tt> but should be treated like a 16-bit word.
+     * Returns the value of this <code>InputRegister</code>. The value is stored as
+     * <code>int</code> but should be treated like a 16-bit word.
      *
-     * @return the value as <tt>int</tt>.
+     * @return the value as <code>int</code>.
      */
     int getValue();
 
     /**
-     * Returns the content of this <tt>Register</tt> as unsigned 16-bit value
+     * Returns the content of this <code>Register</code> as unsigned 16-bit value
      * (unsigned short).
      *
-     * @return the content as unsigned short (<tt>int</tt>).
+     * @return the content as unsigned short (<code>int</code>).
      */
     int toUnsignedShort();
 
     /**
-     * Returns the content of this <tt>Register</tt> as signed 16-bit value
+     * Returns the content of this <code>Register</code> as signed 16-bit value
      * (short).
      *
-     * @return the content as <tt>short</tt>.
+     * @return the content as <code>short</code>.
      */
     short toShort();
 
     /**
-     * Returns the content of this <tt>Register</tt> as bytes.
+     * Returns the content of this <code>Register</code> as bytes.
      *
-     * @return a <tt>byte[]</tt> with length 2.
+     * @return a <code>byte[]</code> with length 2.
      */
     byte[] toBytes();
 

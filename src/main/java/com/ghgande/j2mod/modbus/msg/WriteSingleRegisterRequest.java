@@ -27,7 +27,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>WriteSingleRegisterRequest</tt>. The implementation
+ * Class implementing a <code>WriteSingleRegisterRequest</code>. The implementation
  * directly correlates with the class 0 function <i>write single register (FC
  * 6)</i>. It encapsulates the corresponding request message.
  *
@@ -42,7 +42,7 @@ public class WriteSingleRegisterRequest extends ModbusRequest {
     private Register register;
 
     /**
-     * Constructs a new <tt>WriteSingleRegisterRequest</tt> instance.
+     * Constructs a new <code>WriteSingleRegisterRequest</code> instance.
      */
     public WriteSingleRegisterRequest() {
         super();
@@ -52,7 +52,7 @@ public class WriteSingleRegisterRequest extends ModbusRequest {
     }
 
     /**
-     * Constructs a new <tt>WriteSingleRegisterRequest</tt> instance with a
+     * Constructs a new <code>WriteSingleRegisterRequest</code> instance with a
      * given reference and value to be written.
      *
      * @param ref the reference number of the register to read from.
@@ -95,7 +95,7 @@ public class WriteSingleRegisterRequest extends ModbusRequest {
 
     /**
      * Returns the reference of the register to be written to with this
-     * <tt>WriteSingleRegisterRequest</tt>.
+     * <code>WriteSingleRegisterRequest</code>.
      *
      * @return the reference of the register to be written to.
      */
@@ -105,7 +105,7 @@ public class WriteSingleRegisterRequest extends ModbusRequest {
 
     /**
      * Sets the reference of the register to be written to with this
-     * <tt>WriteSingleRegisterRequest</tt>.
+     * <code>WriteSingleRegisterRequest</code>.
      *
      * @param ref the reference of the register to be written to.
      */
@@ -115,7 +115,7 @@ public class WriteSingleRegisterRequest extends ModbusRequest {
 
     /**
      * Returns the register to be written with this
-     * <tt>WriteSingleRegisterRequest</tt>.
+     * <code>WriteSingleRegisterRequest</code>.
      *
      * @return the value to be written to the register.
      */
@@ -125,7 +125,7 @@ public class WriteSingleRegisterRequest extends ModbusRequest {
 
     /**
      * Sets the value that should be written to the register with this
-     * <tt>WriteSingleRegisterRequest</tt>.
+     * <code>WriteSingleRegisterRequest</code>.
      *
      * @param reg the register to be written.
      */

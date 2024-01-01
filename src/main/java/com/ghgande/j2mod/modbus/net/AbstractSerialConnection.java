@@ -63,10 +63,10 @@ public abstract class AbstractSerialConnection {
     public abstract void open() throws IOException;
 
     /**
-     * Returns the <tt>ModbusTransport</tt> instance to be used for receiving
+     * Returns the <code>ModbusTransport</code> instance to be used for receiving
      * and sending messages.
      *
-     * @return a <tt>ModbusTransport</tt> instance
+     * @return a <code>ModbusTransport</code> instance
      */
     public abstract AbstractModbusTransport getModbusTransport();
 
@@ -131,14 +131,14 @@ public abstract class AbstractSerialConnection {
     /**
      * Returns a name of the port
      *
-     * @return a <tt>String</tt> instance
+     * @return a <code>String</code> instance
      */
     public abstract String getPortName();
 
     /**
      * Returns a descriptive name of the port
      *
-     * @return a <tt>String</tt> instance
+     * @return a <code>String</code> instance
      */
     public abstract String getDescriptivePortName();
 
@@ -161,14 +161,14 @@ public abstract class AbstractSerialConnection {
     /**
      * Returns the timeout for this connection
      *
-     * @return the timeout as <tt>int</tt> milliseconds
+     * @return the timeout as <code>int</code> milliseconds
      */
     public abstract int getTimeout();
 
     /**
      * Sets the timeout for this connection.
      *
-     * @param timeout the timeout as <tt>int</tt> milliseconds
+     * @param timeout the timeout as <code>int</code> milliseconds
      */
     public abstract void setTimeout(int timeout);
 

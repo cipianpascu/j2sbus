@@ -49,7 +49,7 @@ public class FastByteArrayInputStream extends InputStream {
      */
     int mark;
     /**
-     * Input buffer <tt>byte[]</tt>.
+     * Input buffer <code>byte[]</code>.
      */
     byte[] buf;
 

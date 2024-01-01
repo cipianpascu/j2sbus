@@ -22,7 +22,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>WriteSingleRegisterResponse</tt>.
+ * Class implementing a <code>WriteSingleRegisterResponse</code>.
  * The implementation directly correlates with the class 0
  * function <i>write single register (FC 6)</i>. It
  * encapsulates the corresponding response message.
@@ -39,7 +39,7 @@ public class WriteSingleRegisterResponse
     private int registerValue;
 
     /**
-     * Constructs a new <tt>WriteSingleRegisterResponse</tt>
+     * Constructs a new <code>WriteSingleRegisterResponse</code>
      * instance.
      */
     public WriteSingleRegisterResponse() {
@@ -49,7 +49,7 @@ public class WriteSingleRegisterResponse
     }
 
     /**
-     * Constructs a new <tt>WriteSingleRegisterResponse</tt>
+     * Constructs a new <code>WriteSingleRegisterResponse</code>
      * instance.
      *
      * @param reference the offset of the register written.
@@ -65,8 +65,8 @@ public class WriteSingleRegisterResponse
 
     /**
      * Returns the value that has been returned in
-     * this <tt>WriteSingleRegisterResponse</tt>.
-     * <p>
+     * this <code>WriteSingleRegisterResponse</code>.
+     *
      *
      * @return the value of the register.
      */
@@ -77,7 +77,7 @@ public class WriteSingleRegisterResponse
     /**
      * Sets the value that has been returned in the
      * response message.
-     * <p>
+     *
      *
      * @param value the returned register value.
      */
@@ -88,7 +88,7 @@ public class WriteSingleRegisterResponse
     /**
      * Returns the reference of the register
      * that has been written to.
-     * <p>
+     *
      *
      * @return the reference of the written register.
      */
@@ -99,7 +99,7 @@ public class WriteSingleRegisterResponse
     /**
      * Sets the reference of the register that has
      * been written to.
-     * <p>
+     *
      *
      * @param ref the reference of the written register.
      */

@@ -44,7 +44,7 @@ public class TCPSlaveConnection {
     private ModbusTCPTransport transport;
 
     /**
-     * Constructs a <tt>TCPSlaveConnection</tt> instance using a given socket
+     * Constructs a <code>TCPSlaveConnection</code> instance using a given socket
      * instance.
      *
      * @param socket the socket instance to be used for communication.
@@ -54,7 +54,7 @@ public class TCPSlaveConnection {
     }
 
     /**
-     * Constructs a <tt>TCPSlaveConnection</tt> instance using a given socket
+     * Constructs a <code>TCPSlaveConnection</code> instance using a given socket
      * instance.
      *
      * @param socket        the socket instance to be used for communication.
@@ -72,7 +72,7 @@ public class TCPSlaveConnection {
     }
 
     /**
-     * Closes this <tt>TCPSlaveConnection</tt>.
+     * Closes this <code>TCPSlaveConnection</code>.
      */
     public void close() {
         if (connected) {
@@ -88,10 +88,10 @@ public class TCPSlaveConnection {
     }
 
     /**
-     * Returns the <tt>ModbusTransport</tt> associated with this
-     * <tt>TCPMasterConnection</tt>.
+     * Returns the <code>ModbusTransport</code> associated with this
+     * <code>TCPMasterConnection</code>.
      *
-     * @return the connection's <tt>ModbusTransport</tt>.
+     * @return the connection's <code>ModbusTransport</code>.
      */
     public AbstractModbusTransport getModbusTransport() {
         return transport;
@@ -107,8 +107,8 @@ public class TCPSlaveConnection {
     }
     
     /**
-     * Prepares the associated <tt>ModbusTransport</tt> of this
-     * <tt>TCPMasterConnection</tt> for use.
+     * Prepares the associated <code>ModbusTransport</code> of this
+     * <code>TCPMasterConnection</code> for use.
      *
      * @param socket        the socket to be used for communication.
      * @param useRtuOverTcp True if the RTU protocol should be used over TCP
@@ -135,18 +135,18 @@ public class TCPSlaveConnection {
     }
 
     /**
-     * Returns the timeout for this <tt>TCPSlaveConnection</tt>.
+     * Returns the timeout for this <code>TCPSlaveConnection</code>.
      *
-     * @return the timeout as <tt>int</tt>.
+     * @return the timeout as <code>int</code>.
      */
     public int getTimeout() {
         return timeout;
     }
 
     /**
-     * Sets the timeout for this <tt>TCPSlaveConnection</tt>.
+     * Sets the timeout for this <code>TCPSlaveConnection</code>.
      *
-     * @param timeout the timeout in milliseconds as <tt>int</tt>.
+     * @param timeout the timeout in milliseconds as <code>int</code>.
      */
     public void setTimeout(int timeout) {
         this.timeout = timeout;
@@ -160,28 +160,28 @@ public class TCPSlaveConnection {
     }
 
     /**
-     * Returns the destination port of this <tt>TCPSlaveConnection</tt>.
+     * Returns the destination port of this <code>TCPSlaveConnection</code>.
      *
-     * @return the port number as <tt>int</tt>.
+     * @return the port number as <code>int</code>.
      */
     public int getPort() {
         return socket.getLocalPort();
     }
 
     /**
-     * Returns the destination <tt>InetAddress</tt> of this
-     * <tt>TCPSlaveConnection</tt>.
+     * Returns the destination <code>InetAddress</code> of this
+     * <code>TCPSlaveConnection</code>.
      *
-     * @return the destination address as <tt>InetAddress</tt>.
+     * @return the destination address as <code>InetAddress</code>.
      */
     public InetAddress getAddress() {
         return socket.getLocalAddress();
     }
 
     /**
-     * Tests if this <tt>TCPSlaveConnection</tt> is connected.
+     * Tests if this <code>TCPSlaveConnection</code> is connected.
      *
-     * @return <tt>true</tt> if connected, <tt>false</tt> otherwise.
+     * @return <code>true</code> if connected, <code>false</code> otherwise.
      */
     public boolean isConnected() {
         return connected;

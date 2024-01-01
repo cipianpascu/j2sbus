@@ -22,7 +22,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>ReadSerialDiagnosticsResponse</tt>.
+ * Class implementing a <code>ReadSerialDiagnosticsResponse</code>.
  *
  * @author Julie Haugh (jfh@ghgande.com)
  * @author Steve O'Hara (4NG)
@@ -35,7 +35,7 @@ public class ReadSerialDiagnosticsResponse extends ModbusResponse {
     private short data;
 
     /**
-     * Constructs a new <tt>Diagnostics</tt> response
+     * Constructs a new <code>Diagnostics</code> response
      * instance.
      */
     public ReadSerialDiagnosticsResponse() {

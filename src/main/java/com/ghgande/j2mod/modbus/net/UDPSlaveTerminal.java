@@ -27,7 +27,7 @@ import java.util.Hashtable;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * Class implementing a <tt>UDPSlaveTerminal</tt>.
+ * Class implementing a <code>UDPSlaveTerminal</code>.
  *
  * @author Dieter Wimberger
  * @author Steve O'Hara (4NG)

@@ -23,7 +23,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>Read Exception Status</tt> request.
+ * Class implementing a <code>Read Exception Status</code> request.
  *
  * @author Julie Haugh (jfh@ghgande.com)
  * @author jfhaugh (jfh@ghgande.com)
@@ -33,7 +33,7 @@ import java.io.IOException;
 public class ReadExceptionStatusRequest extends ModbusRequest {
 
     /**
-     * Constructs a new <tt>Read Exception Status</tt> request
+     * Constructs a new <code>Read Exception Status</code> request
      * instance.
      */
     public ReadExceptionStatusRequest() {

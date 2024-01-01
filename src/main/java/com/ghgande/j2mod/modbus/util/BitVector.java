@@ -39,11 +39,11 @@ public class BitVector {
     private boolean msbAccess = false;
 
     /**
-     * Constructs a new <tt>BitVector</tt> instance
+     * Constructs a new <code>BitVector</code> instance
      * with a given size.
-     * <p>
      *
-     * @param size the number of bits the <tt>BitVector</tt>
+     *
+     * @param size the number of bits the <code>BitVector</code>
      *             should be able to hold.
      */
     public BitVector(int size) {
@@ -61,13 +61,13 @@ public class BitVector {
     }
 
     /**
-     * Factory method for creating a <tt>BitVector</tt> instance
+     * Factory method for creating a <code>BitVector</code> instance
      * wrapping the given byte data.
      *
      * @param data a byte[] containing packed bits.
      * @param size Size to set the bit vector to
      *
-     * @return the newly created <tt>BitVector</tt> instance.
+     * @return the newly created <code>BitVector</code> instance.
      */
     public static BitVector createBitVector(byte[] data, int size) {
         BitVector bv = new BitVector(data.length * 8);
@@ -77,12 +77,12 @@ public class BitVector {
     }
 
     /**
-     * Factory method for creating a <tt>BitVector</tt> instance
+     * Factory method for creating a <code>BitVector</code> instance
      * wrapping the given byte data.
      *
      * @param data a byte[] containing packed bits.
      *
-     * @return the newly created <tt>BitVector</tt> instance.
+     * @return the newly created <code>BitVector</code> instance.
      */
     public static BitVector createBitVector(byte[] data) {
         BitVector bv = new BitVector(data.length * 8);
@@ -102,7 +102,7 @@ public class BitVector {
     }
 
     /**
-     * Tests if this <tt>BitVector</tt> has
+     * Tests if this <code>BitVector</code> has
      * the LSB (rightmost) as the first bit
      * (i.e. at index 0).
      *
@@ -113,7 +113,7 @@ public class BitVector {
     }
 
     /**
-     * Tests if this <tt>BitVector</tt> has
+     * Tests if this <code>BitVector</code> has
      * the MSB (leftmost) as the first bit
      * (i.e. at index 0).
      *
@@ -124,11 +124,11 @@ public class BitVector {
     }
 
     /**
-     * Returns the <tt>byte[]</tt> which is used to store
-     * the bits of this <tt>BitVector</tt>.
-     * <p>
+     * Returns the <code>byte[]</code> which is used to store
+     * the bits of this <code>BitVector</code>.
      *
-     * @return the <tt>byte[]</tt> used to store the bits.
+     *
+     * @return the <code>byte[]</code> used to store the bits.
      */
     public final synchronized byte[] getBytes() {
         byte[] dest = new byte[data.length];
@@ -137,22 +137,22 @@ public class BitVector {
     }
 
     /**
-     * Sets the <tt>byte[]</tt> which stores
-     * the bits of this <tt>BitVector</tt>.
-     * <p>
+     * Sets the <code>byte[]</code> which stores
+     * the bits of this <code>BitVector</code>.
      *
-     * @param data a <tt>byte[]</tt>.
+     *
+     * @param data a <code>byte[]</code>.
      */
     public synchronized void setBytes(byte[] data) {
         System.arraycopy(data, 0, this.data, 0, data.length);
     }
 
     /**
-     * Sets the <tt>byte[]</tt> which stores
-     * the bits of this <tt>BitVector</tt>.
-     * <p>
+     * Sets the <code>byte[]</code> which stores
+     * the bits of this <code>BitVector</code>.
      *
-     * @param data a <tt>byte[]</tt>.
+     *
+     * @param data a <code>byte[]</code>.
      * @param size Size to set the bit vector to
      */
     public void setBytes(byte[] data, int size) {
@@ -162,8 +162,8 @@ public class BitVector {
 
     /**
      * Returns the state of the bit at the given index of this
-     * <tt>BitVector</tt>.
-     * <p>
+     * <code>BitVector</code>.
+     *
      *
      * @param index the index of the bit to be returned.
      *
@@ -182,8 +182,8 @@ public class BitVector {
 
     /**
      * Sets the state of the bit at the given index of
-     * this <tt>BitVector</tt>.
-     * <p>
+     * this <code>BitVector</code>.
+     *
      *
      * @param index the index of the bit to be set.
      * @param b     true if the bit should be set, false if it should be reset.
@@ -202,18 +202,18 @@ public class BitVector {
     }
 
     /**
-     * Returns the number of bits in this <tt>BitVector</tt>
-     * as <tt>int</tt>.
-     * <p>
+     * Returns the number of bits in this <code>BitVector</code>
+     * as <code>int</code>.
      *
-     * @return the number of bits in this <tt>BitVector</tt>.
+     *
+     * @return the number of bits in this <code>BitVector</code>.
      */
     public int size() {
         return size;
     }
 
     /**
-     * Forces the number of bits in this <tt>BitVector</tt>.
+     * Forces the number of bits in this <code>BitVector</code>.
      *
      * @param size Size to set the bit vector to
      *
@@ -231,25 +231,25 @@ public class BitVector {
 
     /**
      * Returns the number of bytes used to store the
-     * collection of bits as <tt>int</tt>.
-     * <p>
+     * collection of bits as <code>int</code>.
      *
-     * @return the number of bits in this <tt>BitVector</tt>.
+     *
+     * @return the number of bits in this <code>BitVector</code>.
      */
     public int byteSize() {
         return data.length;
     }
 
     /**
-     * Returns a <tt>String</tt> representing the
+     * Returns a <code>String</code> representing the
      * contents of the bit collection in a way that
      * can be printed to a screen or log.
-     * <p>
+     *
      * Note that this representation will <em>ALLWAYS</em>
      * show the MSB to the left and the LSB to the right
      * in each byte.
      *
-     * @return a <tt>String</tt> representing this <tt>BitVector</tt>.
+     * @return a <code>String</code> representing this <code>BitVector</code>.
      */
     public String toString() {
         StringBuilder sbuf = new StringBuilder();
@@ -270,7 +270,7 @@ public class BitVector {
     /**
      * Returns the index of the byte in the the byte array
      * that contains the given bit.
-     * <p>
+     *
      *
      * @param index the index of the bit.
      *
@@ -292,7 +292,7 @@ public class BitVector {
     /**
      * Returns the index of the given bit in the byte
      * where it it stored.
-     * <p>
+     *
      *
      * @param index the index of the bit.
      *

@@ -44,8 +44,8 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
     @Test
     public void testReadCoils() {
         try {
-            assertTrue("Incorrect status for coil 0", master.readCoils(UNIT_ID, 0, 1).getBit(0));
-            assertFalse("Incorrect status for coil 1", master.readCoils(UNIT_ID, 1, 1).getBit(0));
+            assertTrue("Incorrect status for coil 0", master.readCoils(SUBNET_ID, UNIT_ID, 0, 1).getBit(0));
+            assertFalse("Incorrect status for coil 1", master.readCoils(SUBNET_ID, UNIT_ID, 1, 1).getBit(0));
         }
         catch (Exception e) {
             fail(String.format("Cannot read - %s", e.getMessage()));
@@ -55,7 +55,7 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
     @Test
     public void testReadInvalidCoil() {
         try {
-            master.readCoils(UNIT_ID, 3, 1);
+            master.readCoils(SUBNET_ID, UNIT_ID, 3, 1);
             fail("Invalid address not thrown");
         }
         catch (ModbusSlaveException e) {
@@ -69,8 +69,8 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
     @Test
     public void testReadDiscretes() {
         try {
-            assertFalse("Incorrect status for discrete 1", master.readInputDiscretes(UNIT_ID, 0, 1).getBit(0));
-            assertTrue("Incorrect status for discrete 2", master.readInputDiscretes(UNIT_ID, 1, 1).getBit(0));
+            assertFalse("Incorrect status for discrete 1", master.readInputDiscretes(SUBNET_ID, UNIT_ID, 0, 1).getBit(0));
+            assertTrue("Incorrect status for discrete 2", master.readInputDiscretes(SUBNET_ID, UNIT_ID, 1, 1).getBit(0));
         }
         catch (Exception e) {
             fail(String.format("Cannot read - %s", e.getMessage()));
@@ -80,7 +80,7 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
     @Test
     public void testReadInvalidDiscretes() {
         try {
-            master.readInputDiscretes(UNIT_ID, 9, 1);
+            master.readInputDiscretes(SUBNET_ID, UNIT_ID, 9, 1);
             fail("Failed check for missing discrete 9");
         }
         catch (ModbusSlaveException e) {
@@ -94,7 +94,7 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
     @Test
     public void testReadInputRegisters() {
         try {
-            assertEquals("Incorrect value for input register 1", 45, master.readInputRegisters(UNIT_ID, 0, 1)[0].getValue());
+            assertEquals("Incorrect value for input register 1", 45, master.readInputRegisters(SUBNET_ID, UNIT_ID, 0, 1)[0].getValue());
         }
         catch (Exception e) {
             fail(String.format("Cannot read - %s", e.getMessage()));
@@ -104,7 +104,7 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
     @Test
     public void testReadInvalidInputRegisters() {
         try {
-            master.readInputRegisters(UNIT_ID, 6, 1);
+            master.readInputRegisters(SUBNET_ID, UNIT_ID, 6, 1);
             fail("Failed check for missing register 6");
         }
         catch (ModbusSlaveException e) {
@@ -118,7 +118,7 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
     @Test
     public void testReadHoldingRegisters() {
         try {
-            assertEquals("Incorrect value for holding register 1", 251, master.readMultipleRegisters(UNIT_ID, 0, 1)[0].getValue());
+            assertEquals("Incorrect value for holding register 1", 251, master.readMultipleRegisters(SUBNET_ID, UNIT_ID, 0, 1)[0].getValue());
         }
         catch (Exception e) {
             fail(String.format("Cannot read - %s", e.getMessage()));
@@ -128,7 +128,7 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
     @Test
     public void testReadInvalidHoldingRegisters() {
         try {
-            master.readMultipleRegisters(UNIT_ID, 5, 1);
+            master.readMultipleRegisters(SUBNET_ID, UNIT_ID, 5, 1);
             fail("Failed check for missing holding register 5");
         }
         catch (ModbusSlaveException e) {
@@ -142,7 +142,7 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
     @Test
     public void testReadMultipleInputRegisters() {
         try {
-            InputRegister[] regs = master.readInputRegisters(UNIT_ID, 0, 5);
+            InputRegister[] regs = master.readInputRegisters(SUBNET_ID, UNIT_ID, 0, 5);
             assertEquals("Failed to read multiple input register 1 length 5", 45, regs[0].getValue());
             assertEquals("Failed to read multiple input register 2 length 5", 9999, regs[1].getValue());
             assertEquals("Failed to read multiple input register 3 length 5", 8888, regs[2].getValue());
@@ -157,7 +157,7 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
     @Test
     public void testReadMultipleHoldingRegisters() {
         try {
-            InputRegister[] regs = master.readMultipleRegisters(UNIT_ID, 0, 5);
+            InputRegister[] regs = master.readMultipleRegisters(SUBNET_ID, UNIT_ID, 0, 5);
             assertEquals("Failed to read multiple holding register 1 length 5", 251, regs[0].getValue());
             assertEquals("Failed to read multiple holding register 2 length 5", 1111, regs[1].getValue());
             assertEquals("Failed to read multiple holding register 3 length 5", 2222, regs[2].getValue());
@@ -172,7 +172,7 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
     @Test
     public void testBadUnitIdRequest() {
         try {
-            master.readCoils(UNIT_ID + 10, 0, 1);
+            master.readCoils(SUBNET_ID, UNIT_ID + 10, 0, 1);
             fail("Failed check for invalid Unit ID");
         }
         catch (Exception e) {
@@ -207,7 +207,7 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
         ModbusSerialMaster master = new ModbusSerialMaster(parameters, 1000);
         try {
             master.connect();
-            master.readInputRegisters(UNIT_ID, 0, 5);
+            master.readInputRegisters(SUBNET_ID, UNIT_ID, 0, 5);
             fail("Shoudn't be able to read port");
         }
         catch (Exception e) {
@@ -220,7 +220,7 @@ public class TestModbusSerialRTUMasterRead extends AbstractTestModbusSerialRTUMa
         EventListener eventListener = new EventListener();
         ((ModbusSerialTransport) master.getTransport()).addListener(eventListener);
         try {
-            master.readCoils(UNIT_ID, 0, 1);
+            master.readCoils(SUBNET_ID, UNIT_ID, 0, 1);
         }
         catch (Exception e) {
             fail(String.format("Cannot read - %s", e.getMessage()));

@@ -27,7 +27,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>Read FIFO Queue</tt> request.
+ * Class implementing a <code>Read FIFO Queue</code> request.
  *
  * @author Julie Haugh (jfh@ghgande.com)
  * @author jfhaugh (jfh@ghgande.com)
@@ -39,7 +39,7 @@ public class ReadFIFOQueueRequest extends ModbusRequest {
     private int reference;
 
     /**
-     * Constructs a new <tt>Read FIFO Queue</tt> request instance.
+     * Constructs a new <code>Read FIFO Queue</code> request instance.
      */
     public ReadFIFOQueueRequest() {
         super();

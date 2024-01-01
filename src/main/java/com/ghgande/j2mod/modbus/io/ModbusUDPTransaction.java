@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class implementing the <tt>ModbusTransaction</tt>
+ * Class implementing the <code>ModbusTransaction</code>
  * interface for the UDP transport mechanism.
  *
  * @author Dieter Wimberger
@@ -43,53 +43,53 @@ public class ModbusUDPTransaction extends ModbusTransaction {
     private AbstractUDPTerminal terminal;
 
     /**
-     * Constructs a new <tt>ModbusUDPTransaction</tt>
+     * Constructs a new <code>ModbusUDPTransaction</code>
      * instance.
      */
     public ModbusUDPTransaction() {
     }
 
     /**
-     * Constructs a new <tt>ModbusUDPTransaction</tt>
-     * instance with a given <tt>ModbusRequest</tt> to
+     * Constructs a new <code>ModbusUDPTransaction</code>
+     * instance with a given <code>ModbusRequest</code> to
      * be send when the transaction is executed.
-     * <p>
      *
-     * @param request a <tt>ModbusRequest</tt> instance.
+     *
+     * @param request a <code>ModbusRequest</code> instance.
      */
     public ModbusUDPTransaction(ModbusRequest request) {
         setRequest(request);
     }
 
     /**
-     * Constructs a new <tt>ModbusUDPTransaction</tt>
-     * instance with a given <tt>UDPTerminal</tt> to
+     * Constructs a new <code>ModbusUDPTransaction</code>
+     * instance with a given <code>UDPTerminal</code> to
      * be used for transactions.
-     * <p>
      *
-     * @param terminal a <tt>UDPTerminal</tt> instance.
+     *
+     * @param terminal a <code>UDPTerminal</code> instance.
      */
     public ModbusUDPTransaction(AbstractUDPTerminal terminal) {
         setTerminal(terminal);
     }
 
     /**
-     * Constructs a new <tt>ModbusUDPTransaction</tt>
-     * instance with a given <tt>ModbusUDPConnection</tt>
+     * Constructs a new <code>ModbusUDPTransaction</code>
+     * instance with a given <code>ModbusUDPConnection</code>
      * to be used for transactions.
-     * <p>
      *
-     * @param con a <tt>ModbusUDPConnection</tt> instance.
+     *
+     * @param con a <code>ModbusUDPConnection</code> instance.
      */
     public ModbusUDPTransaction(UDPMasterConnection con) {
         setTerminal(con.getTerminal());
     }
 
     /**
-     * Sets the terminal on which this <tt>ModbusTransaction</tt>
-     * should be executed.<p>
+     * Sets the terminal on which this <code>ModbusTransaction</code>
+     * should be executed.
      *
-     * @param terminal a <tt>UDPSlaveTerminal</tt>.
+     * @param terminal a <code>UDPSlaveTerminal</code>.
      */
     public void setTerminal(AbstractUDPTerminal terminal) {
         this.terminal = terminal;
@@ -156,7 +156,7 @@ public class ModbusUDPTransaction extends ModbusTransaction {
     }
 
     /**
-     * Asserts if this <tt>ModbusTCPTransaction</tt> is
+     * Asserts if this <code>ModbusTCPTransaction</code> is
      * executable.
      *
      * @throws ModbusException if this transaction cannot be

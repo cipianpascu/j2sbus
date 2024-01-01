@@ -32,10 +32,10 @@ public class BytesOutputStream extends FastByteArrayOutputStream implements Data
     private final DataOutputStream dataOutputStream;
 
     /**
-     * Constructs a new <tt>BytesOutputStream</tt> instance with
+     * Constructs a new <code>BytesOutputStream</code> instance with
      * a new output buffer of the given size.
      *
-     * @param size the size of the output buffer as <tt>int</tt>.
+     * @param size the size of the output buffer as <code>int</code>.
      */
     public BytesOutputStream(int size) {
         super(size);
@@ -43,10 +43,10 @@ public class BytesOutputStream extends FastByteArrayOutputStream implements Data
     }
 
     /**
-     * Constructs a new <tt>BytesOutputStream</tt> instance with
+     * Constructs a new <code>BytesOutputStream</code> instance with
      * a given output buffer.
      *
-     * @param buffer the output buffer as <tt>byte[]</tt>.
+     * @param buffer the output buffer as <code>byte[]</code>.
      */
     public BytesOutputStream(byte[] buffer) {
         buf = buffer;
@@ -57,7 +57,7 @@ public class BytesOutputStream extends FastByteArrayOutputStream implements Data
     /**
      * Returns the reference to the output buffer.
      *
-     * @return the reference to the <tt>byte[]</tt> output buffer.
+     * @return the reference to the <code>byte[]</code> output buffer.
      */
     public synchronized byte[] getBuffer() {
         byte[] dest = new byte[buf.length];

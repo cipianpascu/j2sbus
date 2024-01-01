@@ -20,10 +20,10 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>WriteMultipleCoilsResponse</tt>. The implementation
+ * Class implementing a <code>WriteMultipleCoilsResponse</code>. The implementation
  * directly correlates with the class 1 function <i>write multiple coils (FC
  * 15)</i>. It encapsulates the corresponding response message.
- * <p>
+ *
  * Coils are understood as bits that can be manipulated (i.e. set or cleared).
  *
  * @author Dieter Wimberger
@@ -38,9 +38,9 @@ public class WriteMultipleCoilsResponse extends ModbusResponse {
     private int bitCount;
 
     /**
-     * Constructs a new <tt>WriteMultipleCoilsResponse</tt> instance with a
+     * Constructs a new <code>WriteMultipleCoilsResponse</code> instance with a
      * given count of coils and starting reference.
-     * <p>
+     *
      *
      * @param ref   the offset to begin writing from.
      * @param count the number of coils to be written.
@@ -53,7 +53,7 @@ public class WriteMultipleCoilsResponse extends ModbusResponse {
     }
 
     /**
-     * Constructs a new <tt>WriteMultipleCoilsResponse</tt> instance.
+     * Constructs a new <code>WriteMultipleCoilsResponse</code> instance.
      */
     public WriteMultipleCoilsResponse() {
         super();
@@ -62,10 +62,10 @@ public class WriteMultipleCoilsResponse extends ModbusResponse {
 
     /**
      * getReference - Returns the reference of the coil to start reading from
-     * with this <tt>WriteMultipleCoilsResponse</tt>.
-     * <p>
+     * with this <code>WriteMultipleCoilsResponse</code>.
      *
-     * @return the reference of the coil to start reading from as <tt>int</tt>.
+     *
+     * @return the reference of the coil to start reading from as <code>int</code>.
      */
     public int getReference() {
         return reference;
@@ -83,7 +83,7 @@ public class WriteMultipleCoilsResponse extends ModbusResponse {
 
     /**
      * getBitCount - Returns the quantity of coils written with the request.
-     * <p>
+     *
      *
      * @return the quantity of coils that have been written.
      */

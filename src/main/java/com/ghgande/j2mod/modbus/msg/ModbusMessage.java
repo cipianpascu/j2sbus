@@ -29,72 +29,84 @@ import java.io.IOException;
 public interface ModbusMessage {
 
     /**
-     * Check the flag which indicates that this <tt>ModbusMessage</tt> is for a
+     * Check the flag which indicates that this <code>ModbusMessage</code> is for a
      * headless (serial, or headless networked) connection.
      * @return is for a headless (serial, or headless networked) connection
      */
     boolean isHeadless();
 
     /**
-     * Sets the flag that marks this <tt>ModbusMessage</tt> as headless (for
+     * Sets the flag that marks this <code>ModbusMessage</code> as headless (for
      * serial transport).
      */
     void setHeadless();
 
     /**
-     * Returns the transaction identifier of this <tt>ModbusMessage</tt> as
-     * <tt>int</tt>.
+     * Returns the transaction identifier of this <code>ModbusMessage</code> as
+     * <code>int</code>.
      *
-     * <p>
+     *
      * The identifier is a 2-byte (short) non negative integer value valid in
      * the range of 0-65535.
      *
-     * @return the transaction identifier as <tt>int</tt>.
+     * @return the transaction identifier as <code>int</code>.
      */
     int getTransactionID();
 
     /**
-     * Returns the protocol identifier of this <tt>ModbusMessage</tt> as
-     * <tt>int</tt>.
+     * Returns the protocol identifier of this <code>ModbusMessage</code> as
+     * <code>int</code>.
      *
-     * <p>
+     *
      * The identifier is a 2-byte (short) non negative integer value valid in
      * the range of 0-65535.
      *
-     * @return the protocol identifier as <tt>int</tt>.
+     * @return the protocol identifier as <code>int</code>.
      */
     int getProtocolID();
 
     /**
      * Returns the length of the data appended after the protocol header.
-     * <p>
      *
-     * @return the data length as <tt>int</tt>.
+     *
+     * @return the data length as <code>int</code>.
      */
     int getDataLength();
 
     /**
-     * Returns the unit identifier of this <tt>ModbusMessage</tt> as
-     * <tt>int</tt>.
+     * Returns the subnet identifier of this <code>ModbusMessage</code> as
+     * <code>int</code>.
      *
-     * <p>
+     *
      * The identifier is a 1-byte non negative integer value valid in the range
      * of 0-255.
      *
-     * @return the unit identifier as <tt>int</tt>.
+     * @return the subnet identifier as <code>int</code>.
+     */
+    int getSubnetID();
+
+    /**
+     * Returns the unit identifier of this <code>ModbusMessage</code> as
+     * <code>int</code>.
+     *
+     *
+     * The identifier is a 1-byte non negative integer value valid in the range
+     * of 0-255.
+     *
+     * @return the unit identifier as <code>int</code>.
      */
     int getUnitID();
 
     /**
-     * Returns the function code of this <tt>ModbusMessage</tt> as <tt>int</tt>.<br>
+     * Returns the function code of this <code>ModbusMessage</code> as <code>int</code>.<br>
      * The function code is a 1-byte non negative integer value valid in the
      * range of 0-127.
      *
-     * <p>
-     * Function codes are ordered in conformance classes their values are
-     * specified in <tt>com.ghgande.j2mod.modbus.Modbus</tt>.
      *
-     * @return the function code as <tt>int</tt>.
+     * Function codes are ordered in conformance classes their values are
+     * specified in <code>com.ghgande.j2mod.modbus.Modbus</code>.
+     *
+     * @return the function code as <code>int</code>.
      *
      * @see com.ghgande.j2mod.modbus.Modbus
      */
@@ -102,21 +114,21 @@ public interface ModbusMessage {
 
     /**
      * Returns the <i>raw</i> message as an array of bytes.
-     * <p>
      *
-     * @return the <i>raw</i> message as <tt>byte[]</tt>.
+     *
+     * @return the <i>raw</i> message as <code>byte[]</code>.
      */
     byte[] getMessage();
 
     /**
-     * Returns the <i>raw</i> message as <tt>String</tt> containing a
+     * Returns the <i>raw</i> message as <code>String</code> containing a
      * hexadecimal series of bytes.
      *
-     * <p>
+     *
      * This method is specially for debugging purposes, allowing the user to log
      * the communication in a manner used in the specification document.
      *
-     * @return the <i>raw</i> message as <tt>String</tt> containing a
+     * @return the <i>raw</i> message as <code>String</code> containing a
      * hexadecimal series of bytes.
      */
     String getHexMessage();
@@ -125,25 +137,25 @@ public interface ModbusMessage {
      * Returns the number of bytes that will
      * be written by {@link #writeTo(DataOutput)}.
      *
-     * @return the number of bytes that will be written as <tt>int</tt>.
+     * @return the number of bytes that will be written as <code>int</code>.
      */
     int getOutputLength();
 
     /**
-     * Writes this <tt>Transportable</tt> to the
-     * given <tt>DataOutput</tt>.
+     * Writes this <code>Transportable</code> to the
+     * given <code>DataOutput</code>.
      *
-     * @param dout the <tt>DataOutput</tt> to write to.
+     * @param dout the <code>DataOutput</code> to write to.
      *
      * @throws java.io.IOException if an I/O error occurs.
      */
     void writeTo(DataOutput dout) throws IOException;
 
     /**
-     * Reads this <tt>Transportable</tt> from the given
-     * <tt>DataInput</tt>.
+     * Reads this <code>Transportable</code> from the given
+     * <code>DataInput</code>.
      *
-     * @param din the <tt>DataInput</tt> to read from.
+     * @param din the <code>DataInput</code> to read from.
      *
      * @throws java.io.IOException if an I/O error occurs or the data
      *                             is invalid.

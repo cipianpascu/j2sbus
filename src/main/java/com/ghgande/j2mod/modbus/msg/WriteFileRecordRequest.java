@@ -26,7 +26,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>Write File Record</tt> request.
+ * Class implementing a <code>Write File Record</code> request.
  *
  * @author Julie Haugh (jfh@ghgande.com)
  * @author Steve O'Hara (4NG)
@@ -36,7 +36,7 @@ public class WriteFileRecordRequest extends ModbusRequest {
     private RecordRequest[] records;
 
     /**
-     * Constructs a new <tt>Write File Record</tt> request
+     * Constructs a new <code>Write File Record</code> request
      * instance.
      */
     public WriteFileRecordRequest() {

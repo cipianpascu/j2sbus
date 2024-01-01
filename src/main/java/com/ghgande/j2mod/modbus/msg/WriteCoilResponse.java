@@ -22,7 +22,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>WriteCoilResponse</tt>. The implementation directly
+ * Class implementing a <code>WriteCoilResponse</code>. The implementation directly
  * correlates with the class 0 function <i>write coil (FC 5)</i>. It
  * encapsulates the corresponding response message.
  *
@@ -35,7 +35,7 @@ public class WriteCoilResponse extends ModbusResponse {
     private int reference;
 
     /**
-     * Constructs a new <tt>WriteCoilResponse</tt> instance.
+     * Constructs a new <code>WriteCoilResponse</code> instance.
      */
     public WriteCoilResponse() {
         super();
@@ -45,7 +45,7 @@ public class WriteCoilResponse extends ModbusResponse {
     }
 
     /**
-     * Constructs a new <tt>WriteCoilResponse</tt> instance.
+     * Constructs a new <code>WriteCoilResponse</code> instance.
      *
      * @param reference the offset were writing was started from.
      * @param b         the state of the coil; true set, false reset.
@@ -61,7 +61,7 @@ public class WriteCoilResponse extends ModbusResponse {
     }
 
     /**
-     * Gets the state that has been returned in this <tt>WriteCoilRequest</tt>.
+     * Gets the state that has been returned in this <code>WriteCoilRequest</code>.
      *
      * @return true if the coil is set, false if unset.
      */
@@ -81,7 +81,7 @@ public class WriteCoilResponse extends ModbusResponse {
     /**
      * Returns the reference of the register of the coil that has been written
      * to with the request.
-     * <p>
+     *
      *
      * @return the reference of the coil's register.
      */
@@ -92,7 +92,7 @@ public class WriteCoilResponse extends ModbusResponse {
     /**
      * Sets the reference of the register of the coil that has been written to
      * with the request.
-     * <p>
+     *
      *
      * @param ref the reference of the coil's register.
      */

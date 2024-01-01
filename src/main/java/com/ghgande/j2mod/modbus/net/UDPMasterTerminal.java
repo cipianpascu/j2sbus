@@ -24,7 +24,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 /**
- * Class implementing a <tt>UDPMasterTerminal</tt>.
+ * Class implementing a <code>UDPMasterTerminal</code>.
  *
  * @author Dieter Wimberger
  * @author Steve O'Hara (4NG)

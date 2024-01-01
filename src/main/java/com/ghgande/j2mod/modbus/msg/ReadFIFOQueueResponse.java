@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * Class implementing a <tt>ReadFIFOQueueResponse</tt>.
+ * Class implementing a <code>ReadFIFOQueueResponse</code>.
  *
  * @author Julie Haugh (jfh@ghgande.com)
  * @author Steve O'Hara (4NG)
@@ -38,7 +38,7 @@ public class ReadFIFOQueueResponse extends ModbusResponse {
     private InputRegister[] registers;
 
     /**
-     * Constructs a new <tt>ReadFIFOQueueResponse</tt> instance.
+     * Constructs a new <code>ReadFIFOQueueResponse</code> instance.
      */
     public ReadFIFOQueueResponse() {
         super();

@@ -16,7 +16,7 @@
 package com.ghgande.j2mod.modbus.procimg;
 
 /**
- * Class implementing a simple <tt>DigitalIn</tt>.
+ * Class implementing a simple <code>DigitalIn</code>.
  *
  * @author Dieter Wimberger
  * @author Steve O'Hara (4NG)
@@ -30,13 +30,13 @@ public class SimpleDigitalIn implements DigitalIn {
     protected boolean set = false;
 
     /**
-     * Constructs a new <tt>SimpleDigitalIn</tt> instance.
+     * Constructs a new <code>SimpleDigitalIn</code> instance.
      */
     public SimpleDigitalIn() {
     }
 
     /**
-     * Constructs a new <tt>SimpleDigitalIn</tt> instance
+     * Constructs a new <code>SimpleDigitalIn</code> instance
      * with a given valid state.
      *
      * @param b true if to be set, false otherwise.
@@ -51,7 +51,7 @@ public class SimpleDigitalIn implements DigitalIn {
     }
 
     /**
-     * Sets the state of this <tt>SimpleDigitalIn</tt>.
+     * Sets the state of this <code>SimpleDigitalIn</code>.
      * This method should only be used from master/device
      * side.
      *

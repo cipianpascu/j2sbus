@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class implementing the <tt>ModbusTransaction</tt>
+ * Class implementing the <code>ModbusTransaction</code>
  * interface.
  *
  * @author Dieter Wimberger
@@ -43,40 +43,40 @@ public class ModbusSerialTransaction extends ModbusTransaction {
     private long lastTransactionTimestamp = 0;
 
     /**
-     * Constructs a new <tt>ModbusSerialTransaction</tt>
+     * Constructs a new <code>ModbusSerialTransaction</code>
      * instance.
      */
     public ModbusSerialTransaction() {
     }
 
     /**
-     * Constructs a new <tt>ModbusSerialTransaction</tt>
-     * instance with a given <tt>ModbusRequest</tt> to
+     * Constructs a new <code>ModbusSerialTransaction</code>
+     * instance with a given <code>ModbusRequest</code> to
      * be send when the transaction is executed.
-     * <p>
      *
-     * @param request a <tt>ModbusRequest</tt> instance.
+     *
+     * @param request a <code>ModbusRequest</code> instance.
      */
     public ModbusSerialTransaction(ModbusRequest request) {
         setRequest(request);
     }
 
     /**
-     * Constructs a new <tt>ModbusSerialTransaction</tt>
-     * instance with a given <tt>ModbusRequest</tt> to
+     * Constructs a new <code>ModbusSerialTransaction</code>
+     * instance with a given <code>ModbusRequest</code> to
      * be send when the transaction is executed.
      *
-     * @param con a <tt>TCPMasterConnection</tt> instance.
+     * @param con a <code>TCPMasterConnection</code> instance.
      */
     public ModbusSerialTransaction(AbstractSerialConnection con) {
         setSerialConnection(con);
     }
 
     /**
-     * Sets the port on which this <tt>ModbusTransaction</tt>
+     * Sets the port on which this <code>ModbusTransaction</code>
      * should be executed.
      *
-     * @param con a <tt>SerialConnection</tt>.
+     * @param con a <code>SerialConnection</code>.
      */
     public synchronized void setSerialConnection(AbstractSerialConnection con) {
         transport = con.getModbusTransport();
@@ -105,7 +105,7 @@ public class ModbusSerialTransaction extends ModbusTransaction {
     }
 
     /**
-     * Asserts if this <tt>ModbusTCPTransaction</tt> is
+     * Asserts if this <code>ModbusTCPTransaction</code> is
      * executable.
      *
      * @throws ModbusException if the transaction cannot be asserted.

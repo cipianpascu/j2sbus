@@ -129,7 +129,7 @@ public class ModbusTCPMaster extends AbstractModbusMaster {
     }
 
     /**
-     * Connects this <tt>ModbusTCPMaster</tt> with the slave.
+     * Connects this <code>ModbusTCPMaster</code> with the slave.
      *
      * @throws Exception if the connection cannot be established.
      */
@@ -144,7 +144,7 @@ public class ModbusTCPMaster extends AbstractModbusMaster {
     }
 
     /**
-     * Disconnects this <tt>ModbusTCPMaster</tt> from the slave.
+     * Disconnects this <code>ModbusTCPMaster</code> from the slave.
      */
     @Override
     public synchronized void disconnect() {

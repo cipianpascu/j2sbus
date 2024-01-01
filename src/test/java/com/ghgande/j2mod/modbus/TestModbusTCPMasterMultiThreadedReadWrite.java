@@ -69,7 +69,7 @@ public class TestModbusTCPMasterMultiThreadedReadWrite extends AbstractTestModbu
         public void run() {
             try {
                 if (type == TaskType.READ) {
-                    InputRegister[] res = master.readInputRegisters(UNIT_ID, 0, 1);
+                    InputRegister[] res = master.readInputRegisters(SUBNET_ID, UNIT_ID, 0, 1);
                     if (res == null || res.length == 0) {
                         logger.error("No read response");
                     }
@@ -81,7 +81,7 @@ public class TestModbusTCPMasterMultiThreadedReadWrite extends AbstractTestModbu
                     }
                 }
                 else if (type == TaskType.WRITE) {
-                    int res = master.writeSingleRegister(UNIT_ID, 1, new SimpleInputRegister(45));
+                    int res = master.writeSingleRegister(SUBNET_ID, UNIT_ID, 1, new SimpleInputRegister(45));
                     if (res != 45) {
                         logger.error("No write response");
                     }

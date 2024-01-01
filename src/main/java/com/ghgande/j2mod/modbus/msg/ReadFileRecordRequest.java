@@ -26,7 +26,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>Read File Record</tt> request.
+ * Class implementing a <code>Read File Record</code> request.
  *
  * @author Julie Haugh (jfh@ghgande.com)
  * @author Steve O'Hara (4NG)
@@ -36,7 +36,7 @@ public class ReadFileRecordRequest extends ModbusRequest {
     private RecordRequest[] records;
 
     /**
-     * Constructs a new <tt>Read File Record</tt> request instance.
+     * Constructs a new <code>Read File Record</code> request instance.
      */
     public ReadFileRecordRequest() {
         super();

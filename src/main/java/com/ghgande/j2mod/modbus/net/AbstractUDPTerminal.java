@@ -22,7 +22,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 /**
- * Interface defining a <tt>UDPTerminal</tt>.
+ * Interface defining a <code>UDPTerminal</code>.
  *
  * @author Dieter Wimberger
  * @author Steve O'Hara (4NG)
@@ -65,18 +65,18 @@ public abstract class AbstractUDPTerminal {
     }
 
     /**
-     * Tests if this <tt>UDPSlaveTerminal</tt> is active.
+     * Tests if this <code>UDPSlaveTerminal</code> is active.
      *
-     * @return <tt>true</tt> if active, <tt>false</tt> otherwise.
+     * @return <code>true</code> if active, <code>false</code> otherwise.
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * Sets the timeout in milliseconds for this <tt>UDPSlaveTerminal</tt>.
+     * Sets the timeout in milliseconds for this <code>UDPSlaveTerminal</code>.
      *
-     * @param timeout the timeout as <tt>int</tt>.
+     * @param timeout the timeout as <code>int</code>.
      */
     public synchronized void setTimeout(int timeout) {
         this.timeout = timeout;
@@ -91,21 +91,21 @@ public abstract class AbstractUDPTerminal {
     }
 
     /**
-     * Activate this <tt>UDPTerminal</tt>.
+     * Activate this <code>UDPTerminal</code>.
      *
      * @throws java.lang.Exception if there is a network failure.
      */
     public abstract void activate() throws Exception;
 
     /**
-     * Deactivates this <tt>UDPTerminal</tt>.
+     * Deactivates this <code>UDPTerminal</code>.
      */
     public abstract void deactivate();
 
     /**
      * Sends the given message.
      *
-     * @param msg the message as <tt>byte[]</tt>.
+     * @param msg the message as <code>byte[]</code>.
      *
      * @throws Exception if sending the message fails.
      */
@@ -114,7 +114,7 @@ public abstract class AbstractUDPTerminal {
     /**
      * Receives and returns a message.
      *
-     * @return the message as a newly allocated <tt>byte[]</tt>.
+     * @return the message as a newly allocated <code>byte[]</code>.
      *
      * @throws Exception if receiving a message fails.
      */

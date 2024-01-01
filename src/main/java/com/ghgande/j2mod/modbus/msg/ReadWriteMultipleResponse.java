@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * Class implementing a <tt>ReadWriteMultipleResponse</tt>.
+ * Class implementing a <code>ReadWriteMultipleResponse</code>.
  *
  * @author Julie (jfh@ghgande.com)
  * @author Steve O'Hara (4NG)
@@ -38,7 +38,7 @@ public class ReadWriteMultipleResponse extends ModbusResponse {
     private InputRegister[] registers;
 
     /**
-     * Constructs a new <tt>ReadWriteMultipleResponse</tt> instance.
+     * Constructs a new <code>ReadWriteMultipleResponse</code> instance.
      *
      * @param registers the Register[] holding response registers.
      */
@@ -53,7 +53,7 @@ public class ReadWriteMultipleResponse extends ModbusResponse {
     }
 
     /**
-     * Constructs a new <tt>ReadWriteMultipleResponse</tt> instance.
+     * Constructs a new <code>ReadWriteMultipleResponse</code> instance.
      *
      * @param count the number of Register[] holding response registers.
      */
@@ -68,7 +68,7 @@ public class ReadWriteMultipleResponse extends ModbusResponse {
     }
 
     /**
-     * Constructs a new <tt>ReadWriteMultipleResponse</tt> instance.
+     * Constructs a new <code>ReadWriteMultipleResponse</code> instance.
      */
     public ReadWriteMultipleResponse() {
         super();
@@ -79,7 +79,7 @@ public class ReadWriteMultipleResponse extends ModbusResponse {
     /**
      * Returns the number of bytes that have been read.
      *
-     * @return the number of bytes that have been read as <tt>int</tt>.
+     * @return the number of bytes that have been read as <code>int</code>.
      */
     public int getByteCount() {
         return byteCount;
@@ -88,21 +88,21 @@ public class ReadWriteMultipleResponse extends ModbusResponse {
     /**
      * Returns the number of words that have been read. The returned value
      * should be half of the the byte count of this
-     * <tt>ReadWriteMultipleResponse</tt>.
+     * <code>ReadWriteMultipleResponse</code>.
      *
-     * @return the number of words that have been read as <tt>int</tt>.
+     * @return the number of words that have been read as <code>int</code>.
      */
     public int getWordCount() {
         return byteCount / 2;
     }
 
     /**
-     * Returns the <tt>Register</tt> at the given position (relative to the
+     * Returns the <code>Register</code> at the given position (relative to the
      * reference used in the request).
      *
-     * @param index the relative index of the <tt>InputRegister</tt>.
+     * @param index the relative index of the <code>InputRegister</code>.
      *
-     * @return the register as <tt>InputRegister</tt>.
+     * @return the register as <code>InputRegister</code>.
      *
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
@@ -129,7 +129,7 @@ public class ReadWriteMultipleResponse extends ModbusResponse {
      * @param index the relative index of the register for which the value should
      *              be retrieved.
      *
-     * @return the value as <tt>int</tt>.
+     * @return the value as <code>int</code>.
      *
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
@@ -140,7 +140,7 @@ public class ReadWriteMultipleResponse extends ModbusResponse {
     /**
      * Returns the reference to the array of registers read.
      *
-     * @return a <tt>InputRegister[]</tt> instance.
+     * @return a <code>InputRegister[]</code> instance.
      */
     public synchronized InputRegister[] getRegisters() {
         InputRegister[] dest = new InputRegister[registers.length];

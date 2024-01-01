@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * Class implementing a <tt>ReadMultipleRegistersResponse</tt>. The
+ * Class implementing a <code>ReadMultipleRegistersResponse</code>. The
  * implementation directly correlates with the class 0 function <i>read multiple
  * registers (FC 3)</i>. It encapsulates the corresponding response message.
  *
@@ -41,7 +41,7 @@ public class ReadMultipleRegistersResponse extends ModbusResponse {
     private Register[] registers;
 
     /**
-     * Constructs a new <tt>ReadMultipleRegistersResponse</tt> instance.
+     * Constructs a new <code>ReadMultipleRegistersResponse</code> instance.
      */
     public ReadMultipleRegistersResponse() {
         super();
@@ -49,7 +49,7 @@ public class ReadMultipleRegistersResponse extends ModbusResponse {
     }
 
     /**
-     * Constructs a new <tt>ReadInputRegistersResponse</tt> instance.
+     * Constructs a new <code>ReadInputRegistersResponse</code> instance.
      *
      * @param registers the Register[] holding response registers.
      */
@@ -66,7 +66,7 @@ public class ReadMultipleRegistersResponse extends ModbusResponse {
     /**
      * Returns the number of bytes that have been read.
      *
-     * @return the number of bytes that have been read as <tt>int</tt>.
+     * @return the number of bytes that have been read as <code>int</code>.
      */
     public int getByteCount() {
         return byteCount;
@@ -75,21 +75,21 @@ public class ReadMultipleRegistersResponse extends ModbusResponse {
     /**
      * Returns the number of words that have been read. The returned value
      * should be half of the the byte count of this
-     * <tt>ReadMultipleRegistersResponse</tt>.
+     * <code>ReadMultipleRegistersResponse</code>.
      *
-     * @return the number of words that have been read as <tt>int</tt>.
+     * @return the number of words that have been read as <code>int</code>.
      */
     public int getWordCount() {
         return byteCount / 2;
     }
 
     /**
-     * Returns the <tt>Register</tt> at the given position (relative to the
+     * Returns the <code>Register</code> at the given position (relative to the
      * reference used in the request).
      *
-     * @param index the relative index of the <tt>Register</tt>.
+     * @param index the relative index of the <code>Register</code>.
      *
-     * @return the register as <tt>Register</tt>.
+     * @return the register as <code>Register</code>.
      *
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
@@ -116,7 +116,7 @@ public class ReadMultipleRegistersResponse extends ModbusResponse {
      * @param index the relative index of the register for which the value should
      *              be retrieved.
      *
-     * @return the value as <tt>int</tt>.
+     * @return the value as <code>int</code>.
      *
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
@@ -127,7 +127,7 @@ public class ReadMultipleRegistersResponse extends ModbusResponse {
     /**
      * Returns the reference to the array of registers read.
      *
-     * @return a <tt>Register[]</tt> instance.
+     * @return a <code>Register[]</code> instance.
      */
     public synchronized Register[] getRegisters() {
         Register[] dest = new Register[registers.length];

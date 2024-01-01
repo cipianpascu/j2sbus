@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * Class implementing a <tt>Read / Write Multiple Registers</tt> request.
+ * Class implementing a <code>Read / Write Multiple Registers</code> request.
  *
  * @author Julie Haugh
  * @author Julie Haugh
@@ -42,7 +42,7 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
     private Register[] registers;
 
     /**
-     * Constructs a new <tt>Read/Write Multiple Registers Request</tt> instance.
+     * Constructs a new <code>Read/Write Multiple Registers Request</code> instance.
      * @param unit Unit ID
      * @param readRef Register to read
      * @param writeCount Number of registers to write
@@ -69,7 +69,7 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
     }
 
     /**
-     * Constructs a new <tt>Read/Write Multiple Registers Request</tt> instance.
+     * Constructs a new <code>Read/Write Multiple Registers Request</code> instance.
      * @param unit Unit ID
      */
     public ReadWriteMultipleRequest(int unit) {
@@ -83,7 +83,7 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
     }
 
     /**
-     * Constructs a new <tt>Read/Write Multiple Registers Request</tt> instance.
+     * Constructs a new <code>Read/Write Multiple Registers Request</code> instance.
      */
     public ReadWriteMultipleRequest() {
         super();
@@ -134,10 +134,10 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
     }
     /**
      * getReadReference - Returns the reference of the register to start writing
-     * to with this <tt>ReadWriteMultipleRequest</tt>.
-     * <p>
+     * to with this <code>ReadWriteMultipleRequest</code>.
      *
-     * @return the reference of the register to start writing to as <tt>int</tt>
+     *
+     * @return the reference of the register to start writing to as <code>int</code>
      * .
      */
     public int getReadReference() {
@@ -146,11 +146,11 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
 
     /**
      * setReadReference - Sets the reference of the register to writing to with
-     * this <tt>ReadWriteMultipleRequest</tt>.
-     * <p>
+     * this <code>ReadWriteMultipleRequest</code>.
+     *
      *
      * @param ref the reference of the register to start writing to as
-     *            <tt>int</tt>.
+     *            <code>int</code>.
      */
     public void setReadReference(int ref) {
         readReference = ref;
@@ -158,10 +158,10 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
 
     /**
      * getWriteReference - Returns the reference of the register to start
-     * writing to with this <tt>ReadWriteMultipleRequest</tt>.
-     * <p>
+     * writing to with this <code>ReadWriteMultipleRequest</code>.
      *
-     * @return the reference of the register to start writing to as <tt>int</tt>
+     *
+     * @return the reference of the register to start writing to as <code>int</code>
      * .
      */
     public int getWriteReference() {
@@ -170,11 +170,11 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
 
     /**
      * setWriteReference - Sets the reference of the register to write to with
-     * this <tt>ReadWriteMultipleRequest</tt>.
-     * <p>
+     * this <code>ReadWriteMultipleRequest</code>.
+     *
      *
      * @param ref the reference of the register to start writing to as
-     *            <tt>int</tt>.
+     *            <code>int</code>.
      */
     public void setWriteReference(int ref) {
         writeReference = ref;
@@ -182,10 +182,10 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
 
     /**
      * getRegisters - Returns the registers to be written with this
-     * <tt>ReadWriteMultipleRequest</tt>.
-     * <p>
+     * <code>ReadWriteMultipleRequest</code>.
      *
-     * @return the registers to be read as <tt>Register[]</tt>.
+     *
+     * @return the registers to be read as <code>Register[]</code>.
      */
     public synchronized Register[] getRegisters() {
         Register[] dest = new Register[registers.length];
@@ -195,10 +195,10 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
 
     /**
      * setRegisters - Sets the registers to be written with this
-     * <tt>ReadWriteMultipleRequest</tt>.
-     * <p>
+     * <code>ReadWriteMultipleRequest</code>.
      *
-     * @param registers the registers to be written as <tt>Register[]</tt>.
+     *
+     * @param registers the registers to be written as <code>Register[]</code>.
      */
     public synchronized void setRegisters(Register[] registers) {
         writeCount = registers != null ? registers.length : 0;
@@ -206,11 +206,11 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
     }
 
     /**
-     * getRegister - Returns the specified <tt>Register</tt>.
+     * getRegister - Returns the specified <code>Register</code>.
      *
-     * @param index the index of the <tt>Register</tt>.
+     * @param index the index of the <code>Register</code>.
      *
-     * @return the register as <tt>Register</tt>.
+     * @return the register as <code>Register</code>.
      *
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
@@ -233,7 +233,7 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
      * @param index the relative index of the register for which the value should
      *              be retrieved.
      *
-     * @return the value as <tt>int</tt>.
+     * @return the value as <code>int</code>.
      *
      * @throws IndexOutOfBoundsException if the index is out of bounds.
      */
@@ -245,7 +245,7 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
      * getByteCount - Returns the number of bytes representing the values to be
      * written.
      *
-     * @return the number of bytes to be written as <tt>int</tt>.
+     * @return the number of bytes to be written as <code>int</code>.
      */
     public int getByteCount() {
         return getWriteWordCount() * 2;
@@ -254,7 +254,7 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
     /**
      * getWriteWordCount - Returns the number of words to be written.
      *
-     * @return the number of words to be written as <tt>int</tt>.
+     * @return the number of words to be written as <code>int</code>.
      */
     public int getWriteWordCount() {
         return writeCount;
@@ -263,7 +263,7 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
     /**
      * setWriteWordCount - Sets the number of words to be written.
      *
-     * @param count the number of words to be written as <tt>int</tt>.
+     * @param count the number of words to be written as <code>int</code>.
      */
     public void setWriteWordCount(int count) {
         writeCount = count;
@@ -272,7 +272,7 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
     /**
      * getReadWordCount - Returns the number of words to be read.
      *
-     * @return the number of words to be read as <tt>int</tt>.
+     * @return the number of words to be read as <code>int</code>.
      */
     public int getReadWordCount() {
         return readCount;
@@ -281,7 +281,7 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
     /**
      * setReadWordCount - Sets the number of words to be read.
      *
-     * @param count the number of words to be read as <tt>int</tt>.
+     * @param count the number of words to be read as <code>int</code>.
      */
     public void setReadWordCount(int count) {
         readCount = count;
@@ -290,7 +290,7 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
     /**
      * getNonWordDataHandler - Returns the actual non word data handler.
      *
-     * @return the actual <tt>NonWordDataHandler</tt>.
+     * @return the actual <code>NonWordDataHandler</code>.
      */
     public NonWordDataHandler getNonWordDataHandler() {
         return nonWordDataHandler;
@@ -301,7 +301,7 @@ public class ReadWriteMultipleRequest extends ModbusRequest {
      * handler is responsible for converting words from a Modbus packet into the
      * non-word values associated with the actual device's registers.
      *
-     * @param dhandler a <tt>NonWordDataHandler</tt> instance.
+     * @param dhandler a <code>NonWordDataHandler</code> instance.
      */
     public void setNonWordDataHandler(NonWordDataHandler dhandler) {
         nonWordDataHandler = dhandler;

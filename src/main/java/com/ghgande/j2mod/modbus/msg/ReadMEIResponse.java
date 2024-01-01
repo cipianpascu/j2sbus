@@ -24,7 +24,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>ReadMEIResponse</tt>.
+ * Class implementing a <code>ReadMEIResponse</code>.
  *
  * Derived from similar class for Read Coils response.
  *
@@ -46,7 +46,7 @@ public class ReadMEIResponse extends ModbusResponse {
     private int nextFieldId;
 
     /**
-     * Constructs a new <tt>ReadMEIResponse</tt>
+     * Constructs a new <code>ReadMEIResponse</code>
      * instance.
      */
     public ReadMEIResponse() {
@@ -57,7 +57,7 @@ public class ReadMEIResponse extends ModbusResponse {
     /**
      * Returns the number of fields
      * read with the request.
-     * <p>
+     *
      *
      * @return the number of fields that have been read.
      */
@@ -83,7 +83,7 @@ public class ReadMEIResponse extends ModbusResponse {
     /**
      * Convenience method that returns the field
      * at the requested index
-     * <p>
+     *
      *
      * @param index the index of the field which
      *              should be returned.
@@ -100,7 +100,7 @@ public class ReadMEIResponse extends ModbusResponse {
     /**
      * Convenience method that returns the field
      * ID at the given index.
-     * <p>
+     *
      *
      * @param index the index of the field for which
      *              the ID should be returned.

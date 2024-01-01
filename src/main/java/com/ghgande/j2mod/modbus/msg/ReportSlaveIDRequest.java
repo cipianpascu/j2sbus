@@ -23,7 +23,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>Read MEI Data</tt> request.
+ * Class implementing a <code>Read MEI Data</code> request.
  *
  * @author Julie Haugh (jfh@ghgande.com)
  * @author jfhaugh (jfh@ghgande.com)
@@ -33,7 +33,7 @@ import java.io.IOException;
 public class ReportSlaveIDRequest extends ModbusRequest {
 
     /**
-     * Constructs a new <tt>Report Slave ID request</tt>
+     * Constructs a new <code>Report Slave ID request</code>
      * instance.
      */
     public ReportSlaveIDRequest() {

@@ -39,7 +39,7 @@ public class ThreadPool {
     private boolean running;
 
     /**
-     * Constructs a new <tt>ThreadPool</tt> instance.
+     * Constructs a new <code>ThreadPool</code> instance.
      *
      * @param size the size of the thread pool.
      */
@@ -49,10 +49,10 @@ public class ThreadPool {
     }
 
     /**
-     * Execute the <tt>Runnable</tt> instance
-     * through a thread in this <tt>ThreadPool</tt>.
+     * Execute the <code>Runnable</code> instance
+     * through a thread in this <code>ThreadPool</code>.
      *
-     * @param task the <tt>Runnable</tt> to be executed.
+     * @param task the <code>Runnable</code> to be executed.
      */
     public synchronized void execute(Runnable task) {
         if (running) {
@@ -95,7 +95,7 @@ public class ThreadPool {
 
     /**
      * Inner class implementing a thread that can be
-     * run in a <tt>ThreadPool</tt>.
+     * run in a <code>ThreadPool</code>.
      *
      * @author Dieter Wimberger
      * @version 1.2rc1 (09/11/2004)
@@ -103,10 +103,10 @@ public class ThreadPool {
     private class PoolThread extends Thread {
 
         /**
-         * Runs the <tt>PoolThread</tt>.
-         * <p>
+         * Runs the <code>PoolThread</code>.
+         *
          * This method will infinitely loop, picking
-         * up available tasks from the <tt>LinkedQueue</tt>.
+         * up available tasks from the <code>LinkedQueue</code>.
          */
         @Override
         public void run() {

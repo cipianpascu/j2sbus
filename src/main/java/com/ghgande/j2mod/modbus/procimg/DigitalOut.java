@@ -17,7 +17,7 @@ package com.ghgande.j2mod.modbus.procimg;
 
 /**
  * Interface defining a digital output.
- * <p>
+ *
  * In Modbus terms this represents a
  * coil, which is read-write from slave and
  * master or device side.<br>
@@ -31,8 +31,8 @@ package com.ghgande.j2mod.modbus.procimg;
 public interface DigitalOut extends DigitalIn {
 
     /**
-     * Sets the state of this <tt>DigitalOut</tt>.
-     * <p>
+     * Sets the state of this <code>DigitalOut</code>.
+     *
      *
      * @param b true if to be set, false otherwise.
      */

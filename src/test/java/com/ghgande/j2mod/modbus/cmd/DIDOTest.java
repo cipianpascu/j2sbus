@@ -31,14 +31,14 @@ import java.net.InetAddress;
  * Class that implements a simple command line tool which demonstrates how a
  * digital input can be bound with a digital output.
  *
- * <p>Note that if you write to a remote I/O with a Modbus protocol stack,
+ *Note that if you write to a remote I/O with a Modbus protocol stack,
  * it will most likely expect that the communication is <i>kept alive</i>
  * after the first write message.
  *
- * <p>This can be achieved either by sending any kind of message, or by
+ *This can be achieved either by sending any kind of message, or by
  * repeating the write message within a given period of time.
  *
- * <p>If the time period is exceeded, then the device might react by turning
+ *If the time period is exceeded, then the device might react by turning
  * off all signals of the I/O modules. After this timeout, the device might
  * require a reset message.
  *

@@ -16,9 +16,9 @@
 package com.ghgande.j2mod.modbus.procimg;
 
 /**
- * Class implementing a simple <tt>InputRegister</tt>.
- * <p>
- * The <tt>setValue()</tt> method is synchronized, which ensures atomic access, * but no specific access order.
+ * Class implementing a simple <code>InputRegister</code>.
+ *
+ * The <code>setValue()</code> method is synchronized, which ensures atomic access, * but no specific access order.
  *
  * @author Dieter Wimberger
  * @author Steve O'Hara (4NG)
@@ -27,14 +27,14 @@ package com.ghgande.j2mod.modbus.procimg;
 public class SimpleInputRegister extends SynchronizedAbstractRegister implements InputRegister {
 
     /**
-     * Constructs a new <tt>SimpleInputRegister</tt> instance. It's state will
+     * Constructs a new <code>SimpleInputRegister</code> instance. It's state will
      * be invalid.
      */
     public SimpleInputRegister() {
     }
 
     /**
-     * Constructs a new <tt>SimpleInputRegister</tt> instance.
+     * Constructs a new <code>SimpleInputRegister</code> instance.
      *
      * @param b1 the first (hi) byte of the word.
      * @param b2 the second (low) byte of the word.
@@ -45,10 +45,10 @@ public class SimpleInputRegister extends SynchronizedAbstractRegister implements
     }
 
     /**
-     * Constructs a new <tt>SimpleInputRegister</tt> instance with the given
+     * Constructs a new <code>SimpleInputRegister</code> instance with the given
      * value.
      *
-     * @param value the value of this <tt>SimpleInputRegister</tt> as <tt>int</tt>
+     * @param value the value of this <code>SimpleInputRegister</code> as <code>int</code>
      *              .
      */
     public SimpleInputRegister(int value) {

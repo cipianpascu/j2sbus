@@ -22,7 +22,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>ReadCommEventCounterResponse</tt>.
+ * Class implementing a <code>ReadCommEventCounterResponse</code>.
  *
  * @author Julie Haugh (jfh@ghgande.com)
  * @author Steve O'Hara (4NG)
@@ -35,7 +35,7 @@ public class ReadCommEventCounterResponse extends ModbusResponse {
     private int events;
 
     /**
-     * Constructs a new <tt>ReportSlaveIDResponse</tt> instance.
+     * Constructs a new <code>ReportSlaveIDResponse</code> instance.
      */
     public ReadCommEventCounterResponse() {
         super();

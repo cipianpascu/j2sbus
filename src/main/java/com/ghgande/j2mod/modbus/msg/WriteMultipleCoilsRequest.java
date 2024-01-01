@@ -27,13 +27,12 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>WriteMultipleCoilsRequest</tt>. The implementation
+ * Class implementing a <code>WriteMultipleCoilsRequest</code>. The implementation
  * directly correlates with the class 1 function <i>write multiple coils (FC
  * 15)</i>. It encapsulates the corresponding request message.
  *
- * <p>
+ *
  * Coils are understood as bits that can be manipulated (i.e. set or cleared).
- * </p>
  *
  * @author Dieter Wimberger
  * @author Julie Haugh
@@ -47,7 +46,7 @@ public class WriteMultipleCoilsRequest extends ModbusRequest {
     private BitVector coils;
 
     /**
-     * Constructs a new <tt>WriteMultipleCoilsRequest</tt> instance with the
+     * Constructs a new <code>WriteMultipleCoilsRequest</code> instance with the
      * given reference and coil values.
      *
      * @param ref the index of the first coil to be written.
@@ -64,7 +63,7 @@ public class WriteMultipleCoilsRequest extends ModbusRequest {
     }
 
     /**
-     * Constructs a new <tt>WriteMultipleCoilsRequest</tt> instance with a given
+     * Constructs a new <code>WriteMultipleCoilsRequest</code> instance with a given
      * reference and count of coils to be written, followed by the actual byte
      * count, and then <i>count</i> number of bytes.
      *
@@ -82,12 +81,12 @@ public class WriteMultipleCoilsRequest extends ModbusRequest {
     }
 
     /**
-     * Constructs a new <tt>WriteMultipleCoilsRequest</tt> instance.
+     * Constructs a new <code>WriteMultipleCoilsRequest</code> instance.
      *
-     * <p>
+     *
      * A minimal message contains the reference to the first coil as a
-     * <tt>short</tt>, the number of coils as a <tt>short</tt>, and not less
-     * than one <tt>byte</tt> of coil data.
+     * <code>short</code>, the number of coils as a <code>short</code>, and not less
+     * than one <code>byte</code> of coil data.
      */
     public WriteMultipleCoilsRequest() {
         super();
@@ -130,9 +129,9 @@ public class WriteMultipleCoilsRequest extends ModbusRequest {
 
     /**
      * getReference - Returns the reference of the coil to to start writing to
-     * with this <tt>WriteMultipleCoilsRequest</tt>.
+     * with this <code>WriteMultipleCoilsRequest</code>.
      *
-     * @return the reference of the coil to start writing to as an <tt>int</tt>.
+     * @return the reference of the coil to start writing to as an <code>int</code>.
      */
     public int getReference() {
         return reference;
@@ -140,7 +139,7 @@ public class WriteMultipleCoilsRequest extends ModbusRequest {
 
     /**
      * setReference - Sets the reference of the coil to start writing to with
-     * this <tt>WriteMultipleCoilsRequest</tt>.
+     * this <code>WriteMultipleCoilsRequest</code>.
      *
      * @param ref the reference of the coil to start writing to.
      */
@@ -198,20 +197,20 @@ public class WriteMultipleCoilsRequest extends ModbusRequest {
     }
 
     /**
-     * getCoils - Returns the <tt>BitVector</tt> instance holding coil status
+     * getCoils - Returns the <code>BitVector</code> instance holding coil status
      * information.
      *
-     * @return the coils status as a <tt>BitVector</tt> instance.
+     * @return the coils status as a <code>BitVector</code> instance.
      */
     public BitVector getCoils() {
         return coils;
     }
 
     /**
-     * setCoils - Sets the <tt>BitVector</tt> instance holding coil status
+     * setCoils - Sets the <code>BitVector</code> instance holding coil status
      * information.
      *
-     * @param bv a <tt>BitVector</tt> instance holding coil status info.
+     * @param bv a <code>BitVector</code> instance holding coil status info.
      */
     public void setCoils(BitVector bv) {
         coils = bv;

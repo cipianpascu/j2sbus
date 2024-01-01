@@ -23,7 +23,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>ReadFileRecordResponse</tt>.
+ * Class implementing a <code>ReadFileRecordResponse</code>.
  *
  * @author Julie (jfh@ghgande.com)
  * @author Steve O'Hara (4NG)
@@ -34,7 +34,7 @@ public class ReadFileRecordResponse extends ModbusResponse {
     private RecordResponse[] records = null;
 
     /**
-     * Constructs a new <tt>ReadFileRecordResponse</tt> instance.
+     * Constructs a new <code>ReadFileRecordResponse</code> instance.
      */
     public ReadFileRecordResponse() {
         super();

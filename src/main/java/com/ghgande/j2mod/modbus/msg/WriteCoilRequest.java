@@ -26,7 +26,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>WriteCoilRequest</tt>. The implementation directly
+ * Class implementing a <code>WriteCoilRequest</code>. The implementation directly
  * correlates with the class 0 function <i>write coil (FC 5)</i>. It
  * encapsulates the corresponding request message.
  *
@@ -41,7 +41,7 @@ public class WriteCoilRequest extends ModbusRequest {
     private boolean coil;
 
     /**
-     * Constructs a new <tt>WriteCoilRequest</tt> instance.
+     * Constructs a new <code>WriteCoilRequest</code> instance.
      */
     public WriteCoilRequest() {
         super();
@@ -51,7 +51,7 @@ public class WriteCoilRequest extends ModbusRequest {
     }
 
     /**
-     * Constructs a new <tt>WriteCoilRequest</tt> instance with a given
+     * Constructs a new <code>WriteCoilRequest</code> instance with a given
      * reference and state to be written.
      *
      * @param ref the reference number of the register to read from.
@@ -97,7 +97,7 @@ public class WriteCoilRequest extends ModbusRequest {
 
     /**
      * Returns the reference of the register of the coil that should be written
-     * to with this <tt>ReadCoilsRequest</tt>.
+     * to with this <code>ReadCoilsRequest</code>.
      *
      * @return the reference of the coil's register.
      */
@@ -107,8 +107,8 @@ public class WriteCoilRequest extends ModbusRequest {
 
     /**
      * Sets the reference of the register of the coil that should be written to
-     * with this <tt>ReadCoilsRequest</tt>.
-     * <p>
+     * with this <code>ReadCoilsRequest</code>.
+     *
      *
      * @param ref the reference of the coil's register.
      */
@@ -118,7 +118,7 @@ public class WriteCoilRequest extends ModbusRequest {
 
     /**
      * Returns the state that should be written with this
-     * <tt>WriteCoilRequest</tt>.
+     * <code>WriteCoilRequest</code>.
      *
      * @return true if the coil should be set of false if it should be unset.
      */
@@ -127,7 +127,7 @@ public class WriteCoilRequest extends ModbusRequest {
     }
 
     /**
-     * Sets the state that should be written with this <tt>WriteCoilRequest</tt>.
+     * Sets the state that should be written with this <code>WriteCoilRequest</code>.
      *
      * @param b true if the coil should be set of false if it should be unset.
      */

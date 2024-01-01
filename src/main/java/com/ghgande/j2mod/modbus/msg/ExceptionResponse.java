@@ -22,7 +22,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a<tt>ModbusResponse</tt> that represents an exception.
+ * Class implementing a<code>ModbusResponse</code> that represents an exception.
  *
  * @author Dieter Wimberger
  * @author Steve O'Hara (4NG)
@@ -34,12 +34,12 @@ public class ExceptionResponse extends ModbusResponse {
     private int exceptionCode = -1;
 
     /**
-     * Constructs a new <tt>ExceptionResponse</tt> instance with a given
+     * Constructs a new <code>ExceptionResponse</code> instance with a given
      * function code and an exception code. The function code will be
      * automatically increased with the exception offset.
      *
-     * @param fc  the function code as <tt>int</tt>.
-     * @param exc the exception code as <tt>int</tt>.
+     * @param fc  the function code as <code>int</code>.
+     * @param exc the exception code as <code>int</code>.
      */
     public ExceptionResponse(int fc, int exc) {
 
@@ -51,10 +51,10 @@ public class ExceptionResponse extends ModbusResponse {
     }
 
     /**
-     * Constructs a new <tt>ExceptionResponse</tt> instance with a given
+     * Constructs a new <code>ExceptionResponse</code> instance with a given
      * function code. ORs the exception offset automatically.
      *
-     * @param fc the function code as <tt>int</tt>.
+     * @param fc the function code as <code>int</code>.
      */
     public ExceptionResponse(int fc) {
 
@@ -64,7 +64,7 @@ public class ExceptionResponse extends ModbusResponse {
     }
 
     /**
-     * Constructs a new <tt>ExceptionResponse</tt> instance with no function
+     * Constructs a new <code>ExceptionResponse</code> instance with no function
      * or exception code.
      */
     public ExceptionResponse() {
@@ -74,10 +74,10 @@ public class ExceptionResponse extends ModbusResponse {
     }
 
     /**
-     * Returns the Modbus exception code of this <tt>ExceptionResponse</tt>.
-     * <p>
+     * Returns the Modbus exception code of this <code>ExceptionResponse</code>.
      *
-     * @return the exception code as <tt>int</tt>.
+     *
+     * @return the exception code as <code>int</code>.
      */
     public int getExceptionCode() {
         return exceptionCode;

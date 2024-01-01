@@ -57,7 +57,7 @@ public class FastByteArrayOutputStream extends OutputStream {
     private final int bumpLen;
 
     /**
-     * Output buffer <tt>byte[]</tt>.
+     * Output buffer <code>byte[]</code>.
      */
     byte[] buf;
 
@@ -95,16 +95,16 @@ public class FastByteArrayOutputStream extends OutputStream {
 
     /**
      * Returns the number of bytes written to this
-     * <tt>FastByteArrayOutputStream</tt>.
+     * <code>FastByteArrayOutputStream</code>.
      *
-     * @return the number of bytes written as <tt>int</tt>.
+     * @return the number of bytes written as <code>int</code>.
      */
     public int size() {
         return count;
     }
 
     /**
-     * Resets this <tt>FastByteArrayOutputStream</tt>.
+     * Resets this <code>FastByteArrayOutputStream</code>.
      */
     public void reset() {
         count = 0;
@@ -144,7 +144,7 @@ public class FastByteArrayOutputStream extends OutputStream {
     }
 
     /**
-     * Writes the content of this <tt>FastByteArrayOutputStream</tt>
+     * Writes the content of this <code>FastByteArrayOutputStream</code>
      * to the given output stream.
      *
      * @param out the output stream to be written to.
@@ -166,7 +166,7 @@ public class FastByteArrayOutputStream extends OutputStream {
     }
 
     /**
-     * Returns the content of this <tt>FastByteArrayOutputStream</tt>
+     * Returns the content of this <code>FastByteArrayOutputStream</code>
      * as String.
      *
      * @param encoding the encoding to be used for conversion.

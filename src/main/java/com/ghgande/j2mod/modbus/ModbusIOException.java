@@ -16,7 +16,7 @@
 package com.ghgande.j2mod.modbus;
 
 /**
- * Class that implements a <tt>ModbusIOException</tt>. Instances of this
+ * Class that implements a <code>ModbusIOException</code>. Instances of this
  * exception are thrown when errors in the I/O occur.
  *
  * @author Dieter Wimberger
@@ -32,28 +32,28 @@ public class ModbusIOException extends ModbusException {
     private boolean eof = false;
 
     /**
-     * Constructs a new <tt>ModbusIOException</tt> instance.
+     * Constructs a new <code>ModbusIOException</code> instance.
      */
     public ModbusIOException() {
     }
 
     /**
-     * Constructs a new <tt>ModbusIOException</tt> instance with the given
+     * Constructs a new <code>ModbusIOException</code> instance with the given
      * message.
-     * <p>
      *
-     * @param message the message describing this <tt>ModbusIOException</tt>.
+     *
+     * @param message the message describing this <code>ModbusIOException</code>.
      */
     public ModbusIOException(String message) {
         super(message);
     }
 
     /**
-     * Constructs a new <tt>ModbusIOException</tt> instance with the given
+     * Constructs a new <code>ModbusIOException</code> instance with the given
      * message.
-     * <p>
      *
-     * @param message the message describing this <tt>ModbusIOException</tt>.
+     *
+     * @param message the message describing this <code>ModbusIOException</code>.
      * @param values optional values of the exception
      */
     public ModbusIOException(String message, Object... values) {
@@ -61,7 +61,7 @@ public class ModbusIOException extends ModbusException {
     }
 
     /**
-     * Constructs a new <tt>ModbusIOException</tt> instance.
+     * Constructs a new <code>ModbusIOException</code> instance.
      *
      * @param b true if caused by end of stream, false otherwise.
      */
@@ -70,11 +70,11 @@ public class ModbusIOException extends ModbusException {
     }
 
     /**
-     * Constructs a new <tt>ModbusIOException</tt> instance with the given
+     * Constructs a new <code>ModbusIOException</code> instance with the given
      * message.
-     * <p>
      *
-     * @param message the message describing this <tt>ModbusIOException</tt>.
+     *
+     * @param message the message describing this <code>ModbusIOException</code>.
      * @param b       true if caused by end of stream, false otherwise.
      */
     public ModbusIOException(String message, boolean b) {
@@ -83,11 +83,11 @@ public class ModbusIOException extends ModbusException {
     }
 
     /**
-     * Constructs a new <tt>ModbusIOException</tt> instance with the given
+     * Constructs a new <code>ModbusIOException</code> instance with the given
      * message and underlying cause.
-     * <p>
      *
-     * @param message the message describing this <tt>ModbusIOException</tt>.
+     *
+     * @param message the message describing this <code>ModbusIOException</code>.
      * @param cause the cause (which is saved for later retrieval by the {@code getCause()} method).
      * (A {@code null} value is permitted, and indicates that the cause is nonexistent or unknown.)
      */
@@ -96,9 +96,9 @@ public class ModbusIOException extends ModbusException {
     }
 
     /**
-     * Tests if this <tt>ModbusIOException</tt> is caused by an end of the
+     * Tests if this <code>ModbusIOException</code> is caused by an end of the
      * stream.
-     * <p>
+     *
      *
      * @return true if stream ended, false otherwise.
      */
@@ -107,9 +107,9 @@ public class ModbusIOException extends ModbusException {
     }
 
     /**
-     * Sets the flag that determines whether this <tt>ModbusIOException</tt> was
+     * Sets the flag that determines whether this <code>ModbusIOException</code> was
      * caused by an end of the stream.
-     * <p>
+     *
      *
      * @param b true if stream ended, false otherwise.
      */

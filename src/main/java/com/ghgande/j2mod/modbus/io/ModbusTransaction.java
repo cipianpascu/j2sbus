@@ -25,7 +25,7 @@ import java.util.Random;
 
 /**
  * Interface defining a ModbusTransaction.
- * <p>
+ *
  * A transaction is defined by the sequence of
  * sending a request message and receiving a
  * related response message.
@@ -45,24 +45,25 @@ public abstract class ModbusTransaction {
     static int transactionID = Modbus.DEFAULT_TRANSACTION_ID;
 
     /**
-     * Returns the <tt>ModbusRequest</tt> instance
-     * associated with this <tt>ModbusTransaction</tt>.
-     * <p>
+     * Returns the <code>ModbusRequest</code> instance
+     * associated with this <code>ModbusTransaction</code>.
      *
-     * @return the associated <tt>ModbusRequest</tt> instance.
+     *
+     * @return the associated <code>ModbusRequest</code> instance.
      */
     public ModbusRequest getRequest() {
         return request;
     }
 
     /**
-     * Sets the <tt>ModbusRequest</tt> for this
-     * <tt>ModbusTransaction</tt>.<p>
-     * The related <tt>ModbusResponse</tt> is acquired
-     * from the passed in <tt>ModbusRequest</tt> instance.<br>
-     * <p>
+     * Sets the <code>ModbusRequest</code> for this
+     * <code>ModbusTransaction</code>.
+     * 
+     * The related <code>ModbusResponse</code> is acquired
+     * from the passed in <code>ModbusRequest</code> instance.<br>
      *
-     * @param req a <tt>ModbusRequest</tt>.
+     *
+     * @param req a <code>ModbusRequest</code>.
      */
     public void setRequest(ModbusRequest req) {
         request = req;
@@ -72,11 +73,11 @@ public abstract class ModbusTransaction {
     }
 
     /**
-     * Returns the <tt>ModbusResponse</tt> instance
-     * associated with this <tt>ModbusTransaction</tt>.
-     * <p>
+     * Returns the <code>ModbusResponse</code> instance
+     * associated with this <code>ModbusTransaction</code>.
      *
-     * @return the associated <tt>ModbusRequest</tt> instance.
+     *
+     * @return the associated <code>ModbusRequest</code> instance.
      */
     public ModbusResponse getResponse() {
         return response;
@@ -85,9 +86,9 @@ public abstract class ModbusTransaction {
     /**
      * Returns the amount of retries for opening
      * the connection for executing the transaction.
-     * <p>
      *
-     * @return the amount of retries as <tt>int</tt>.
+     *
+     * @return the amount of retries as <code>int</code>.
      */
     int getRetries() {
         return retries;
@@ -96,9 +97,9 @@ public abstract class ModbusTransaction {
     /**
      * Set the amount of retries for opening
      * the connection for executing the transaction.
-     * <p>
      *
-     * @param retries the amount of retries as <tt>int</tt>.
+     *
+     * @param retries the amount of retries as <code>int</code>.
      */
     public void setRetries(int retries) {
         this.retries = retries;
@@ -107,7 +108,7 @@ public abstract class ModbusTransaction {
     /**
      * Tests whether the validity of a transaction
      * will be checked.
-     * <p>
+     *
      *
      * @return true if checking validity, false otherwise.
      */
@@ -118,7 +119,7 @@ public abstract class ModbusTransaction {
     /**
      * Sets the flag that controls whether the
      * validity of a transaction will be checked.
-     * <p>
+     *
      *
      * @param b true if checking validity, false otherwise.
      */
@@ -174,13 +175,13 @@ public abstract class ModbusTransaction {
     }
 
     /**
-     * Executes this <tt>ModbusTransaction</tt>.
-     * Locks the <tt>ModbusTransport</tt> for sending
-     * the <tt>ModbusRequest</tt> and reading the
-     * related <tt>ModbusResponse</tt>.
+     * Executes this <code>ModbusTransaction</code>.
+     * Locks the <code>ModbusTransport</code> for sending
+     * the <code>ModbusRequest</code> and reading the
+     * related <code>ModbusResponse</code>.
      * If reconnecting is activated the connection will
      * be opened for the transaction and closed afterwards.
-     * <p>
+     *
      *
      * @throws ModbusException if an I/O error occurs,
      *                         or the response is a modbus protocol exception.

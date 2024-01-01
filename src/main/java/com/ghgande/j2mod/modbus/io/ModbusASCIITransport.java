@@ -46,7 +46,7 @@ public class ModbusASCIITransport extends ModbusSerialTransport {
     private final BytesOutputStream byteOutputStream = new BytesOutputStream(Modbus.MAX_MESSAGE_LENGTH);      //write frames
 
     /**
-     * Constructs a new <tt>MobusASCIITransport</tt> instance.
+     * Constructs a new <code>MobusASCIITransport</code> instance.
      */
     public ModbusASCIITransport() {
         // No op

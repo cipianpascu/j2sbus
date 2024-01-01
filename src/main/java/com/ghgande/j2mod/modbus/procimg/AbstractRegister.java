@@ -25,7 +25,7 @@ package com.ghgande.j2mod.modbus.procimg;
 public abstract class AbstractRegister implements Register {
 
     /**
-     * The word (<tt>byte[2]</tt>) holding the register content.
+     * The word (<code>byte[2]</code>) holding the register content.
      */
     protected byte[] register = new byte[2];
 

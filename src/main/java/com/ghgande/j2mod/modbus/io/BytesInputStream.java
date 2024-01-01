@@ -33,7 +33,7 @@ public class BytesInputStream
     DataInputStream dataInputStream;
 
     /**
-     * Constructs a new <tt>BytesInputStream</tt> instance,
+     * Constructs a new <code>BytesInputStream</code> instance,
      * with an empty buffer of a given size.
      *
      * @param size the size of the input buffer.
@@ -44,7 +44,7 @@ public class BytesInputStream
     }
 
     /**
-     * Constructs a new <tt>BytesInputStream</tt> instance,
+     * Constructs a new <code>BytesInputStream</code> instance,
      * that will read from the given data.
      *
      * @param data a byte array containing data to be read.
@@ -55,7 +55,7 @@ public class BytesInputStream
     }
 
     /**
-     * Resets this <tt>BytesInputStream</tt> using the given
+     * Resets this <code>BytesInputStream</code> using the given
      * byte[] as new input buffer.
      *
      * @param data a byte array with data to be read.
@@ -68,7 +68,7 @@ public class BytesInputStream
     }
 
     /**
-     * Resets this <tt>BytesInputStream</tt> using the given
+     * Resets this <code>BytesInputStream</code> using the given
      * byte[] as new input buffer and a given length.
      *
      * @param data   a byte array with data to be read.
@@ -82,7 +82,7 @@ public class BytesInputStream
     }
 
     /**
-     * Resets this <tt>BytesInputStream</tt>  assigning the input buffer
+     * Resets this <code>BytesInputStream</code>  assigning the input buffer
      * a new length.
      *
      * @param length the length of the buffer to be considered.
@@ -96,7 +96,7 @@ public class BytesInputStream
      * Skips the given number of bytes or all bytes till the end
      * of the assigned input buffer length.
      *
-     * @param n the number of bytes to be skipped as <tt>int</tt>.
+     * @param n the number of bytes to be skipped as <code>int</code>.
      *
      * @return the number of bytes skipped.
      */
@@ -109,7 +109,7 @@ public class BytesInputStream
     /**
      * Returns the reference to the input buffer.
      *
-     * @return the reference to the <tt>byte[]</tt> input buffer.
+     * @return the reference to the <code>byte[]</code> input buffer.
      */
     public synchronized byte[] getBuffer() {
         byte[] dest = new byte[buf.length];

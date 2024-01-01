@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ghgande</groupId>
-    <artifactId>j2mod</artifactId>
-    <name>j2mod</name>
+    <artifactId>j2sbus</artifactId>
+    <name>Java 2 S-Bus</name>
     <url>https://github.com/steveohara/j2mod</url>
     <version>3.2.1-SNAPSHOT</version>
-    <description>A Modbus TCP/UDP/Serial Master and Slave implementation</description>
+    <description>A S-BUS TCP/UDP/Serial Master and Slave implementation</description>
 
     <packaging>bundle</packaging>
     <properties>
@@ -159,7 +159,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.8.1</version>
+                <version>3.6.3</version>
                 <configuration>
                     <quiet>true</quiet>
                     <show>public</show>
@@ -186,7 +186,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.1.2</version>
+                <version>3.3.0</version>
                 <configuration>
                     <excludeResources>true</excludeResources>
                     <excludes>

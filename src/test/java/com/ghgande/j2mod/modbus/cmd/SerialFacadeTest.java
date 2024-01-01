@@ -59,6 +59,7 @@ public class SerialFacadeTest {
         int inChar;
         int result = 0;
         boolean finished = false;
+        int subnetId = 1;
         int slaveId = 88;
         String portname = null;
         ModbusSerialMaster msm = null;
@@ -101,13 +102,13 @@ public class SerialFacadeTest {
             msm.connect();
 
             do {
-                if (msm.writeCoil(slaveId, 4, true)) {
+                if (msm.writeCoil(subnetId, slaveId, 4, true)) {
                     System.out.printf("Set output 5 to true");
                 }
                 else {
                     System.out.printf("Error setting slave " + slaveId + " output 5");
                 }
-                BitVector coils = msm.readCoils(slaveId, 0, 8);
+                BitVector coils = msm.readCoils(subnetId, slaveId, 0, 8);
                 if (coils != null) {
                     System.out.printf("Coils:");
                     for (int i = 0; i < coils.size(); i++) {
@@ -115,7 +116,7 @@ public class SerialFacadeTest {
                     }
 
                     try {
-                        msm.writeMultipleCoils(slaveId, 0, coils);
+                        msm.writeMultipleCoils(subnetId, slaveId, 0, coils);
                     }
                     catch (ModbusException ex) {
                         System.out.printf("Error writing coils: %d", result);
@@ -127,7 +128,7 @@ public class SerialFacadeTest {
                     System.exit(-1);
                 }
 
-                BitVector digInp = msm.readInputDiscretes(slaveId, 0, 8);
+                BitVector digInp = msm.readInputDiscretes(subnetId, slaveId, 0, 8);
 
                 if (digInp != null) {
                     System.out.printf("Digital Inputs:");
@@ -144,7 +145,7 @@ public class SerialFacadeTest {
 
                 InputRegister[] ai;
                 for (int i = 1000; i < 1010; i++) {
-                    ai = msm.readInputRegisters(slaveId, i, 1);
+                    ai = msm.readInputRegisters(subnetId, slaveId, i, 1);
                     if (ai != null) {
                         System.out.printf("Tag %d:", i);
                         for (InputRegister anAi : ai) {
@@ -160,7 +161,7 @@ public class SerialFacadeTest {
 
                 Register[] regs;
                 for (int i = 1000; i < 1005; i++) {
-                    regs = msm.readMultipleRegisters(slaveId, i, 1);
+                    regs = msm.readMultipleRegisters(subnetId, slaveId, i, 1);
                     if (regs != null) {
                         System.out.printf("RWRegisters " + i + " length: " + regs.length);
                         for (Register reg : regs) {
@@ -173,7 +174,7 @@ public class SerialFacadeTest {
                         System.exit(-1);
                     }
                 }
-                regs = msm.readMultipleRegisters(slaveId, 0, 10);
+                regs = msm.readMultipleRegisters(subnetId, slaveId, 0, 10);
                 System.out.printf("Registers: ");
                 if (regs != null) {
                     System.out.printf("regs :");

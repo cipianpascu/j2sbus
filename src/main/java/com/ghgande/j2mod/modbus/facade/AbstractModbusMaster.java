@@ -35,8 +35,6 @@ import com.ghgande.j2mod.modbus.util.BitVector;
  */
 public abstract class AbstractModbusMaster {
 
-    private static final int DEFAULT_UNIT_ID = 1;
-
     protected ModbusTransaction transaction;
     private ReadCoilsRequest readCoilsRequest;
     private ReadInputDiscretesRequest readInputDiscretesRequest;
@@ -59,14 +57,14 @@ public abstract class AbstractModbusMaster {
     }
 
     /**
-     * Connects this <tt>ModbusTCPMaster</tt> with the slave.
+     * Connects this <code>ModbusTCPMaster</code> with the slave.
      *
      * @throws Exception if the connection cannot be established.
      */
     public abstract void connect() throws Exception;
 
     /**
-     * Disconnects this <tt>ModbusTCPMaster</tt> from the slave.
+     * Disconnects this <code>ModbusTCPMaster</code> from the slave.
      */
     public abstract void disconnect();
 
@@ -76,21 +74,23 @@ public abstract class AbstractModbusMaster {
      * Note that the number of bits in the bit vector will be
      * forced to the number originally requested.
      *
+     * @param subnetId    the subnet id.
      * @param unitId the slave unit id.
      * @param ref    the offset of the coil to start reading from.
      * @param count  the number of coil states to be read.
      *
-     * @return a <tt>BitVector</tt> instance holding the
+     * @return a <code>BitVector</code> instance holding the
      * received coil states.
      *
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
-    public synchronized BitVector readCoils(int unitId, int ref, int count) throws ModbusException {
+    public synchronized BitVector readCoils(int subnetId, int unitId, int ref, int count) throws ModbusException {
         checkTransaction();
         if (readCoilsRequest == null) {
             readCoilsRequest = new ReadCoilsRequest();
         }
+        readCoilsRequest.setSubnetID(subnetId);
         readCoilsRequest.setUnitID(unitId);
         readCoilsRequest.setReference(ref);
         readCoilsRequest.setBitCount(count);
@@ -104,6 +104,7 @@ public abstract class AbstractModbusMaster {
     /**
      * Writes a coil state to the slave.
      *
+     * @param subnetId    the subnet id.
      * @param unitId the slave unit id.
      * @param ref    the offset of the coil to be written.
      * @param state  the coil state to be written.
@@ -113,11 +114,12 @@ public abstract class AbstractModbusMaster {
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
-    public synchronized boolean writeCoil(int unitId, int ref, boolean state) throws ModbusException {
+    public synchronized boolean writeCoil(int subnetId, int unitId, int ref, boolean state) throws ModbusException {
         checkTransaction();
         if (writeCoilRequest == null) {
             writeCoilRequest = new WriteCoilRequest();
         }
+        writeCoilRequest.setSubnetID(subnetId);
         writeCoilRequest.setUnitID(unitId);
         writeCoilRequest.setReference(ref);
         writeCoilRequest.setCoil(state);
@@ -132,18 +134,20 @@ public abstract class AbstractModbusMaster {
      * Note that the number of coils to be written is given
      * implicitly, through {@link BitVector#size()}.
      *
+     * @param subnetId    the subnet id.
      * @param unitId the slave unit id.
      * @param ref    the offset of the coil to start writing to.
-     * @param coils  a <tt>BitVector</tt> which holds the coil states to be written.
+     * @param coils  a <code>BitVector</code> which holds the coil states to be written.
      *
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
-    public synchronized void writeMultipleCoils(int unitId, int ref, BitVector coils) throws ModbusException {
+    public synchronized void writeMultipleCoils(int subnetId, int unitId, int ref, BitVector coils) throws ModbusException {
         checkTransaction();
         if (writeMultipleCoilsRequest == null) {
             writeMultipleCoilsRequest = new WriteMultipleCoilsRequest();
         }
+        writeMultipleCoilsRequest.setSubnetID(subnetId);
         writeMultipleCoilsRequest.setUnitID(unitId);
         writeMultipleCoilsRequest.setReference(ref);
         writeMultipleCoilsRequest.setCoils(coils);
@@ -157,21 +161,23 @@ public abstract class AbstractModbusMaster {
      * Note that the number of bits in the bit vector will be
      * forced to the number originally requested.
      *
+     * @param subnetId    the subnet id.
      * @param unitId the slave unit id.
      * @param ref    the offset of the input discrete to start reading from.
      * @param count  the number of input discrete states to be read.
      *
-     * @return a <tt>BitVector</tt> instance holding the received input discrete
+     * @return a <code>BitVector</code> instance holding the received input discrete
      * states.
      *
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
-    public synchronized BitVector readInputDiscretes(int unitId, int ref, int count) throws ModbusException {
+    public synchronized BitVector readInputDiscretes(int subnetId, int unitId, int ref, int count) throws ModbusException {
         checkTransaction();
         if (readInputDiscretesRequest == null) {
             readInputDiscretesRequest = new ReadInputDiscretesRequest();
         }
+        readInputDiscretesRequest.setSubnetID(subnetId);
         readInputDiscretesRequest.setUnitID(unitId);
         readInputDiscretesRequest.setReference(ref);
         readInputDiscretesRequest.setBitCount(count);
@@ -188,20 +194,22 @@ public abstract class AbstractModbusMaster {
      * Note that the number of input registers returned (i.e. array length)
      * will be according to the number received in the slave response.
      *
+     * @param subnetId    the subnet id.
      * @param unitId the slave unit id.
      * @param ref    the offset of the input register to start reading from.
      * @param count  the number of input registers to be read.
      *
-     * @return a <tt>InputRegister[]</tt> with the received input registers.
+     * @return a <code>InputRegister[]</code> with the received input registers.
      *
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
-    public synchronized InputRegister[] readInputRegisters(int unitId, int ref, int count) throws ModbusException {
+    public synchronized InputRegister[] readInputRegisters(int subnetId, int unitId, int ref, int count) throws ModbusException {
         checkTransaction();
         if (readInputRegistersRequest == null) {
             readInputRegistersRequest = new ReadInputRegistersRequest();
         }
+        readInputRegistersRequest.setSubnetID(subnetId);
         readInputRegistersRequest.setUnitID(unitId);
         readInputRegistersRequest.setReference(ref);
         readInputRegistersRequest.setWordCount(count);
@@ -216,20 +224,22 @@ public abstract class AbstractModbusMaster {
      * Note that the number of registers returned (i.e. array length)
      * will be according to the number received in the slave response.
      *
+     * @param subnetId    the subnet id.
      * @param unitId the slave unit id.
      * @param ref    the offset of the register to start reading from.
      * @param count  the number of registers to be read.
      *
-     * @return a <tt>Register[]</tt> holding the received registers.
+     * @return a <code>Register[]</code> holding the received registers.
      *
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
-    public synchronized Register[] readMultipleRegisters(int unitId, int ref, int count) throws ModbusException {
+    public synchronized Register[] readMultipleRegisters(int subnetId, int unitId, int ref, int count) throws ModbusException {
         checkTransaction();
         if (readMultipleRegistersRequest == null) {
             readMultipleRegistersRequest = new ReadMultipleRegistersRequest();
         }
+        readMultipleRegistersRequest.setSubnetID(subnetId);
         readMultipleRegistersRequest.setUnitID(unitId);
         readMultipleRegistersRequest.setReference(ref);
         readMultipleRegistersRequest.setWordCount(count);
@@ -241,9 +251,10 @@ public abstract class AbstractModbusMaster {
     /**
      * Writes a single register to the slave.
      *
+     * @param subnetId    the subnet id.
      * @param unitId   the slave unit id.
      * @param ref      the offset of the register to be written.
-     * @param register a <tt>Register</tt> holding the value of the register
+     * @param register a <code>Register</code> holding the value of the register
      *                 to be written.
      *
      * @return the value of the register as returned from the slave.
@@ -251,11 +262,12 @@ public abstract class AbstractModbusMaster {
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
-    public synchronized int writeSingleRegister(int unitId, int ref, Register register) throws ModbusException {
+    public synchronized int writeSingleRegister(int subnetId, int unitId, int ref, Register register) throws ModbusException {
         checkTransaction();
         if (writeSingleRegisterRequest == null) {
             writeSingleRegisterRequest = new WriteSingleRegisterRequest();
         }
+        writeSingleRegisterRequest.setSubnetID(subnetId);
         writeSingleRegisterRequest.setUnitID(unitId);
         writeSingleRegisterRequest.setReference(ref);
         writeSingleRegisterRequest.setRegister(register);
@@ -267,9 +279,10 @@ public abstract class AbstractModbusMaster {
     /**
      * Writes a number of registers to the slave.
      *
+     * @param subnetId    the subnet id.
      * @param unitId    the slave unit id.
      * @param ref       the offset of the register to start writing to.
-     * @param registers a <tt>Register[]</tt> holding the values of
+     * @param registers a <code>Register[]</code> holding the values of
      *                  the registers to be written.
      *
      * @return the number of registers that have been written.
@@ -277,11 +290,12 @@ public abstract class AbstractModbusMaster {
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
-    public synchronized int writeMultipleRegisters(int unitId, int ref, Register[] registers) throws ModbusException {
+    public synchronized int writeMultipleRegisters(int subnetId, int unitId, int ref, Register[] registers) throws ModbusException {
         checkTransaction();
         if (writeMultipleRegistersRequest == null) {
             writeMultipleRegistersRequest = new WriteMultipleRegistersRequest();
         }
+        writeMultipleRegistersRequest.setSubnetID(subnetId);
         writeMultipleRegistersRequest.setUnitID(unitId);
         writeMultipleRegistersRequest.setReference(ref);
         writeMultipleRegistersRequest.setRegisters(registers);
@@ -293,6 +307,7 @@ public abstract class AbstractModbusMaster {
     /**
      * Mask write a single register to the slave.
      *
+     * @param subnetId    the subnet id.
      * @param unitId    the slave unit id.
      * @param ref       the offset of the register to start writing to.
      * @param andMask   AND mask.
@@ -303,11 +318,12 @@ public abstract class AbstractModbusMaster {
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
-    public synchronized boolean maskWriteRegister(int unitId, int ref, int andMask, int orMask) throws ModbusException {
+    public synchronized boolean maskWriteRegister(int subnetId, int unitId, int ref, int andMask, int orMask) throws ModbusException {
         checkTransaction();
         if (maskWriteRegisterRequest == null) {
             maskWriteRegisterRequest = new MaskWriteRegisterRequest();
         }
+        maskWriteRegisterRequest.setSubnetID(subnetId);
         maskWriteRegisterRequest.setUnitID(unitId);
         maskWriteRegisterRequest.setReference(ref);
         maskWriteRegisterRequest.setAndMask(andMask);
@@ -330,14 +346,14 @@ public abstract class AbstractModbusMaster {
      * @param ref   the offset of the coil to start reading from.
      * @param count the number of coil states to be read.
      *
-     * @return a <tt>BitVector</tt> instance holding the
+     * @return a <code>BitVector</code> instance holding the
      * received coil states.
      *
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
     public BitVector readCoils(int ref, int count) throws ModbusException {
-        return readCoils(DEFAULT_UNIT_ID, ref, count);
+        return readCoils(Modbus.DEFAULT_SUBNET_ID, Modbus.DEFAULT_UNIT_ID, ref, count);
     }
 
     /**
@@ -352,7 +368,7 @@ public abstract class AbstractModbusMaster {
      *                         a transaction error occurs.
      */
     public boolean writeCoil(int ref, boolean state) throws ModbusException {
-        return writeCoil(DEFAULT_UNIT_ID, ref, state);
+        return writeCoil(Modbus.DEFAULT_SUBNET_ID, Modbus.DEFAULT_UNIT_ID, ref, state);
     }
 
     /**
@@ -362,13 +378,13 @@ public abstract class AbstractModbusMaster {
      * implicitly, through {@link BitVector#size()}.
      *
      * @param ref   the offset of the coil to start writing to.
-     * @param coils a <tt>BitVector</tt> which holds the coil states to be written.
+     * @param coils a <code>BitVector</code> which holds the coil states to be written.
      *
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
     public void writeMultipleCoils(int ref, BitVector coils) throws ModbusException {
-        writeMultipleCoils(DEFAULT_UNIT_ID, ref, coils);
+        writeMultipleCoils(Modbus.DEFAULT_SUBNET_ID, Modbus.DEFAULT_UNIT_ID, ref, coils);
     }
 
     /**
@@ -380,14 +396,14 @@ public abstract class AbstractModbusMaster {
      * @param ref   the offset of the input discrete to start reading from.
      * @param count the number of input discrete states to be read.
      *
-     * @return a <tt>BitVector</tt> instance holding the received input discrete
+     * @return a <code>BitVector</code> instance holding the received input discrete
      * states.
      *
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
     public BitVector readInputDiscretes(int ref, int count) throws ModbusException {
-        return readInputDiscretes(DEFAULT_UNIT_ID, ref, count);
+        return readInputDiscretes(Modbus.DEFAULT_SUBNET_ID, Modbus.DEFAULT_UNIT_ID, ref, count);
     }
 
     /**
@@ -399,13 +415,13 @@ public abstract class AbstractModbusMaster {
      * @param ref   the offset of the input register to start reading from.
      * @param count the number of input registers to be read.
      *
-     * @return a <tt>InputRegister[]</tt> with the received input registers.
+     * @return a <code>InputRegister[]</code> with the received input registers.
      *
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
     public InputRegister[] readInputRegisters(int ref, int count) throws ModbusException {
-        return readInputRegisters(DEFAULT_UNIT_ID, ref, count);
+        return readInputRegisters(Modbus.DEFAULT_SUBNET_ID, Modbus.DEFAULT_UNIT_ID, ref, count);
     }
 
     /**
@@ -417,20 +433,20 @@ public abstract class AbstractModbusMaster {
      * @param ref   the offset of the register to start reading from.
      * @param count the number of registers to be read.
      *
-     * @return a <tt>Register[]</tt> holding the received registers.
+     * @return a <code>Register[]</code> holding the received registers.
      *
      * @throws ModbusException if an I/O error, a slave exception or
      *                         a transaction error occurs.
      */
     public Register[] readMultipleRegisters(int ref, int count) throws ModbusException {
-        return readMultipleRegisters(DEFAULT_UNIT_ID, ref, count);
+        return readMultipleRegisters(Modbus.DEFAULT_SUBNET_ID, Modbus.DEFAULT_UNIT_ID, ref, count);
     }
 
     /**
      * Writes a single register to the slave.
      *
      * @param ref      the offset of the register to be written.
-     * @param register a <tt>Register</tt> holding the value of the register
+     * @param register a <code>Register</code> holding the value of the register
      *                 to be written.
      *
      * @return the value of the register as returned from the slave.
@@ -439,14 +455,14 @@ public abstract class AbstractModbusMaster {
      *                         a transaction error occurs.
      */
     public int writeSingleRegister(int ref, Register register) throws ModbusException {
-        return writeSingleRegister(DEFAULT_UNIT_ID, ref, register);
+        return writeSingleRegister(Modbus.DEFAULT_SUBNET_ID, Modbus.DEFAULT_UNIT_ID, ref, register);
     }
 
     /**
      * Writes a number of registers to the slave.
      *
      * @param ref       the offset of the register to start writing to.
-     * @param registers a <tt>Register[]</tt> holding the values of
+     * @param registers a <code>Register[]</code> holding the values of
      *                  the registers to be written.
      *
      * @return the number of registers that have been written.
@@ -455,7 +471,7 @@ public abstract class AbstractModbusMaster {
      *                         a transaction error occurs.
      */
     public int writeMultipleRegisters(int ref, Register[] registers) throws ModbusException {
-        return writeMultipleRegisters(DEFAULT_UNIT_ID, ref, registers);
+        return writeMultipleRegisters(Modbus.DEFAULT_SUBNET_ID, Modbus.DEFAULT_UNIT_ID, ref, registers);
     }
 
     /**
@@ -471,7 +487,7 @@ public abstract class AbstractModbusMaster {
      *                         a transaction error occurs.
      */
     public boolean maskWriteRegister(int ref, int andMask, int orMask) throws ModbusException {
-        return maskWriteRegister(DEFAULT_UNIT_ID, ref, andMask, orMask);
+        return maskWriteRegister(Modbus.DEFAULT_SUBNET_ID, Modbus.DEFAULT_UNIT_ID, ref, andMask, orMask);
     }
 
     /**
@@ -523,7 +539,7 @@ public abstract class AbstractModbusMaster {
      * Set the amount of retries for opening
      * the connection for executing the transaction.
      *
-     * @param retries the amount of retries as <tt>int</tt>.
+     * @param retries the amount of retries as <code>int</code>.
      */
     public synchronized void setRetries(int retries) {
         if (transaction != null) {

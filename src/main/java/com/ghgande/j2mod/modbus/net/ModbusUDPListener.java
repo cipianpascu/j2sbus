@@ -37,10 +37,10 @@ public class ModbusUDPListener extends AbstractModbusListener {
     private UDPSlaveTerminal terminal;
 
     /**
-     * Create a new <tt>ModbusUDPListener</tt> instance listening to the given
+     * Create a new <code>ModbusUDPListener</code> instance listening to the given
      * interface address.
      *
-     * @param ifc an <tt>InetAddress</tt> instance.
+     * @param ifc an <code>InetAddress</code> instance.
      */
     public ModbusUDPListener(InetAddress ifc) {
         address = ifc;
@@ -69,7 +69,7 @@ public class ModbusUDPListener extends AbstractModbusListener {
     }
 
     /**
-     * Starts this <tt>ModbusUDPListener</tt>.
+     * Starts this <code>ModbusUDPListener</code>.
      */
     @Override
     public void run() {

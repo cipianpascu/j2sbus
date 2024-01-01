@@ -26,7 +26,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>Mask Write Register</tt> request.
+ * Class implementing a <code>Mask Write Register</code> request.
  *
  * @author Julie Haugh (jfh@ghgande.com)
  * @author jfhaugh (jfh@ghgande.com)
@@ -39,7 +39,7 @@ public class MaskWriteRegisterRequest extends ModbusRequest {
     private int orMask;
 
     /**
-     * Constructs a new <tt>Mask Write Register</tt> request.
+     * Constructs a new <code>Mask Write Register</code> request.
      *
      * @param ref     Register
      * @param andMask AND Mask to use
@@ -57,7 +57,7 @@ public class MaskWriteRegisterRequest extends ModbusRequest {
     }
 
     /**
-     * Constructs a new <tt>Mask Write Register</tt> request.
+     * Constructs a new <code>Mask Write Register</code> request.
      * instance.
      */
     public MaskWriteRegisterRequest() {

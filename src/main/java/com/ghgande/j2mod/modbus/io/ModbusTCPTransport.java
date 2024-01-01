@@ -60,11 +60,11 @@ public class ModbusTCPTransport extends AbstractModbusTransport {
     }
 
     /**
-     * Constructs a new <tt>ModbusTransport</tt> instance, for a given
-     * <tt>Socket</tt>.
-     * <p>
+     * Constructs a new <code>ModbusTransport</code> instance, for a given
+     * <code>Socket</code>.
      *
-     * @param socket the <tt>Socket</tt> used for message transport.
+     *
+     * @param socket the <code>Socket</code> used for message transport.
      */
     public ModbusTCPTransport(Socket socket) {
         lastActivityTimestamp = System.nanoTime();
@@ -81,10 +81,10 @@ public class ModbusTCPTransport extends AbstractModbusTransport {
     }
 
     /**
-     * Sets the <tt>Socket</tt> used for message transport and prepares the
+     * Sets the <code>Socket</code> used for message transport and prepares the
      * streams used for the actual I/O.
      *
-     * @param socket the <tt>Socket</tt> used for message transport.
+     * @param socket the <code>Socket</code> used for message transport.
      *
      * @throws IOException if an I/O related error occurs.
      */
@@ -331,7 +331,7 @@ public class ModbusTCPTransport extends AbstractModbusTransport {
     }
 
     /**
-     * Prepares the input and output streams of this <tt>ModbusTCPTransport</tt>
+     * Prepares the input and output streams of this <code>ModbusTCPTransport</code>
      * instance based on the given socket.
      *
      * @param socket the socket used for communications.
@@ -359,16 +359,16 @@ public class ModbusTCPTransport extends AbstractModbusTransport {
     }
 
     /**
-     * Writes a <tt>ModbusMessage</tt> to the
-     * output stream of this <tt>ModbusTransport</tt>.
-     * <p>
+     * Writes a <code>ModbusMessage</code> to the
+     * output stream of this <code>ModbusTransport</code>.
      *
-     * @param msg           a <tt>ModbusMessage</tt>.
+     *
+     * @param msg           a <code>ModbusMessage</code>.
      * @param useRtuOverTcp True if the RTU protocol should be used over TCP
      *
      * @throws ModbusIOException data cannot be
      *                           written properly to the raw output stream of
-     *                           this <tt>ModbusTransport</tt>.
+     *                           this <code>ModbusTransport</code>.
      */
     void writeMessage(ModbusMessage msg, boolean useRtuOverTcp) throws ModbusIOException {
         lastActivityTimestamp = System.nanoTime();

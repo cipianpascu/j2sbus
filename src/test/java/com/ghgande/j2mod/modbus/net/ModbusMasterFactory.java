@@ -29,7 +29,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 /**
- * Create a <tt>ModbusListener</tt> from an URI-like specifier.
+ * Create a <code>ModbusListener</code> from an URI-like specifier.
  *
  * @author Julie
  * @author Steve O'Hara (4NG)

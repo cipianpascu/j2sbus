@@ -38,20 +38,20 @@ public interface NonWordDataHandler {
     /**
      * Returns the intermediate raw non-word data.
      *
-     * <p>
+     *
      * An implementation would need to provide a means of converting between the
      * raw byte data and the registers that are present in actual messages.
      *
-     * @return the raw data as <tt>byte[]</tt>.
+     * @return the raw data as <code>byte[]</code>.
      */
     byte[] getData();
 
     /**
      * Reads the non-word raw data based on an arbitrary implemented structure.
      *
-     * @param in        the <tt>DataInput</tt> to read from.
-     * @param reference to specify the offset as <tt>int</tt>.
-     * @param count     to specify the amount of bytes as <tt>int</tt>.
+     * @param in        the <code>DataInput</code> to read from.
+     * @param reference to specify the offset as <code>int</code>.
+     * @param count     to specify the amount of bytes as <code>int</code>.
      *
      * @throws IOException  if I/O fails.
      * @throws EOFException if the stream ends before all data is read.
@@ -69,9 +69,9 @@ public interface NonWordDataHandler {
     /**
      * Commits the data if it has been read into an intermediate repository.
      *
-     * <p>
+     *
      * This method is called for a message (for example, a
-     * <tt>WriteMultipleRegistersRequest</tt> instance) when finished with
+     * <code>WriteMultipleRegistersRequest</code> instance) when finished with
      * reading, for creating a response.
      *
      * @return -1 if the commit was successful, a Modbus exception code valid
@@ -82,12 +82,12 @@ public interface NonWordDataHandler {
     /**
      * Prepares the raw data, putting it together from a backing data store.
      *
-     * <p>
-     * This method is called for a message (for example, * <tt>ReadMultipleRegistersRequest</tt>) when finished with reading, for
+     *
+     * This method is called for a message (for example, * <code>ReadMultipleRegistersRequest</code>) when finished with reading, for
      * creating a response.
      *
-     * @param reference to specify the offset as <tt>int</tt>.
-     * @param count     to specify the number of bytes as <tt>int</tt>.
+     * @param reference to specify the offset as <code>int</code>.
+     * @param count     to specify the number of bytes as <code>int</code>.
      */
     void prepareData(int reference, int count);
 }

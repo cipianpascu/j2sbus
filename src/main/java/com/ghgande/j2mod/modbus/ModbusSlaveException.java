@@ -16,7 +16,7 @@
 package com.ghgande.j2mod.modbus;
 
 /**
- * Class that implements a <tt>ModbusSlaveException</tt>. Instances of this
+ * Class that implements a <code>ModbusSlaveException</code>. Instances of this
  * exception are thrown when the slave returns a Modbus exception.
  *
  * @author Dieter Wimberger
@@ -33,13 +33,13 @@ public class ModbusSlaveException extends ModbusException {
     private final int type;
 
     /**
-     * <p>
-     * Constructs a new <tt>ModbusSlaveException</tt> instance with the given
+     *
+     * Constructs a new <code>ModbusSlaveException</code> instance with the given
      * type.
      *
-     * <p>
+     *
      * Types are defined according to the protocol specification in
-     * <tt>net.wimpi.modbus.Modbus</tt>.
+     * <code>net.wimpi.modbus.Modbus</code>.
      *
      * @param type the type of exception that occurred.
      */
@@ -82,29 +82,29 @@ public class ModbusSlaveException extends ModbusException {
     }
 
     /**
-     * <p>
-     * Returns the type of this <tt>ModbusSlaveException</tt>. <br>
-     * Types are defined according to the protocol specification in
-     * <tt>net.wimpi.modbus.Modbus</tt>.
      *
-     * @return the type of this <tt>ModbusSlaveException</tt>.
+     * Returns the type of this <code>ModbusSlaveException</code>. <br>
+     * Types are defined according to the protocol specification in
+     * <code>net.wimpi.modbus.Modbus</code>.
+     *
+     * @return the type of this <code>ModbusSlaveException</code>.
      */
     public int getType() {
         return type;
     }
 
     /**
-     * <p>
-     * Tests if this <tt>ModbusSlaveException</tt> is of a given type.
      *
-     * <p>
+     * Tests if this <code>ModbusSlaveException</code> is of a given type.
+     *
+     *
      * Types are defined according to the protocol specification in
-     * <tt>net.wimpi.modbus.Modbus</tt>.
+     * <code>net.wimpi.modbus.Modbus</code>.
      *
-     * @param type the type to test this <tt>ModbusSlaveException</tt> type
+     * @param type the type to test this <code>ModbusSlaveException</code> type
      *             against.
      *
-     * @return true if this <tt>ModbusSlaveException</tt> is of the given type,
+     * @return true if this <code>ModbusSlaveException</code> is of the given type,
      * false otherwise.
      */
     public boolean isType(int type) {

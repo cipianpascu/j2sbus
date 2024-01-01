@@ -23,7 +23,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>WriteFileRecordResponse</tt>.
+ * Class implementing a <code>WriteFileRecordResponse</code>.
  *
  * @author Julie
  * @author Steve O'Hara (4NG)
@@ -33,7 +33,7 @@ public class WriteFileRecordResponse extends ModbusResponse {
     private RecordResponse[] records;
 
     /**
-     * Constructs a new <tt>WriteFileRecordResponse</tt> instance.
+     * Constructs a new <code>WriteFileRecordResponse</code> instance.
      */
     public WriteFileRecordResponse() {
         super();

@@ -44,12 +44,12 @@ public class TCPConnectionHandler implements Runnable {
     private final ScheduledExecutorService watchDog;
 
     /**
-     * Constructs a new <tt>TCPConnectionHandler</tt> instance.
+     * Constructs a new <code>TCPConnectionHandler</code> instance.
      *
-     * <p>
-     * The connections will be handling using the <tt>ModbusCouple</tt> class
-     * and a <tt>ProcessImage</tt> which provides the interface between the
-     * slave implementation and the <tt>TCPSlaveConnection</tt>.
+     *
+     * The connections will be handling using the <code>ModbusCouple</code> class
+     * and a <code>ProcessImage</code> which provides the interface between the
+     * slave implementation and the <code>TCPSlaveConnection</code>.
      *
      * @param listener       the listener that handled the incoming request
      * @param connection     an incoming connection.

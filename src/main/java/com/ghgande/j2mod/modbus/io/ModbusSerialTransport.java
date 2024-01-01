@@ -33,7 +33,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Abstract base class for serial <tt>ModbusTransport</tt>
+ * Abstract base class for serial <code>ModbusTransport</code>
  * implementations.
  *
  * @author Dieter Wimberger

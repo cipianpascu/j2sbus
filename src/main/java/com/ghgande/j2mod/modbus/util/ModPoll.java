@@ -120,11 +120,11 @@ public class ModPoll {
 
                 System.out.println("-- Polling slave... (Ctrl-C to stop)");
                 if (params.type == 1) {
-                    BitVector vector = master.readInputDiscretes(params.unit, params.reference, params.count);
+                    BitVector vector = master.readInputDiscretes(params.subnet, params.unit, params.reference, params.count);
                     System.out.println(vector.toString());
                 }
                 else if (params.type == 3) {
-                    InputRegister[] regs = master.readInputRegisters(params.unit, params.reference, params.count);
+                    InputRegister[] regs = master.readInputRegisters(params.subnet, params.unit, params.reference, params.count);
                     int cnt = 0;
                     for (InputRegister reg : regs) {
                         System.out.printf("[%04d]: %s (%d)%n", params.reference + cnt, ModbusUtil.toHex(reg.toBytes()), reg.toUnsignedShort());
@@ -132,7 +132,7 @@ public class ModPoll {
                     }
                 }
                 else if (params.type == 4) {
-                    Register[] regs = master.readMultipleRegisters(params.unit, params.reference, params.count);
+                    Register[] regs = master.readMultipleRegisters(params.subnet, params.unit, params.reference, params.count);
                     int cnt = 0;
                     for (Register reg : regs) {
                         System.out.printf("[%04d]: %s (%d)%n", params.reference + cnt, ModbusUtil.toHex(reg.toBytes()), reg.toUnsignedShort());
@@ -230,7 +230,7 @@ public class ModPoll {
 
         String portname = null;
         int parity = AbstractSerialConnection.NO_PARITY;
-        int rate = 1000, unit = -1, reference = 0, count = 1, type = 3, baudRate = 9600, dataBits = 8, stopBits = 1, port = 502;
+        int rate = 1000, subnet = 0, unit = -1, reference = 0, count = 1, type = 3, baudRate = 9600, dataBits = 8, stopBits = 1, port = 502;
         boolean continuous = true;
         String mode = MODE_TCP, displayType = null;
         private String portOrParity;

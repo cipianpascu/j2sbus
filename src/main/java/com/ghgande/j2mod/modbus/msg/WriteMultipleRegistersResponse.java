@@ -22,7 +22,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>WriteMultipleRegistersResponse</tt>. The
+ * Class implementing a <code>WriteMultipleRegistersResponse</code>. The
  * implementation directly correlates with the class 0 function <i>preset multiple
  * registers (FC 16)</i>. It encapsulates the corresponding response message.
  *
@@ -36,7 +36,7 @@ public class WriteMultipleRegistersResponse extends ModbusResponse {
     private int reference;
 
     /**
-     * Constructs a new <tt>WriteMultipleRegistersResponse</tt> instance.
+     * Constructs a new <code>WriteMultipleRegistersResponse</code> instance.
      */
     public WriteMultipleRegistersResponse() {
         super();
@@ -46,7 +46,7 @@ public class WriteMultipleRegistersResponse extends ModbusResponse {
     }
 
     /**
-     * Constructs a new <tt>WriteMultipleRegistersResponse</tt> instance.
+     * Constructs a new <code>WriteMultipleRegistersResponse</code> instance.
      *
      * @param reference the offset to start writing from.
      * @param wordCount the number of words (registers) to be written.
@@ -63,10 +63,10 @@ public class WriteMultipleRegistersResponse extends ModbusResponse {
 
     /**
      * Returns the reference of the register to start writing to with this
-     * <tt>WriteMultipleRegistersResponse</tt>.
-     * <p>
+     * <code>WriteMultipleRegistersResponse</code>.
      *
-     * @return the reference of the register to start writing to as <tt>int</tt>
+     *
+     * @return the reference of the register to start writing to as <code>int</code>
      * .
      */
     public int getReference() {
@@ -75,11 +75,11 @@ public class WriteMultipleRegistersResponse extends ModbusResponse {
 
     /**
      * Sets the reference of the register to start writing to with this
-     * <tt>WriteMultipleRegistersResponse</tt>.
-     * <p>
+     * <code>WriteMultipleRegistersResponse</code>.
+     *
      *
      * @param ref the reference of the register to start writing to as
-     *            <tt>int</tt>.
+     *            <code>int</code>.
      */
     public void setReference(int ref) {
         reference = ref;
@@ -88,7 +88,7 @@ public class WriteMultipleRegistersResponse extends ModbusResponse {
     /**
      * Returns the number of bytes that have been written.
      *
-     * @return the number of bytes that have been written as <tt>int</tt>.
+     * @return the number of bytes that have been written as <code>int</code>.
      */
     public int getByteCount() {
         return wordCount * 2;
@@ -97,9 +97,9 @@ public class WriteMultipleRegistersResponse extends ModbusResponse {
     /**
      * Returns the number of words that have been written. The returned value
      * should be half of the byte count of the response.
-     * <p>
      *
-     * @return the number of words that have been written as <tt>int</tt>.
+     *
+     * @return the number of words that have been written as <code>int</code>.
      */
     public int getWordCount() {
         return wordCount;
@@ -108,7 +108,7 @@ public class WriteMultipleRegistersResponse extends ModbusResponse {
     /**
      * Sets the number of words that have been returned.
      *
-     * @param count the number of words as <tt>int</tt>.
+     * @param count the number of words as <code>int</code>.
      */
     public void setWordCount(int count) {
         wordCount = count;

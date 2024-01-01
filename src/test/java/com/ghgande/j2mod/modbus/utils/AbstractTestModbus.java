@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 public class AbstractTestModbus {
     private static final Logger logger = LoggerFactory.getLogger(AbstractTestModbus.class);
     public static ModbusSlave slave = null;
+    public static final int SUBNET_ID = 1;
     public static final int UNIT_ID = 15;
     public static final int PORT = 2502;
     public static final String LOCALHOST = "127.0.0.1";

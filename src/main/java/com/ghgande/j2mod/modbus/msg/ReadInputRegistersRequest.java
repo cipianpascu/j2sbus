@@ -26,7 +26,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>ReadInputRegistersRequest</tt>. The implementation
+ * Class implementing a <code>ReadInputRegistersRequest</code>. The implementation
  * directly correlates with the class 0 function <i>read multiple registers (FC
  * 4)</i>. It encapsulates the corresponding request message.
  *
@@ -41,7 +41,7 @@ public class ReadInputRegistersRequest extends ModbusRequest {
     private int wordCount;
 
     /**
-     * Constructs a new <tt>ReadInputRegistersRequest</tt> instance.
+     * Constructs a new <code>ReadInputRegistersRequest</code> instance.
      */
     public ReadInputRegistersRequest() {
         super();
@@ -52,9 +52,9 @@ public class ReadInputRegistersRequest extends ModbusRequest {
     }
 
     /**
-     * Constructs a new <tt>ReadInputRegistersRequest</tt> instance with a given
+     * Constructs a new <code>ReadInputRegistersRequest</code> instance with a given
      * reference and count of words to be read.
-     * <p>
+     *
      *
      * @param ref   the reference number of the register to read from.
      * @param count the number of words to be read.
@@ -99,11 +99,11 @@ public class ReadInputRegistersRequest extends ModbusRequest {
 
     /**
      * Returns the reference of the register to to start reading from with this
-     * <tt>ReadInputRegistersRequest</tt>.
-     * <p>
+     * <code>ReadInputRegistersRequest</code>.
+     *
      *
      * @return the reference of the register to start reading from as
-     * <tt>int</tt>.
+     * <code>int</code>.
      */
     public int getReference() {
         return reference;
@@ -111,8 +111,8 @@ public class ReadInputRegistersRequest extends ModbusRequest {
 
     /**
      * Sets the reference of the register to start reading from with this
-     * <tt>ReadInputRegistersRequest</tt>.
-     * <p>
+     * <code>ReadInputRegistersRequest</code>.
+     *
      *
      * @param ref the reference of the register to start reading from.
      */
@@ -122,10 +122,10 @@ public class ReadInputRegistersRequest extends ModbusRequest {
 
     /**
      * Returns the number of words to be read with this
-     * <tt>ReadInputRegistersRequest</tt>.
-     * <p>
+     * <code>ReadInputRegistersRequest</code>.
      *
-     * @return the number of words to be read as <tt>int</tt>.
+     *
+     * @return the number of words to be read as <code>int</code>.
      */
     public int getWordCount() {
         return wordCount;
@@ -133,8 +133,8 @@ public class ReadInputRegistersRequest extends ModbusRequest {
 
     /**
      * Sets the number of words to be read with this
-     * <tt>ReadInputRegistersRequest</tt>.
-     * <p>
+     * <code>ReadInputRegistersRequest</code>.
+     *
      *
      * @param count the number of words to be read.
      */

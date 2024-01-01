@@ -16,11 +16,11 @@
 package com.ghgande.j2mod.modbus.procimg;
 
 /**
- * Class implementing an <tt>IllegalAddressException</tt>. This exception is
+ * Class implementing an <code>IllegalAddressException</code>. This exception is
  * thrown when a non-existant spot in the process image was addressed.
- * <p>
+ *
  * Note that this is a runtime exception, as it is similar to the
- * <tt>IndexOutOfBoundsException</tt>
+ * <code>IndexOutOfBoundsException</code>
  *
  * @author Dieter Wimberger
  * @author Steve O'Hara (4NG)
@@ -34,15 +34,15 @@ public class IllegalAddressException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructs a new <tt>IllegalAddressException</tt>.
+     * Constructs a new <code>IllegalAddressException</code>.
      */
     public IllegalAddressException() {
     }
 
     /**
-     * Constructs a new <tt>IllegalAddressException</tt> with the given message.
+     * Constructs a new <code>IllegalAddressException</code> with the given message.
      *
-     * @param message a message as <tt>String</tt>.
+     * @param message a message as <code>String</code>.
      */
     public IllegalAddressException(String message) {
         super(message);

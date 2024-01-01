@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class implementing the <tt>ModbusTransaction</tt> interface.
+ * Class implementing the <code>ModbusTransaction</code> interface.
  *
  * @author Dieter Wimberger
  * @author Steve O'Hara (4NG)
@@ -42,28 +42,28 @@ public class ModbusTCPTransaction extends ModbusTransaction {
     protected boolean reconnecting = Modbus.DEFAULT_RECONNECTING;
 
     /**
-     * Constructs a new <tt>ModbusTCPTransaction</tt> instance.
+     * Constructs a new <code>ModbusTCPTransaction</code> instance.
      */
     public ModbusTCPTransaction() {
     }
 
     /**
-     * Constructs a new <tt>ModbusTCPTransaction</tt> instance with a given
-     * <tt>ModbusRequest</tt> to be send when the transaction is executed.
-     * <p>
+     * Constructs a new <code>ModbusTCPTransaction</code> instance with a given
+     * <code>ModbusRequest</code> to be send when the transaction is executed.
      *
-     * @param request a <tt>ModbusRequest</tt> instance.
+     *
+     * @param request a <code>ModbusRequest</code> instance.
      */
     public ModbusTCPTransaction(ModbusRequest request) {
         setRequest(request);
     }
 
     /**
-     * Constructs a new <tt>ModbusTCPTransaction</tt> instance with a given
-     * <tt>TCPMasterConnection</tt> to be used for transactions.
-     * <p>
+     * Constructs a new <code>ModbusTCPTransaction</code> instance with a given
+     * <code>TCPMasterConnection</code> to be used for transactions.
      *
-     * @param con a <tt>TCPMasterConnection</tt> instance.
+     *
+     * @param con a <code>TCPMasterConnection</code> instance.
      */
     public ModbusTCPTransaction(TCPMasterConnection con) {
         setConnection(con);
@@ -71,14 +71,14 @@ public class ModbusTCPTransaction extends ModbusTransaction {
     }
 
     /**
-     * Sets the connection on which this <tt>ModbusTransaction</tt> should be
+     * Sets the connection on which this <code>ModbusTransaction</code> should be
      * executed.
-     * <p>
+     *
      * An implementation should be able to handle open and closed connections.
      * <br>
-     * <p>
      *
-     * @param con a <tt>TCPMasterConnection</tt>.
+     *
+     * @param con a <code>TCPMasterConnection</code>.
      */
     public void setConnection(TCPMasterConnection con) {
         connection = con;
@@ -88,7 +88,7 @@ public class ModbusTCPTransaction extends ModbusTransaction {
     /**
      * Tests if the connection will be opened and closed for <b>each</b>
      * execution.
-     * <p>
+     *
      *
      * @return true if reconnecting, false otherwise.
      */
@@ -99,7 +99,7 @@ public class ModbusTCPTransaction extends ModbusTransaction {
     /**
      * Sets the flag that controls whether a connection is opened and closed
      * for <b>each</b> execution or not.
-     * <p>
+     *
      *
      * @param b true if reconnecting, false otherwise.
      */

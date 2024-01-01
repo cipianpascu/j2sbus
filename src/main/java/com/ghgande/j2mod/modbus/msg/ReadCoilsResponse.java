@@ -23,11 +23,11 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>ReadCoilsResponse</tt>.
+ * Class implementing a <code>ReadCoilsResponse</code>.
  * The implementation directly correlates with the class 1
  * function <i>read coils (FC 1)</i>. It encapsulates
  * the corresponding response message.
- * <p>
+ *
  * Coils are understood as bits that can be manipulated
  * (i.e. set or unset).
  *
@@ -99,7 +99,7 @@ public class ReadCoilsResponse extends ModbusResponse {
     /**
      * Convenience method that returns the state
      * of the bit at the given index.
-     * <p>
+     *
      *
      * @param index the index of the coil for which
      *              the status should be returned.

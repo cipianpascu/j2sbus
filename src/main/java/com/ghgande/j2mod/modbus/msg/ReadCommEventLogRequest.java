@@ -23,7 +23,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Class implementing a <tt>Read MEI Data</tt> request.
+ * Class implementing a <code>Read MEI Data</code> request.
  *
  * @author Julie Haugh (jfh@ghgande.com)
  * @author jfhaugh (jfh@ghgande.com)
@@ -33,7 +33,7 @@ import java.io.IOException;
 public class ReadCommEventLogRequest extends ModbusRequest {
 
     /**
-     * Constructs a new <tt>Get Comm Event Log</tt>
+     * Constructs a new <code>Get Comm Event Log</code>
      * instance.
      */
     public ReadCommEventLogRequest() {

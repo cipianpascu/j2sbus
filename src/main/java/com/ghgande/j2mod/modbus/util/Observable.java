@@ -41,7 +41,7 @@ public class Observable {
 
     /**
      * Adds an observer instance if it is not already in the set of observers
-     * for this <tt>Observable</tt>.
+     * for this <code>Observable</code>.
      *
      * @param o an observer instance to be added.
      */
@@ -53,7 +53,7 @@ public class Observable {
 
     /**
      * Removes an observer instance from the set of observers of this
-     * <tt>Observable</tt>.
+     * <code>Observable</code>.
      *
      * @param o an observer instance to be removed.
      */
@@ -63,7 +63,7 @@ public class Observable {
 
     /**
      * Removes all observer instances from the set of observers of this
-     * <tt>Observable</tt>.
+     * <code>Observable</code>.
      */
     public synchronized void removeObservers() {
         observers.removeAllElements();
@@ -71,7 +71,7 @@ public class Observable {
 
     /**
      * Notifies all observer instances in the set of observers of this
-     * <tt>Observable</tt>.
+     * <code>Observable</code>.
      *
      * @param arg an arbitrary argument to be passed.
      */

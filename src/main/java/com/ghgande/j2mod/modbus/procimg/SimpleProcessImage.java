@@ -21,7 +21,7 @@ import java.util.Vector;
  * Class implementing a simple process image to be able to run unit tests or
  * handle simple cases.
  *
- * <p>
+ *
  * The image has a simple linear address space for, analog, digital and file
  * objects. Holes may be created by adding a object with a reference after the
  * last object reference of that type.
@@ -44,13 +44,13 @@ public class SimpleProcessImage implements ProcessImageImplementation {
     protected int unitID = 0;
 
     /**
-     * Constructs a new <tt>SimpleProcessImage</tt> instance.
+     * Constructs a new <code>SimpleProcessImage</code> instance.
      */
     public SimpleProcessImage() {
     }
 
     /**
-     * Constructs a new <tt>SimpleProcessImage</tt> instance having a
+     * Constructs a new <code>SimpleProcessImage</code> instance having a
      * (potentially) non-zero unit ID.
      * @param unit Unit ID of this image
      */
@@ -72,13 +72,13 @@ public class SimpleProcessImage implements ProcessImageImplementation {
      * return value) to attempt to lock the process image when it is already
      * locked.
      *
-     * <p>
+     *
      * Compatability Note: jamod did not enforce this restriction, so it is
      * being handled in a way which is backwards compatible. If you wish to
      * determine if you acquired the lock, check the return value. If your code
      * is still based on the jamod paradigm, you will ignore the return value
      * and your code will function as before.
-     * </p>
+     * 
      * @param locked True if the image is to be locked
      * @return setting lock succeded
      */

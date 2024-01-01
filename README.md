@@ -33,8 +33,8 @@ Logging facade to fit in with your application logging framework
 # Including j2mod
 
     <dependency>
-        <groupId>com.ghgande</groupId>
-        <artifactId>j2mod</artifactId>
+        <groupId>com.ciprianpascu</groupId>
+        <artifactId>j2sbus</artifactId>
         <version>LATEST</version>
     </dependency>
     

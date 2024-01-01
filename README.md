@@ -1,42 +1,21 @@
-# Overview
-This project is a fork of the [j2sbus](https://sourceforge.net/projects/j2sbus/) library which began life as [jamod](http://jamod.sourceforge.net/). 
-A huge amount of refactoring and code fixing has been carried out on this library, with the addition of supporting JUnit tests, to ensure the library is fit for production use.
+## About this Fork
 
-This implementation supports Modbus TCP, UDP, RTU over TCP, Serial RTU and Serial ASCII in both Master and Slave configurations.
-The serial comms is implemented using [jSerialComm](http://fazecast.github.io/jSerialComm/) and does not require any outside dependencies over and above the logging facade [slf4j](https://www.slf4j.org/).
+This is a fork of Java Modbus Library jamod (now abandoded) - http://jamod.sourceforge.net/. Original SVN revision at the time of fork was 26 according to https://svn.code.sf.net/p/jamod/svn/trunk/.
 
-For instructions on how to use the library, visit the wiki [here](https://github.com/steveohara/j2sbus/wiki) 
+The code originally lived in openhab1-addons (binding) and openhab2-addons (transport) repos. Since then, the fork has been separated here, and the commits have been rebased on top of clean jamod SVN checkout. Further details how this has been done is documented in [openHAB2 Modbus binding PR](https://github.com/openhab/openhab-addons/pull/2246#issuecomment-341983287).
 
-# Releases
-Stable releases can be downloaded here 
+**NOTE:** This fork is very passively maintained to meet the needs of [openHAB](https://www.openhab.org/), and mainly receives critical bug fixes in the context of openHAB.
+The library is abstracted fully in openHAB by the modbus transport bundle ([org.openhab.core.io.transport.modbus in openhab-core](https://github.com/openhab/openhab-core/tree/main/bundles/org.openhab.core.io.transport.modbus)).
 
-https://mvnrepository.com/artifact/com.ciprianpascu/j2sbus
+Readers seeking a general purpose modbus library in java are invited to familiarize with more actively maintained forks such as [steveohara/j2mod](https://github.com/steveohara/j2mod/). The fork living in this repo is not recommended to be used outside openHAB context.
 
-Snapshot releases can be downloaded here 
+## About
 
-https://oss.sonatype.org/content/repositories/snapshots/com/ghgande/j2sbus/
+This project represents a Modbus implementation in 100% Java. It can be used to implement Modbus masters and slaves in various flavors:
 
-# Known Issues
+- Serial: ASCII, RTU (Master only), BIN
+- IP: TCP, UDP, RTU/IP (Master Only)
 
-* There are no unit tests for the RTU over TCP transport
-* There is no way of adding `AbstractSerialTransportListener` to a `ModbusSlave` which means you cannot get informed of when the library is switching between send and receive
-* A refactor is overdue to hide package components to encourage best practise usage patterns
+The design of this library is fully object oriented, based on abstractions which should support easy understanding, reusability and extensibility.
 
-# Dependencies
-
-* [jSerialComm](http://fazecast.github.io/jSerialComm/)
-The serial comms is handled by JSerialComm that includs native implementations for most platforms.
-* [slf4j](https://www.slf4j.org/)
-Logging facade to fit in with your application logging framework
-* JRE 1.8 (JRE 1.6 for v2.70 and lower)
-  
-# Including j2sbus
-
-    <dependency>
-        <groupId>com.ciprianpascu</groupId>
-        <artifactId>j2sbus</artifactId>
-        <version>LATEST</version>
-    </dependency>
-    
-# Announcements
-    
+One important goal of this project is a codebase that is easily usable on a variety of Java Platforms (and devices). Many limited resource devices do not provide Java 5 and Java 6 environments, and there are only limited possibilities for logging.

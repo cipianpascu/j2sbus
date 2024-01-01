@@ -1,297 +1,220 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.ciprianpascu</groupId>
-    <artifactId>j2sbus</artifactId>
-    <name>Java 2 S-Bus</name>
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ciprianpascu</groupId>
+	<artifactId>j2sbus</artifactId>
+	<packaging>jar</packaging>
+	<version>1.3.5.OH-SNAPSHOT</version>
+	<name>Java 2 S-Bus</name>
     <url>https://github.com/cipianpascu/j2sbus</url>
-    <version>3.2.1-SNAPSHOT</version>
-    <description>A S-BUS TCP/UDP/Serial Master and Slave implementation</description>
+	<description>
+        jamod is an object oriented implementation of the S-Bus protocol, realized 100% in Java. It allows to quickly
+        realize master and slave applications in various transport flavors (IP and serial).
+    </description>
 
-    <packaging>bundle</packaging>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
+	<licenses>
+		<license>
+			<name>Apache 2 Style License</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
 
-    <developers>
-        <developer>
-            <id>wimpi</id>
-            <name>Dieter Wimberger</name>
-            <email>wimpi@user.sourceforge.com</email>
-            <organization>SourceForge</organization>
-            <organizationUrl>http://jamod.sourceforge.net</organizationUrl>
-            <roles>
-                <role>architect</role>
-                <role>developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>jdcharlton</id>
-            <name>John Charlton</name>
-            <email>jdcharlton@user.sourceforge.com</email>
-            <organization>SourceForge</organization>
-            <organizationUrl>http://jamod.sourceforge.net</organizationUrl>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>jhaugh</id>
-            <name>Julie Haugh</name>
-            <email>http://www.ghgande.com</email>
-            <organization>greenHouse Gas and Electric</organization>
-            <organizationUrl>http://www.ghgande.com</organizationUrl>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>sohara</id>
-            <name>Steve O'Hara</name>
-            <email>steve.ohara@4ng.co.uk</email>
-            <organization>4NG</organization>
-            <organizationUrl>http://www.4ng.co.uk</organizationUrl>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>ciprianpascu</id>
-            <name>Ciprian Pascu</name>
-            <email>ciprianpascu@yahoo.com</email>
-            <organization>Deutsche Bank</organization>
-            <organizationUrl>https://ciprianpascu.ro</organizationUrl>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-    </developers>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
 
-    <licenses>
-        <license>
-            <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
-    <scm>
-        <connection>scm:git:https://github.com/cipianpascu/j2sbus.git</connection>
-        <url>https://github.com/cipianpascu/j2sbus</url>
-      <tag>v3.2.1</tag>
-    </scm>
+	<!-- dependency versions here should match roughly the runtime environment of openHAB2 -->
+	<dependencies>
+		<dependency>
+			<groupId>com.neuronrobotics</groupId>
+			<artifactId>nrjavaserial</artifactId>
+			<version>3.12.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.2</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.fazecast</groupId>
-            <artifactId>jSerialComm</artifactId>
-            <version>2.10.3</version>
-        </dependency>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.6.1</version>
+				<configuration>
+					<show>private</show>
+					<nohelp>true</nohelp>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.9</version>
-        </dependency>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.4</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependencies</report>
+							<report>project-team</report>
+							<report>mailing-list</report>
+							<report>issue-tracking</report>
+							<report>license</report>
+							<report>scm</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.6.1</version>
+				<configuration>
+					<show>public</show>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>2.0.9</version>
-            <scope>test</scope>
-        </dependency>
+	<issueManagement>
+		<system>Github apge</system>
+		<url>https://github.com/openhab/jamod/issues</url>
+	</issueManagement>
 
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.20.0</version>
-            <scope>test</scope>
-        </dependency>
+	<scm>
+		<url>https://github.com/cipianpascu/j2sbus/</url>
+		<connection>scm:git:git://github.com/cipianpascu/j2sbus.git</connection>
+		<developerConnection>scm:git:git@github.com:cipianpascu/j2sbus.git</developerConnection>
+	</scm>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
+	<distributionManagement>
+		<repository>
+			<id>jfrog</id>
+			<name>openhab-artifactory-3rdparty</name>
+			<url>https://openhab.jfrog.io/artifactory/libs-3rdparty-local</url>
+		</repository>
+	</distributionManagement>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-exec</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+	<!-- Original jamod developers as specified in http://jamod.sourceforge.net/ -->
+	<developers>
+		<developer>
+			<id>wimpi</id>
+			<name>Dieter Wimberger</name>
+			<email>wimpi at users.sourceforge.net</email>
+			<roles>
+				<role>Project Manager</role>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>+2</timezone>
+		</developer>
+		<developer>
+			<id>jdcharlton</id>
+			<name>John Charlton</name>
+			<email>jdcharlton at users.sourceforge.net</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>-5</timezone>
+		</developer>
+		<developer>
+			<id>cipianpascu</id>
+			<name>Ciprian Pascu</name>
+			<email>ciprianpascu at yahoo.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>-5</timezone>
+		</developer>
+	</developers>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>utf-8</encoding>
-                </configuration>
-            </plugin>
+	<!-- Original jamod contributors as specified in http://jamod.sourceforge.net/ -->
+	<contributors>
+		<contributor>
+			<name>Markus Kuespert</name>
+		</contributor>
+		<contributor>
+			<name>Matthew Lohbihler</name>
+		</contributor>
+		<contributor>
+			<name>Shane Harrison</name>
+		</contributor>
+		<contributor>
+			<name>Ciprian Pascu</name>
+		</contributor>
+	</contributors>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.1</version>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Implementation-Title>${project.name}</Implementation-Title>
-                            <Implementation-Version>${project.version}</Implementation-Version>
-                            <Implemenation-Vendor>${project.organization.name}</Implemenation-Vendor>
-                            <Main-Class>com.ciprianpascu.j2sbus.modbus.util.ModPoll</Main-Class>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>3.5.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Import-Package>*jSerialComm*, org.slf4j;version="[1.6,2)"</Import-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.6.3</version>
-                <configuration>
-                    <quiet>true</quiet>
-                    <show>public</show>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>javadoc</id>
-                        <goals>
-                            <goal>javadoc</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-                    <excludeResources>true</excludeResources>
-                    <excludes>
-                        <exclude>resources/**</exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4.1</version>
-                <configuration>
-                    <descriptors>
-                        <descriptor>assembly.xml</descriptor>
-                    </descriptors>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.ciprianpascu.j2sbus.modbus.util.ModPoll</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                        <configuration>
-                            <gpgArguments>
-                                <arg>--pinentry-mode</arg>
-                                <arg>loopback</arg>
-                            </gpgArguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.3</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-
-        </plugins>
-
-        <!-- Tell Maven to exclude our properties files from the resources directory. -->
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>log4j.properties</exclude>
-                </excludes>
-            </resource>
-        </resources>
-    </build>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.4</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

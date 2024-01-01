@@ -5,7 +5,7 @@
     <groupId>com.ciprianpascu</groupId>
     <artifactId>j2sbus</artifactId>
     <name>Java 2 S-Bus</name>
-    <url>https://github.com/steveohara/j2mod</url>
+    <url>https://github.com/cipianpascu/j2sbus</url>
     <version>3.2.1-SNAPSHOT</version>
     <description>A S-BUS TCP/UDP/Serial Master and Slave implementation</description>
 
@@ -147,7 +147,7 @@
                             <Implementation-Title>${project.name}</Implementation-Title>
                             <Implementation-Version>${project.version}</Implementation-Version>
                             <Implemenation-Vendor>${project.organization.name}</Implemenation-Vendor>
-                            <Main-Class>com.ghgande.j2mod.modbus.util.ModPoll</Main-Class>
+                            <Main-Class>com.ciprianpascu.j2sbus.modbus.util.ModPoll</Main-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -222,7 +222,7 @@
                     </descriptors>
                     <archive>
                         <manifest>
-                            <mainClass>com.ghgande.j2mod.modbus.util.ModPoll</mainClass>
+                            <mainClass>com.ciprianpascu.j2sbus.modbus.util.ModPoll</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

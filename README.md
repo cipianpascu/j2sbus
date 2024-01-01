@@ -1,20 +1,20 @@
 # Overview
-This project is a fork of the [j2mod](https://sourceforge.net/projects/j2mod/) library which began life as [jamod](http://jamod.sourceforge.net/). 
+This project is a fork of the [j2sbus](https://sourceforge.net/projects/j2sbus/) library which began life as [jamod](http://jamod.sourceforge.net/). 
 A huge amount of refactoring and code fixing has been carried out on this library, with the addition of supporting JUnit tests, to ensure the library is fit for production use.
 
 This implementation supports Modbus TCP, UDP, RTU over TCP, Serial RTU and Serial ASCII in both Master and Slave configurations.
 The serial comms is implemented using [jSerialComm](http://fazecast.github.io/jSerialComm/) and does not require any outside dependencies over and above the logging facade [slf4j](https://www.slf4j.org/).
 
-For instructions on how to use the library, visit the wiki [here](https://github.com/steveohara/j2mod/wiki) 
+For instructions on how to use the library, visit the wiki [here](https://github.com/steveohara/j2sbus/wiki) 
 
 # Releases
 Stable releases can be downloaded here 
 
-https://mvnrepository.com/artifact/com.ciprianpascu/j2mod
+https://mvnrepository.com/artifact/com.ciprianpascu/j2sbus
 
 Snapshot releases can be downloaded here 
 
-https://oss.sonatype.org/content/repositories/snapshots/com/ghgande/j2mod/
+https://oss.sonatype.org/content/repositories/snapshots/com/ghgande/j2sbus/
 
 # Known Issues
 
@@ -30,7 +30,7 @@ The serial comms is handled by JSerialComm that includs native implementations f
 Logging facade to fit in with your application logging framework
 * JRE 1.8 (JRE 1.6 for v2.70 and lower)
   
-# Including j2mod
+# Including j2sbus
 
     <dependency>
         <groupId>com.ciprianpascu</groupId>

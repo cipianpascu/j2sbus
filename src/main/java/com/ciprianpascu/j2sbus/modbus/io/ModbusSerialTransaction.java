@@ -1,0 +1,165 @@
+/*
+ * Copyright 2002-2016 jamod & j2mod development teams
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.ciprianpascu.j2sbus.modbus.io;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.ciprianpascu.j2sbus.modbus.Modbus;
+import com.ciprianpascu.j2sbus.modbus.ModbusException;
+import com.ciprianpascu.j2sbus.modbus.ModbusIOException;
+import com.ciprianpascu.j2sbus.modbus.ModbusSlaveException;
+import com.ciprianpascu.j2sbus.modbus.msg.ExceptionResponse;
+import com.ciprianpascu.j2sbus.modbus.msg.ModbusRequest;
+import com.ciprianpascu.j2sbus.modbus.net.AbstractSerialConnection;
+import com.ciprianpascu.j2sbus.modbus.util.ModbusUtil;
+
+/**
+ * Class implementing the <code>ModbusTransaction</code>
+ * interface.
+ *
+ * @author Dieter Wimberger
+ * @author Steve O'Hara (4NG)
+ * @version 2.0 (March 2016)
+ */
+public class ModbusSerialTransaction extends ModbusTransaction {
+
+    private static final Logger logger = LoggerFactory.getLogger(ModbusSerialTransaction.class);
+
+    //instance attributes and associations
+    private int transDelayMS = Modbus.DEFAULT_TRANSMIT_DELAY;
+    private long lastTransactionTimestamp = 0;
+
+    /**
+     * Constructs a new <code>ModbusSerialTransaction</code>
+     * instance.
+     */
+    public ModbusSerialTransaction() {
+    }
+
+    /**
+     * Constructs a new <code>ModbusSerialTransaction</code>
+     * instance with a given <code>ModbusRequest</code> to
+     * be send when the transaction is executed.
+     *
+     *
+     * @param request a <code>ModbusRequest</code> instance.
+     */
+    public ModbusSerialTransaction(ModbusRequest request) {
+        setRequest(request);
+    }
+
+    /**
+     * Constructs a new <code>ModbusSerialTransaction</code>
+     * instance with a given <code>ModbusRequest</code> to
+     * be send when the transaction is executed.
+     *
+     * @param con a <code>TCPMasterConnection</code> instance.
+     */
+    public ModbusSerialTransaction(AbstractSerialConnection con) {
+        setSerialConnection(con);
+    }
+
+    /**
+     * Sets the port on which this <code>ModbusTransaction</code>
+     * should be executed.
+     *
+     * @param con a <code>SerialConnection</code>.
+     */
+    public synchronized void setSerialConnection(AbstractSerialConnection con) {
+        transport = con.getModbusTransport();
+    }
+
+    public synchronized void setTransport(ModbusSerialTransport transport) {
+        this.transport = transport;
+    }
+
+    /**
+     * Get the TransDelayMS value.
+     *
+     * @return the TransDelayMS value.
+     */
+    public int getTransDelayMS() {
+        return transDelayMS;
+    }
+
+    /**
+     * Set the TransDelayMS value.
+     *
+     * @param newTransDelayMS The new TransDelayMS value.
+     */
+    public void setTransDelayMS(int newTransDelayMS) {
+        this.transDelayMS = newTransDelayMS;
+    }
+
+    /**
+     * Asserts if this <code>ModbusTCPTransaction</code> is
+     * executable.
+     *
+     * @throws ModbusException if the transaction cannot be asserted.
+     */
+    private void assertExecutable() throws ModbusException {
+        if (request == null || transport == null) {
+            throw new ModbusException("Assertion failed, transaction not executable");
+        }
+    }
+
+    @Override
+    public void execute() throws ModbusException {
+        //1. assert executeability
+        assertExecutable();
+
+        //3. write request, and read response,
+        //   while holding the lock on the IO object
+        int tries = 0;
+        boolean finished = false;
+        do {
+            try {
+                // Wait between adjacent requests
+                ((ModbusSerialTransport) transport).waitBetweenFrames(transDelayMS, lastTransactionTimestamp);
+
+                synchronized (this) {
+                    //write request message
+                    transport.writeRequest(request);
+                    //read response message
+                    response = transport.readResponse();
+                    finished = true;
+                }
+            }
+            catch (ModbusIOException e) {
+                if (++tries >= retries) {
+                    throw e;
+                }
+                ModbusUtil.sleep(getRandomSleepTime(tries));
+                logger.debug("Execute try {} error: {}", tries, e.getMessage());
+            }
+        } while (!finished);
+
+        //4. deal with exceptions
+        if (response instanceof ExceptionResponse) {
+            throw new ModbusSlaveException(((ExceptionResponse) response).getExceptionCode());
+        }
+
+        // Check that the response is for this request
+        if (isCheckingValidity()) {
+            checkValidity();
+        }
+
+        // Set the last transaction timestamp
+        lastTransactionTimestamp = System.nanoTime();
+    }
+
+}

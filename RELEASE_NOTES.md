@@ -5,7 +5,7 @@
 * Javadoc has been extensively improved and fixed
 * A logging framework (log4j) has been included with a wrapper to improve performance and allow token passing
 * We have some tests!! Unit tests have been added for all automation friendly protocols (UDP and TCP)
-* Unit tests have been added that independently verify the j2mod TCP Slave functionality
+* Unit tests have been added that independently verify the j2sbus TCP Slave functionality
 * Threading and concurrency has been hugely improved - removed synchronisation errors and corrected the handling of thread shutdown
 * Brought some sanity to the Facade package so that it is now usable in a production setting
 * Removed the serial BIN transport - it was proprietary and not taken up by any hardware vendors that I could find

@@ -80,7 +80,7 @@ public class ModbusSerialTransaction implements ModbusTransaction {
      * be send when the transaction is executed.
      * 
      *
-     * @param con a {@link TCPMasterConnection} instance.
+     * @param con a {@link SerialConnection} instance.
      */
     public ModbusSerialTransaction(SerialConnection con) {
         setSerialConnection(con);

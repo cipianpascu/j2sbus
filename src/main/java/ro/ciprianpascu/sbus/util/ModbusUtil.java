@@ -16,6 +16,8 @@
 
 package ro.ciprianpascu.sbus.util;
 
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 import ro.ciprianpascu.sbus.Modbus;
@@ -124,7 +126,7 @@ public final class ModbusUtil {
      * This conversion has been taken from the documentation of
      * the {@link DataInput} interface.
      *
-     * @param bytes a register as {@link byte[2]}.
+     * @param bytes a register as byte[2].
      * @return the unsigned short value as {@link int}.
      * @see java.io.DataInput
      */
@@ -150,7 +152,7 @@ public final class ModbusUtil {
      * the {@link DataOutput} interface.
      *
      * @param v
-     * @return the register as {@link byte[2]}.
+     * @return the register as byte[2].
      * @see java.io.DataOutput
      */
     public static final byte[] unsignedShortToRegister(int v) {
@@ -175,8 +177,8 @@ public final class ModbusUtil {
      * This conversion has been taken from the documentation of
      * the {@link DataInput} interface.
      *
-     * @param bytes bytes a register as {@link byte[2]}.
-     * @return the signed short as {@link short}.
+     * @param bytes bytes a register as byte[2].
+     * @return the signed short as short.
      */
     public static final short registerToShort(byte[] bytes) {
         return (short) ((bytes[0] << 8) | (bytes[1] & 0xff));
@@ -199,7 +201,7 @@ public final class ModbusUtil {
      *
      * @param bytes a {@link byte[]} containing a short value.
      * @param idx an offset into the given byte[].
-     * @return the signed short as {@link short}.
+     * @return the signed short as short.
      */
     public static final short registerToShort(byte[] bytes, int idx) {
         return (short) ((bytes[idx] << 8) | (bytes[idx + 1] & 0xff));
@@ -241,7 +243,7 @@ public final class ModbusUtil {
      * </code>
      * </pre>
      *
-     * @param bytes registers as {@link byte[4]}.
+     * @param bytes registers as byte[4].
      * @return the integer contained in the given register bytes.
      */
     public static final int registersToInt(byte[] bytes) {

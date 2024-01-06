@@ -56,12 +56,20 @@ public class LinkedQueue {
      **/
     protected int m_WaitingForTake = 0;
 
+    /**
+     * LinkedQueue constructor
+     */
     public LinkedQueue() {
         m_Head = new LinkedNode(null);
         m_Tail = m_Head;
     }// constructor
 
-    /** Main mechanics for put/offer **/
+    /**
+     * Inserts a new element at the end of the queue.
+     * This method is thread-safe and uses synchronization to ensure the integrity of the queue's state.
+     *
+     * @param x the element to insert into the queue
+     */
     protected void insert(Object x) {
         synchronized (m_PutLock) {
             LinkedNode p = new LinkedNode(x);
@@ -75,7 +83,12 @@ public class LinkedQueue {
         }
     }// insert
 
-    /** Main mechanics for take/pollInterval **/
+    /**
+     * Removes and returns the element at the front of the queue.
+     * This method is synchronized and thread-safe.
+     *
+     * @return the next object in the queue, or null if the queue is empty
+     */
     protected synchronized Object extract() {
         synchronized (m_Head) {
             Object x = null;
@@ -89,6 +102,13 @@ public class LinkedQueue {
         }
     }// extract
 
+    /**
+     * Inserts the specified element at the tail of this queue.
+     *
+     * @param x the element to add
+     * @throws InterruptedException if interrupted while waiting
+     * @throws IllegalArgumentException if the specified element is null
+     */
     public void put(Object x) throws InterruptedException {
         if (x == null) {
             throw new IllegalArgumentException();
@@ -97,6 +117,15 @@ public class LinkedQueue {
         insert(x);
     }// put
 
+    /**
+     * Inserts the specified element at the tail of this queue, waiting up to the specified wait time for space to become available.
+     *
+     * @param x the element to add
+     * @param msecs the maximum time to wait in milliseconds
+     * @return true if the element was added to this queue, else false
+     * @throws InterruptedException if interrupted while waiting
+     * @throws IllegalArgumentException if the specified element is null
+     */
     public boolean offer(Object x, long msecs) throws InterruptedException {
         if (x == null) {
             throw new IllegalArgumentException();
@@ -110,6 +139,12 @@ public class LinkedQueue {
         return true;
     }// offer
 
+    /**
+     * Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
+     *
+     * @return the head of this queue
+     * @throws InterruptedException if interrupted while waiting
+     */
     public Object take() throws InterruptedException {
         // @commentstart@if (Thread.interrupted()) throw new InterruptedException();//@commentend@
         // try to extract. If fail, then enter wait-based retry loop
@@ -138,6 +173,11 @@ public class LinkedQueue {
         }
     }// take
 
+    /**
+     * Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
+     *
+     * @return the head of this queue, or null if this queue is empty
+     */
     public Object peek() {
         synchronized (m_Head) {
             LinkedNode first = m_Head.m_NextNode;
@@ -149,12 +189,24 @@ public class LinkedQueue {
         }
     }// peek
 
+    /**
+     * Returns true if this queue contains no elements.
+     *
+     * @return true if this queue is empty, else false
+     */
     public boolean isEmpty() {
         synchronized (m_Head) {
             return m_Head.m_NextNode == null;
         }
     }// isEmpty
 
+    /**
+     * Retrieves and removes the head of this queue, waiting up to the specified wait time if necessary for an element to become available.
+     *
+     * @param msecs the maximum time to wait in milliseconds
+     * @return the head of this queue, or null if the specified waiting time elapses before an element is available
+     * @throws InterruptedException if interrupted while waiting
+     */
     public Object poll(long msecs) throws InterruptedException {
         // @commentstart@if (Thread.interrupted()) throw new InterruptedException();//@commentend@
         Object x = extract();

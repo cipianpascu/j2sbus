@@ -16,13 +16,18 @@ package ro.ciprianpascu.sbus.net;
 
 import ro.ciprianpascu.sbus.util.SerialParameters;
 
-/**
-* 
+ /**
+ * 
  * SerialConnectionFactory interface.
  * 
  *
  * @author Sami Salonen
  */
 public interface SerialConnectionFactory {
+	/**
+	 * Creates a new {@link SerialConnection} instance.
+	 * @param parameters a {@link SerialParameters} instance.
+	 * @return a new {@link SerialConnection} instance.
+	 */
     public SerialConnection create(SerialParameters parameters);
 }

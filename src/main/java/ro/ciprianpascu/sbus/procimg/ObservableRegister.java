@@ -27,7 +27,7 @@ import ro.ciprianpascu.sbus.util.Observable;
 public class ObservableRegister extends Observable implements Register {
 
     /**
-     * The word ({@link byte[2]} holding the content of this register.
+     * The word byte[2] holding the content of this register.
      */
     protected byte[] m_Register = new byte[2];
 

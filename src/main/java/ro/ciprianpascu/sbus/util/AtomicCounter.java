@@ -16,6 +16,8 @@
 
 package ro.ciprianpascu.sbus.util;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import ro.ciprianpascu.sbus.Modbus;
 
 /**

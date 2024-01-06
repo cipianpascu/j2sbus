@@ -33,6 +33,10 @@ import ro.ciprianpascu.sbus.net.TCPMasterConnection;
  */
 public class DITest {
 
+	/**
+	 * Main method.
+	 * @param args input arguments
+	 */
     public static void main(String[] args) {
 
         TCPMasterConnection con = null;

@@ -35,7 +35,11 @@ import ro.ciprianpascu.sbus.net.TCPMasterConnection;
  */
 public class AITest {
 
-    public static void main(String[] args) {
+	/**
+	 * Main method.
+	 * @param args input arguments
+	 */
+     public static void main(String[] args) {
 
         InetAddress addr = null;
         TCPMasterConnection con = null;

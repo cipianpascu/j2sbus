@@ -86,11 +86,11 @@ public class ModbusUDPTransaction implements ModbusTransaction {
 
     /**
      * Constructs a new {@link ModbusUDPTransaction}
-     * instance with a given {@link ModbusUDPConnection}
+     * instance with a given {@link UDPMasterConnection}
      * to be used for transactions.
      * 
      *
-     * @param con a {@link ModbusUDPConnection} instance.
+     * @param con a {@link UDPMasterConnection} instance.
      */
     public ModbusUDPTransaction(UDPMasterConnection con) {
         setTerminal(con.getTerminal());
@@ -101,7 +101,7 @@ public class ModbusUDPTransaction implements ModbusTransaction {
      * should be executed.
 * 
      *
-     * @param terminal a {@link UDPSlaveTerminal}.
+     * @param terminal a {@link UDPTerminal}.
      */
     public void setTerminal(UDPTerminal terminal) {
         m_Terminal = terminal;

@@ -97,7 +97,7 @@ public class ModbusRTUTransport extends ModbusSerialTransport {
     /**
      * Clear the input if characters are found in the input stream.
      *
-     * @throws IOException
+     * @throws IOException if an I/O error occurs
      */
     public void clearInput() throws IOException {
         if (m_InputStream.available() > 0) {

@@ -53,7 +53,7 @@ public class ModbusASCIITransport extends ModbusSerialTransport {
     private BytesOutputStream m_ByteOut; // write frames
 
     /**
-     * Constructs a new {@link MobusASCIITransport} instance.
+     * Constructs a new {@link ModbusASCIITransport} instance.
      */
     public ModbusASCIITransport() {
     }// constructor

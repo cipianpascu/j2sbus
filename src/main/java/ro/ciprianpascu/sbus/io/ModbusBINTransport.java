@@ -51,7 +51,7 @@ public class ModbusBINTransport extends ModbusSerialTransport {
     private BytesOutputStream m_ByteOut; // write frames
 
     /**
-     * Constructs a new {@link MobusBINTransport} instance.
+     * Constructs a new {@link ModbusBINTransport} instance.
      */
     public ModbusBINTransport() {
     }// constructor
@@ -253,12 +253,12 @@ public class ModbusBINTransport extends ModbusSerialTransport {
     public static final int FRAME_END = 2000;
 
     /**
-     * Defines the frame start token {@link {}.
+     * Defines the frame start token as value 123.
      */
     public static final int FRAME_START_TOKEN = 123;
 
     /**
-     * Defines the frame end token {@link }}.
+     * Defines the frame end token as value 125.
      */
     public static final int FRAME_END_TOKEN = 125;
 

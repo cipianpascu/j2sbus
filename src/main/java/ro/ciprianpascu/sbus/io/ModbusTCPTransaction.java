@@ -91,7 +91,7 @@ public class ModbusTCPTransaction implements ModbusTransaction {
     /**
      * Sets the connection on which this {@link ModbusTransaction}
      * should be executed.
-* 
+     * 
      * An implementation should be able to
      * handle open and closed connections.<br>
      * 
@@ -136,7 +136,7 @@ public class ModbusTCPTransaction implements ModbusTransaction {
     /**
      * Sets the flag that controls whether a
      * connection is openend and closed for
-     * each</b> execution or not.
+     * each execution or not.
      * 
      *
      * @param b true if reconnecting, false otherwise.

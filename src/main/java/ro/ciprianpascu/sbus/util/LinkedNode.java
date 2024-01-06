@@ -24,21 +24,42 @@ package ro.ciprianpascu.sbus.util;
 /**
  * Class defining a linked node element.
  *
+ * This class represents a node in a linked list data structure.
+ * Each node contains an object as its data and a reference to the next node in the list.
+ *
  * @author Doug Lea, Dieter Wimberger
  * @version %I% (%G%)
  */
 public class LinkedNode {
 
+    /**
+     * The data stored in the node.
+     */
     protected Object m_Node;
+
+    /**
+     * The next node in the list.
+     */
     protected LinkedNode m_NextNode = null;
 
+    /**
+     * Constructs a new LinkedNode object with the given data.
+     *
+     * @param node The data to be stored in the node.
+     */
     public LinkedNode(Object node) {
         m_Node = node;
-    }// constructor(Object)
+    }
 
+    /**
+     * Constructs a new LinkedNode object with the given data and reference to the next node.
+     *
+     * @param node The data to be stored in the node.
+     * @param linkednode The next node in the list.
+     */
     public LinkedNode(Object node, LinkedNode linkednode) {
         m_Node = node;
         m_NextNode = linkednode;
-    }// constructor(Object,LinkedNode)
+    }
 
-}// LinkedNode
+}

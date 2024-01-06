@@ -94,6 +94,8 @@ public interface ModbusTransaction {
 
     /**
      * Sets the time to wait in milliseconds between retries
+     * 
+     * @param retryDelayMillis the time to wait in milliseconds between retries
      */
     public void setRetryDelayMillis(long retryDelayMillis);
 

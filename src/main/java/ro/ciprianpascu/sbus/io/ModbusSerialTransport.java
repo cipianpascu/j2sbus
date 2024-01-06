@@ -42,7 +42,15 @@ import ro.ciprianpascu.sbus.util.ModbusUtil;
 abstract public class ModbusSerialTransport implements ModbusTransport {
 
     private static final Logger logger = LoggerFactory.getLogger(ModbusSerialTransport.class);
+    
+    /**
+     * The serial port used by this {@link ModbusSerialTransport} instance.
+     */
     protected CommPort m_CommPort;
+    
+    /**
+     * Enable echo processing.
+     */
     protected boolean m_Echo = false; // require RS-485 echo processing
 
     /**

@@ -48,6 +48,10 @@ import ro.ciprianpascu.sbus.net.TCPMasterConnection;
  */
 public class DIDOTest {
 
+	/**
+	 * Main method.
+	 * @param args input arguments
+	 */
     public static void main(String[] args) {
 
         InetAddress addr = null;

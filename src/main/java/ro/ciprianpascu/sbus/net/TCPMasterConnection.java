@@ -172,7 +172,7 @@ public class TCPMasterConnection implements ModbusSlaveConnection {
     /**
      * Sets the destination port of this
      * {@link TCPMasterConnection}.
-     * The default is defined as {@link Modbus.DEFAULT_PORT}.
+     * The default is defined as {@link Modbus#DEFAULT_PORT}.
      *
      * @param port the port number as {@link int}.
      */

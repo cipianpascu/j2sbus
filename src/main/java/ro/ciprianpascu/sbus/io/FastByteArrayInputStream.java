@@ -36,10 +36,25 @@ import java.io.InputStream;
  */
 public class FastByteArrayInputStream extends InputStream {
 
+    /**
+     * Buffer length
+     */
     protected int count;
+    /**
+     * Possition in buffer
+     */
     protected int pos;
+    /**
+     * Marker used for reposition after a reset
+     */
     protected int mark;
+    /**
+     * Buffer
+     */
     protected byte[] buf;
+    /**
+     * Max read
+     */
     protected int readlimit = -1;
 
     /**
@@ -78,7 +93,7 @@ public class FastByteArrayInputStream extends InputStream {
      * 
      *
      * @return the next byte of data, or -1 if the end of the stream has been reached.
-     * @throws IOException
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     public int read() throws IOException {
@@ -102,7 +117,7 @@ public class FastByteArrayInputStream extends InputStream {
      * @param length the max number of bytes read.
      * @return the total number of bytes read into the buffer, or -1 if there is no
      *         more data because the end of the stream has been reached.
-     * @throws IOException
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     public int read(byte[] toBuf, int offset, int length) throws IOException {
@@ -128,11 +143,11 @@ public class FastByteArrayInputStream extends InputStream {
     /**
      * Skips over and discards n bytes of data from this input stream.
      * The skip method may skip over some smaller number of bytes.
-     * The actual number of bytes skipped is returned, or a number <=0
+     * The actual number of bytes skipped is returned, or a number smaller than 0
      * if none was skipped.
      * 
      * The maximum number of bytes that can be skipped is defined by
-     * {@link Integer.MAX_VALUE}.
+     * {@link Integer#MAX_VALUE}.
      * 
      *
      * @param n the number of bytes to be skipped.

@@ -37,6 +37,9 @@ import ro.ciprianpascu.sbus.util.SerialParameters;
  */
 public class ModbusSerialListener {
 
+	/**
+	 * {@link SerialConnectionFactory} implementation
+	 */
     public static class SerialConnectionFactoryImpl implements SerialConnectionFactory {
 
         @Override
@@ -57,6 +60,7 @@ public class ModbusSerialListener {
      * Constructs a new {@link ModbusSerialListener} instance.
      *
      * @param params a {@link SerialParameters} instance.
+     * @param connectionFactory a {@link SerialConnectionFactory} instance.
      */
     public ModbusSerialListener(SerialParameters params, SerialConnectionFactory connectionFactory) {
         this.m_ConnectionFactory = connectionFactory;
@@ -65,6 +69,10 @@ public class ModbusSerialListener {
         listen();
     }// constructor
 
+    /**
+     * Constructor
+     * @param params {@link SerialParameters} parameters
+     */
     public ModbusSerialListener(SerialParameters params) {
         this(params, new SerialConnectionFactoryImpl());
     }

@@ -38,7 +38,7 @@ package ro.ciprianpascu.sbus.util;
  * overhead that would normally make this worthwhile only in cases of
  * extreme contention.
  *
- * <pre>
+ * 
  * class Node {
  * Object item;
  * Node next;

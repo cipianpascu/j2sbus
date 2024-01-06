@@ -57,7 +57,7 @@ public class SerialParameters {
     }// constructor
 
     /**
-     * Constructs a new {@link SerialParameters{@link  instance with
+     * Constructs a new {@link SerialParameters}  instance with
      * given parameters.
      *
      * @param portName The name of the port.
@@ -571,7 +571,7 @@ public class SerialParameters {
 
     /**
      * Sets the receive timeout for the serial communication
-     * parsing the given String using {@link Integer.parseInt(String)}.
+     * parsing the given String value.
      *
      * @param str the timeout as String.
      */

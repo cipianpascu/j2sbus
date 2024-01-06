@@ -35,7 +35,7 @@ public interface ModbusTransport {
     /**
      * Closes the raw input and output streams of
      * this {@link ModbusTransport}.
-* 
+     * 
      *
      * @throws IOException if a stream
      *             cannot be closed properly.
@@ -43,9 +43,9 @@ public interface ModbusTransport {
     public void close() throws IOException;
 
     /**
-     * Writes a <tt<ModbusMessage} to the
+     * Writes a {@link ModbusMessage} to the
      * output stream of this {@link ModbusTransport}.
-* 
+     * 
      *
      * @param msg a {@link ModbusMessage}.
      * @throws ModbusIOException data cannot be
@@ -56,8 +56,8 @@ public interface ModbusTransport {
 
     /**
      * Reads a {@link ModbusRequest} from the
-     * input stream of this {@link ModbusTransport{@link .
-* 
+     * input stream of this {@link ModbusTransport}.
+     * 
      * @return req the {@link ModbusRequest} read from the underlying stream.
      *
      * @throws ModbusIOException data cannot be
@@ -68,8 +68,8 @@ public interface ModbusTransport {
 
     /**
      * Reads a {@link ModbusResponse} from the
-     * input stream of this {@link ModbusTransport{@link .
-* 
+     * input stream of this {@link ModbusTransport} .
+     * 
      * @return res the {@link ModbusResponse} read from the underlying stream.
      *
      * @throws ModbusIOException data cannot be

@@ -37,7 +37,14 @@ import java.io.UnsupportedEncodingException;
  */
 public class FastByteArrayOutputStream extends OutputStream {
 
+	
+    /**
+     * Buffer length 
+     */
     protected int count;
+    /**
+     * Buffer with the data
+     */
     protected byte[] buf;
 
     /**
@@ -173,8 +180,8 @@ public class FastByteArrayOutputStream extends OutputStream {
      * Convenience method that writes all bytes from the specified byte
      * array to this {@link FastByteArrayOutputStream}.
      *
-     * @param buf
-     * @throws IOException
+     * @param buf content to be written
+     * @throws IOException thrown in case of write failure
      */
     @Override
     public void write(byte[] buf) throws IOException {
@@ -227,6 +234,9 @@ public class FastByteArrayOutputStream extends OutputStream {
         return buf;
     }// getBuffer
 
+    /**
+     * Default size of the buffer.
+     */
     public static final int DEFAULT_SIZE = 512;
 
 }// class FastByteArrayOutputStream

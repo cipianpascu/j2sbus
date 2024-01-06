@@ -25,7 +25,7 @@ package ro.ciprianpascu.sbus.procimg;
 public abstract class AbstractRegister implements Register {
 
     /**
-     * The word ({@link byte[2]}) holding the register content.
+     * The word byte[2] holding the register content.
      */
     protected byte[] m_Register = new byte[2];
 

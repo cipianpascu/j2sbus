@@ -33,49 +33,49 @@ public interface Modbus {
 
     /**
      * Defines the class 0 function code
-     * for {@link read multiple registers}.
+     * for {@link READ_MULTIPLE_REGISTERS}.
      */
     public static final int READ_MULTIPLE_REGISTERS = 3;
 
     /**
      * Defines the class 0 function code
-     * for {@link write multiple registers}.
+     * for {@link WRITE_MULTIPLE_REGISTERS}.
      */
     public static final int WRITE_MULTIPLE_REGISTERS = 16;
 
     /**
      * Defines the class 1 function code
-     * for {@link read coils}.
+     * for {@link READ_COILS}.
      */
     public static final int READ_COILS = 1;
 
     /**
      * Defines a class 1 function code
-     * for {@link read input discretes}.
+     * for {@link READ_INPUT_DISCRETES}.
      */
     public static final int READ_INPUT_DISCRETES = 2;
 
     /**
      * Defines a class 1 function code
-     * for {@link read input registers}.
+     * for {@link READ_INPUT_REGISTERS}.
      */
     public static final int READ_INPUT_REGISTERS = 4;
 
     /**
      * Defines a class 1 function code
-     * for {@link write coil}.
+     * for {@link WRITE_COIL}.
      */
     public static final int WRITE_COIL = 5;
 
     /**
      * Defines a standard function code
-     * for {@link write multiple coils}.
+     * for {@link WRITE_MULTIPLE_COILS}.
      */
     public static final int WRITE_MULTIPLE_COILS = 15;
 
     /**
      * Defines a class 1 function code
-     * for {@link write single register}.
+     * for {@link WRITE_SINGLE_REGISTER}.
      */
     public static final int WRITE_SINGLE_REGISTER = 6;
 
@@ -112,7 +112,7 @@ public interface Modbus {
     public static final int EXCEPTION_OFFSET = 128; // the last valid function code is 127
 
     /**
-     * Defines the Modbus slave exception type {@link illegal function}.
+     * Defines the Modbus slave exception type {@link ILLEGAL_FUNCTION_EXCEPTION}.
      * This exception code is returned if the slave:
      * <ul>
      * <li>does not implement the function code <b>or</b></li>
@@ -122,7 +122,7 @@ public interface Modbus {
     public static final int ILLEGAL_FUNCTION_EXCEPTION = 1;
 
     /**
-     * Defines the Modbus slave exception type {@link illegal data address}.
+     * Defines the Modbus slave exception type {@link ILLEGAL_ADDRESS_EXCEPTION}.
      * This exception code is returned if the reference:
      * <ul>
      * <li>does not exist on the slave <b>or</b></li>
@@ -134,43 +134,43 @@ public interface Modbus {
     public static final int ILLEGAL_ADDRESS_EXCEPTION = 2;
 
     /**
-     * Defines the Modbus slave exception type {@link illegal data value}.
+     * Defines the Modbus slave exception type {@link ILLEGAL_VALUE_EXCEPTION}.
      * This exception code indicates a fault in the structure of the data values
      * of a complex request, such as an incorrect implied length.<br>
      * This code does not indicate a problem with application specific validity
-     * of the value.</b>
+     * of the value.
      */
     public static final int ILLEGAL_VALUE_EXCEPTION = 3;
 
     /**
      * Defines the default port number of Modbus
-     * (={@link 502}).
+     * (=502).
      */
     public static final int DEFAULT_PORT = 502;
 
     /**
      * Defines the maximum message length in bytes
-     * (={@link 256}).
+     * (=256).
      */
     public static final int MAX_MESSAGE_LENGTH = 256;
 
     /**
-     * Defines the default transaction identifier (={@link 0}).
+     * Defines the default transaction identifier (=0).
      */
     public static final int DEFAULT_TRANSACTION_ID = 0;
 
     /**
-     * Defines the default protocol identifier (={@link 0}).
+     * Defines the default protocol identifier (=0).
      */
     public static final int DEFAULT_PROTOCOL_ID = 0;
 
     /**
-     * Defines the default unit identifier (={@link 0}).
+     * Defines the default unit identifier (=0).
      */
     public static final int DEFAULT_UNIT_ID = 0;
 
     /**
-     * Defines the default unit identifier (={@link 0}).
+     * Defines the default unit identifier (=0).
      */
     public static final int DEFAULT_SUBNET_ID = 1;
 
@@ -182,7 +182,7 @@ public interface Modbus {
 
     /**
      * Defines the default setting for I/O operation timeouts
-     * in milliseconds (={@link 3000}).
+     * in milliseconds (=3000).
      */
     public static final int DEFAULT_TIMEOUT = 3000;
 
@@ -194,13 +194,13 @@ public interface Modbus {
 
     /**
      * Defines the default amount of retires for opening
-     * a connection (={@link 3}).
+     * a connection (=3).
      */
     public static final int DEFAULT_RETRIES = 3;
 
     /**
      * Defines the default number of msec to delay before transmission
-     * (={@link 50}).
+     * (=50).
      */
     public static final int DEFAULT_TRANSMIT_DELAY = 0;
 

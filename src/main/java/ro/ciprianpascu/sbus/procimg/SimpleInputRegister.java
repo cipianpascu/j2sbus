@@ -19,7 +19,7 @@ package ro.ciprianpascu.sbus.procimg;
 /**
  * Class implementing a simple {@link InputRegister}.
 * 
- * The {@link setValue()} method is synchronized,
+ * The {@link SynchronizedAbstractRegister#setValue(int)} method is synchronized,
  * which ensures atomic access, but no specific access order.
  *
  * @author Dieter Wimberger

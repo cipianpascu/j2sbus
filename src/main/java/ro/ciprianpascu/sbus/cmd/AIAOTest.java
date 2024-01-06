@@ -50,7 +50,11 @@ import ro.ciprianpascu.sbus.procimg.SimpleRegister;
  */
 public class AIAOTest {
 
-    public static void main(String[] args) {
+	/**
+	 * Main method.
+	 * @param args input arguments
+	 */
+   public static void main(String[] args) {
 
         InetAddress addr = null;
         TCPMasterConnection con = null;

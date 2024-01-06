@@ -116,8 +116,8 @@ public final class BitVector {
      * Sets the {@link byte[]} which stores
      * the bits of this {@link BitVector}.
      * 
-     *
-     * @param data a {@link byte[]}.
+     * @param data a byte[].
+     * @param size the number of bits to copy.
      */
     public final void setBytes(byte[] data, int size) {
         System.arraycopy(data, 0, m_Data, 0, data.length);
@@ -175,7 +175,7 @@ public final class BitVector {
     /**
      * Forces the number of bits in this {@link BitVector}.
      *
-     * @param size
+     * @param size the number of bits in this {@link BitVector}.
      * @throws IllegalArgumentException if the size exceeds
      *             the byte[] store size multiplied by 8.
      */
@@ -301,6 +301,7 @@ public final class BitVector {
      * wrapping the given byte data.
      *
      * @param data a byte[] containing packed bits.
+     * @param size the number of bits in this {@link BitVector}.
      * @return the newly created {@link BitVector} instance.
      */
     public static BitVector createBitVector(byte[] data, int size) {
@@ -323,6 +324,10 @@ public final class BitVector {
         return bv;
     }// createBitVector
 
+	/**
+	 * Main method.
+	 * @param args input arguments
+	 */
     public static void main(String[] args) {
         BitVector test = new BitVector(24);
         System.out.println(test.isLSBAccess());

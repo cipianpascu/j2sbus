@@ -26,7 +26,7 @@ package ro.ciprianpascu.sbus.procimg;
 public abstract class SynchronizedAbstractRegister implements Register {
 
     /**
-     * The word ({@link byte[2]}) hodling the state of this
+     * The word byte[2] holding the state of this
      * register.
      */
     protected byte[] m_Register = new byte[2];

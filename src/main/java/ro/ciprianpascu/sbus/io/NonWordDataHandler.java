@@ -61,7 +61,7 @@ public interface NonWordDataHandler {
     /**
      * Commits the data if it has been read into an intermediate
      * repository.
-     * This method is called by a {@link WriteMultipleRegistersRequest}
+     * This method is called by a {@link ro.ciprianpascu.sbus.msg.WriteMultipleRegistersRequest}
      * instance when finished with reading, for creating a response.
      *
      * @return -1 if the commit was successful, a Modbus exception code
@@ -73,7 +73,7 @@ public interface NonWordDataHandler {
     /**
      * Prepares the raw data, putting it together from a
      * backing data store.
-     * This method is called by a {@link ReadMultipleRegistersRequest}
+     * This method is called by a {@link ro.ciprianpascu.sbus.msg.WriteMultipleRegistersRequest}
      * instance when finshed with reading, for creating a response.
      *
      * @param reference to specify the offset as {@link int}.

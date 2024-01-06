@@ -193,7 +193,7 @@ What is a Process Image?
 +----------
 package net.wimpi.example;
 
-import ro.ciprianpascu.modbus.procimg.*;
+import ro.ciprianpascu.sbus.procimg.*;
 import java.util.Random;
 
 public final class RandomDigitalIn
@@ -203,15 +203,15 @@ public final class RandomDigitalIn
  private Random m_Random;
 
   /**
-   * Constructs a new <tt>RandomDigitalIn</tt>.
+   * Constructs a new {@link RandomDigitalIn}.
    */
   public RandomDigitalIn() {
     m_Random = new Random();
   }//constructor
 
   /**
-   * Constructs a new <tt>RandomDigitalIn</tt>;
-   * with a given <tt>Random</tt> instance.
+   * Constructs a new {@link RandomDigitalIn};
+   * with a given {@link Random} instance.
    */
   public RandomDigitalIn(Random rnd) {
     m_Random = rnd;

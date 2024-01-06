@@ -28,7 +28,7 @@ About
 *--------+
 
     The application build in the tutorial is actually part of the distribution codebase
-    ({{{../apidocs/net/wimpi/modbus/cmd/SerialAITest.html}<<<ro.ciprianpascu.modbus.cmd.SerialAITest>>>}}).
+    ({{{../apidocs/net/wimpi/modbus/cmd/SerialAITest.html}<<<ro.ciprianpascu.sbus.cmd.SerialAITest>>>}}).
 
 What is a Master?
     
@@ -120,11 +120,11 @@ Implementation
 +--------------
 import java.net.*;
 import java.io.*;
-import ro.ciprianpascu.modbus.*;
-import ro.ciprianpascu.modbus.msg.*;
-import ro.ciprianpascu.modbus.io.*;
-import ro.ciprianpascu.modbus.net.*;
-import ro.ciprianpascu.modbus.util.*;
+import ro.ciprianpascu.sbus.*;
+import ro.ciprianpascu.sbus.msg.*;
+import ro.ciprianpascu.sbus.io.*;
+import ro.ciprianpascu.sbus.net.*;
+import ro.ciprianpascu.sbus.util.*;
  
 public class SerialAITest {
 
@@ -267,5 +267,5 @@ con.close();
 *--------+
 ||Note   |
 *--------+
-| The debug outputs of the library can be activated by passing the property <<<ro.ciprianpascu.modbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.modbus.debug=true>>>) and allow to see the actually exchanged modbus messages encoded as hex.
+| The debug outputs of the library can be activated by passing the property <<<ro.ciprianpascu.sbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.modbus.debug=true>>>) and allow to see the actually exchanged modbus messages encoded as hex.
 *--------+

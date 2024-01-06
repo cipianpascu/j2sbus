@@ -20,7 +20,7 @@ About
     implementation) as well as the actual protocol specifications (see {{{./index.html}Knowledge Base Index}}).
 
     The application build in the tutorial is actually part of the distribution codebase
-    ({{{../apidocs/net/wimpi/modbus/cmd/UDPDITest.html}<<<ro.ciprianpascu.modbus.cmd.UDPDITest>>>}}).
+    ({{{../apidocs/net/wimpi/modbus/cmd/UDPDITest.html}<<<ro.ciprianpascu.sbus.cmd.UDPDITest>>>}}).
 
 What is a Master?
     
@@ -111,11 +111,11 @@ Implementation
 +--------------
 import java.net.*;
 import java.io.*;
-import ro.ciprianpascu.modbus.*;
-import ro.ciprianpascu.modbus.msg.*;
-import ro.ciprianpascu.modbus.io.*;
-import ro.ciprianpascu.modbus.net.*;
-import ro.ciprianpascu.modbus.util.*;
+import ro.ciprianpascu.sbus.*;
+import ro.ciprianpascu.sbus.msg.*;
+import ro.ciprianpascu.sbus.io.*;
+import ro.ciprianpascu.sbus.net.*;
+import ro.ciprianpascu.sbus.util.*;
  
 public class UDPDITest {
 
@@ -230,7 +230,7 @@ con.close();
 
 +----------
 Fangorn:~/development/java/jamod wimpi$ java -Dnet.wimpi.modbus.debug=true \
-  -cp build/classes ro.ciprianpascu.modbus.cmd.UDPDITest Fangorn.local.:5555 0 4 3
+  -cp build/classes ro.ciprianpascu.sbus.cmd.UDPDITest Fangorn.local.:5555 0 4 3
 UDPMasterTerminal::activate()::laddr=:localhost/127.0.0.1:lport=5000
 UDPMasterTerminal::haveSocket():java.net.DatagramSocket@a457b6
 UDPMasterTerminal::laddr=:localhost/127.0.0.1:lport=5000
@@ -249,6 +249,6 @@ UDPMasterTerminal::deactivate()
 *--------+
 ||Note   |
 *--------+
-| The debug outputs of the library can be activated by passing the property <<<ro.ciprianpascu.modbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.modbus.debug=true>>>) and allow to see the actually exchanged modbus messages encoded as hex.
+| The debug outputs of the library can be activated by passing the property <<<ro.ciprianpascu.sbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.modbus.debug=true>>>) and allow to see the actually exchanged modbus messages encoded as hex.
 *--------+
 

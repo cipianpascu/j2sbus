@@ -28,7 +28,7 @@ About
 *--------+
 
     The application build in the tutorial is actually part of the distribution codebase
-    ({{{../apidocs/net/wimpi/modbus/cmd/SerialSlaveTest.html}<<<com.ciprianpascu.modbus.cmd.SerialSlaveTest>>>}}).
+    ({{{../apidocs/net/wimpi/modbus/cmd/SerialSlaveTest.html}<<<ro.ciprianpascu.modbus.cmd.SerialSlaveTest>>>}}).
 
 What is a Slave?
     
@@ -112,10 +112,10 @@ Implementation
     imports of all <jamod> packages:
 
 +----------
-import com.ciprianpascu.modbus.net.*;
-import com.ciprianpascu.modbus.procimg.*;
-import com.ciprianpascu.modbus.ModbusCoupler;
-import com.ciprianpascu.modbus.util.SerialParameters;
+import ro.ciprianpascu.modbus.net.*;
+import ro.ciprianpascu.modbus.procimg.*;
+import ro.ciprianpascu.modbus.ModbusCoupler;
+import ro.ciprianpascu.modbus.util.SerialParameters;
 
 public class SerialSlaveTest {
   
@@ -210,6 +210,6 @@ listener.setListening(true);
 *--------+
 ||Note   |
 *--------+
-| The debug outputs of the library can be activated by passing the property <<<com.ciprianpascu.modbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.modbus.debug=true>>>) and allow to see the actually exchanged modbus messages encoded as hex.
+| The debug outputs of the library can be activated by passing the property <<<ro.ciprianpascu.modbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.modbus.debug=true>>>) and allow to see the actually exchanged modbus messages encoded as hex.
 *--------+
 

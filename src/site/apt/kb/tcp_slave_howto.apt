@@ -19,7 +19,7 @@ About
     the Protocol>}} (especially the section about the TCP implementation) as well as the actual protocol specifications. 
     
     The application build in the tutorial is actually part of the distribution codebase
-    ({{{../apidocs/net/wimpi/modbus/cmd/TCPSlaveTest.html}<<<com.ciprianpascu.modbus.cmd.TCPSlaveTest>>>}}).
+    ({{{../apidocs/net/wimpi/modbus/cmd/TCPSlaveTest.html}<<<ro.ciprianpascu.modbus.cmd.TCPSlaveTest>>>}}).
 
 What is a Slave?
 
@@ -89,9 +89,9 @@ Implementation
     imports of all <jamod> packages:
 
 +----------
-import com.ciprianpascu.modbus.net.*;
-import com.ciprianpascu.modbus.procimg.*;
-import com.ciprianpascu.modbus.ModbusCoupler;
+import ro.ciprianpascu.modbus.net.*;
+import ro.ciprianpascu.modbus.procimg.*;
+import ro.ciprianpascu.modbus.ModbusCoupler;
 
 public class TCPSlaveTest {
 
@@ -174,7 +174,7 @@ listener.start();
 
 +----------
 Fangorn:~/development/java/jamod wimpi$ java -Dnet.wimpi.modbus.debug=true \
-  -cp build/classes com.ciprianpascu.modbus.cmd.TCPSlaveTest 5555
+  -cp build/classes ro.ciprianpascu.modbus.cmd.TCPSlaveTest 5555
 jamod Modbus Slave (Server)
 Listening...
 Listenening to ServerSocket[addr=localhost/127.0.0.1,port=0,localport=5555](Port 5555)
@@ -191,5 +191,5 @@ Response:00 02 00 00 00 04 00 02 01 50
 *--------+
 ||Note   |
 *--------+
-| The debug outputs of the library can be activated by passing the property <<<com.ciprianpascu.modbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.modbus.debug=true>>>) and allow to see the actually exchanged modbus messages encoded as hex.
+| The debug outputs of the library can be activated by passing the property <<<ro.ciprianpascu.modbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.modbus.debug=true>>>) and allow to see the actually exchanged modbus messages encoded as hex.
 *--------+

@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.ciprianpascu</groupId>
+	<groupId>ro.ciprianpascu</groupId>
 	<artifactId>j2sbus</artifactId>
 	<packaging>jar</packaging>
-	<version>1.3.5.OH-SNAPSHOT</version>
+	<version>1.3.5.OH</version>
 	<name>Java 2 S-Bus</name>
-    <url>https://github.com/cipianpascu/j2sbus</url>
+	<url>https://github.com/cipianpascu/j2sbus</url>
 	<description>
-        jamod is an object oriented implementation of the S-Bus protocol, realized 100% in Java. It allows to quickly
-        realize master and slave applications in various transport flavors (IP and serial).
-    </description>
+		jamod is an object oriented implementation of the S-Bus protocol,
+		realized 100% in Java. It allows to quickly
+		realize master and slave applications in various transport flavors (IP
+		and serial).
+	</description>
 
 	<licenses>
 		<license>
@@ -34,7 +37,8 @@
 		<version>7</version>
 	</parent>
 
-	<!-- dependency versions here should match roughly the runtime environment of openHAB2 -->
+	<!-- dependency versions here should match roughly the runtime environment
+	of openHAB2 -->
 	<dependencies>
 		<dependency>
 			<groupId>com.neuronrobotics</groupId>
@@ -56,26 +60,128 @@
 		</dependency>
 	</dependencies>
 
+
+
+	<!-- Original jamod developers as specified in http://jamod.sourceforge.net/ -->
+	<developers>
+		<developer>
+			<id>wimpi</id>
+			<name>Dieter Wimberger</name>
+			<email>wimpi at users.sourceforge.net</email>
+			<roles>
+				<role>Project Manager</role>
+				<role>Architect</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>+2</timezone>
+		</developer>
+		<developer>
+			<id>jdcharlton</id>
+			<name>John Charlton</name>
+			<email>jdcharlton at users.sourceforge.net</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>-5</timezone>
+		</developer>
+		<developer>
+			<id>cipianpascu</id>
+			<name>Ciprian Pascu</name>
+			<email>contact at ciprianpascu.ro</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>-5</timezone>
+		</developer>
+	</developers>
+
+	<!-- Original jamod contributors as specified in
+	http://jamod.sourceforge.net/ -->
+	<contributors>
+		<contributor>
+			<name>Markus Kuespert</name>
+		</contributor>
+		<contributor>
+			<name>Matthew Lohbihler</name>
+		</contributor>
+		<contributor>
+			<name>Shane Harrison</name>
+		</contributor>
+		<contributor>
+			<name>Ciprian Pascu</name>
+		</contributor>
+	</contributors>
+
+	<profiles>
+		<profile>
+			<id>release</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<configuration>
+									<keyname>${gpg.keyname}</keyname>
+									<passphraseServerId>${gpg.passphrase}</passphraseServerId>
+									<gpgArguments>
+										<arg>--pinentry-mode</arg>
+										<arg>loopback</arg>
+									</gpgArguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.7</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.6.1</version>
-				<configuration>
-					<show>private</show>
-					<nohelp>true</nohelp>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -111,7 +217,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.6.1</version>
+				<version>2.9.1</version>
 				<configuration>
 					<show>public</show>
 				</configuration>
@@ -121,7 +227,7 @@
 
 	<issueManagement>
 		<system>Github apge</system>
-		<url>https://github.com/openhab/jamod/issues</url>
+		<url>https://github.com/cipianpascu/j2sbus/issues</url>
 	</issueManagement>
 
 	<scm>
@@ -131,90 +237,14 @@
 	</scm>
 
 	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
 		<repository>
-			<id>jfrog</id>
-			<name>openhab-artifactory-3rdparty</name>
-			<url>https://openhab.jfrog.io/artifactory/libs-3rdparty-local</url>
+			<id>ossrh</id>
+			<url>
+				https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
-
-	<!-- Original jamod developers as specified in http://jamod.sourceforge.net/ -->
-	<developers>
-		<developer>
-			<id>wimpi</id>
-			<name>Dieter Wimberger</name>
-			<email>wimpi at users.sourceforge.net</email>
-			<roles>
-				<role>Project Manager</role>
-				<role>Architect</role>
-				<role>Developer</role>
-			</roles>
-			<timezone>+2</timezone>
-		</developer>
-		<developer>
-			<id>jdcharlton</id>
-			<name>John Charlton</name>
-			<email>jdcharlton at users.sourceforge.net</email>
-			<roles>
-				<role>Developer</role>
-			</roles>
-			<timezone>-5</timezone>
-		</developer>
-		<developer>
-			<id>cipianpascu</id>
-			<name>Ciprian Pascu</name>
-			<email>ciprianpascu at yahoo.com</email>
-			<roles>
-				<role>Developer</role>
-			</roles>
-			<timezone>-5</timezone>
-		</developer>
-	</developers>
-
-	<!-- Original jamod contributors as specified in http://jamod.sourceforge.net/ -->
-	<contributors>
-		<contributor>
-			<name>Markus Kuespert</name>
-		</contributor>
-		<contributor>
-			<name>Matthew Lohbihler</name>
-		</contributor>
-		<contributor>
-			<name>Shane Harrison</name>
-		</contributor>
-		<contributor>
-			<name>Ciprian Pascu</name>
-		</contributor>
-	</contributors>
-
-	<profiles>
-		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.4</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 </project>

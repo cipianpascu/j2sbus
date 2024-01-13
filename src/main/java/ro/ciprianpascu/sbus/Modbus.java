@@ -146,7 +146,7 @@ public interface Modbus {
      * Defines the default port number of Modbus
      * (=502).
      */
-    public static final int DEFAULT_PORT = 502;
+    public static final int DEFAULT_PORT = 6000;
 
     /**
      * Defines the maximum message length in bytes

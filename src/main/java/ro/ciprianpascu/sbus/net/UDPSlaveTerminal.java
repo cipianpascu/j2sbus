@@ -179,7 +179,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
                 m_Active = false;
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage(), ex);
         }
     }// deactivate
 
@@ -271,7 +271,8 @@ public class UDPSlaveTerminal implements UDPTerminal {
                     m_Socket.send(res);
                     logger.trace("Sent package from queue");
                 } catch (Exception ex) {
-                    DEBUG: ex.printStackTrace();
+                	if(logger.isDebugEnabled())
+                        logger.debug("Exception", ex);
                 }
             } while (m_Continue || !m_SendQueue.isEmpty());
         }// run
@@ -305,7 +306,8 @@ public class UDPSlaveTerminal implements UDPTerminal {
                     m_ReceiveQueue.put(buffer);
                     logger.trace("Received package placed in queue");
                 } catch (Exception ex) {
-                    DEBUG: ex.printStackTrace();
+                	if(logger.isDebugEnabled())
+                     logger.debug("Exception", ex);
                 }
             } while (m_Continue);
         }// run

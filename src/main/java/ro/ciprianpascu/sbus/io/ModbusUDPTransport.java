@@ -77,7 +77,7 @@ public class ModbusUDPTransport implements ModbusTransport {
             ModbusRequest req = null;
             synchronized (m_ByteIn) {
                 m_ByteIn.reset(m_Terminal.receiveMessage());
-                m_ByteIn.skip(7);
+                m_ByteIn.skip(8);
                 int functionCode = m_ByteIn.readUnsignedByte();
                 m_ByteIn.reset();
                 req = ModbusRequest.createModbusRequest(functionCode);
@@ -96,7 +96,7 @@ public class ModbusUDPTransport implements ModbusTransport {
             ModbusResponse res = null;
             synchronized (m_ByteIn) {
                 m_ByteIn.reset(m_Terminal.receiveMessage());
-                m_ByteIn.skip(7);
+                m_ByteIn.skip(8);
                 int functionCode = m_ByteIn.readUnsignedByte();
                 m_ByteIn.reset();
                 res = ModbusResponse.createModbusResponse(functionCode);

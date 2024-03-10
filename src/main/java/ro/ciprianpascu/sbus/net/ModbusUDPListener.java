@@ -31,7 +31,7 @@ import ro.ciprianpascu.sbus.msg.ModbusResponse;
 /**
  * Class that implements a ModbusUDPListener.<br>
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class ModbusUDPListener {

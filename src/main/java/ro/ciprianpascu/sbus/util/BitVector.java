@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  * Per default the access operations will index from
  * the LSB (rightmost) bit.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public final class BitVector {

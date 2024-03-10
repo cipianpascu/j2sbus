@@ -34,7 +34,7 @@ import ro.ciprianpascu.sbus.procimg.Register;
  * function <i>write multiple registers (FC 16)</i>. It
  * encapsulates the corresponding request message.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public final class WriteMultipleRegistersRequest extends ModbusRequest {

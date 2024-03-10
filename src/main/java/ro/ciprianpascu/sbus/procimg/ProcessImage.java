@@ -24,7 +24,7 @@ package ro.ciprianpascu.sbus.procimg;
  * memory area used form communication between
  * slave and master or device side.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public interface ProcessImage {

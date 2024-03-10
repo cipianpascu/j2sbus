@@ -19,7 +19,7 @@ package ro.ciprianpascu.sbus.procimg;
 /**
  * The default ProcessImageFactory.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class DefaultProcessImageFactory implements ProcessImageFactory {

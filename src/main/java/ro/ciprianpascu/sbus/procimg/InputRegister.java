@@ -21,7 +21,7 @@ package ro.ciprianpascu.sbus.procimg;
 * 
  * This register is read only from the slave side.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public interface InputRegister {

@@ -29,7 +29,7 @@ import ro.ciprianpascu.sbus.io.ModbusUDPTransport;
 /**
  * Class implementing a {@link UDPMasterTerminal}.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 class UDPMasterTerminal implements UDPTerminal {

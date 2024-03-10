@@ -34,7 +34,7 @@ import ro.ciprianpascu.sbus.procimg.Register;
 /**
  * Modbus/UDP Master facade.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class ModbusUDPMaster {

@@ -20,7 +20,7 @@ package ro.ciprianpascu.sbus;
  * Interface defining all constants related to the
  * Modbus protocol.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public interface Modbus {

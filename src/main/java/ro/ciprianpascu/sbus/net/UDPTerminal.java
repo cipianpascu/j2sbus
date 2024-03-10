@@ -23,7 +23,7 @@ import ro.ciprianpascu.sbus.io.ModbusTransport;
 /**
  * Interface defining a {@link UDPTerminal}.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public interface UDPTerminal {

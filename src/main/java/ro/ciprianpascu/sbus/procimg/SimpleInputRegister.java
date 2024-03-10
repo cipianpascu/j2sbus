@@ -22,7 +22,7 @@ package ro.ciprianpascu.sbus.procimg;
  * The {@link SynchronizedAbstractRegister#setValue(int)} method is synchronized,
  * which ensures atomic access, but no specific access order.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class SimpleInputRegister extends SynchronizedAbstractRegister implements InputRegister {

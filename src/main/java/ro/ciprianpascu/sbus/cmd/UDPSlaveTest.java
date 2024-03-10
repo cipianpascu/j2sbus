@@ -30,7 +30,7 @@ import ro.ciprianpascu.sbus.procimg.SimpleRegister;
  * A simple process image is available to test
  * functionality and behaviour of the implementation.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class UDPSlaveTest {

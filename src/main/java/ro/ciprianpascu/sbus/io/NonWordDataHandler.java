@@ -24,7 +24,7 @@ import java.io.IOException;
  * Interface implementing a non word data handler for the
  * read/write multiple register commands (class 0).
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public interface NonWordDataHandler {

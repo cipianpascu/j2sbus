@@ -20,7 +20,7 @@ package ro.ciprianpascu.sbus.procimg;
  * Interface defining the factory methods for
  * the process image and its elements.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public interface ProcessImageFactory {

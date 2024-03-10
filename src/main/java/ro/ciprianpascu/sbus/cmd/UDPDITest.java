@@ -28,7 +28,7 @@ import ro.ciprianpascu.sbus.net.UDPMasterConnection;
  * Class that implements a simple commandline
  * tool for reading a digital input.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class UDPDITest {

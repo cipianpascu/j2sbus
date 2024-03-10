@@ -21,7 +21,7 @@ package ro.ciprianpascu.sbus;
  * Instances of this exception are thrown when
  * the slave returns a Modbus exception.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class ModbusSlaveException extends ModbusException {

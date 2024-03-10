@@ -22,7 +22,7 @@ import java.util.Vector;
  * A cleanroom implementation of the Observable pattern.
  * 
  *
- * @author Dieter Wimberger (wimpi)
+ * @author Ciprian Pascu (wimpi)
  * @version %I% (%G%)
  */
 public class Observable {

@@ -30,7 +30,7 @@ import ro.ciprianpascu.sbus.Modbus;
  * This is just a helper class to keep the implementation
  * patterns the same for all cases.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class IllegalFunctionRequest extends ModbusRequest {

@@ -21,7 +21,7 @@ import ro.ciprianpascu.sbus.util.Observable;
 /**
  * Class implementing an observable register.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class ObservableRegister extends Observable implements Register {

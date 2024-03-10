@@ -22,7 +22,7 @@ package ro.ciprianpascu.sbus.procimg;
  * The set method is synchronized, which ensures atomic
  * access, but no specific access order.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class SimpleDigitalIn implements DigitalIn {

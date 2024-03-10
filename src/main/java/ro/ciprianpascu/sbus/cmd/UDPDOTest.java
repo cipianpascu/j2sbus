@@ -41,7 +41,7 @@ import ro.ciprianpascu.sbus.procimg.SimpleRegister;
  * After this timeout, the device might require a
  * reset message.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class UDPDOTest {

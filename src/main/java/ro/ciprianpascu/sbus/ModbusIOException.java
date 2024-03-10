@@ -21,7 +21,7 @@ package ro.ciprianpascu.sbus;
  * Instances of this exception are thrown when
  * errors in the I/O occur.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class ModbusIOException extends ModbusException {

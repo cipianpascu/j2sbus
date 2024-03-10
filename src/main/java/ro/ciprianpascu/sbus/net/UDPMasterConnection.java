@@ -24,7 +24,7 @@ import ro.ciprianpascu.sbus.io.ModbusTransport;
 /**
  * Class that implements a UDPMasterConnection.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public class UDPMasterConnection implements ModbusSlaveConnection {

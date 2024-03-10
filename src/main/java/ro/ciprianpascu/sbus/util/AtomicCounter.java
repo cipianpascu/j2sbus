@@ -24,7 +24,7 @@ import ro.ciprianpascu.sbus.Modbus;
  * Provides an atomic integer.
  * 
  *
- * @author Dieter Wimberger (wimpi)
+ * @author Ciprian Pascu (wimpi)
  * @version %I% (%G%)
  */
 public class AtomicCounter {

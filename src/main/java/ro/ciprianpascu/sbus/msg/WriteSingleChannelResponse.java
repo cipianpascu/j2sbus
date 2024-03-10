@@ -28,7 +28,7 @@ import ro.ciprianpascu.sbus.Modbus;
  * function <i>write single register (FC 6)</i>. It
  * encapsulates the corresponding response message.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public final class WriteSingleChannelResponse extends ModbusResponse {

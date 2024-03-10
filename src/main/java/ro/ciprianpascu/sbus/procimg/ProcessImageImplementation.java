@@ -22,7 +22,7 @@ package ro.ciprianpascu.sbus.procimg;
  * mechanisms for creating and modifying the actual
  * "process image".
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public interface ProcessImageImplementation extends ProcessImage {

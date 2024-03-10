@@ -24,7 +24,7 @@ package ro.ciprianpascu.sbus.procimg;
  * Therefor implementations have to be carefully
  * designed for concurrency.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public interface Register extends InputRegister {

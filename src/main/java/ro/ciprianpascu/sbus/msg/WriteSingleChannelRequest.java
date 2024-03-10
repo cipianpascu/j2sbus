@@ -32,7 +32,7 @@ import ro.ciprianpascu.sbus.procimg.Register;
  * function <i>write single register (FC 6)</i>. It
  * encapsulates the corresponding request message.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public final class WriteSingleChannelRequest extends ModbusRequest {

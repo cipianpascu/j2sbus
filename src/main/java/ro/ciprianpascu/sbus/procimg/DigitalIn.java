@@ -23,7 +23,7 @@ package ro.ciprianpascu.sbus.procimg;
  * input discrete, it is read only from
  * the slave side.
  *
- * @author Dieter Wimberger
+ * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public interface DigitalIn {

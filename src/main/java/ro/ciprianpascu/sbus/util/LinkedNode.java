@@ -27,7 +27,7 @@ package ro.ciprianpascu.sbus.util;
  * This class represents a node in a linked list data structure.
  * Each node contains an object as its data and a reference to the next node in the list.
  *
- * @author Doug Lea, Dieter Wimberger
+ * @author Doug Lea, Ciprian Pascu
  * @version %I% (%G%)
  */
 public class LinkedNode {

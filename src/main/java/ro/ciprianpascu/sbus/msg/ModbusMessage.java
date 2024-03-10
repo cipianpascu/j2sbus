@@ -26,49 +26,55 @@ import ro.ciprianpascu.sbus.io.Transportable;
  */
 public interface ModbusMessage extends Transportable {
 
-    /**
-     * Sets the flag that marks this {@link ModbusMessage} as headless
-     * (for serial transport).
-     */
-    public void setHeadless();
-
-    /**
-     * Returns the transaction identifier of this
-     * {@link ModbusMessage} as {@link int}.<br>
-     * The identifier is a 2-byte (short) non negative
-     * integer value valid in the range of 0-65535.
-* 
-     *
-     * @return the transaction identifier as {@link int}.
-     */
-    public int getTransactionID();
-
-    /**
-     * Returns the protocol identifier of this
-     * {@link ModbusMessage} as {@link int}.<br>
-     * The identifier is a 2-byte (short) non negative
-     * integer value valid in the range of 0-65535.
-* 
-     *
-     * @return the protocol identifier as {@link int}.
-     */
-    public int getProtocolID();
 
     /**
      * Returns the length of the data appended
      * after the protocol header.
-* 
+     * 
      *
      * @return the data length as {@link int}.
      */
     public int getDataLength();
 
     /**
+     * Returns the source subnet identifier of this
+     * {@link ModbusMessage} as {@link int}.<br>
+     * The identifier is a 1-byte non negative
+     * integer value valid in the range of 0-255.
+     * 
+     *
+     * @return the unit identifier as {@link int}.
+     */
+    public int getSourceSubnetID();
+    
+    /**
+     * Returns the source unit identifier of this
+     * {@link ModbusMessage} as {@link int}.<br>
+     * The identifier is a 1-byte non negative
+     * integer value valid in the range of 0-255.
+     * 
+     *
+     * @return the unit identifier as {@link int}.
+     */
+    public int getSourceUnitID();
+
+    /**
+     * Returns the source device type of this
+     * {@link ModbusMessage} as {@link int}.<br>
+     * The identifier is a 2-byte non negative
+     * integer value valid in the range of 0-255.
+     * 
+     *
+     * @return the unit identifier as {@link int}.
+     */
+    public int getSourceDeviceType();
+
+    /**
      * Returns the subnet identifier of this
      * {@link ModbusMessage} as {@link int}.<br>
      * The identifier is a 1-byte non negative
      * integer value valid in the range of 0-255.
-* 
+     * 
      *
      * @return the unit identifier as {@link int}.
      */
@@ -79,7 +85,7 @@ public interface ModbusMessage extends Transportable {
      * {@link ModbusMessage} as {@link int}.<br>
      * The identifier is a 1-byte non negative
      * integer value valid in the range of 0-255.
-* 
+     * 
      *
      * @return the unit identifier as {@link int}.
      */
@@ -93,7 +99,7 @@ public interface ModbusMessage extends Transportable {
      * Function codes are ordered in conformance
      * classes their values are specified in
      * {@link ro.ciprianpascu.sbus.Modbus}.
-* 
+     * 
      *
      * @return the function code as {@link int}.
      *
@@ -108,7 +114,7 @@ public interface ModbusMessage extends Transportable {
      * This method is specially for debugging purposes,
      * allowing to log the communication in a manner used
      * in the specification document.
-* 
+     * 
      *
      * @return the <i>raw</i> message as {@link String}
      *         containing a hexadecimal series of bytes.

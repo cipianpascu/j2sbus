@@ -26,7 +26,7 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
 import ro.ciprianpascu.sbus.procimg.ProcessImageFactory;
 
 /**
- * Class implementing a {@link ReadInputRegistersRequest}.
+ * Class implementing a {@link ReadStatusChannelsRequest}.
  * The implementation directly correlates with the class 0
  * function <i>read multiple registers (FC 4)</i>. It
  * encapsulates the corresponding response message.
@@ -34,7 +34,7 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageFactory;
  * @author Dieter Wimberger
  * @version %I% (%G%)
  */
-public final class ReadInputRegistersResponse extends ModbusResponse {
+public final class ReadStatusChannelsResponse extends ModbusResponse {
 
     // instance attributes
     private int m_ByteCount;
@@ -42,23 +42,23 @@ public final class ReadInputRegistersResponse extends ModbusResponse {
     private InputRegister[] m_Registers;
 
     /**
-     * Constructs a new {@link ReadInputRegistersResponse}
+     * Constructs a new {@link ReadStatusChannelsResponse}
      * instance.
      */
-    public ReadInputRegistersResponse() {
+    public ReadStatusChannelsResponse() {
         super();
-        setFunctionCode(Modbus.READ_INPUT_REGISTERS);
+        setFunctionCode(Modbus.READ_STATUS_CHANNELS_RESPONSE);
     }// constructor
 
     /**
-     * Constructs a new {@link ReadInputRegistersResponse}
+     * Constructs a new {@link ReadStatusChannelsResponse}
      * instance.
      *
      * @param registers the InputRegister[] holding response input registers.
      */
-    public ReadInputRegistersResponse(InputRegister[] registers) {
+    public ReadStatusChannelsResponse(InputRegister[] registers) {
         super();
-        setFunctionCode(Modbus.READ_INPUT_REGISTERS);
+        setFunctionCode(Modbus.READ_STATUS_CHANNELS_RESPONSE);
         m_ByteCount = registers.length * 2;
         m_Registers = registers;
         // set correct data length excluding unit id and fc
@@ -173,4 +173,4 @@ public final class ReadInputRegistersResponse extends ModbusResponse {
         setDataLength(getByteCount() + 1);
     }// readData
 
-}// class ReadInputRegistersResponse
+}// class ReadStatusChannelsResponse

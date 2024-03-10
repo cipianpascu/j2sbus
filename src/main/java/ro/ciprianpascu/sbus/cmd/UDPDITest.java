@@ -20,8 +20,8 @@ import java.net.InetAddress;
 
 import ro.ciprianpascu.sbus.Modbus;
 import ro.ciprianpascu.sbus.io.ModbusUDPTransaction;
-import ro.ciprianpascu.sbus.msg.ReadInputDiscretesRequest;
-import ro.ciprianpascu.sbus.msg.ReadInputDiscretesResponse;
+import ro.ciprianpascu.sbus.msg.ReadStatusChannelsRequest;
+import ro.ciprianpascu.sbus.msg.ReadStatusChannelsResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 
 /**
@@ -37,8 +37,8 @@ public class UDPDITest {
 
         UDPMasterConnection conn = null;
         ModbusUDPTransaction trans = null;
-        ReadInputDiscretesRequest req = null;
-        ReadInputDiscretesResponse res = null;
+        ReadStatusChannelsRequest req = null;
+        ReadStatusChannelsResponse res = null;
 
         InetAddress addr = null;
         int ref = 0;
@@ -79,7 +79,7 @@ public class UDPDITest {
             conn.connect();
 
             // 3. Prepare the request
-            req = new ReadInputDiscretesRequest(ref, count);
+            req = new ReadStatusChannelsRequest(ref, count);
             req.setUnitID(0);
             if (Modbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
@@ -94,11 +94,11 @@ public class UDPDITest {
             do {
                 trans.execute();
 
-                res = (ReadInputDiscretesResponse) trans.getResponse();
+                res = (ReadStatusChannelsResponse) trans.getResponse();
                 if (Modbus.debug) {
                     System.out.println("Response: " + res.getHexMessage());
                 }
-                System.out.println("Digital Inputs Status=" + res.getDiscretes().toString());
+                System.out.println("Digital Inputs Status=" + res.getRegisters().toString());
                 k++;
             } while (k < repeat);
 

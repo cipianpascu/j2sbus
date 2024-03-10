@@ -27,7 +27,7 @@ import ro.ciprianpascu.sbus.procimg.ProcessImage;
 import ro.ciprianpascu.sbus.procimg.Register;
 
 /**
- * Class implementing a {@link WriteSingleRegisterRequest}.
+ * Class implementing a {@link WriteSingleChannelRequest}.
  * The implementation directly correlates with the class 0
  * function <i>write single register (FC 6)</i>. It
  * encapsulates the corresponding request message.
@@ -35,25 +35,25 @@ import ro.ciprianpascu.sbus.procimg.Register;
  * @author Dieter Wimberger
  * @version %I% (%G%)
  */
-public final class WriteSingleRegisterRequest extends ModbusRequest {
+public final class WriteSingleChannelRequest extends ModbusRequest {
 
     // instance attributes
     private int m_Reference;
     private Register m_Register;
 
     /**
-     * Constructs a new {@link WriteSingleRegisterRequest}
+     * Constructs a new {@link WriteSingleChannelRequest}
      * instance.
      */
-    public WriteSingleRegisterRequest() {
+    public WriteSingleChannelRequest() {
         super();
-        setFunctionCode(Modbus.WRITE_SINGLE_REGISTER);
+        setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST);
         // 4 bytes (unit id and function code is excluded)
         setDataLength(4);
     }// constructor
 
     /**
-     * Constructs a new {@link WriteSingleRegisterRequest}
+     * Constructs a new {@link WriteSingleChannelRequest}
      * instance with a given reference and value to be written.
      * 
      *
@@ -61,9 +61,9 @@ public final class WriteSingleRegisterRequest extends ModbusRequest {
      *            to read from.
      * @param reg the register containing the data to be written.
      */
-    public WriteSingleRegisterRequest(int ref, Register reg) {
+    public WriteSingleChannelRequest(int ref, Register reg) {
         super();
-        setFunctionCode(Modbus.WRITE_SINGLE_REGISTER);
+        setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST);
         m_Reference = ref;
         m_Register = reg;
         // 4 bytes (unit id and function code is excluded)
@@ -72,7 +72,7 @@ public final class WriteSingleRegisterRequest extends ModbusRequest {
 
     @Override
     public ModbusResponse createResponse() {
-        WriteSingleRegisterResponse response = null;
+        WriteSingleChannelResponse response = null;
         Register reg = null;
 
         // 1. get process image
@@ -85,14 +85,11 @@ public final class WriteSingleRegisterRequest extends ModbusRequest {
         } catch (IllegalAddressException iaex) {
             return createExceptionResponse(Modbus.ILLEGAL_ADDRESS_EXCEPTION);
         }
-        response = new WriteSingleRegisterResponse(this.getReference(), reg.getValue());
+        response = new WriteSingleChannelResponse(this.getReference(), reg.getValue());
         // transfer header data
-        if (!isHeadless()) {
-            response.setTransactionID(this.getTransactionID());
-            response.setProtocolID(this.getProtocolID());
-        } else {
-            response.setHeadless();
-        }
+        response.setSourceSubnetID(this.getSourceSubnetID());
+		response.setSourceUnitID(this.getSourceUnitID());
+		response.setSourceDeviceType(this.getSourceDeviceType());
         response.setSubnetID(this.getSubnetID());
         response.setUnitID(this.getUnitID());
         response.setFunctionCode(this.getFunctionCode());
@@ -101,7 +98,7 @@ public final class WriteSingleRegisterRequest extends ModbusRequest {
 
     /**
      * Sets the reference of the register to be written
-     * to with this {@link WriteSingleRegisterRequest}.
+     * to with this {@link WriteSingleChannelRequest}.
      * 
      *
      * @param ref the reference of the register
@@ -115,7 +112,7 @@ public final class WriteSingleRegisterRequest extends ModbusRequest {
     /**
      * Returns the reference of the register to be
      * written to with this
-     * {@link WriteSingleRegisterRequest}.
+     * {@link WriteSingleChannelRequest}.
      * 
      *
      * @return the reference of the register
@@ -127,7 +124,7 @@ public final class WriteSingleRegisterRequest extends ModbusRequest {
 
     /**
      * Sets the value that should be written to the
-     * register with this {@link WriteSingleRegisterRequest}.
+     * register with this {@link WriteSingleChannelRequest}.
      * 
      *
      * @param reg the register to be written.
@@ -138,7 +135,7 @@ public final class WriteSingleRegisterRequest extends ModbusRequest {
 
     /**
      * Returns the value that should be written to the
-     * register with this {@link WriteSingleRegisterRequest}.
+     * register with this {@link WriteSingleChannelRequest}.
      * 
      *
      * @return the value to be written to the register.
@@ -160,4 +157,4 @@ public final class WriteSingleRegisterRequest extends ModbusRequest {
                 din.readByte());
     }// readData
 
-}// class WriteSingleRegisterRequest
+}// class WriteSingleChannelRequest

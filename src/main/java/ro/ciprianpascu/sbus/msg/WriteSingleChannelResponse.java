@@ -20,8 +20,10 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import ro.ciprianpascu.sbus.Modbus;
+
 /**
- * Class implementing a {@link WriteSingleRegisterResponse}.
+ * Class implementing a {@link WriteSingleChannelResponse}.
  * The implementation directly correlates with the class 0
  * function <i>write single register (FC 6)</i>. It
  * encapsulates the corresponding response message.
@@ -29,38 +31,40 @@ import java.io.IOException;
  * @author Dieter Wimberger
  * @version %I% (%G%)
  */
-public final class WriteSingleRegisterResponse extends ModbusResponse {
+public final class WriteSingleChannelResponse extends ModbusResponse {
 
     // instance attributes
     private int m_Reference;
     private int m_RegisterValue;
 
     /**
-     * Constructs a new {@link WriteSingleRegisterResponse}
+     * Constructs a new {@link WriteSingleChannelResponse}
      * instance.
      */
-    public WriteSingleRegisterResponse() {
+    public WriteSingleChannelResponse() {
         super();
-        setDataLength(4);
+		setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_RESPONSE);
+        setDataLength(2);
     }// constructor
 
     /**
-     * Constructs a new {@link WriteSingleRegisterResponse}
+     * Constructs a new {@link WriteSingleChannelResponse}
      * instance.
      *
      * @param reference the offset of the register written.
      * @param value the value of the register.
      */
-    public WriteSingleRegisterResponse(int reference, int value) {
+    public WriteSingleChannelResponse(int reference, int value) {
         super();
+		setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_RESPONSE);
         setReference(reference);
         setRegisterValue(value);
-        setDataLength(4);
+        setDataLength(2);
     }// constructor
 
     /**
      * Returns the value that has been returned in
-     * this {@link WriteSingleRegisterResponse}.
+     * this {@link WriteSingleChannelResponse}.
 * 
      *
      * @return the value of the register.
@@ -132,4 +136,4 @@ public final class WriteSingleRegisterResponse extends ModbusResponse {
      * }//readData
      */
 
-}// class WriteSingleRegisterResponse
+}// class WriteSingleChannelResponse

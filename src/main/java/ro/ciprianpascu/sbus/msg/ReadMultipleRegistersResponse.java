@@ -50,7 +50,7 @@ public final class ReadMultipleRegistersResponse extends ModbusResponse {
     }// constructor
 
     /**
-     * Constructs a new {@link ReadInputRegistersResponse}
+     * Constructs a new {@link ReadStatusChannelsResponse}
      * instance.
      *
      * @param registers the Register[] holding response registers.

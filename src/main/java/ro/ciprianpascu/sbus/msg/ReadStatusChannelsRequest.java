@@ -27,7 +27,7 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
 import ro.ciprianpascu.sbus.procimg.ProcessImage;
 
 /**
- * Class implementing a {@link ReadInputRegistersRequest}.
+ * Class implementing a {@link ReadStatusChannelsRequest}.
  * The implementation directly correlates with the class 0
  * function <i>read multiple registers (FC 4)</i>. It
  * encapsulates the corresponding request message.
@@ -35,25 +35,25 @@ import ro.ciprianpascu.sbus.procimg.ProcessImage;
  * @author Dieter Wimberger
  * @version %I% (%G%)
  */
-public final class ReadInputRegistersRequest extends ModbusRequest {
+public final class ReadStatusChannelsRequest extends ModbusRequest {
 
     // instance attributes
     private int m_Reference;
     private int m_WordCount;
 
     /**
-     * Constructs a new {@link ReadInputRegistersRequest}
+     * Constructs a new {@link ReadStatusChannelsRequest}
      * instance.
      */
-    public ReadInputRegistersRequest() {
+    public ReadStatusChannelsRequest() {
         super();
-        setFunctionCode(Modbus.READ_INPUT_REGISTERS);
+        setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST);
         // 4 bytes (unit id and function code is excluded)
         setDataLength(4);
     }// constructor
 
     /**
-     * Constructs a new {@link ReadInputRegistersRequest}
+     * Constructs a new {@link ReadStatusChannelsRequest}
      * instance with a given reference and count of words
      * to be read.
 * 
@@ -62,9 +62,9 @@ public final class ReadInputRegistersRequest extends ModbusRequest {
      *            to read from.
      * @param count the number of words to be read.
      */
-    public ReadInputRegistersRequest(int ref, int count) {
+    public ReadStatusChannelsRequest(int ref, int count) {
         super();
-        setFunctionCode(Modbus.READ_INPUT_REGISTERS);
+        setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST);
         // 4 bytes (unit id and function code is excluded)
         setDataLength(4);
         setReference(ref);
@@ -73,7 +73,7 @@ public final class ReadInputRegistersRequest extends ModbusRequest {
 
     @Override
     public ModbusResponse createResponse() {
-        ReadInputRegistersResponse response = null;
+        ReadStatusChannelsResponse response = null;
         InputRegister[] inpregs = null;
 
         // 1. get process image
@@ -84,14 +84,11 @@ public final class ReadInputRegistersRequest extends ModbusRequest {
         } catch (IllegalAddressException iaex) {
             return createExceptionResponse(Modbus.ILLEGAL_ADDRESS_EXCEPTION);
         }
-        response = new ReadInputRegistersResponse(inpregs);
+        response = new ReadStatusChannelsResponse(inpregs);
         // transfer header data
-        if (!isHeadless()) {
-            response.setTransactionID(this.getTransactionID());
-            response.setProtocolID(this.getProtocolID());
-        } else {
-            response.setHeadless();
-        }
+        response.setSourceSubnetID(this.getSourceSubnetID());
+		response.setSourceUnitID(this.getSourceUnitID());
+		response.setSourceDeviceType(this.getSourceDeviceType());
         response.setSubnetID(this.getSubnetID());
         response.setUnitID(this.getUnitID());
         response.setFunctionCode(this.getFunctionCode());
@@ -100,7 +97,7 @@ public final class ReadInputRegistersRequest extends ModbusRequest {
 
     /**
      * Sets the reference of the register to start reading
-     * from with this {@link ReadInputRegistersRequest}.
+     * from with this {@link ReadStatusChannelsRequest}.
 * 
      *
      * @param ref the reference of the register
@@ -114,7 +111,7 @@ public final class ReadInputRegistersRequest extends ModbusRequest {
     /**
      * Returns the reference of the register to to start
      * reading from with this
-     * {@link ReadInputRegistersRequest}.
+     * {@link ReadStatusChannelsRequest}.
 * 
      *
      * @return the reference of the register
@@ -126,7 +123,7 @@ public final class ReadInputRegistersRequest extends ModbusRequest {
 
     /**
      * Sets the number of words to be read with this
-     * {@link ReadInputRegistersRequest}.
+     * {@link ReadStatusChannelsRequest}.
 * 
      *
      * @param count the number of words to be read.
@@ -138,7 +135,7 @@ public final class ReadInputRegistersRequest extends ModbusRequest {
 
     /**
      * Returns the number of words to be read with this
-     * {@link ReadInputRegistersRequest}.
+     * {@link ReadStatusChannelsRequest}.
 * 
      *
      * @return the number of words to be read as
@@ -160,4 +157,4 @@ public final class ReadInputRegistersRequest extends ModbusRequest {
         m_WordCount = din.readUnsignedShort();
     }// readData
 
-}// class ReadInputRegistersRequest
+}// class ReadStatusChannelsRequest

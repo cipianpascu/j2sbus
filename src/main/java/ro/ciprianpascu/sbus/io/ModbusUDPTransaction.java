@@ -186,8 +186,6 @@ public class ModbusUDPTransaction implements ModbusTransaction {
                     Thread.sleep(m_RetryDelayMillis);
                 }
                 try {
-                    // toggle the id
-                    m_Request.setTransactionID(c_TransactionID.increment());
                     // 3. write request, and read response,
                     // while holding the lock on the IO object
                     synchronized (m_IO) {

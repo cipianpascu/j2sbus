@@ -86,12 +86,9 @@ public final class ReadMultipleRegistersRequest extends ModbusRequest {
         }
         response = new ReadMultipleRegistersResponse(regs);
         // transfer header data
-        if (!isHeadless()) {
-            response.setTransactionID(this.getTransactionID());
-            response.setProtocolID(this.getProtocolID());
-        } else {
-            response.setHeadless();
-        }
+        response.setSourceSubnetID(this.getSourceSubnetID());
+		response.setSourceUnitID(this.getSourceUnitID());
+		response.setSourceDeviceType(this.getSourceDeviceType());
         response.setSubnetID(this.getSubnetID());
         response.setUnitID(this.getUnitID());
         response.setFunctionCode(this.getFunctionCode());

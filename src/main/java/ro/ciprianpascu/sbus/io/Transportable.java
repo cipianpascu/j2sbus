@@ -28,14 +28,6 @@ import java.io.IOException;
 public interface Transportable {
 
     /**
-     * Returns the number of bytes that will
-     * be written by {@link #writeTo(DataOutput)}.
-     *
-     * @return the number of bytes that will be written as {@link int}.
-     */
-    public int getOutputLength();
-
-    /**
      * Writes this {@link Transportable} to the
      * given {@link DataOutput}.
      *

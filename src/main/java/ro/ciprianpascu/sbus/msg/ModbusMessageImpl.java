@@ -34,80 +34,43 @@ import ro.ciprianpascu.sbus.util.ModbusUtil;
 public abstract class ModbusMessageImpl implements ModbusMessage {
 
     // instance attributes
-    private int m_TransactionID = Modbus.DEFAULT_TRANSACTION_ID;
-    private int m_ProtocolID = Modbus.DEFAULT_PROTOCOL_ID;
     private int m_DataLength;
     private int m_SubnetID = Modbus.DEFAULT_SUBNET_ID;
     private int m_UnitID = Modbus.DEFAULT_UNIT_ID;
     private int m_FunctionCode;
-    private boolean m_Headless = false; // flag for headerless (serial) transport
+    private int m_SourceSubnetID = Modbus.DEFAULT_SOURCE_SUBNET_ID;
+    private int m_SourceUnitID = Modbus.DEFAULT_SOURCE_UNIT_ID;
+    private int m_SourceDeviceType = Modbus.DEFAULT_SOURCE_DEVICE_TYPE;
 
     /*** Header ******************************************/
 
-    /**
-     * Tests if this message instance is headless.
-     *
-     * @return true if headless, false otherwise.
-     */
-    public boolean isHeadless() {
-        return m_Headless;
-    }// isHeadless
 
-    @Override
-    public void setHeadless() {
-        m_Headless = true;
-    }// setHeadless
 
-    /**
-     * Sets the headless flag of this message.
-     *
-     * @param b true if headless, false otherwise.
-     */
-    protected void setHeadless(boolean b) {
-        m_Headless = b;
-    }// setHeadless
+    public int getSourceSubnetID() {
+		return m_SourceSubnetID;
+	}
 
-    @Override
-    public int getTransactionID() {
-        return m_TransactionID;
-    }// getTransactionID
+	public void setSourceSubnetID(int m_SourceSubnetID) {
+		this.m_SourceSubnetID = m_SourceSubnetID;
+	}
 
-    /**
-     * Sets the transaction identifier of this
-     * {@link ModbusMessage}.
-* 
-     * The identifier should be a 2-byte (short) non negative
-     * integer value valid in the range of 0-65535.<br>
-* 
-     *
-     * @param tid the transaction identifier as {@link int}.
-     */
-    public void setTransactionID(int tid) {
-        m_TransactionID = tid;
-        // setChanged(true);
-    }// setTransactionID
+	public int getSourceUnitID() {
+		return m_SourceUnitID;
+	}
 
-    @Override
-    public int getProtocolID() {
-        return m_ProtocolID;
-    }// getProtocolID
+	public void setSourceUnitID(int m_SourceUnitID) {
+		this.m_SourceUnitID = m_SourceUnitID;
+	}
 
-    /**
-     * Sets the protocol identifier of this
-     * {@link ModbusMessage}.
-* 
-     * The identifier should be a 2-byte (short) non negative
-     * integer value valid in the range of 0-65535.<br>
-* 
-     *
-     * @param pid the protocol identifier as {@link int}.
-     */
-    public void setProtocolID(int pid) {
-        m_ProtocolID = pid;
-        // setChanged(true);
-    }// setProtocolID
+	public int getSourceDeviceType() {
+		return m_SourceDeviceType;
+	}
 
-    @Override
+	public void setSourceDeviceType(int m_SourceDeviceType) {
+		this.m_SourceDeviceType = m_SourceDeviceType;
+	}
+
+	@Override
     public int getDataLength() {
         return m_DataLength;
     }// getDataLength
@@ -127,7 +90,7 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
      */
     public void setDataLength(int length) {
         // should be below 255, check!
-        m_DataLength = length + 3;
+        m_DataLength = length + 11;
     }// setData
 
     public int getSubnetID() {
@@ -198,11 +161,10 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
     @Override
     public void writeTo(DataOutput dout) throws IOException {
 
-        if (!isHeadless()) {
-            dout.writeShort(getTransactionID());
-            dout.writeShort(getProtocolID());
-            dout.writeShort(getDataLength());
-        }
+        dout.writeByte(getDataLength());
+        dout.writeByte(getSourceSubnetID());
+        dout.writeByte(getSourceUnitID());
+		dout.writeShort(getSourceDeviceType());
         dout.writeByte(getSubnetID());
         dout.writeByte(getUnitID());
         dout.writeByte(getFunctionCode());
@@ -219,11 +181,10 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
 
     @Override
     public void readFrom(DataInput din) throws IOException {
-        if (!isHeadless()) {
-            setTransactionID(din.readUnsignedShort());
-            setProtocolID(din.readUnsignedShort());
-            m_DataLength = din.readUnsignedShort();
-        }
+        m_DataLength = din.readUnsignedByte();
+		setSourceSubnetID(din.readUnsignedByte());
+		setSourceUnitID(din.readUnsignedByte());
+		setSourceDeviceType(din.readUnsignedShort());
         setSubnetID(din.readUnsignedByte());
         setUnitID(din.readUnsignedByte());
         setFunctionCode(din.readUnsignedByte());
@@ -238,14 +199,7 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
      */
     public abstract void readData(DataInput din) throws IOException;
 
-    @Override
-    public int getOutputLength() {
-        int l = 3 + getDataLength();
-        if (!isHeadless()) {
-            l = l + 6;
-        }
-        return l;
-    }// getOutputLength
+
 
     /*** END Transportable *******************************/
 

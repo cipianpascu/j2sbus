@@ -62,26 +62,14 @@ public abstract class ModbusResponse extends ModbusMessageImpl {
             case Modbus.READ_MULTIPLE_REGISTERS:
                 response = new ReadMultipleRegistersResponse();
                 break;
-            case Modbus.READ_INPUT_DISCRETES:
-                response = new ReadInputDiscretesResponse();
-                break;
-            case Modbus.READ_INPUT_REGISTERS:
-                response = new ReadInputRegistersResponse();
-                break;
-            case Modbus.READ_COILS:
-                response = new ReadCoilsResponse();
+            case Modbus.READ_STATUS_CHANNELS_REQUEST:
+                response = new ReadStatusChannelsResponse();
                 break;
             case Modbus.WRITE_MULTIPLE_REGISTERS:
                 response = new WriteMultipleRegistersResponse();
                 break;
-            case Modbus.WRITE_SINGLE_REGISTER:
-                response = new WriteSingleRegisterResponse();
-                break;
-            case Modbus.WRITE_COIL:
-                response = new WriteCoilResponse();
-                break;
-            case Modbus.WRITE_MULTIPLE_COILS:
-                response = new WriteMultipleCoilsResponse();
+            case Modbus.WRITE_SINGLE_CHANNEL_REQUEST:
+                response = new WriteSingleChannelResponse();
                 break;
             default:
                 response = new ExceptionResponse();

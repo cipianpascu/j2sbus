@@ -20,8 +20,10 @@ import java.net.InetAddress;
 
 import ro.ciprianpascu.sbus.Modbus;
 import ro.ciprianpascu.sbus.io.ModbusUDPTransaction;
-import ro.ciprianpascu.sbus.msg.WriteCoilRequest;
+import ro.ciprianpascu.sbus.msg.WriteSingleChannelRequest;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
+import ro.ciprianpascu.sbus.procimg.Register;
+import ro.ciprianpascu.sbus.procimg.SimpleRegister;
 
 /**
  * Class that implements a simple commandline
@@ -48,7 +50,7 @@ public class UDPDOTest {
 
         UDPMasterConnection conn = null;
         ModbusUDPTransaction trans = null;
-        WriteCoilRequest req = null;
+        WriteSingleChannelRequest req = null;
 
         InetAddress addr = null;
 
@@ -89,9 +91,12 @@ public class UDPDOTest {
             conn = new UDPMasterConnection(addr);
             conn.setPort(502);
             conn.connect();
+            
+            Register reg = new SimpleRegister();
+            reg.setValue(set?1:0);
 
             // 3. Prepare a request
-            req = new WriteCoilRequest(ref, set);
+            req = new WriteSingleChannelRequest(ref, reg);
             req.setUnitID(0);
             if (Modbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());

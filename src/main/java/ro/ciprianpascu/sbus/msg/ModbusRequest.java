@@ -60,14 +60,11 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
      */
     public ModbusResponse createExceptionResponse(int EXCEPTION_CODE) {
         ExceptionResponse response = new ExceptionResponse(this.getFunctionCode(), EXCEPTION_CODE);
-        if (!isHeadless()) {
-            response.setTransactionID(this.getTransactionID());
-            response.setProtocolID(this.getProtocolID());
-            response.setSubnetID(this.getSubnetID());
-            response.setUnitID(this.getUnitID());
-        } else {
-            response.setHeadless();
-        }
+        response.setSourceSubnetID(this.getSourceSubnetID());
+        response.setSourceUnitID(this.getSourceUnitID());
+		response.setSourceDeviceType(this.getSourceDeviceType());
+        response.setSubnetID(this.getSubnetID());
+        response.setUnitID(this.getUnitID());
         return response;
     }// createExceptionResponse
 
@@ -85,26 +82,14 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
             case Modbus.READ_MULTIPLE_REGISTERS:
                 request = new ReadMultipleRegistersRequest();
                 break;
-            case Modbus.READ_INPUT_DISCRETES:
-                request = new ReadInputDiscretesRequest();
-                break;
-            case Modbus.READ_INPUT_REGISTERS:
-                request = new ReadInputRegistersRequest();
-                break;
-            case Modbus.READ_COILS:
-                request = new ReadCoilsRequest();
+            case Modbus.READ_STATUS_CHANNELS_REQUEST:
+                request = new ReadStatusChannelsRequest();
                 break;
             case Modbus.WRITE_MULTIPLE_REGISTERS:
                 request = new WriteMultipleRegistersRequest();
                 break;
-            case Modbus.WRITE_SINGLE_REGISTER:
-                request = new WriteSingleRegisterRequest();
-                break;
-            case Modbus.WRITE_COIL:
-                request = new WriteCoilRequest();
-                break;
-            case Modbus.WRITE_MULTIPLE_COILS:
-                request = new WriteMultipleCoilsRequest();
+            case Modbus.WRITE_SINGLE_CHANNEL_REQUEST:
+                request = new WriteSingleChannelRequest();
                 break;
             default:
                 request = new IllegalFunctionRequest(functionCode);

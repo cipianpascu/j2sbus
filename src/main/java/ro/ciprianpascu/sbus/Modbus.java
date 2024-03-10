@@ -43,61 +43,31 @@ public interface Modbus {
      */
     public static final int WRITE_MULTIPLE_REGISTERS = 16;
 
-    /**
-     * Defines the class 1 function code
-     * for {@link READ_COILS}.
-     */
-    public static final int READ_COILS = 1;
 
     /**
      * Defines a class 1 function code
-     * for {@link READ_INPUT_DISCRETES}.
+     * for {@link READ_STATUS_CHANNELS_REQUEST}.
      */
-    public static final int READ_INPUT_DISCRETES = 2;
+    public static final int READ_STATUS_CHANNELS_REQUEST = 0x0033;
 
     /**
      * Defines a class 1 function code
-     * for {@link READ_INPUT_REGISTERS}.
+     * for {@link READ_STATUS_CHANNELS_REQUEST}.
      */
-    public static final int READ_INPUT_REGISTERS = 4;
+    public static final int READ_STATUS_CHANNELS_RESPONSE = 0x0034;
 
     /**
      * Defines a class 1 function code
-     * for {@link WRITE_COIL}.
+     * for {@link WRITE_SINGLE_CHANNEL_REQUEST}.
      */
-    public static final int WRITE_COIL = 5;
-
-    /**
-     * Defines a standard function code
-     * for {@link WRITE_MULTIPLE_COILS}.
-     */
-    public static final int WRITE_MULTIPLE_COILS = 15;
+    public static final int WRITE_SINGLE_CHANNEL_REQUEST = 0x0031;
 
     /**
      * Defines a class 1 function code
-     * for {@link WRITE_SINGLE_REGISTER}.
+     * for {@link WRITE_SINGLE_CHANNEL_RESPONSE}.
      */
-    public static final int WRITE_SINGLE_REGISTER = 6;
+    public static final int WRITE_SINGLE_CHANNEL_RESPONSE = 0x0032;
 
-    /**
-     * Defines the byte representation of the coil state <b>on</b>.
-     */
-    public static final int COIL_ON = (byte) 255;
-
-    /**
-     * Defines the byte representation of the coil state <b>pos</b>.
-     */
-    public static final int COIL_OFF = 0;
-
-    /**
-     * Defines the word representation of the coil state <b>on</b>.
-     */
-    public static final byte[] COIL_ON_BYTES = { (byte) COIL_ON, (byte) COIL_OFF };
-
-    /**
-     * Defines the word representation of the coil state <b>pos</b>.
-     */
-    public static final byte[] COIL_OFF_BYTES = { (byte) COIL_OFF, (byte) COIL_OFF };
 
     /**
      * Defines the maximum number of bits in multiple read/write
@@ -170,9 +140,24 @@ public interface Modbus {
     public static final int DEFAULT_UNIT_ID = 0;
 
     /**
-     * Defines the default unit identifier (=0).
+     * Defines the default unit identifier (=1).
      */
     public static final int DEFAULT_SUBNET_ID = 1;
+
+    /**
+     * Defines the default unit identifier (=254).
+     */
+    public static final int DEFAULT_SOURCE_UNIT_ID = 254;
+
+    /**
+     * Defines the default unit identifier (=1).
+     */
+    public static final int DEFAULT_SOURCE_SUBNET_ID = 1;
+
+    /**
+     * Defines the default unit identifier (=0).
+     */
+    public static final int DEFAULT_SOURCE_DEVICE_TYPE = 0xFFFE;
 
     /**
      * Defines the default setting for validity checking

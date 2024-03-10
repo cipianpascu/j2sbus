@@ -91,4 +91,5 @@ public class ExceptionResponse extends ModbusResponse {
         m_ExceptionCode = din.readUnsignedByte();
     }// readData
 
+
 }// ExceptionResponse

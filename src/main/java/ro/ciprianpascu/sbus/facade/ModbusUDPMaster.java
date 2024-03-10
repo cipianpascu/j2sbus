@@ -21,23 +21,15 @@ import java.net.UnknownHostException;
 
 import ro.ciprianpascu.sbus.ModbusException;
 import ro.ciprianpascu.sbus.io.ModbusUDPTransaction;
-import ro.ciprianpascu.sbus.msg.ReadCoilsRequest;
-import ro.ciprianpascu.sbus.msg.ReadCoilsResponse;
-import ro.ciprianpascu.sbus.msg.ReadInputDiscretesRequest;
-import ro.ciprianpascu.sbus.msg.ReadInputDiscretesResponse;
-import ro.ciprianpascu.sbus.msg.ReadInputRegistersRequest;
-import ro.ciprianpascu.sbus.msg.ReadInputRegistersResponse;
+import ro.ciprianpascu.sbus.msg.ReadStatusChannelsRequest;
+import ro.ciprianpascu.sbus.msg.ReadStatusChannelsResponse;
 import ro.ciprianpascu.sbus.msg.ReadMultipleRegistersRequest;
 import ro.ciprianpascu.sbus.msg.ReadMultipleRegistersResponse;
-import ro.ciprianpascu.sbus.msg.WriteCoilRequest;
-import ro.ciprianpascu.sbus.msg.WriteCoilResponse;
-import ro.ciprianpascu.sbus.msg.WriteMultipleCoilsRequest;
 import ro.ciprianpascu.sbus.msg.WriteMultipleRegistersRequest;
-import ro.ciprianpascu.sbus.msg.WriteSingleRegisterRequest;
+import ro.ciprianpascu.sbus.msg.WriteSingleChannelRequest;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 import ro.ciprianpascu.sbus.procimg.InputRegister;
 import ro.ciprianpascu.sbus.procimg.Register;
-import ro.ciprianpascu.sbus.util.BitVector;
 
 /**
  * Modbus/UDP Master facade.
@@ -50,13 +42,9 @@ public class ModbusUDPMaster {
     private UDPMasterConnection m_Connection;
     private InetAddress m_SlaveAddress;
     private ModbusUDPTransaction m_Transaction;
-    private ReadCoilsRequest m_ReadCoilsRequest;
-    private ReadInputDiscretesRequest m_ReadInputDiscretesRequest;
-    private WriteCoilRequest m_WriteCoilRequest;
-    private WriteMultipleCoilsRequest m_WriteMultipleCoilsRequest;
-    private ReadInputRegistersRequest m_ReadInputRegistersRequest;
+    private ReadStatusChannelsRequest m_ReadStatusChannelRequest;
     private ReadMultipleRegistersRequest m_ReadMultipleRegistersRequest;
-    private WriteSingleRegisterRequest m_WriteSingleRegisterRequest;
+    private WriteSingleChannelRequest m_WriteSingleChannelRequest;
     private WriteMultipleRegistersRequest m_WriteMultipleRegistersRequest;
 
     /**
@@ -70,13 +58,9 @@ public class ModbusUDPMaster {
         try {
             m_SlaveAddress = InetAddress.getByName(addr);
             m_Connection = new UDPMasterConnection(m_SlaveAddress);
-            m_ReadCoilsRequest = new ReadCoilsRequest();
-            m_ReadInputDiscretesRequest = new ReadInputDiscretesRequest();
-            m_WriteCoilRequest = new WriteCoilRequest();
-            m_WriteMultipleCoilsRequest = new WriteMultipleCoilsRequest();
-            m_ReadInputRegistersRequest = new ReadInputRegistersRequest();
+            m_ReadStatusChannelRequest = new ReadStatusChannelsRequest();
             m_ReadMultipleRegistersRequest = new ReadMultipleRegistersRequest();
-            m_WriteSingleRegisterRequest = new WriteSingleRegisterRequest();
+            m_WriteSingleChannelRequest = new WriteSingleChannelRequest();
             m_WriteMultipleRegistersRequest = new WriteMultipleRegistersRequest();
 
         } catch (UnknownHostException e) {
@@ -119,90 +103,6 @@ public class ModbusUDPMaster {
         }
     }// disconnect
 
-    /**
-     * Reads a given number of coil states from the slave.
-     * 
-     * Note that the number of bits in the bit vector will be
-     * forced to the number originally requested.
-     *
-     * @param ref the offset of the coil to start reading from.
-     * @param count the number of coil states to be read.
-     * @return a {@link BitVector} instance holding the
-     *         received coil states.
-     * @throws ModbusException if an I/O error, a slave exception or
-     *             a transaction error occurs.
-     */
-    public synchronized BitVector readCoils(int ref, int count) throws ModbusException {
-        m_ReadCoilsRequest.setReference(ref);
-        m_ReadCoilsRequest.setBitCount(count);
-        m_Transaction.setRequest(m_ReadCoilsRequest);
-        m_Transaction.execute();
-        BitVector bv = ((ReadCoilsResponse) m_Transaction.getResponse()).getCoils();
-        bv.forceSize(count);
-        return bv;
-    }// readCoils
-
-    /**
-     * Writes a coil state to the slave.
-     *
-     * @param subnetid the subnet id
-     * @param unitid the slave unit id.
-     * @param ref the offset of the coil to be written.
-     * @param state the coil state to be written.
-     * @return the state of the coil as returned from the slave.
-     * @throws ModbusException if an I/O error, a slave exception or
-     *             a transaction error occurs.
-     */
-    public synchronized boolean writeCoil(int subnetid, int unitid, int ref, boolean state) throws ModbusException {
-    	m_WriteCoilRequest.setSubnetID(subnetid);
-        m_WriteCoilRequest.setUnitID(unitid);
-        m_WriteCoilRequest.setReference(ref);
-        m_WriteCoilRequest.setCoil(state);
-        m_Transaction.setRequest(m_WriteCoilRequest);
-        m_Transaction.execute();
-        return ((WriteCoilResponse) m_Transaction.getResponse()).getCoil();
-    }// writeCoil
-
-    /**
-     * Writes a given number of coil states to the slave.
-     * 
-     * Note that the number of coils to be written is given
-     * implicitly, through {@link BitVector#size()}.
-     *
-     * @param ref the offset of the coil to start writing to.
-     * @param coils a {@link BitVector} which holds the coil states to be written.
-     * @throws ModbusException if an I/O error, a slave exception or
-     *             a transaction error occurs.
-     */
-    public synchronized void writeMultipleCoils(int ref, BitVector coils) throws ModbusException {
-        m_WriteMultipleCoilsRequest.setReference(ref);
-        m_WriteMultipleCoilsRequest.setCoils(coils);
-        m_Transaction.setRequest(m_WriteMultipleCoilsRequest);
-        m_Transaction.execute();
-    }// writeMultipleCoils
-
-    /**
-     * Reads a given number of input discrete states from the slave.
-     * 
-     * Note that the number of bits in the bit vector will be
-     * forced to the number originally requested.
-     *
-     * @param ref the offset of the input discrete to start reading from.
-     * @param count the number of input discrete states to be read.
-     * @return a {@link BitVector} instance holding the received input discrete
-     *         states.
-     * @throws ModbusException if an I/O error, a slave exception or
-     *             a transaction error occurs.
-     */
-    public synchronized BitVector readInputDiscretes(int ref, int count) throws ModbusException {
-        m_ReadInputDiscretesRequest.setReference(ref);
-        m_ReadInputDiscretesRequest.setBitCount(count);
-        m_Transaction.setRequest(m_ReadInputDiscretesRequest);
-        m_Transaction.execute();
-        BitVector bv = ((ReadInputDiscretesResponse) m_Transaction.getResponse()).getDiscretes();
-        bv.forceSize(count);
-        return bv;
-    }// readInputDiscretes
 
     /**
      * Reads a given number of input registers from the slave.
@@ -217,11 +117,11 @@ public class ModbusUDPMaster {
      *             a transaction error occurs.
      */
     public synchronized InputRegister[] readInputRegisters(int ref, int count) throws ModbusException {
-        m_ReadInputRegistersRequest.setReference(ref);
-        m_ReadInputRegistersRequest.setWordCount(count);
-        m_Transaction.setRequest(m_ReadInputRegistersRequest);
+        m_ReadStatusChannelRequest.setReference(ref);
+        m_ReadStatusChannelRequest.setWordCount(count);
+        m_Transaction.setRequest(m_ReadStatusChannelRequest);
         m_Transaction.execute();
-        return ((ReadInputRegistersResponse) m_Transaction.getResponse()).getRegisters();
+        return ((ReadStatusChannelsResponse) m_Transaction.getResponse()).getRegisters();
     }// readInputRegisters
 
     /**
@@ -254,9 +154,9 @@ public class ModbusUDPMaster {
      *             a transaction error occurs.
      */
     public synchronized void writeSingleRegister(int ref, Register register) throws ModbusException {
-        m_WriteSingleRegisterRequest.setReference(ref);
-        m_WriteSingleRegisterRequest.setRegister(register);
-        m_Transaction.setRequest(m_WriteSingleRegisterRequest);
+        m_WriteSingleChannelRequest.setReference(ref);
+        m_WriteSingleChannelRequest.setRegister(register);
+        m_Transaction.setRequest(m_WriteSingleChannelRequest);
         m_Transaction.execute();
     }// writeSingleRegister
 

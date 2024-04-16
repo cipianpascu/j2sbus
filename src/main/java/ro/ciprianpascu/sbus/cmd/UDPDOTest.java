@@ -52,7 +52,6 @@ public class UDPDOTest {
         ModbusUDPTransaction trans = null;
         WriteSingleChannelRequest req = null;
 
-        InetAddress addr = null;
 
         int ref = 0;
         boolean set = false;
@@ -67,18 +66,11 @@ public class UDPDOTest {
                 System.exit(1);
             } else {
                 try {
-                    String astr = args[0];
-                    int idx = astr.indexOf(':');
-                    if (idx > 0) {
-                        port = Integer.parseInt(astr.substring(idx + 1));
-                        astr = astr.substring(0, idx);
-                    }
-                    addr = InetAddress.getByName(astr);
-                    ref = Integer.parseInt(args[1]);
-                    set = "true".equals(args[2]);
+                    ref = Integer.parseInt(args[0]);
+                    set = "true".equals(args[1]);
 
-                    if (args.length == 4) {
-                        repeat = Integer.parseInt(args[3]);
+                    if (args.length == 3) {
+                        repeat = Integer.parseInt(args[2]);
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -88,8 +80,8 @@ public class UDPDOTest {
             }
 
             // 2. Open the connection
-            conn = new UDPMasterConnection(addr);
-            conn.setPort(502);
+            conn = new UDPMasterConnection();
+            conn.setPort(port);
             conn.connect();
             
             Register reg = new SimpleRegister();
@@ -127,7 +119,7 @@ public class UDPDOTest {
 
     private static void printUsage() {
         System.out.println(
-                "java ro.ciprianpascu.sbus.cmd.UDPDOTest <address{:<port>} [String]> <register [int16]> <state [boolean]> {<repeat [int]>}");
+                "java ro.ciprianpascu.sbus.cmd.UDPDOTest <register [int16]> <state [boolean]> {<repeat [int]>}");
     }// printUsage
 
 }// class DOTest

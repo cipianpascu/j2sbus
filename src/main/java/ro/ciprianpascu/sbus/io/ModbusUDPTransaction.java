@@ -181,7 +181,7 @@ public class ModbusUDPTransaction implements ModbusTransaction {
             // I/O Exception problems.
             m_RetryCounter = 0;
 
-            while (m_RetryCounter <= m_Retries) {
+            while (m_RetryCounter < m_Retries) {
                 if (m_RetryCounter != 0) {
                     Thread.sleep(m_RetryDelayMillis);
                 }

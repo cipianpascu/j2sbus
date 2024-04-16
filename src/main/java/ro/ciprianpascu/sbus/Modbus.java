@@ -50,23 +50,12 @@ public interface Modbus {
      */
     public static final int READ_STATUS_CHANNELS_REQUEST = 0x0033;
 
-    /**
-     * Defines a class 1 function code
-     * for {@link READ_STATUS_CHANNELS_REQUEST}.
-     */
-    public static final int READ_STATUS_CHANNELS_RESPONSE = 0x0034;
 
     /**
      * Defines a class 1 function code
      * for {@link WRITE_SINGLE_CHANNEL_REQUEST}.
      */
     public static final int WRITE_SINGLE_CHANNEL_REQUEST = 0x0031;
-
-    /**
-     * Defines a class 1 function code
-     * for {@link WRITE_SINGLE_CHANNEL_RESPONSE}.
-     */
-    public static final int WRITE_SINGLE_CHANNEL_RESPONSE = 0x0032;
 
 
     /**
@@ -113,8 +102,8 @@ public interface Modbus {
     public static final int ILLEGAL_VALUE_EXCEPTION = 3;
 
     /**
-     * Defines the default port number of Modbus
-     * (=502).
+     * Defines the default port number of Sbus
+     * (=6000).
      */
     public static final int DEFAULT_PORT = 6000;
 
@@ -147,17 +136,17 @@ public interface Modbus {
     /**
      * Defines the default unit identifier (=254).
      */
-    public static final int DEFAULT_SOURCE_UNIT_ID = 254;
+    public static final int DEFAULT_SOURCE_UNIT_ID = 0xB0;
 
     /**
      * Defines the default unit identifier (=1).
      */
-    public static final int DEFAULT_SOURCE_SUBNET_ID = 1;
+    public static final int DEFAULT_SOURCE_SUBNET_ID = 0xBB;
 
     /**
      * Defines the default unit identifier (=0).
      */
-    public static final int DEFAULT_SOURCE_DEVICE_TYPE = 0xFFFE;
+    public static final int DEFAULT_SOURCE_DEVICE_TYPE = 0xCCCC;
 
     /**
      * Defines the default setting for validity checking
@@ -169,7 +158,7 @@ public interface Modbus {
      * Defines the default setting for I/O operation timeouts
      * in milliseconds (=3000).
      */
-    public static final int DEFAULT_TIMEOUT = 3000;
+    public static final int DEFAULT_TIMEOUT = 10000;
 
     /**
      * Defines the default reconnecting setting for

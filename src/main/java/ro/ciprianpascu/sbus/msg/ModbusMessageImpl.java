@@ -165,9 +165,9 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
         dout.writeByte(getSourceSubnetID());
         dout.writeByte(getSourceUnitID());
 		dout.writeShort(getSourceDeviceType());
+        dout.writeShort(getFunctionCode());
         dout.writeByte(getSubnetID());
         dout.writeByte(getUnitID());
-        dout.writeByte(getFunctionCode());
         writeData(dout);
     }// writeTo
 
@@ -185,9 +185,9 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
 		setSourceSubnetID(din.readUnsignedByte());
 		setSourceUnitID(din.readUnsignedByte());
 		setSourceDeviceType(din.readUnsignedShort());
+        setFunctionCode(din.readUnsignedShort());
         setSubnetID(din.readUnsignedByte());
         setUnitID(din.readUnsignedByte());
-        setFunctionCode(din.readUnsignedByte());
         readData(din);
     }// readFrom
 

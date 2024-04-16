@@ -18,12 +18,16 @@ package ro.ciprianpascu.sbus.net;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.io.ModbusTransport;
 import ro.ciprianpascu.sbus.io.ModbusUDPTransport;
 
 /**
@@ -145,6 +149,7 @@ class UDPMasterTerminal implements UDPTerminal {
 
             m_Socket.setReceiveBufferSize(1024);
             m_Socket.setSendBufferSize(1024);
+            //m_Socket.setBroadcast(true);
 
             m_ModbusTransport = new ModbusUDPTransport(this);
             m_Active = true;
@@ -199,8 +204,29 @@ class UDPMasterTerminal implements UDPTerminal {
 
     @Override
     public void sendMessage(byte[] msg) throws Exception {
+    	
+    	byte[] localIp = m_LocalAddress.getAddress();
+    	byte[] fullMessage = new byte[msg.length + 16];
+    	fullMessage[0] = localIp[0];
+    	fullMessage[1] = localIp[1];
+    	fullMessage[2] = localIp[2];
+    	fullMessage[3] = localIp[3];
 
-        DatagramPacket req = new DatagramPacket(msg, msg.length, m_RemoteAddress, m_RemotePort);
+    	fullMessage[4]=0x53; //S
+    	fullMessage[5]=0x4D; //M
+    	fullMessage[6]=0x41; //A
+    	fullMessage[7]=0x52; //R
+    	fullMessage[8]=0x54; //T
+    	fullMessage[9]=0x43; //C
+    	fullMessage[10]=0x4C; //L
+    	fullMessage[11]=0x4F; //O
+    	fullMessage[12]=0x55; //U
+    	fullMessage[13]=0x44; //D
+    	fullMessage[14]=(byte) 0xAA; //
+    	fullMessage[15]=(byte) 0xAA; //
+    	System.arraycopy(msg,0,fullMessage,16,msg.length);
+    	
+        DatagramPacket req = new DatagramPacket(fullMessage, fullMessage.length, m_RemoteAddress, m_RemotePort);
         synchronized (m_Socket) {
             m_Socket.send(req);
         }
@@ -224,5 +250,5 @@ class UDPMasterTerminal implements UDPTerminal {
         m_Socket.setSoTimeout(m_Timeout);
         m_Socket.receive(packet);
     }// receiveMessage
-
+    
 }// class UDPMasterTerminal

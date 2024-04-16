@@ -54,30 +54,21 @@ public class ModbusUDPMaster {
      * @param addr an internet address as resolvable IP name or IP number,
      *            specifying the slave to communicate with.
      */
-    public ModbusUDPMaster(String addr) {
-        try {
-            m_SlaveAddress = InetAddress.getByName(addr);
-            m_Connection = new UDPMasterConnection(m_SlaveAddress);
-            m_ReadStatusChannelRequest = new ReadStatusChannelsRequest();
-            m_ReadMultipleRegistersRequest = new ReadMultipleRegistersRequest();
-            m_WriteSingleChannelRequest = new WriteSingleChannelRequest();
-            m_WriteMultipleRegistersRequest = new WriteMultipleRegistersRequest();
-
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+    public ModbusUDPMaster() {
+        m_Connection = new UDPMasterConnection();
+        m_ReadStatusChannelRequest = new ReadStatusChannelsRequest();
+        m_ReadMultipleRegistersRequest = new ReadMultipleRegistersRequest();
+        m_WriteSingleChannelRequest = new WriteSingleChannelRequest();
+        m_WriteMultipleRegistersRequest = new WriteMultipleRegistersRequest();
     }// constructor
 
     /**
      * Constructs a new master facade instance for communication
      * with a given slave.
      *
-     * @param addr an internet address as resolvable IP name or IP number,
-     *            specifying the slave to communicate with.
      * @param port the port the slave is listening to.
      */
-    public ModbusUDPMaster(String addr, int port) {
-        this(addr);
+    public ModbusUDPMaster( int port) {
         m_Connection.setPort(port);
     }// constructor
 

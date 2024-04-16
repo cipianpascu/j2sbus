@@ -25,6 +25,7 @@ import ro.ciprianpascu.sbus.msg.ModbusMessage;
 import ro.ciprianpascu.sbus.msg.ModbusRequest;
 import ro.ciprianpascu.sbus.msg.ModbusResponse;
 import ro.ciprianpascu.sbus.net.UDPTerminal;
+import ro.ciprianpascu.sbus.util.ModbusUtil;
 
 /**
  * Class that implements the Modbus UDP transport
@@ -64,6 +65,9 @@ public class ModbusUDPTransport implements ModbusTransport {
             synchronized (m_ByteOut) {
                 m_ByteOut.reset();
                 msg.writeTo(m_ByteOut);
+                byte[] crc = ModbusUtil.calculateCRC(m_ByteOut.getBuffer(), m_ByteOut.size());
+                m_ByteOut.writeByte(crc[0]);
+                m_ByteOut.writeByte(crc[1]);
                 m_Terminal.sendMessage(m_ByteOut.toByteArray());
             }
         } catch (Exception ex) {
@@ -77,14 +81,25 @@ public class ModbusUDPTransport implements ModbusTransport {
             ModbusRequest req = null;
             synchronized (m_ByteIn) {
                 m_ByteIn.reset(m_Terminal.receiveMessage());
-                m_ByteIn.skip(8);
+                m_ByteIn.skip(16);
+                
+                // check CRC
+                int dlength = m_ByteIn.size(); 
+                if (!ModbusUtil.checkCRC(m_ByteIn.getBuffer(), dlength)) { 
+                    throw new IOException("CRC Error in received frame: " + dlength + " bytes: "
+                            + ModbusUtil.toHex(m_ByteIn.getBuffer(), 0, dlength));
+                }
+                
                 int functionCode = m_ByteIn.readUnsignedByte();
                 m_ByteIn.reset();
                 req = ModbusRequest.createModbusRequest(functionCode);
                 req.readFrom(m_ByteIn);
             }
             return req;
+        } catch (InterruptedIOException ioex) {
+            throw new ModbusIOException("Socket timed out.");
         } catch (Exception ex) {
+            // ex.printStackTrace();
             throw new ModbusIOException("I/O exception - failed to read.");
         }
     }// readRequest
@@ -96,7 +111,15 @@ public class ModbusUDPTransport implements ModbusTransport {
             ModbusResponse res = null;
             synchronized (m_ByteIn) {
                 m_ByteIn.reset(m_Terminal.receiveMessage());
-                m_ByteIn.skip(8);
+                m_ByteIn.skip(16);
+                
+                // check CRC
+                int dlength = m_ByteIn.size(); 
+                if (!ModbusUtil.checkCRC(m_ByteIn.getBuffer(), dlength)) {
+                    throw new IOException("CRC Error in received frame: " + dlength + " bytes: "
+                            + ModbusUtil.toHex(m_ByteIn.getBuffer(), 0, dlength));
+                }
+                
                 int functionCode = m_ByteIn.readUnsignedByte();
                 m_ByteIn.reset();
                 res = ModbusResponse.createModbusResponse(functionCode);

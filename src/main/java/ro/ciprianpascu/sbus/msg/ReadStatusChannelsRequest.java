@@ -48,28 +48,9 @@ public final class ReadStatusChannelsRequest extends ModbusRequest {
     public ReadStatusChannelsRequest() {
         super();
         setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST);
-        // 4 bytes (unit id and function code is excluded)
-        setDataLength(4);
+        setDataLength(0);
     }// constructor
 
-    /**
-     * Constructs a new {@link ReadStatusChannelsRequest}
-     * instance with a given reference and count of words
-     * to be read.
-* 
-     *
-     * @param ref the reference number of the register
-     *            to read from.
-     * @param count the number of words to be read.
-     */
-    public ReadStatusChannelsRequest(int ref, int count) {
-        super();
-        setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST);
-        // 4 bytes (unit id and function code is excluded)
-        setDataLength(4);
-        setReference(ref);
-        setWordCount(count);
-    }// constructor
 
     @Override
     public ModbusResponse createResponse() {
@@ -147,14 +128,14 @@ public final class ReadStatusChannelsRequest extends ModbusRequest {
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeShort(m_Reference);
-        dout.writeShort(m_WordCount);
+//        dout.writeShort(m_Reference);
+//        dout.writeShort(m_WordCount);
     }// writeData
 
     @Override
     public void readData(DataInput din) throws IOException {
-        m_Reference = din.readUnsignedShort();
-        m_WordCount = din.readUnsignedShort();
+//        m_Reference = din.readUnsignedShort();
+//        m_WordCount = din.readUnsignedShort();
     }// readData
 
 }// class ReadStatusChannelsRequest

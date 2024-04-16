@@ -16,6 +16,7 @@
 
 package ro.ciprianpascu.sbus.cmd;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 
 import ro.ciprianpascu.sbus.Modbus;
@@ -40,31 +41,19 @@ public class UDPDITest {
         ReadStatusChannelsRequest req = null;
         ReadStatusChannelsResponse res = null;
 
-        InetAddress addr = null;
-        int ref = 0;
-        int count = 0;
         int repeat = 1;
         int port = Modbus.DEFAULT_PORT;
 
         try {
 
             // 1. Setup the parameters
-            if (args.length < 3) {
+            if (args.length < 2) {
                 printUsage();
                 System.exit(1);
             } else {
                 try {
-                    String astr = args[0];
-                    int idx = astr.indexOf(':');
-                    if (idx > 0) {
-                        port = Integer.parseInt(astr.substring(idx + 1));
-                        astr = astr.substring(0, idx);
-                    }
-                    addr = InetAddress.getByName(astr);
-                    ref = Integer.parseInt(args[1]);
-                    count = Integer.parseInt(args[2]);
-                    if (args.length == 4) {
-                        repeat = Integer.parseInt(args[3]);
+                    if (args.length == 3) {
+                        repeat = Integer.parseInt(args[2]);
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -74,13 +63,14 @@ public class UDPDITest {
             }
 
             // 2. Open the connection
-            conn = new UDPMasterConnection(addr);
+            conn = new UDPMasterConnection();
             conn.setPort(port);
             conn.connect();
 
             // 3. Prepare the request
-            req = new ReadStatusChannelsRequest(ref, count);
-            req.setUnitID(0);
+            req = new ReadStatusChannelsRequest();
+            req.setSubnetID(1);
+            req.setUnitID(75);
             if (Modbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
             }
@@ -112,7 +102,7 @@ public class UDPDITest {
 
     private static void printUsage() {
         System.out.println(
-                "java ro.ciprianpascu.sbus.cmd.UDPDITest <address{:<port>} [String]> <register [int16]> <bitcount [int16]> {<repeat [int]>}");
+                "java ro.ciprianpascu.sbus.cmd.UDPDITest <register [int16]> <bitcount [int16]> {<repeat [int]>}");
     }// printUsage
 
 }// class DITest

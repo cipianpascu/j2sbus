@@ -43,7 +43,7 @@ public final class WriteSingleChannelResponse extends ModbusResponse {
      */
     public WriteSingleChannelResponse() {
         super();
-		setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_RESPONSE);
+		setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST+1);
         setDataLength(2);
     }// constructor
 
@@ -56,7 +56,7 @@ public final class WriteSingleChannelResponse extends ModbusResponse {
      */
     public WriteSingleChannelResponse(int reference, int value) {
         super();
-		setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_RESPONSE);
+		setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST+1);
         setReference(reference);
         setRegisterValue(value);
         setDataLength(2);

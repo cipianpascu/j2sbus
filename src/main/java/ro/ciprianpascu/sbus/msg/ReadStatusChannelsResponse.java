@@ -47,7 +47,7 @@ public final class ReadStatusChannelsResponse extends ModbusResponse {
      */
     public ReadStatusChannelsResponse() {
         super();
-        setFunctionCode(Modbus.READ_STATUS_CHANNELS_RESPONSE);
+        setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST+1);
     }// constructor
 
     /**
@@ -58,7 +58,7 @@ public final class ReadStatusChannelsResponse extends ModbusResponse {
      */
     public ReadStatusChannelsResponse(InputRegister[] registers) {
         super();
-        setFunctionCode(Modbus.READ_STATUS_CHANNELS_RESPONSE);
+        setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST+1);
         m_ByteCount = registers.length * 2;
         m_Registers = registers;
         // set correct data length excluding unit id and fc

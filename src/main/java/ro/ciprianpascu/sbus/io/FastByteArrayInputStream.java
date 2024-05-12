@@ -31,7 +31,9 @@ import java.io.InputStream;
  * in implementation considerably. For compatibility reasons
  * we have tried to conserve the interface as much as possible.
  *
- * @author Ciprian Pascu (wimpi)
+ * @author Dieter Wimberger
+ * @author Ciprian Pascu
+ (wimpi)
  * @version %I% (%G%)
  */
 public class FastByteArrayInputStream extends InputStream {

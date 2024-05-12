@@ -20,7 +20,9 @@ package ro.ciprianpascu.sbus.procimg;
  * Abstract class with synchronized
  * register operations.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public abstract class SynchronizedAbstractRegister implements Register {

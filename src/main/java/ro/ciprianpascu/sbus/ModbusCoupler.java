@@ -28,7 +28,9 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageFactory;
  * At the moment it only provides a reference to the
  * OO model of the process image.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public class ModbusCoupler {

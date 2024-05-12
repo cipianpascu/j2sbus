@@ -32,7 +32,9 @@ import ro.ciprianpascu.sbus.util.Mutex;
  * Class implementing the {@link ModbusTransaction}
  * interface for the UDP transport mechanism.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public class ModbusUDPTransaction implements ModbusTransaction {

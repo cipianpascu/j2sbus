@@ -19,7 +19,9 @@ package ro.ciprianpascu.sbus.util;
 /**
  * Class implementing a simple thread pool.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public class ThreadPool {
@@ -67,7 +69,9 @@ public class ThreadPool {
      * Inner class implementing a thread that can be
      * run in a {@link ThreadPool}.
      *
-     * @author Ciprian Pascu
+     * @author Dieter Wimberger
+ * @author Ciprian Pascu
+
      * @version %I% (%G%)
      */
     private class PoolThread extends Thread {

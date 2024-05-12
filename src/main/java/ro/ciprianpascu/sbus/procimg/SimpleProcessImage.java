@@ -23,7 +23,9 @@ import java.util.Vector;
  * to be able to run unit tests or handle
  * simple cases.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public class SimpleProcessImage implements ProcessImageImplementation {

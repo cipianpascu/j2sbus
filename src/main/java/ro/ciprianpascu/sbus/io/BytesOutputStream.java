@@ -24,7 +24,9 @@ import java.io.IOException;
  * Class implementing a byte array output stream with
  * a DataInput interface.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public class BytesOutputStream extends FastByteArrayOutputStream implements DataOutput {

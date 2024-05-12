@@ -27,7 +27,9 @@ import ro.ciprianpascu.sbus.msg.ModbusResponse;
  * sending a request message and receiving a
  * related response message.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public interface ModbusTransaction {

@@ -26,7 +26,9 @@ import ro.ciprianpascu.sbus.Modbus;
  * Helper class wrapping all serial port communication parameters.
  * Very similar to the gnu.io demos, however, not the same.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @author John Charlton
  * @version %I% (%G%)
  */

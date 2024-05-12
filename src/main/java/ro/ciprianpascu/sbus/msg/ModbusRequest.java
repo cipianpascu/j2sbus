@@ -23,7 +23,9 @@ import ro.ciprianpascu.sbus.Modbus;
  * This class provides specialised implementations with
  * the functionality they have in common.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public abstract class ModbusRequest extends ModbusMessageImpl {

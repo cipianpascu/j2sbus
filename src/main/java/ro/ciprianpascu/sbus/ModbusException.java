@@ -20,7 +20,9 @@ package ro.ciprianpascu.sbus;
  * Superclass of all specialised exceptions in
  * this package.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public class ModbusException extends Exception {

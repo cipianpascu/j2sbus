@@ -30,8 +30,10 @@ import ro.ciprianpascu.sbus.util.ModbusUtil;
 /**
  * Class that implements the Modbus UDP transport
  * flavor.
- *
+ * 
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version 1.0 (29/04/2002)
  */
 public class ModbusUDPTransport implements ModbusTransport {

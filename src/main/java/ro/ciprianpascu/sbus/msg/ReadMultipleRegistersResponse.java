@@ -31,7 +31,9 @@ import ro.ciprianpascu.sbus.procimg.Register;
  * function <i>read multiple registers (FC 3)</i>. It encapsulates
  * the corresponding response message.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public final class ReadMultipleRegistersResponse extends ModbusResponse {

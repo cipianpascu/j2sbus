@@ -26,7 +26,9 @@ import java.io.IOException;
  * function <i>read multiple registers (FC 16)</i>. It encapsulates
  * the corresponding response message.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public final class WriteMultipleRegistersResponse extends ModbusResponse {

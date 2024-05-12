@@ -34,7 +34,9 @@ import ro.ciprianpascu.sbus.util.ModbusUtil;
 /**
  * Class implementing a {@link UDPSlaveTerminal}.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public class UDPSlaveTerminal implements UDPTerminal {

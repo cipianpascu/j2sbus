@@ -27,7 +27,9 @@ import ro.ciprianpascu.sbus.msg.ModbusMessage;
 /**
  * Helper class that provides utility methods.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @author John Charlton
  * @version %I% (%G%)
  */

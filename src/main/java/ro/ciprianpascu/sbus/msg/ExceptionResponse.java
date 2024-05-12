@@ -26,7 +26,9 @@ import ro.ciprianpascu.sbus.Modbus;
  * Provides the a{@link ModbusResponse}
  * implementation that represents a Modbus exception.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public class ExceptionResponse extends ModbusResponse {

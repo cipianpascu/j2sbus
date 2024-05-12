@@ -27,7 +27,9 @@ import ro.ciprianpascu.sbus.msg.ModbusResponse;
  * Interface defining the I/O mechanisms for
  * {@link ModbusMessage} instances.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public interface ModbusTransport {

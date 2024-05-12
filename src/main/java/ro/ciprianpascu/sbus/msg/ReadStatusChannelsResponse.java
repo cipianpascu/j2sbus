@@ -31,7 +31,9 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageFactory;
  * function <i>read multiple registers (FC 4)</i>. It
  * encapsulates the corresponding response message.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public final class ReadStatusChannelsResponse extends ModbusResponse {

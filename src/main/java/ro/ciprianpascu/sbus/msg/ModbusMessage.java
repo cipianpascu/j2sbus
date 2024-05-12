@@ -21,7 +21,9 @@ import ro.ciprianpascu.sbus.io.Transportable;
 /**
  * Interface defining a Modbus Message.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public interface ModbusMessage extends Transportable {

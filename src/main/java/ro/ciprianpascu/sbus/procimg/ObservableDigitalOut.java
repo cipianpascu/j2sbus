@@ -21,7 +21,9 @@ import ro.ciprianpascu.sbus.util.Observable;
 /**
  * Class implementing an observable digital output.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public class ObservableDigitalOut extends Observable implements DigitalOut {

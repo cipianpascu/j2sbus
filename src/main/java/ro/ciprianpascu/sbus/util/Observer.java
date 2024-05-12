@@ -21,7 +21,9 @@ package ro.ciprianpascu.sbus.util;
  * for the Observable design pattern.
  * 
  *
- * @author Ciprian Pascu (wimpi)
+ * @author Dieter Wimberger
+ * @author Ciprian Pascu
+ (wimpi)
  * @version %I% (%G%)
  */
 public interface Observer {

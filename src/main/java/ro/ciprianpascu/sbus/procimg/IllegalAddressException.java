@@ -24,7 +24,9 @@ package ro.ciprianpascu.sbus.procimg;
  * Note that this is a runtime exception, as it is similar
  * to the {@link IndexOutOfBoundsException}
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public class IllegalAddressException extends RuntimeException {

@@ -32,7 +32,9 @@ import java.io.UnsupportedEncodingException;
  * in implementation considerably. For compatibility reasons
  * we have tried to conserve the interface as much as possible.
  *
+ * @author Dieter Wimberger
  * @author Ciprian Pascu
+
  * @version %I% (%G%)
  */
 public class FastByteArrayOutputStream extends OutputStream {

@@ -52,6 +52,11 @@ public interface Modbus {
      */
     public static final int READ_STATUS_CHANNELS_REQUEST = 0x0033;
 
+    /**
+     * Defines a class 1 function code
+     * for {@link READ_TEMPERATURE_REQUEST}.
+     */
+    public static final int READ_TEMPERATURE_REQUEST = 0xE3E7;
 
     /**
      * Defines a class 1 function code
@@ -121,11 +126,6 @@ public interface Modbus {
     public static final int DEFAULT_TRANSACTION_ID = 0;
 
     /**
-     * Defines the default protocol identifier (=0).
-     */
-    public static final int DEFAULT_PROTOCOL_ID = 0;
-
-    /**
      * Defines the default unit identifier (=0).
      */
     public static final int DEFAULT_UNIT_ID = 0;
@@ -160,7 +160,7 @@ public interface Modbus {
      * Defines the default setting for I/O operation timeouts
      * in milliseconds (=3000).
      */
-    public static final int DEFAULT_TIMEOUT = 10000;
+    public static final int DEFAULT_TIMEOUT = 3000;
 
     /**
      * Defines the default reconnecting setting for

@@ -39,9 +39,6 @@ import ro.ciprianpascu.sbus.util.Mutex;
  */
 public class ModbusUDPTransaction implements ModbusTransaction {
 
-    // class attributes
-    private static AtomicCounter c_TransactionID = new AtomicCounter(Modbus.DEFAULT_TRANSACTION_ID);
-
     // instance attributes and associations
     private UDPTerminal m_Terminal;
     private ModbusTransport m_IO;
@@ -129,8 +126,8 @@ public class ModbusUDPTransaction implements ModbusTransaction {
     }// getResponse
 
     @Override
-    public int getTransactionID() {
-        return c_TransactionID.get();
+    public String getTransactionID() {
+        return m_Request.getSubnetID() + "_" + m_Request.getUnitID() + "_" + m_Request.getFunctionCode();
     }// getTransactionID
 
     @Override
@@ -194,7 +191,7 @@ public class ModbusUDPTransaction implements ModbusTransaction {
                         // write request message
                         m_IO.writeMessage(m_Request);
                         // read response message
-                        m_Response = m_IO.readResponse();
+                        m_Response = m_IO.readResponse(getTransactionID());
                         break;
                     }
                 } catch (ModbusIOException ex) {

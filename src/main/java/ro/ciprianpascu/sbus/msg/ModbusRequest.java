@@ -17,6 +17,7 @@
 package ro.ciprianpascu.sbus.msg;
 
 import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
 /**
  * Abstract class implementing a {@link ModbusRequest}.
@@ -50,7 +51,7 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
      *
      * @return the corresponding {@link ModbusResponse}.
      */
-    public abstract ModbusResponse createResponse();
+    public abstract ModbusResponse createResponse(ProcessImageImplementation procImg);
 
     /**
      * Factory method for creating exception responses with the
@@ -87,6 +88,9 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
             case Modbus.READ_STATUS_CHANNELS_REQUEST:
                 request = new ReadStatusChannelsRequest();
                 break;
+            case Modbus.READ_TEMPERATURE_REQUEST:
+                request = new ReadTemperatureRequest();
+                break;
             case Modbus.WRITE_MULTIPLE_REGISTERS:
                 request = new WriteMultipleRegistersRequest();
                 break;
@@ -99,5 +103,5 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
         }
         return request;
     }// createModbusRequest
-
+    
 }// class ModbusRequest

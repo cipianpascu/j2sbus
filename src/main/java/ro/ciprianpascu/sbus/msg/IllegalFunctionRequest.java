@@ -21,6 +21,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
 /**
  * Provides an implementation of a {@link ModbusRequest}
@@ -48,7 +49,7 @@ public class IllegalFunctionRequest extends ModbusRequest {
     }// constructor
 
     @Override
-    public ModbusResponse createResponse() {
+    public ModbusResponse createResponse(ProcessImageImplementation procimg) {
         return this.createExceptionResponse(Modbus.ILLEGAL_FUNCTION_EXCEPTION);
     }// createResponse
 
@@ -65,5 +66,9 @@ public class IllegalFunctionRequest extends ModbusRequest {
             din.readByte();
         }
     }// readData
+    
+    @Override
+    public void writeTo(DataOutput dout) throws IOException {
+    }
 
 }// IllegalFunctionRequest

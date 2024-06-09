@@ -46,6 +46,8 @@ public class UDPMasterConnection implements ModbusSlaveConnection {
 	private UDPMasterTerminal m_Terminal;
 	private int m_Timeout = Modbus.DEFAULT_TIMEOUT;
 	private boolean m_Connected;
+	
+	protected InetAddress m_RemoteAddress;
 
 	private int m_Port = Modbus.DEFAULT_PORT;
 	
@@ -67,10 +69,9 @@ public class UDPMasterConnection implements ModbusSlaveConnection {
 	public synchronized boolean connect() throws Exception {
 		if (!m_Connected) {
 			InetAddress localAddress = getLocalIP();
-			m_Terminal = new UDPMasterTerminal();
-			m_Terminal.setLocalAddress(localAddress);
+			m_Terminal = new UDPMasterTerminal(localAddress);
 			m_Terminal.setLocalPort(LOCAL_PORT);
-			m_Terminal.setRemoteAddress(InetAddress.getByAddress(getTargetIP(localAddress.getAddress())));
+			m_Terminal.setRemoteAddress(m_RemoteAddress == null ? InetAddress.getByAddress(getTargetIP(localAddress.getAddress())) : m_RemoteAddress);
 			m_Terminal.setRemotePort(m_Port);
 			m_Terminal.setTimeout(m_Timeout);
 			m_Terminal.activate();
@@ -152,7 +153,16 @@ public class UDPMasterConnection implements ModbusSlaveConnection {
 		m_Port = port;
 	}// setPort
 
-
+    /**
+     * Sets the destination {@link InetAddress} of this
+     * {@link UDPSlaveTerminal}.
+     *
+     * @param adr the destination address as {@link InetAddress}.
+     */
+    public void setRemoteAddress(InetAddress adr) {
+        m_RemoteAddress = adr;
+    }// setAddress
+    
 	/**
 	 * Tests if this {@link UDPMasterConnection} is connected.
 	 *

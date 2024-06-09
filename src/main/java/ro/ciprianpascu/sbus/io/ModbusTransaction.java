@@ -68,18 +68,18 @@ public interface ModbusTransaction {
      * Returns the actual transaction identifier of
      * this {@link ModbusTransaction}.
      * The identifier is a 2-byte (short) non negative
-     * integer value valid in the range of 0-65535.<br>
-* 
+     * String value subnetId + _ + unitId + _ + functionCode<br>
+     * 
      *
      * @return the actual transaction identifier as
      *         {@link int}.
      */
-    public int getTransactionID();
+    public String getTransactionID();
 
     /**
      * Set the amount of retries for opening
-     * the connection for executing the transaction.
-* 
+     * the connection for executing the transaction.	
+     * 
      *
      * @param retries the amount of retries as {@link int}.
      */
@@ -88,7 +88,7 @@ public interface ModbusTransaction {
     /**
      * Returns the amount of retries for opening
      * the connection for executing the transaction.
-* 
+     * 
      *
      * @return the amount of retries as {@link int}.
      */
@@ -111,7 +111,7 @@ public interface ModbusTransaction {
     /**
      * Sets the flag that controls whether the
      * validity of a transaction will be checked.
-* 
+     * 
      *
      * @param b true if checking validity, false otherwise.
      */
@@ -120,7 +120,7 @@ public interface ModbusTransaction {
     /**
      * Tests whether the validity of a transaction
      * will be checked.
-* 
+     * 
      *
      * @return true if checking validity, false otherwise.
      */
@@ -133,7 +133,7 @@ public interface ModbusTransaction {
      * related {@link ModbusResponse}.
      * If reconnecting is activated the connection will
      * be opened for the transaction and closed afterwards.
-* 
+     * 
      *
      * @throws ModbusException if an I/O error occurs,
      *             or the response is a modbus protocol exception.

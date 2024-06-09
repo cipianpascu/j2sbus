@@ -36,7 +36,7 @@ import ro.ciprianpascu.sbus.Modbus;
 public final class WriteSingleChannelResponse extends ModbusResponse {
 
     // instance attributes
-    private int m_Reference;
+    private int m_ChannelNo;
     private int m_RegisterValue;
 
     /**
@@ -53,13 +53,13 @@ public final class WriteSingleChannelResponse extends ModbusResponse {
      * Constructs a new {@link WriteSingleChannelResponse}
      * instance.
      *
-     * @param reference the offset of the register written.
+     * @param channelNo the offset of the register written.
      * @param value the value of the register.
      */
-    public WriteSingleChannelResponse(int reference, int value) {
+    public WriteSingleChannelResponse(int channelNo, int value) {
         super();
 		setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST+1);
-        setReference(reference);
+        setChannelNo(channelNo);
         setRegisterValue(value);
         setDataLength(2);
     }// constructor
@@ -93,8 +93,8 @@ public final class WriteSingleChannelResponse extends ModbusResponse {
      *
      * @return the reference of the written register.
      */
-    public int getReference() {
-        return m_Reference;
+    public int getChannelNo() {
+        return m_ChannelNo;
     }// getReference
 
     /**
@@ -104,20 +104,20 @@ public final class WriteSingleChannelResponse extends ModbusResponse {
      *
      * @param ref the reference of the written register.
      */
-    private void setReference(int ref) {
-        m_Reference = ref;
+    private void setChannelNo(int channelNo) {
+    	m_ChannelNo = channelNo;
         // setChanged(true);
     }// setReference
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeShort(getReference());
+        dout.writeShort(m_ChannelNo);
         dout.writeShort(getRegisterValue());
     }// writeData
 
     @Override
     public void readData(DataInput din) throws IOException {
-        setReference(din.readUnsignedShort());
+        setChannelNo(din.readUnsignedShort());
         setRegisterValue(din.readUnsignedShort());
         // update data length
         setDataLength(4);

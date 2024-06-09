@@ -21,10 +21,10 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.ModbusCoupler;
 import ro.ciprianpascu.sbus.procimg.IllegalAddressException;
-import ro.ciprianpascu.sbus.procimg.ProcessImage;
+import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 import ro.ciprianpascu.sbus.procimg.Register;
+import ro.ciprianpascu.sbus.procimg.SimpleInputRegister;
 
 /**
  * Class implementing a {@link WriteSingleChannelRequest}.
@@ -40,7 +40,7 @@ import ro.ciprianpascu.sbus.procimg.Register;
 public final class WriteSingleChannelRequest extends ModbusRequest {
 
     // instance attributes
-    private int m_Reference;
+    private int m_channelNo;
     private Register m_Register;
 
     /**
@@ -59,35 +59,33 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
      * instance with a given reference and value to be written.
      * 
      *
-     * @param ref the reference number of the register
-     *            to read from.
+     * @param channelNo the reference number of the register
+     *            to write to.
      * @param reg the register containing the data to be written.
      */
-    public WriteSingleChannelRequest(int ref, Register reg) {
+    public WriteSingleChannelRequest(int channelNo, Register reg) {
         super();
         setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST);
-        m_Reference = ref;
+        m_channelNo = channelNo;
         m_Register = reg;
         // 4 bytes (unit id and function code is excluded)
         setDataLength(4);
     }// constructor
 
     @Override
-    public ModbusResponse createResponse() {
+    public ModbusResponse createResponse(ProcessImageImplementation procimg) {
         WriteSingleChannelResponse response = null;
         Register reg = null;
 
-        // 1. get process image
-        ProcessImage procimg = ModbusCoupler.getReference().getProcessImage();
-        // 2. get register
+        // 1. get register
         try {
-            reg = procimg.getRegister(m_Reference);
+            reg = procimg.getRegister(m_channelNo);
             // 3. set Register
             reg.setValue(m_Register.toBytes());
         } catch (IllegalAddressException iaex) {
             return createExceptionResponse(Modbus.ILLEGAL_ADDRESS_EXCEPTION);
         }
-        response = new WriteSingleChannelResponse(this.getReference(), reg.getValue());
+        response = new WriteSingleChannelResponse(this.getChannelNo(), reg.getValue());
         // transfer header data
         response.setSourceSubnetID(this.getSourceSubnetID());
 		response.setSourceUnitID(this.getSourceUnitID());
@@ -103,16 +101,16 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
      * to with this {@link WriteSingleChannelRequest}.
      * 
      *
-     * @param ref the reference of the register
+     * @param channelNo channelNo 
      *            to be written to.
      */
-    public void setReference(int ref) {
-        m_Reference = ref;
+    public void setChannelNo(int channelNo) {
+    	m_channelNo = channelNo;
         // setChanged(true);
     }// setReference
 
     /**
-     * Returns the reference of the register to be
+     * Returns the channel No. to be
      * written to with this
      * {@link WriteSingleChannelRequest}.
      * 
@@ -120,8 +118,8 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
      * @return the reference of the register
      *         to be written to.
      */
-    public int getReference() {
-        return m_Reference;
+    public int getChannelNo() {
+        return m_channelNo;
     }// getReference
 
     /**
@@ -148,15 +146,14 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeShort(m_Reference);
+        dout.writeShort(m_channelNo);
         dout.write(m_Register.toBytes(), 0, 2);
     }// writeData
 
     @Override
     public void readData(DataInput din) throws IOException {
-        m_Reference = din.readUnsignedShort();
-        m_Register = ModbusCoupler.getReference().getProcessImageFactory().createRegister(din.readByte(),
-                din.readByte());
+    	m_channelNo = din.readUnsignedShort();
+        m_Register = new SimpleInputRegister(din.readByte(), din.readByte());
     }// readData
 
 }// class WriteSingleChannelRequest

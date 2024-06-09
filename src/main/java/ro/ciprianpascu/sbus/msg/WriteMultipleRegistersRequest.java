@@ -21,12 +21,11 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.ModbusCoupler;
 import ro.ciprianpascu.sbus.io.NonWordDataHandler;
 import ro.ciprianpascu.sbus.procimg.IllegalAddressException;
-import ro.ciprianpascu.sbus.procimg.ProcessImage;
-import ro.ciprianpascu.sbus.procimg.ProcessImageFactory;
+import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 import ro.ciprianpascu.sbus.procimg.Register;
+import ro.ciprianpascu.sbus.procimg.SimpleInputRegister;
 
 /**
  * Class implementing a {@link ReadMultipleRegistersRequest}.
@@ -72,14 +71,12 @@ public final class WriteMultipleRegistersRequest extends ModbusRequest {
     }// constructor
 
     @Override
-    public ModbusResponse createResponse() {
+    public ModbusResponse createResponse(ProcessImageImplementation procimg) {
         WriteMultipleRegistersResponse response = null;
 
         if (m_NonWordDataHandler == null) {
             Register[] regs = null;
-            // 1. get process image
-            ProcessImage procimg = ModbusCoupler.getReference().getProcessImage();
-            // 2. get registers
+            // 1. get registers
             try {
                 // TODO: realize a setRegisterRange()?
                 regs = procimg.getRegisterRange(this.getReference(), this.getWordCount());
@@ -269,9 +266,8 @@ public final class WriteMultipleRegistersRequest extends ModbusRequest {
         // read values
         if (m_NonWordDataHandler == null) {
             m_Registers = new Register[wc];
-            ProcessImageFactory pimf = ModbusCoupler.getReference().getProcessImageFactory();
             for (int i = 0; i < wc; i++) {
-                m_Registers[i] = pimf.createRegister(din.readByte(), din.readByte());
+                m_Registers[i] = new SimpleInputRegister(din.readByte(), din.readByte());
             }
         } else {
             m_NonWordDataHandler.readData(din, m_Reference, wc);

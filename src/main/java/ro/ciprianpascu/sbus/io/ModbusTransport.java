@@ -71,13 +71,13 @@ public interface ModbusTransport {
     /**
      * Reads a {@link ModbusResponse} from the
      * input stream of this {@link ModbusTransport} .
-     * 
+     * @param transactionId Transaction identifier for the cached response
      * @return res the {@link ModbusResponse} read from the underlying stream.
      *
      * @throws ModbusIOException data cannot be
      *             read properly from the raw input stream of
      *             this {@link ModbusTransport}.
      */
-    public ModbusResponse readResponse() throws ModbusIOException;
+    public ModbusResponse readResponse(String transactionId) throws ModbusIOException;
 
 }// class ModbusTransport

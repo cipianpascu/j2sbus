@@ -17,7 +17,6 @@
 package ro.ciprianpascu.sbus.cmd;
 
 import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.ModbusCoupler;
 import ro.ciprianpascu.sbus.net.ModbusUDPListener;
 import ro.ciprianpascu.sbus.procimg.SimpleDigitalIn;
 import ro.ciprianpascu.sbus.procimg.SimpleDigitalOut;
@@ -60,12 +59,10 @@ public class UDPSlaveTest {
             spi.addDigitalIn(new SimpleDigitalIn(true));
             spi.addRegister(new SimpleRegister(251));
             spi.addInputRegister(new SimpleInputRegister(45));
-            ModbusCoupler.getReference().setProcessImage(spi);
-            ModbusCoupler.getReference().setMaster(false);
-            ModbusCoupler.getReference().setUnitID(15);
 
             // 2. Setup and start listener
             listener = new ModbusUDPListener();
+            listener.setProcessImage(spi);
             listener.setPort(port);
             listener.start();
 

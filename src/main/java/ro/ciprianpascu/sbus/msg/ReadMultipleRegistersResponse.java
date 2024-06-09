@@ -21,9 +21,8 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.ModbusCoupler;
-import ro.ciprianpascu.sbus.procimg.ProcessImageFactory;
 import ro.ciprianpascu.sbus.procimg.Register;
+import ro.ciprianpascu.sbus.procimg.SimpleInputRegister;
 
 /**
  * Class implementing a {@link ReadMultipleRegistersResponse}.
@@ -164,10 +163,9 @@ public final class ReadMultipleRegistersResponse extends ModbusResponse {
         setByteCount(din.readUnsignedByte());
 
         m_Registers = new Register[getWordCount()];
-        ProcessImageFactory pimf = ModbusCoupler.getReference().getProcessImageFactory();
 
         for (int k = 0; k < getWordCount(); k++) {
-            m_Registers[k] = pimf.createRegister(din.readByte(), din.readByte());
+            m_Registers[k] = new SimpleInputRegister(din.readByte(), din.readByte());
         }
 
         // update data length

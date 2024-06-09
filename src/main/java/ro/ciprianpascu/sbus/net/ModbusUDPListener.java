@@ -22,11 +22,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.ModbusCoupler;
 import ro.ciprianpascu.sbus.ModbusIOException;
 import ro.ciprianpascu.sbus.io.ModbusTransport;
 import ro.ciprianpascu.sbus.msg.ModbusRequest;
 import ro.ciprianpascu.sbus.msg.ModbusResponse;
+import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
 /**
  * Class that implements a ModbusUDPListener.<br>
@@ -47,6 +47,7 @@ public class ModbusUDPListener {
     private InetAddress m_Interface;
 
     private UDPSlaveTerminalFactory m_TerminalFactory;
+    private ProcessImageImplementation m_ProcessImage;
 
     /**
      * Constructs a new ModbusUDPListener instance.
@@ -66,7 +67,7 @@ public class ModbusUDPListener {
 
             @Override
             public UDPSlaveTerminal create(InetAddress interfac, int port) {
-                UDPSlaveTerminal terminal = new UDPSlaveTerminal(interfac);
+                UDPSlaveTerminal terminal = new UDPSlaveTerminal(interfac, true);
                 terminal.setLocalPort(port);
                 return terminal;
             }
@@ -87,6 +88,14 @@ public class ModbusUDPListener {
     public int getPort() {
         return m_Port;
     }// getPort
+    
+    /**
+	 * Sets the process image.With it, the {@link ModbusUDPListener} will act as a device driver.
+	 * @param processImage
+	 */
+    public void setProcessImage(ProcessImageImplementation processImage) {
+		m_ProcessImage = processImage;
+	}
 
     /**
      * Sets the number of the port this {@link ModbusUDPListener}
@@ -104,8 +113,7 @@ public class ModbusUDPListener {
     public void start() {
         // start listening
         try {
-            m_Terminal = m_TerminalFactory.create(m_Interface == null ? InetAddress.getLocalHost() : m_Interface,
-                    m_Port);
+            m_Terminal = m_TerminalFactory.create(m_Interface, m_Port);
             m_Terminal.setLocalPort(m_Port);
             m_Terminal.activate();
 
@@ -150,38 +158,35 @@ public class ModbusUDPListener {
         }// constructor
 
         @Override
-        public void run() {
-            try {
-                do {
-                    // 1. read the request
-                    ModbusRequest request = m_Transport.readRequest();
-                    logger.trace("Request: {}", request.getHexMessage());
-                    ModbusResponse response = null;
+		public void run() {
+			do {
+				try {
+					// 1. read the request
+					ModbusRequest request = m_Transport.readRequest();
+					if(request == null) {
+						continue;
+					}
+					logger.trace("Request: {}", request.getHexMessage());
+					ModbusResponse response = null;
 
-                    // test if Process image exists
-                    if (ModbusCoupler.getReference().getProcessImage() == null) {
-                        response = request.createExceptionResponse(Modbus.ILLEGAL_FUNCTION_EXCEPTION);
-                    } else {
-                        response = request.createResponse();
-                    }
-                    logger.debug("Request: {}", request.getHexMessage());
-                    logger.debug("Response: {}", response.getHexMessage());
+					// test if Process image exists
+					if (m_ProcessImage == null) {
+						response = request.createExceptionResponse(Modbus.ILLEGAL_FUNCTION_EXCEPTION);
+					} else {
+						response = request.createResponse(m_ProcessImage);
+					}
+					logger.debug("Request: {}", request.getHexMessage());
+					logger.debug("Response: {}", response.getHexMessage());
 
-                    m_Transport.writeMessage(response);
-                } while (m_Continue);
-            } catch (ModbusIOException ex) {
-                if (!ex.isEOF()) {
-                    // other troubles, output for debug
-                    ex.printStackTrace();
-                }
-            } finally {
-                try {
-                    m_Terminal.deactivate();
-                } catch (Exception ex) {
-                    // ignore
-                }
-            }
-        }// run
+					m_Transport.writeMessage(response);
+				} catch (ModbusIOException ex) {
+					if (!ex.isEOF()) {
+						// other troubles, output for debug
+						ex.printStackTrace();
+					}
+				} 
+			} while (m_Continue);
+		}// run
 
         public void stop() {
             m_Continue = false;

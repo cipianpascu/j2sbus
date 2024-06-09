@@ -21,9 +21,8 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.ModbusCoupler;
 import ro.ciprianpascu.sbus.procimg.IllegalAddressException;
-import ro.ciprianpascu.sbus.procimg.ProcessImage;
+import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 import ro.ciprianpascu.sbus.procimg.Register;
 
 /**
@@ -74,13 +73,11 @@ public final class ReadMultipleRegistersRequest extends ModbusRequest {
     }// constructor
 
     @Override
-    public ModbusResponse createResponse() {
+    public ModbusResponse createResponse(ProcessImageImplementation procimg) {
         ReadMultipleRegistersResponse response = null;
         Register[] regs = null;
 
-        // 1. get process image
-        ProcessImage procimg = ModbusCoupler.getReference().getProcessImage();
-        // 2. get input registers range
+        // 1. get input registers range
         try {
             regs = procimg.getRegisterRange(this.getReference(), this.getWordCount());
         } catch (IllegalAddressException iaex) {

@@ -215,4 +215,9 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
         return ModbusUtil.toHex(this);
     }// getHexMessage
 
+    @Override
+    public String toString() {
+    	return this.getSubnetID() + "_" + this.getUnitID() + "_" + this.getFunctionCode();
+    }
+
 }// class ModbusMessageImpl

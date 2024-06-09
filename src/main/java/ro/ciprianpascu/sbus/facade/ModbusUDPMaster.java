@@ -16,15 +16,12 @@
 
 package ro.ciprianpascu.sbus.facade;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import ro.ciprianpascu.sbus.ModbusException;
 import ro.ciprianpascu.sbus.io.ModbusUDPTransaction;
-import ro.ciprianpascu.sbus.msg.ReadStatusChannelsRequest;
-import ro.ciprianpascu.sbus.msg.ReadStatusChannelsResponse;
 import ro.ciprianpascu.sbus.msg.ReadMultipleRegistersRequest;
 import ro.ciprianpascu.sbus.msg.ReadMultipleRegistersResponse;
+import ro.ciprianpascu.sbus.msg.ReadStatusChannelsRequest;
+import ro.ciprianpascu.sbus.msg.ReadStatusChannelsResponse;
 import ro.ciprianpascu.sbus.msg.WriteMultipleRegistersRequest;
 import ro.ciprianpascu.sbus.msg.WriteSingleChannelRequest;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
@@ -42,7 +39,6 @@ import ro.ciprianpascu.sbus.procimg.Register;
 public class ModbusUDPMaster {
 
     private UDPMasterConnection m_Connection;
-    private InetAddress m_SlaveAddress;
     private ModbusUDPTransaction m_Transaction;
     private ReadStatusChannelsRequest m_ReadStatusChannelRequest;
     private ReadMultipleRegistersRequest m_ReadMultipleRegistersRequest;
@@ -103,15 +99,11 @@ public class ModbusUDPMaster {
      * Note that the number of input registers returned (i.e. array length)
      * will be according to the number received in the slave response.
      *
-     * @param ref the offset of the input register to start reading from.
-     * @param count the number of input registers to be read.
      * @return a {@link InputRegister[]} with the received input registers.
      * @throws ModbusException if an I/O error, a slave exception or
      *             a transaction error occurs.
      */
-    public synchronized InputRegister[] readInputRegisters(int ref, int count) throws ModbusException {
-        m_ReadStatusChannelRequest.setReference(ref);
-        m_ReadStatusChannelRequest.setWordCount(count);
+    public synchronized InputRegister[] readInputRegisters() throws ModbusException {
         m_Transaction.setRequest(m_ReadStatusChannelRequest);
         m_Transaction.execute();
         return ((ReadStatusChannelsResponse) m_Transaction.getResponse()).getRegisters();
@@ -147,7 +139,7 @@ public class ModbusUDPMaster {
      *             a transaction error occurs.
      */
     public synchronized void writeSingleRegister(int ref, Register register) throws ModbusException {
-        m_WriteSingleChannelRequest.setReference(ref);
+        m_WriteSingleChannelRequest.setChannelNo(ref);
         m_WriteSingleChannelRequest.setRegister(register);
         m_Transaction.setRequest(m_WriteSingleChannelRequest);
         m_Transaction.execute();

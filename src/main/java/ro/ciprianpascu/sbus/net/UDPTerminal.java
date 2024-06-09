@@ -80,11 +80,17 @@ public interface UDPTerminal {
     public void sendMessage(byte[] msg) throws Exception;
 
     /**
-     * Receives and returns a message.
-     *
+     * Receives a message, executes it and returns a response.
      * @return the message as a newly allocated {@link byte[]}.
      * @throws Exception if receiving a message fails.
      */
     public byte[] receiveMessage() throws Exception;
+    
+    /**
+     * Non blocking receiveMessages
+     * @return
+     */
+    public boolean hasMessage();
+    
 
 }// interface UDPTerminal

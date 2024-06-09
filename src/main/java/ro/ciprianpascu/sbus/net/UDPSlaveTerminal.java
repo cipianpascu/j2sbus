@@ -19,8 +19,11 @@ package ro.ciprianpascu.sbus.net;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.util.Arrays;
 import java.util.Hashtable;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,17 +61,21 @@ public class UDPSlaveTerminal implements UDPTerminal {
     private boolean m_Active;
     protected InetAddress m_LocalAddress;
     private int m_LocalPort = Modbus.DEFAULT_PORT;
+    protected InetAddress m_RemoteAddress;
+    private int m_RemotePort = Modbus.DEFAULT_PORT;
     protected ModbusTransport m_ModbusTransport;
-    private int m_Retries = Modbus.DEFAULT_RETRIES;
 
     private LinkedQueue m_SendQueue;
-    private LinkedQueue m_ReceiveQueue;
+    protected LinkedQueue m_ReceiveQueue;
     private PacketSender m_PacketSender;
     private PacketReceiver m_PacketReceiver;
     private Thread m_Receiver;
     private Thread m_Sender;
 
+    private boolean m_listenerMode;
     protected Hashtable m_Requests;
+    
+	byte[] smartCloud = new byte[] {'S', 'M', 'A', 'R', 'T', 'C', 'L', 'O', 'U', 'D', (byte)0xAA, (byte)0xAA};
 
     private ModbusUDPTransportFactory m_TransportFactory;
     /**
@@ -78,15 +85,19 @@ public class UDPSlaveTerminal implements UDPTerminal {
     private int m_DeactivationWaitMillis = 100;
 
     public UDPSlaveTerminal() {
-        this(null);
+        this(null, true);
     }// constructor
 
-    public UDPSlaveTerminal(InetAddress localaddress) {
-        this(localaddress, new ModbusUDPTransportFactoryImpl(), DEFAULT_DEACTIVATION_WAIT_MILLIS);
+    public UDPSlaveTerminal(boolean withResponse) {
+        this(null, withResponse);
+    }// constructor
+
+    public UDPSlaveTerminal(InetAddress localaddress, boolean withResponse) {
+        this(localaddress, new ModbusUDPTransportFactoryImpl(), DEFAULT_DEACTIVATION_WAIT_MILLIS, withResponse);
     }
 
     public UDPSlaveTerminal(InetAddress localaddress, ModbusUDPTransportFactory transportFactory,
-            int deactivationWaitMillis) {
+            int deactivationWaitMillis, boolean withResponse) {
         m_LocalAddress = localaddress;
         m_TransportFactory = transportFactory;
         m_DeactivationWaitMillis = deactivationWaitMillis;
@@ -94,6 +105,8 @@ public class UDPSlaveTerminal implements UDPTerminal {
         m_ReceiveQueue = new LinkedQueue();
         // m_Requests = new Hashtable(342, 0.75F);
         m_Requests = new Hashtable(342);
+		m_listenerMode = withResponse;
+
     }// constructor
 
     @Override
@@ -110,6 +123,26 @@ public class UDPSlaveTerminal implements UDPTerminal {
         m_LocalPort = port;
     }// setLocalPort
 
+    /**
+     * Sets the destination port of this
+     * {@link UDPSlaveTerminal}.
+     * The default is defined as {@link Modbus.DEFAULT_PORT}.
+     *
+     * @param port the port number as {@link int}.
+     */
+    public void setRemotePort(int port) {
+        m_RemotePort = port;
+    }// setPort
+
+    /**
+     * Sets the destination {@link InetAddress} of this
+     * {@link UDPSlaveTerminal}.
+     *
+     * @param adr the destination address as {@link InetAddress}.
+     */
+    public void setRemoteAddress(InetAddress adr) {
+        m_RemoteAddress = adr;
+    }// setAddress
     /**
      * Tests if this {@link UDPSlaveTerminal} is active.
      *
@@ -132,6 +165,9 @@ public class UDPSlaveTerminal implements UDPTerminal {
             if (m_Socket == null) {
                 if (m_LocalAddress != null && m_LocalPort != -1) {
                     m_Socket = new DatagramSocket(m_LocalPort, m_LocalAddress);
+                } else if (m_LocalPort != -1) {
+                    m_Socket = new DatagramSocket(m_LocalPort);
+                    m_LocalAddress = m_Socket.getLocalAddress();
                 } else {
                     m_Socket = new DatagramSocket();
                     m_LocalPort = m_Socket.getLocalPort();
@@ -145,6 +181,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
             m_Socket.setReceiveBufferSize(1024);
             m_Socket.setSendBufferSize(1024);
+            m_Socket.setBroadcast(true);
             m_PacketReceiver = new PacketReceiver();
             m_Receiver = new Thread(m_PacketReceiver);
             m_Receiver.start();
@@ -201,29 +238,27 @@ public class UDPSlaveTerminal implements UDPTerminal {
     }// hasResponse
 
     /**
-     * Returns the timeout for this {@link UDPSlaveTerminal}.
+     * Returns the timeout for this {@link UDPMasterTerminal}.
      *
      * @return the timeout as {@link int}.
-     *
-     *         public int getReceiveTimeout() {
-     *         return m_Timeout;
-     *         }//getReceiveTimeout
-     *
-     *         /**
-     *         Sets the timeout for this {@link UDPSlaveTerminal}.
+     */
+    public int getTimeout() {
+        return m_Timeout;
+    }// getReceiveTimeout
+
+    /**
+     * Sets the timeout for this {@link UDPMasterTerminal}.
      *
      * @param timeout the timeout as {@link int}.
-     *
-     *            public void setReceiveTimeout(int timeout) {
-     *            m_Timeout = timeout;
-     *            try {
-     *            m_Socket.setSoTimeout(m_Timeout);
-     *            } catch (IOException ex) {
-     *            ex.printStackTrace();
-     *            //handle?
-     *            }
-     *            }//setReceiveTimeout
      */
+    public void setTimeout(int timeout) {
+        m_Timeout = timeout;
+        try {
+			m_Socket.setSoTimeout(m_Timeout);
+		} catch (SocketException e) {
+			logger.error(e.getMessage(), e);
+		}
+    }// setReceiveTimeout
     /**
      * Returns the socket of this {@link UDPSlaveTerminal}.
      *
@@ -244,12 +279,24 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
     @Override
     public void sendMessage(byte[] msg) throws Exception {
-        m_SendQueue.put(msg);
+    	byte[] localIp = m_LocalAddress.getAddress();
+    	byte[] fullMessage = new byte[msg.length + 16];
+    	
+    	System.arraycopy(localIp,0,fullMessage,0,localIp.length);
+    	System.arraycopy(smartCloud,0,fullMessage,4,smartCloud.length);
+    	System.arraycopy(msg,0,fullMessage,16,msg.length);
+        m_SendQueue.put(fullMessage);
     }// sendPackage
 
     @Override
     public byte[] receiveMessage() throws Exception {
-        return (byte[]) m_ReceiveQueue.take();
+        byte[] message = (byte[]) (m_listenerMode ? m_ReceiveQueue.take() : m_ReceiveQueue.poll(m_Timeout));
+        byte[] signature = new byte[Math.min(message.length-4, smartCloud.length)]; //skip source IP from the message (first 4 bites)
+        System.arraycopy(message,4,signature,0,signature.length);
+        int equal = Arrays.compare(signature, smartCloud);
+        if(equal != 0)
+        	return new byte[0];
+        return Arrays.copyOfRange(message, signature.length+4, message.length);
     }// receiveMessage
 
     class PacketSender implements Runnable {
@@ -264,12 +311,18 @@ public class UDPSlaveTerminal implements UDPTerminal {
         public void run() {
             do {
                 try {
+                	DatagramPacket res;
                     // 1. pickup the message and corresponding request
                     byte[] message = (byte[]) m_SendQueue.take();
-                    DatagramPacket req = (DatagramPacket) m_Requests
-                            .remove(new Integer(ModbusUtil.registersToInt(message)));
-                    // 2. create new Package with corresponding address and port
-                    DatagramPacket res = new DatagramPacket(message, message.length, req.getAddress(), req.getPort());
+                	if(m_listenerMode) {
+	                    DatagramPacket req =  (DatagramPacket) m_Requests
+	                            .remove(ModbusUtil.registersToInt(message));
+	                    // 2. create new Package with corresponding address and port
+	                    res = new DatagramPacket(message, message.length, req.getAddress(), req.getPort());
+                	} else {
+	                    // 2. create new Package with corresponding address and port
+                		res = new DatagramPacket(message, message.length, m_RemoteAddress, m_RemotePort);
+                	}
                     m_Socket.send(res);
                     logger.trace("Sent package from queue");
                 } catch (Exception ex) {
@@ -303,9 +356,12 @@ public class UDPSlaveTerminal implements UDPTerminal {
                     m_Socket.receive(packet);
                     // 2. Extract TID and remember request
                     Integer tid = new Integer(ModbusUtil.registersToInt(buffer));
-                    m_Requests.put(tid, packet);
+                    if(m_listenerMode)
+                    	m_Requests.put(tid, packet);
                     // 3. place the data buffer in the queue
-                    m_ReceiveQueue.put(buffer);
+                    byte[] fullMessage = new byte[packet.getLength()];
+                    System.arraycopy(buffer,0,fullMessage,0,packet.getLength());
+                    m_ReceiveQueue.put(fullMessage);
                     logger.trace("Received package placed in queue");
                 } catch (Exception ex) {
                 	if(logger.isDebugEnabled())
@@ -319,5 +375,10 @@ public class UDPSlaveTerminal implements UDPTerminal {
         }// stop
 
     }// PacketReceiver
+
+	@Override
+	public boolean hasMessage() {
+		return !m_ReceiveQueue.isEmpty();
+	}
 
 }// class UDPTerminal

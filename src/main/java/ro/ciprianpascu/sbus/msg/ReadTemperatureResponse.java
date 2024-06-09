@@ -35,35 +35,36 @@ import ro.ciprianpascu.sbus.procimg.SimpleInputRegister;
 
  * @version %I% (%G%)
  */
-public final class ReadStatusChannelsResponse extends ModbusResponse {
+public final class ReadTemperatureResponse extends ModbusResponse {
 
     // instance attributes
     private int m_ByteCount;
+    private int m_TemperatureUnit;
     // private int[] m_RegisterValues;
     private InputRegister[] m_Registers;
 
     /**
-     * Constructs a new {@link ReadStatusChannelsResponse}
+     * Constructs a new {@link ReadTemperatureResponse}
      * instance. Reader focus
      */
-    public ReadStatusChannelsResponse() {
+    public ReadTemperatureResponse() {
         super();
-        setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST+1);
+        setFunctionCode(Modbus.READ_TEMPERATURE_REQUEST+1);
     }// constructor
 
     /**
-     * Constructs a new {@link ReadStatusChannelsResponse}
+     * Constructs a new {@link ReadTemperatureResponse}
      * instance. Writer focus
      *
      * @param registers the InputRegister[] holding response input registers.
      */
-    public ReadStatusChannelsResponse(InputRegister[] registers) {
+    public ReadTemperatureResponse(InputRegister[] registers) {
         super();
-        setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST+1);
+        setFunctionCode(Modbus.READ_TEMPERATURE_REQUEST+1);
         m_ByteCount = registers.length * 2;
         m_Registers = registers;
         // set correct data length excluding unit id and fc
-        setDataLength(m_ByteCount + 1);
+        setDataLength(m_ByteCount + 2);
     }// constructor
 
     /**
@@ -152,25 +153,59 @@ public final class ReadStatusChannelsResponse extends ModbusResponse {
         return m_Registers;
     }// getRegisters
 
+    /**
+     * Sets the temperature unit
+     * from with this {@link ReadTemperatureRequest}.
+     * 
+     *
+     * @param unit the temperature unit 0 Fahrenheit, 1 Celsius
+     */
+    public void setTemperatureUnit(int unit) {
+        m_TemperatureUnit = unit;
+        // setChanged(true);
+    }// setReference
+
+    /**
+     * Returns the  temperature unit from this
+     * {@link ReadTemperatureRequest}.
+     * 
+     *
+     * @return the temperature unit 0 Fahrenheit, 1 Celsius
+     */
+    public int getTemperatureUnit() {
+        return m_TemperatureUnit;
+    }// getReference
+
+    
     @Override
     public void writeData(DataOutput dout) throws IOException {
         dout.writeByte(m_ByteCount);
+        dout.writeByte(m_TemperatureUnit);
+        //value
         for (int k = 0; k < getWordCount(); k++) {
-            dout.write(m_Registers[k].toBytes());
+            dout.write(m_Registers[k].toBytes()[1]);
+        }
+        //sign
+        for (int k = 0; k < getWordCount(); k++) {
+            dout.write(m_Registers[k].toBytes()[0]);
         }
     }// writeData
 
     @Override
     public void readData(DataInput din) throws IOException {
-        setByteCount(din.readUnsignedByte());
+        setByteCount(din.readUnsignedByte()-2);
+        setTemperatureUnit(din.readUnsignedByte());
 
+        byte[] data = new byte[getWordCount()];
+		din.readFully(data);
+		
         InputRegister[] registers = new InputRegister[getWordCount()];
         for (int k = 0; k < getWordCount(); k++) {
-            registers[k] = new SimpleInputRegister(din.readByte(), din.readByte());
+            registers[k] = new SimpleInputRegister(din.readByte(), data[k]);
         }
         m_Registers = registers;
         // update data length
-        setDataLength(getByteCount() + 1);
+        setDataLength(getByteCount() + 2);
     }// readData
 
 }// class ReadStatusChannelsResponse

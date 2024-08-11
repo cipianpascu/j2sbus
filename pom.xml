@@ -4,7 +4,7 @@
 	<groupId>ro.ciprianpascu</groupId>
 	<artifactId>j2sbus</artifactId>
 	<packaging>jar</packaging>
-	<version>1.5.0.OH</version>
+	<version>1.5.1.OH-SNAPSHOT</version>
 	<name>Java 2 S-Bus</name>
 	<url>https://github.com/cipianpascu/j2sbus</url>
 	<description>

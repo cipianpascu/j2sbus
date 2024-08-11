@@ -126,7 +126,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
     /**
      * Sets the destination port of this
      * {@link UDPSlaveTerminal}.
-     * The default is defined as {@link Modbus.DEFAULT_PORT}.
+     * The default is defined as 6000
      *
      * @param port the port number as {@link int}.
      */
@@ -224,7 +224,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
     /**
      * Returns the {@link ModbusTransport} associated with this
-     * {@link TCPMasterConnection}.
+     * {@link UDPSlaveTerminal}.
      *
      * @return the connection's {@link ModbusTransport}.
      */

@@ -83,7 +83,8 @@ public class ReadTemperatureTest {
 	@Test
 	public void test() {
 		byte[] result = ReadACTempType((byte)1, (byte)61);
-		System.out.println(bytesToHex(result, result.length));
+		if(result != null)
+			System.out.println(bytesToHex(result, result.length));
 	}
 	
     //Air condition begin

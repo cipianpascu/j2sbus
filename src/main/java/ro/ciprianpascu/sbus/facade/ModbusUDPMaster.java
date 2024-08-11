@@ -49,8 +49,6 @@ public class ModbusUDPMaster {
      * Constructs a new master facade instance for communication
      * with a given slave.
      *
-     * @param addr an internet address as resolvable IP name or IP number,
-     *            specifying the slave to communicate with.
      */
     public ModbusUDPMaster() {
         m_Connection = new UDPMasterConnection();
@@ -83,7 +81,7 @@ public class ModbusUDPMaster {
     }// connect
 
     /**
-     * Disconnects this {@link ModbusTCPMaster} from the slave.
+     * Disconnects this {@link ModbusUDPMaster} from the slave.
      */
     public void disconnect() {
         if (m_Connection != null && m_Connection.isConnected()) {

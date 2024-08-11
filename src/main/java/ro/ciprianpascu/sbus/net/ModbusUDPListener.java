@@ -138,7 +138,7 @@ public class ModbusUDPListener {
     }// stop
 
     /**
-     * Tests if this {@link ModbusTCPListener} is listening
+     * Tests if this {@link ModbusUDPListener} is listening
      * and accepting incoming connections.
      *
      * @return true if listening (and accepting incoming connections),

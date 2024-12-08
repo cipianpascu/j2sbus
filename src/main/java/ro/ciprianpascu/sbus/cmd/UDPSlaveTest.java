@@ -23,42 +23,46 @@ import ro.ciprianpascu.sbus.procimg.SimpleDigitalOut;
 import ro.ciprianpascu.sbus.procimg.SimpleProcessImage;
 
 /**
- * Class implementing a simple Modbus/UDP slave.
- * A simple process image is available to test
- * functionality and behaviour of the implementation.
+ * Test class implementing a simple SBus UDP slave.
+ * This class demonstrates the basic setup and operation of a SBus slave
+ * over UDP. It creates a simple process image with digital inputs and outputs
+ * to test the functionality and behavior of the implementation.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
  * @version %I% (%G%)
  */
 public class UDPSlaveTest {
 
+    /**
+     * Main entry point for the UDP slave test application.
+     * Sets up and starts a UDP listener with a simple process image.
+     * The listener will accept connections on the default port unless
+     * a different port is specified as a command line argument.
+     *
+     * @param args command line arguments - optional port number as first argument
+     */
     public static void main(String[] args) {
-
         ModbusUDPListener listener = null;
         SimpleProcessImage spi = null;
         int port = Modbus.DEFAULT_PORT;
 
         try {
-
             if (args != null && args.length == 1) {
                 port = Integer.parseInt(args[0]);
             }
 
-            System.out.println("jModbus Modbus/UDP Slave v0.1");
+            System.out.println("SBus UDP Slave Test Application");
 
-            // 1. Prepare a process image
+            // Create and initialize the process image
             spi = new SimpleProcessImage();
             spi.addDigitalOut(new SimpleDigitalOut(true));
             spi.addDigitalIn(new SimpleDigitalIn(false));
             spi.addDigitalIn(new SimpleDigitalIn(true));
             spi.addDigitalIn(new SimpleDigitalIn(false));
             spi.addDigitalIn(new SimpleDigitalIn(true));
-//            spi.addRegister(new RelayRegister(251));
-//            spi.addInputRegister(new SimpleInputRegister(45));
 
-            // 2. Setup and start listener
+            // Setup and start the UDP listener
             listener = new ModbusUDPListener();
             listener.setProcessImage(spi);
             listener.setPort(port);
@@ -67,7 +71,5 @@ public class UDPSlaveTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-    }// main
-
-}// class UDPSlaveTest
+    }
+}

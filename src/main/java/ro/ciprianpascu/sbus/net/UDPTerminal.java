@@ -21,76 +21,79 @@ import java.net.InetAddress;
 import ro.ciprianpascu.sbus.io.ModbusTransport;
 
 /**
- * Interface defining a {@link UDPTerminal}.
+ * Interface defining a UDP Terminal for the SBus protocol.
+ * This terminal handles UDP communication, providing methods for
+ * sending and receiving messages over the network.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
  * @version %I% (%G%)
  */
 public interface UDPTerminal {
 
     /**
-     * Returns the local address of this {@link UDPTerminal}.
+     * Returns the local address of this terminal.
      *
-     * @return an {@link InetAddress} instance.
+     * @return the local InetAddress of this terminal
      */
     public InetAddress getLocalAddress();
 
     /**
-     * Returns the local port of this {@link UDPTerminal}.
+     * Returns the local port of this terminal.
      *
-     * @return the local port as {@link int}.
+     * @return the local port number
      */
     public int getLocalPort();
 
     /**
-     * Tests if this {@link UDPTerminal} is active.
+     * Tests if this terminal is active.
      *
-     * @return true if active, false otherwise.
+     * @return true if the terminal is active, false otherwise
      */
     public boolean isActive();
 
     /**
-     * Activate this {@link UDPTerminal}.
+     * Activates this terminal, preparing it for communication.
      *
-     * @throws java.lang.Exception if there is a network failure.
+     * @throws Exception if there is a network failure during activation
      */
     public void activate() throws Exception;
 
     /**
-     * Deactivates this {@link UDPTerminal}.
+     * Deactivates this terminal, closing any open connections.
      */
     public void deactivate();
 
     /**
-     * Returns the {@link ModbusTransport} associated with this
-     * {@link UDPTerminal}.
+     * Returns the transport layer associated with this terminal.
      *
-     * @return a {@link ModbusTransport} instance.
+     * @return the ModbusTransport instance used by this terminal
      */
     public ModbusTransport getModbusTransport();
 
     /**
-     * Sends the given message.
+     * Sends a message through this terminal.
      *
-     * @param msg the message as {@link byte[]}.
-     * @throws Exception if sending the message fails.
+     * @param msg the message as a byte array
+     * @throws Exception if sending the message fails
      */
     public void sendMessage(byte[] msg) throws Exception;
 
     /**
-     * Receives a message, executes it and returns a response.
-     * @return the message as a newly allocated {@link byte[]}.
-     * @throws Exception if receiving a message fails.
+     * Receives a message through this terminal.
+     * This method will block until a message is received or a timeout occurs.
+     *
+     * @return the received message as a newly allocated byte array
+     * @throws Exception if receiving the message fails
      */
     public byte[] receiveMessage() throws Exception;
     
     /**
-     * Non blocking receiveMessages
-     * @return
+     * Checks if there is a message available to be received.
+     * This is a non-blocking operation that can be used to check
+     * for available messages before calling receiveMessage().
+     *
+     * @return true if a message is available, false otherwise
      */
     public boolean hasMessage();
-    
-
-}// interface UDPTerminal
+}

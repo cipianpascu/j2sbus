@@ -26,29 +26,19 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
  * @version %I% (%G%)
  */
 public abstract class ModbusRequest extends ModbusMessageImpl {
 
-    /**
-     * Returns the {@link ModbusResponse} that
-     * correlates with this {@link ModbusRequest}.
-* 
-     *
-     * @return the corresponding {@link ModbusResponse}.
-     *
-     *         public abstract ModbusResponse getResponse();
-     */
+
 
     /**
      * Returns the {@link ModbusResponse} that
      * represents the answer to this {@link ModbusRequest}.
-* 
      * The implementation should take care about assembling
      * the reply to this {@link ModbusRequest}.
-* 
      *
+     * @param procImg the process image implementation to create the response from
      * @return the corresponding {@link ModbusResponse}.
      */
     public abstract ModbusResponse createResponse(ProcessImageImplementation procImg);
@@ -65,11 +55,11 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
         ExceptionResponse response = new ExceptionResponse(this.getFunctionCode(), EXCEPTION_CODE);
         response.setSourceSubnetID(this.getSourceSubnetID());
         response.setSourceUnitID(this.getSourceUnitID());
-		response.setSourceDeviceType(this.getSourceDeviceType());
+        response.setSourceDeviceType(this.getSourceDeviceType());
         response.setSubnetID(this.getSubnetID());
         response.setUnitID(this.getUnitID());
         return response;
-    }// createExceptionResponse
+    }
 
     /**
      * Factory method creating the required specialized {@link ModbusRequest}
@@ -96,21 +86,27 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
                 break;
         }
         return request;
-    }// createModbusRequest
+    }
     
+    /**
+     * Checks if this request is a fire-and-forget type request that doesn't require a response.
+     * This includes write operations like WRITE_MULTIPLE_REGISTERS, WRITE_SINGLE_CHANNEL_REQUEST,
+     * and WRITE_RGBW_REQUEST.
+     *
+     * @return true if this is a fire-and-forget request, false otherwise
+     */
     public boolean isFireAndForget() {
-    	boolean result = false;
-    	switch(this.getFunctionCode()) {
-    		case Modbus.WRITE_MULTIPLE_REGISTERS:
-	        case Modbus.WRITE_SINGLE_CHANNEL_REQUEST:
-	        case Modbus.WRITE_RGBW_REQUEST:
-	            result = true;
-	            break;
-	        default:
-	            result = false;
-	        	break;
-    	}
-		return result;
-	}
-    
-}// class ModbusRequest
+        boolean result = false;
+        switch(this.getFunctionCode()) {
+            case Modbus.WRITE_MULTIPLE_REGISTERS:
+            case Modbus.WRITE_SINGLE_CHANNEL_REQUEST:
+            case Modbus.WRITE_RGBW_REQUEST:
+                result = true;
+                break;
+            default:
+                result = false;
+                break;
+        }
+        return result;
+    }
+}

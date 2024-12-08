@@ -23,55 +23,75 @@ import gnu.io.SerialPort;
 import ro.ciprianpascu.sbus.Modbus;
 
 /**
- * Helper class wrapping all serial port communication parameters.
- * Very similar to the gnu.io demos, however, not the same.
+ * Helper class for managing serial port communication parameters in the SBus protocol.
+ * This class encapsulates all parameters needed for serial communication, including
+ * port name, baud rate, flow control, data bits, stop bits, parity, encoding, and
+ * timeout settings. It provides methods for setting and getting these parameters,
+ * with validation to ensure proper configuration.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
  * @author John Charlton
  * @version %I% (%G%)
  */
 public class SerialParameters {
 
-    public static int DEFAULT_RECEIVE_TIMEOUT_MILLIS = 1500; // 1.5 secs
+    /** Default timeout for receiving data from serial port (1.5 seconds) */
+    public static int DEFAULT_RECEIVE_TIMEOUT_MILLIS = 1500;
 
-    // instance attributes
+    /** Name of the serial port (e.g., COM1, /dev/ttyUSB0) */
     private String m_PortName;
+    
+    /** Communication speed in bits per second */
     private int m_BaudRate;
+    
+    /** Flow control setting for receiving data */
     private int m_FlowControlIn;
+    
+    /** Flow control setting for sending data */
     private int m_FlowControlOut;
+    
+    /** Number of data bits per character */
     private int m_Databits;
+    
+    /** Number of stop bits per character */
     private int m_Stopbits;
+    
+    /** Parity checking mode */
     private int m_Parity;
+    
+    /** Message encoding format (ASCII, RTU, or BIN) */
     private String m_Encoding;
+    
+    /** Flag for RS485 echo mode */
     private boolean m_Echo;
+    
+    /** Timeout for receiving data in milliseconds */
     private int m_ReceiveTimeoutMillis;
 
     /**
-     * Constructs a new {@link SerialParameters} instance with
-     * default values: 9600 boud - 8N1 - ASCII.
+     * Constructs a new SerialParameters instance with default values:
+     * 9600 baud - 8N1 - ASCII encoding.
      */
     public SerialParameters() {
         this("", 9600, SerialPort.FLOWCONTROL_NONE, SerialPort.FLOWCONTROL_NONE, SerialPort.DATABITS_8,
                 SerialPort.STOPBITS_1, SerialPort.PARITY_NONE, Modbus.DEFAULT_SERIAL_ENCODING, false,
                 DEFAULT_RECEIVE_TIMEOUT_MILLIS);
-    }// constructor
+    }
 
     /**
-     * Constructs a new {@link SerialParameters}  instance with
-     * given parameters.
+     * Constructs a new SerialParameters instance with given parameters.
      *
-     * @param portName The name of the port.
-     * @param baudRate The baud rate.
-     * @param flowControlIn Type of flow control for receiving.
-     * @param flowControlOut Type of flow control for sending.
-     * @param databits The number of data bits.
-     * @param stopbits The number of stop bits.
-     * @param encoding
-     * @param parity The type of parity.
-     * @param echo Flag for setting the RS485 echo mode.
-     * @param receiveTimeoutMillis timeout in milliseconds for read operations
+     * @param portName The name of the serial port
+     * @param baudRate The communication speed in bits per second
+     * @param flowControlIn Type of flow control for receiving data
+     * @param flowControlOut Type of flow control for sending data
+     * @param databits The number of data bits per character (5-8)
+     * @param stopbits The number of stop bits (1, 1.5, or 2)
+     * @param parity The type of parity checking (NONE, EVEN, ODD)
+     * @param encoding The message encoding format (ASCII, RTU, BIN)
+     * @param echo Flag for enabling RS485 echo mode
+     * @param receiveTimeoutMillis Timeout for receiving data in milliseconds
      */
     public SerialParameters(String portName, int baudRate, int flowControlIn, int flowControlOut, int databits,
             int stopbits, int parity, String encoding, boolean echo, int receiveTimeoutMillis) {
@@ -85,48 +105,15 @@ public class SerialParameters {
         setEncoding(encoding);
         setEcho(echo);
         setReceiveTimeoutMillis(receiveTimeoutMillis);
-    }// constructor
-
-    @Override
-    public String toString() {
-        return "SerialParameters [m_PortName=" + m_PortName + ", m_BaudRate=" + m_BaudRate + ", m_FlowControlIn="
-                + m_FlowControlIn + ", m_FlowControlOut=" + m_FlowControlOut + ", m_Databits=" + m_Databits
-                + ", m_Stopbits=" + m_Stopbits + ", m_Parity=" + m_Parity + ", m_Encoding=" + m_Encoding + ", m_Echo="
-                + m_Echo + ", m_ReceiveTimeoutMillis=" + m_ReceiveTimeoutMillis + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(m_BaudRate, m_Databits, m_Echo, m_Encoding, m_FlowControlIn, m_FlowControlOut, m_Parity,
-                m_PortName, m_ReceiveTimeoutMillis, m_Stopbits);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        if (obj.getClass() != getClass()) {
-            return false;
-        }
-        SerialParameters rhs = (SerialParameters) obj;
-        return m_BaudRate == rhs.m_BaudRate && m_Databits == rhs.m_Databits && m_Echo == rhs.m_Echo
-                && Objects.equals(m_Encoding, rhs.m_Encoding) && m_FlowControlIn == rhs.m_FlowControlIn
-                && m_FlowControlOut == rhs.m_FlowControlOut && m_Parity == rhs.m_Parity
-                && Objects.equals(m_PortName, rhs.m_PortName) && m_ReceiveTimeoutMillis == rhs.m_ReceiveTimeoutMillis
-                && m_Stopbits == rhs.m_Stopbits;
     }
 
     /**
-     * Constructs a new {@link SerialParameters} instance with
-     * parameters obtained from a {@link Properties} instance.
+     * Constructs a new SerialParameters instance from Properties.
+     * Loads serial parameters from a Properties object, using the given prefix
+     * to locate the relevant properties.
      *
-     * @param props a {@link Properties} instance.
-     * @param prefix a prefix for the properties keys if embedded into
-     *            other properties.
+     * @param props Properties object containing serial parameters
+     * @param prefix Prefix for property keys (can be empty string)
      */
     public SerialParameters(Properties props, String prefix) {
         if (prefix == null) {
@@ -141,291 +128,251 @@ public class SerialParameters {
         setStopbits(props.getProperty(prefix + "stopbits", "" + SerialPort.STOPBITS_1));
         setEncoding(props.getProperty(prefix + "encoding", Modbus.DEFAULT_SERIAL_ENCODING));
         setEcho("true".equals(props.getProperty(prefix + "echo")));
-        setReceiveTimeoutMillis(props.getProperty(prefix + "timeout", "" + 500));
-    }// constructor
+        setReceiveTimeoutMillis(props.getProperty(prefix + "timeout", "" + DEFAULT_RECEIVE_TIMEOUT_MILLIS));
+    }
 
     /**
      * Sets the port name.
      *
-     * @param name the new port name.
+     * @param name the new port name
      */
     public void setPortName(String name) {
         m_PortName = name;
-    }// setPortName
+    }
 
     /**
      * Returns the port name.
      *
-     * @return the port name.
+     * @return the port name
      */
     public String getPortName() {
         return m_PortName;
-    }// getPortName
+    }
 
     /**
      * Sets the baud rate.
      *
-     * @param rate the new baud rate.
+     * @param rate the new baud rate
+     * @throws IllegalArgumentException if the baud rate is not valid
      */
-    public void setBaudRate(int rate) throws IllegalArgumentException {
+    public void setBaudRate(int rate) {
         if (!SerialParameterValidator.isBaudRateValid(rate)) {
-            throw new IllegalArgumentException("invalid baud rate: " + Integer.toString(rate));
+            throw new IllegalArgumentException("Invalid baud rate: " + rate);
         }
         m_BaudRate = rate;
-    }// setBaudRate
+    }
 
     /**
-     * Sets the baud rate.
+     * Sets the baud rate from a string value.
      *
-     * @param rate the new baud rate.
+     * @param rate the new baud rate as a string
+     * @throws IllegalArgumentException if the string cannot be parsed or rate is invalid
      */
-    public void setBaudRate(String rate) throws IllegalArgumentException {
-        int intBaudRate = 0;
+    public void setBaudRate(String rate) {
         try {
-            intBaudRate = Integer.parseInt(rate);
+            setBaudRate(Integer.parseInt(rate));
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                    "baudString '" + rate + "' can not be converted to a number: " + e.getMessage());
+            throw new IllegalArgumentException("Invalid baud rate string: " + rate);
         }
-        setBaudRate(intBaudRate);
-    }// setBaudRate
+    }
 
     /**
-     * Return the baud rate as {@link int}.
+     * Returns the baud rate.
      *
-     * @return the baud rate as {@link int}.
+     * @return the current baud rate
      */
     public int getBaudRate() {
         return m_BaudRate;
-    }// getBaudRate
+    }
 
     /**
-     * Returns the baud rate as a {@link String}.
+     * Returns the baud rate as a string.
      *
-     * @return the baud rate as {@link String}.
+     * @return the current baud rate as a string
      */
     public String getBaudRateString() {
         return Integer.toString(m_BaudRate);
-    }// getBaudRateString
+    }
 
     /**
-     * Sets the type of flow control for the input
-     * as given by the passed in {@link int}.
+     * Sets the flow control for receiving data.
      *
-     * @param flowcontrol the new flow control type.
+     * @param flowcontrol the new flow control setting
+     * @throws IllegalArgumentException if the flow control value is invalid
      */
-    public void setFlowControlIn(int flowcontrol) throws IllegalArgumentException {
+    public void setFlowControlIn(int flowcontrol) {
         if (!SerialParameterValidator.isFlowControlValid(flowcontrol)) {
-            throw new IllegalArgumentException("flowcontrol int '" + flowcontrol + "' invalid");
+            throw new IllegalArgumentException("Invalid flow control: " + flowcontrol);
         }
-
         m_FlowControlIn = flowcontrol;
-    }// setFlowControl
+    }
 
     /**
-     * Sets the type of flow control for the input
-     * as given by the passed in {@link String}.
+     * Sets the flow control for receiving data from a string value.
      *
-     * @param flowcontrol the flow control for reading type.
+     * @param flowcontrol the new flow control setting as a string
+     * @throws IllegalArgumentException if the flow control string is invalid
      */
-    public void setFlowControlIn(String flowcontrol) throws IllegalArgumentException {
+    public void setFlowControlIn(String flowcontrol) {
         if (!SerialParameterValidator.isFlowControlValid(flowcontrol)) {
-            throw new IllegalArgumentException("flowcontrolIn string '" + flowcontrol + "' unknown");
+            throw new IllegalArgumentException("Invalid flow control string: " + flowcontrol);
         }
-
-        setFlowControlIn(stringToFlow(flowcontrol));
-    }// setFlowControlIn
+        m_FlowControlIn = stringToFlow(flowcontrol);
+    }
 
     /**
-     * Returns the input flow control type as {@link int}.
+     * Returns the input flow control setting.
      *
-     * @return the input flow control type as {@link int}.
+     * @return the current input flow control setting
      */
     public int getFlowControlIn() {
         return m_FlowControlIn;
-    }// getFlowControlIn
+    }
 
     /**
-     * Returns the input flow control type as {@link String}.
+     * Returns the input flow control setting as a string.
      *
-     * @return the input flow control type as {@link String}.
+     * @return the current input flow control setting as a string
      */
     public String getFlowControlInString() {
         return flowToString(m_FlowControlIn);
-    }// getFlowControlIn
+    }
 
     /**
-     * Sets the output flow control type as given
-     * by the passed in {@link int}.
+     * Sets the flow control for sending data.
      *
-     * @param flowControlOut new output flow control type as {@link int}.
+     * @param flowControlOut the new flow control setting
+     * @throws IllegalArgumentException if the flow control value is invalid
      */
-    public void setFlowControlOut(int flowControlOut) throws IllegalArgumentException {
+    public void setFlowControlOut(int flowControlOut) {
         if (!SerialParameterValidator.isFlowControlValid(flowControlOut)) {
-            throw new IllegalArgumentException("flowcontrol int '" + flowControlOut + "' unknown");
+            throw new IllegalArgumentException("Invalid flow control: " + flowControlOut);
         }
-
         m_FlowControlOut = flowControlOut;
-    }// setFlowControlOut
+    }
 
     /**
-     * Sets the output flow control type as given
-     * by the passed in {@link String}.
+     * Sets the flow control for sending data from a string value.
      *
-     * @param flowControlOut the new output flow control type as {@link String}.
+     * @param flowControlOut the new flow control setting as a string
+     * @throws IllegalArgumentException if the flow control string is invalid
      */
-    public void setFlowControlOut(String flowControlOut) throws IllegalArgumentException {
+    public void setFlowControlOut(String flowControlOut) {
         if (!SerialParameterValidator.isFlowControlValid(flowControlOut)) {
-            throw new IllegalArgumentException("flowcontrol string '" + flowControlOut + "' unknown");
+            throw new IllegalArgumentException("Invalid flow control string: " + flowControlOut);
         }
-
         m_FlowControlOut = stringToFlow(flowControlOut);
-    }// setFlowControlOut
+    }
 
     /**
-     * Returns the output flow control type as {@link int}.
+     * Returns the output flow control setting.
      *
-     * @return the output flow control type as {@link int}.
+     * @return the current output flow control setting
      */
     public int getFlowControlOut() {
         return m_FlowControlOut;
-    }// getFlowControlOut
+    }
 
     /**
-     * Returns the output flow control type as {@link String}.
+     * Returns the output flow control setting as a string.
      *
-     * @return the output flow control type as {@link String}.
+     * @return the current output flow control setting as a string
      */
     public String getFlowControlOutString() {
         return flowToString(m_FlowControlOut);
-    }// getFlowControlOutString
+    }
 
     /**
      * Sets the number of data bits.
      *
-     * @param databits the new number of data bits.
+     * @param databits the new number of data bits (5-8)
+     * @throws IllegalArgumentException if the data bits value is invalid
      */
-    public void setDatabits(int databits) throws IllegalArgumentException {
+    public void setDatabits(int databits) {
         if (!SerialParameterValidator.isDataBitsValid(databits)) {
-            throw new IllegalArgumentException("Databit '" + databits + "' invalid");
+            throw new IllegalArgumentException("Invalid data bits: " + databits);
         }
-
-        switch (databits) {
-            case 5:
-                m_Databits = SerialPort.DATABITS_5;
-                break;
-            case 6:
-                m_Databits = SerialPort.DATABITS_6;
-                break;
-            case 7:
-                m_Databits = SerialPort.DATABITS_7;
-                break;
-            case 8:
-                m_Databits = SerialPort.DATABITS_8;
-                break;
-            default:
-                m_Databits = SerialPort.DATABITS_8;
-                break;
-        }
-    }// setDatabits
+        m_Databits = databits;
+    }
 
     /**
-     * Sets the number of data bits from the given {@link String}.
+     * Sets the number of data bits from a string value.
      *
-     * @param databits the new number of data bits as {@link String}.
+     * @param databits the new number of data bits as a string
+     * @throws IllegalArgumentException if the string cannot be parsed or value is invalid
      */
-    public void setDatabits(String databits) throws IllegalArgumentException {
-        int intDataBits = 0;
+    public void setDatabits(String databits) {
         try {
-            intDataBits = Integer.parseInt(databits);
+            setDatabits(Integer.parseInt(databits));
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                    "databitsString '" + databits + "' can not be converted to a number: " + e.getMessage());
+            throw new IllegalArgumentException("Invalid data bits string: " + databits);
         }
-
-        setDatabits(intDataBits);
-    }// setDatabits
+    }
 
     /**
-     * Returns the number of data bits as {@link int}.
+     * Returns the number of data bits.
      *
-     * @return the number of data bits as {@link int}.
+     * @return the current number of data bits
      */
     public int getDatabits() {
         return m_Databits;
-    }// getDatabits
+    }
 
     /**
-     * Returns the number of data bits as {@link String}.
+     * Returns the number of data bits as a string.
      *
-     * @return the number of data bits as {@link String}.
+     * @return the current number of data bits as a string
      */
     public String getDatabitsString() {
-        switch (m_Databits) {
-            case SerialPort.DATABITS_5:
-                return "5";
-            case SerialPort.DATABITS_6:
-                return "6";
-            case SerialPort.DATABITS_7:
-                return "7";
-            case SerialPort.DATABITS_8:
-                return "8";
-            default:
-                return "8";
-        }
-    }// getDataBits
+        return Integer.toString(m_Databits);
+    }
 
     /**
      * Sets the number of stop bits.
      *
-     * @param stopbits the new number of stop bits setting.
+     * @param stopbits the new number of stop bits (1, 1.5, or 2)
+     * @throws IllegalArgumentException if the stop bits value is invalid
      */
-    public void setStopbits(double stopbits) throws IllegalArgumentException {
+    public void setStopbits(double stopbits) {
         if (!SerialParameterValidator.isStopbitsValid(stopbits)) {
-            throw new IllegalArgumentException("stopbit value '" + stopbits + "' not valid");
+            throw new IllegalArgumentException("Invalid stop bits: " + stopbits);
         }
-
         if (stopbits == 1) {
             m_Stopbits = SerialPort.STOPBITS_1;
         } else if (stopbits == 1.5) {
             m_Stopbits = SerialPort.STOPBITS_1_5;
         } else if (stopbits == 2) {
             m_Stopbits = SerialPort.STOPBITS_2;
-        } else {
-            m_Stopbits = SerialPort.STOPBITS_1;
         }
-    }// setStopbits
+    }
 
     /**
-     * Sets the number of stop bits from the given {@link String}.
+     * Sets the number of stop bits from a string value.
      *
-     * @param stopbits the number of stop bits as {@link String}.
+     * @param stopbits the new number of stop bits as a string
+     * @throws IllegalArgumentException if the string cannot be parsed or value is invalid
      */
-    public void setStopbits(String stopbits) throws IllegalArgumentException {
-        double doubleStopBits = 1.0;
+    public void setStopbits(String stopbits) {
         try {
-            doubleStopBits = Double.parseDouble(stopbits);
+            setStopbits(Double.parseDouble(stopbits));
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                    "stopbitsString '" + stopbits + "' can not be converted to a number: " + e.getMessage());
+            throw new IllegalArgumentException("Invalid stop bits string: " + stopbits);
         }
-
-        setStopbits(doubleStopBits);
-    }// setStopbits
+    }
 
     /**
-     * Returns the number of stop bits as {@link int}.
+     * Returns the number of stop bits.
      *
-     * @return the number of stop bits as {@link int}.
+     * @return the current number of stop bits
      */
     public int getStopbits() {
         return m_Stopbits;
-    }// getStopbits
+    }
 
     /**
-     * Returns the number of stop bits as {@link String}.
+     * Returns the number of stop bits as a string.
      *
-     * @return the number of stop bits as {@link String}.
+     * @return the current number of stop bits as a string
      */
     public String getStopbitsString() {
         switch (m_Stopbits) {
@@ -438,56 +385,53 @@ public class SerialParameters {
             default:
                 return "1";
         }
-    }// getStopbitsString
+    }
 
     /**
-     * Sets the parity schema.
+     * Sets the parity mode.
      *
-     * @param parity the new parity schema as {@link int}.
+     * @param parity the new parity mode (NONE, EVEN, or ODD)
+     * @throws IllegalArgumentException if the parity value is invalid
      */
     public void setParity(int parity) {
         if (!SerialParameterValidator.isParityValid(parity)) {
-            throw new IllegalArgumentException("parity value '" + parity + "' not valid");
+            throw new IllegalArgumentException("Invalid parity: " + parity);
         }
         m_Parity = parity;
-    }// setParity
+    }
 
     /**
-     * Sets the parity schema from the given
-     * {@link String}.
+     * Sets the parity mode from a string value.
      *
-     * @param parity the new parity schema as {@link String}.
+     * @param parity the new parity mode as a string
+     * @throws IllegalArgumentException if the parity string is invalid
      */
-    public void setParity(String parity) throws IllegalArgumentException {
+    public void setParity(String parity) {
         parity = parity.toLowerCase();
-        int intParity = SerialPort.PARITY_NONE;
-
         if (parity.equals("none") || parity.equals("n")) {
-            intParity = SerialPort.PARITY_NONE;
+            setParity(SerialPort.PARITY_NONE);
         } else if (parity.equals("even") || parity.equals("e")) {
-            intParity = SerialPort.PARITY_EVEN;
+            setParity(SerialPort.PARITY_EVEN);
         } else if (parity.equals("odd") || parity.equals("o")) {
-            intParity = SerialPort.PARITY_ODD;
+            setParity(SerialPort.PARITY_ODD);
         } else {
-            throw new IllegalArgumentException("unknown parity string '" + parity + "'");
+            throw new IllegalArgumentException("Invalid parity string: " + parity);
         }
-
-        setParity(intParity);
-    }// setParity
+    }
 
     /**
-     * Returns the parity schema as {@link int}.
+     * Returns the parity mode.
      *
-     * @return the parity schema as {@link int}.
+     * @return the current parity mode
      */
     public int getParity() {
         return m_Parity;
-    }// getParity
+    }
 
     /**
-     * Returns the parity schema as {@link String}.
+     * Returns the parity mode as a string.
      *
-     * @return the parity schema as {@link String}.
+     * @return the current parity mode as a string
      */
     public String getParityString() {
         switch (m_Parity) {
@@ -500,93 +444,135 @@ public class SerialParameters {
             default:
                 return "none";
         }
-    }// getParityString
+    }
 
     /**
-     * Sets the encoding to be used.
+     * Sets the message encoding format.
      *
-     * @param enc the encoding as string.
-     * @see Modbus#SERIAL_ENCODING_ASCII
-     * @see Modbus#SERIAL_ENCODING_RTU
-     * @see Modbus#SERIAL_ENCODING_BIN
+     * @param enc the new encoding format (ASCII, RTU, or BIN)
+     * @throws IllegalArgumentException if the encoding string is invalid
      */
-    public void setEncoding(String enc) throws IllegalArgumentException {
+    public void setEncoding(String enc) {
         enc = enc.toLowerCase();
         if (!SerialParameterValidator.isEncodingValid(enc)) {
-            throw new IllegalArgumentException("encoding value '" + enc + "' not valid");
+            throw new IllegalArgumentException("Invalid encoding: " + enc);
         }
-
         m_Encoding = enc;
-    }// setEncoding
+    }
 
     /**
-     * Returns the encoding to be used.
+     * Returns the message encoding format.
      *
-     * @return the encoding as string.
-     * @see Modbus#SERIAL_ENCODING_ASCII
-     * @see Modbus#SERIAL_ENCODING_RTU
-     * @see Modbus#SERIAL_ENCODING_BIN
+     * @return the current encoding format
      */
     public String getEncoding() {
         return m_Encoding;
-    }// getEncoding
+    }
 
     /**
-     * Get the Echo value.
+     * Returns whether RS485 echo mode is enabled.
      *
-     * @return the Echo value.
+     * @return true if echo mode is enabled, false otherwise
      */
     public boolean isEcho() {
         return m_Echo;
-    }// getEcho
+    }
 
     /**
-     * Set the Echo value.
+     * Sets the RS485 echo mode.
      *
-     * @param newEcho The new Echo value.
+     * @param newEcho true to enable echo mode, false to disable
      */
     public void setEcho(boolean newEcho) {
         m_Echo = newEcho;
-    }// setEcho
+    }
 
     /**
-     * Returns the receive timeout for serial communication.
+     * Returns the receive timeout value.
      *
-     * @return the timeout in milliseconds.
+     * @return the current receive timeout in milliseconds
      */
     public int getReceiveTimeoutMillis() {
         return m_ReceiveTimeoutMillis;
-    }// getReceiveTimeout
+    }
 
     /**
-     * Sets the receive timeout for serial communication.
+     * Sets the receive timeout value.
      *
-     * @param receiveTimeout the receiveTimeout in milliseconds.
+     * @param receiveTimeout the new timeout value in milliseconds
+     * @throws IllegalArgumentException if the timeout value is negative
      */
     public void setReceiveTimeoutMillis(int receiveTimeout) {
         if (!SerialParameterValidator.isReceiveTimeoutValid(receiveTimeout)) {
-            throw new IllegalArgumentException("negative values like '" + receiveTimeout + "' invalid as timeout");
+            throw new IllegalArgumentException("Invalid timeout value: " + receiveTimeout);
         }
-
         m_ReceiveTimeoutMillis = receiveTimeout;
-    }// setReceiveTimeout
+    }
 
     /**
-     * Sets the receive timeout for the serial communication
-     * parsing the given String value.
+     * Sets the receive timeout value from a string.
      *
-     * @param str the timeout as String.
+     * @param str the new timeout value as a string
+     * @throws IllegalArgumentException if the string cannot be parsed or value is invalid
      */
     public void setReceiveTimeoutMillis(String str) {
-        setReceiveTimeoutMillis(Integer.parseInt(str));
-    }// setReceiveTimeout
+        try {
+            setReceiveTimeoutMillis(Integer.parseInt(str));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid timeout string: " + str);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "SerialParameters [portName=" + m_PortName +
+               ", baudRate=" + m_BaudRate +
+               ", flowControlIn=" + getFlowControlInString() +
+               ", flowControlOut=" + getFlowControlOutString() +
+               ", databits=" + m_Databits +
+               ", stopbits=" + getStopbitsString() +
+               ", parity=" + getParityString() +
+               ", encoding=" + m_Encoding +
+               ", echo=" + m_Echo +
+               ", receiveTimeout=" + m_ReceiveTimeoutMillis + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(m_BaudRate, m_Databits, m_Echo, m_Encoding,
+                          m_FlowControlIn, m_FlowControlOut, m_Parity,
+                          m_PortName, m_ReceiveTimeoutMillis, m_Stopbits);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        SerialParameters rhs = (SerialParameters) obj;
+        return m_BaudRate == rhs.m_BaudRate &&
+               m_Databits == rhs.m_Databits &&
+               m_Echo == rhs.m_Echo &&
+               Objects.equals(m_Encoding, rhs.m_Encoding) &&
+               m_FlowControlIn == rhs.m_FlowControlIn &&
+               m_FlowControlOut == rhs.m_FlowControlOut &&
+               m_Parity == rhs.m_Parity &&
+               Objects.equals(m_PortName, rhs.m_PortName) &&
+               m_ReceiveTimeoutMillis == rhs.m_ReceiveTimeoutMillis &&
+               m_Stopbits == rhs.m_Stopbits;
+    }
 
     /**
-     * Converts a {@link String} describing a flow control type to the
-     * {@link int} which is defined in SerialPort.
+     * Converts a flow control string to its corresponding integer value.
      *
-     * @param flowcontrol the {@link String} describing the flow control type.
-     * @return the {@link int} describing the flow control type.
+     * @param flowcontrol the flow control string
+     * @return the corresponding SerialPort flow control constant
      */
     private int stringToFlow(String flowcontrol) {
         flowcontrol = flowcontrol.toLowerCase();
@@ -606,15 +592,13 @@ public class SerialParameters {
             return SerialPort.FLOWCONTROL_RTSCTS_OUT;
         }
         return SerialPort.FLOWCONTROL_NONE;
-    }// stringToFlow
+    }
 
     /**
-     * Converts an {@link int} describing a flow control type to a
-     * String describing a flow control type.
+     * Converts a flow control integer value to its string representation.
      *
-     * @param flowcontrol the {@link int} describing the
-     *            flow control type.
-     * @return the {@link String} describing the flow control type.
+     * @param flowcontrol the SerialPort flow control constant
+     * @return the corresponding flow control string
      */
     private String flowToString(int flowcontrol) {
         switch (flowcontrol) {
@@ -631,29 +615,5 @@ public class SerialParameters {
             default:
                 return "none";
         }
-    }// flowToString
-
-    /**
-     * Populates the settings from an {@link Proper}
-     * that reads from a properties file or contains a
-     * set of properties.
-     *
-     * @param in the {@link InputStream} to read from.
-     *
-     *            private void loadFrom(InputStream in) throws IOException {
-     *            Properties props = new Properties();
-     *            props.load(in);
-     *            setPortName(props.getProperty("portName"));
-     *            setBaudRate(props.getProperty("baudRate"));
-     *            setFlowControlIn(props.getProperty("flowControlIn"));
-     *            setFlowControlOut(props.getProperty("flowControlOut"));
-     *            setParity(props.getProperty("parity"));
-     *            setDatabits(props.getProperty("databits"));
-     *            setStopbits(props.getProperty("stopbits"));
-     *            setEncoding(props.getProperty("encoding"));
-     *            setEcho(new Boolean(props.getProperty("echo")).booleanValue());
-     *            }//loadFrom
-     *
-     */
-
-}// class SerialParameters
+    }
+}

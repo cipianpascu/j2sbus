@@ -36,67 +36,122 @@ import ro.ciprianpascu.sbus.util.LinkedQueue;
 import ro.ciprianpascu.sbus.util.ModbusUtil;
 
 /**
- * Class implementing a {@link UDPSlaveTerminal}.
+ * Class implementing a UDP slave terminal for the SBus protocol.
+ * This terminal handles UDP communication for a slave device,
+ * managing both sending and receiving of messages.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
  * @version %I% (%G%)
  */
 public class UDPSlaveTerminal implements UDPTerminal {
+    
+    /**
+     * Implementation of ModbusUDPTransportFactory for creating UDP transports.
+     */
     public static class ModbusUDPTransportFactoryImpl implements ModbusUDPTransportFactory {
-
         @Override
         public ModbusTransport create(UDPTerminal terminal) {
             return new ModbusUDPTransport(terminal);
         }
-
     }
 
     private static final Logger logger = LoggerFactory.getLogger(UDPSlaveTerminal.class);
+    
+    /** Default wait time in milliseconds when deactivating the terminal */
     public static final int DEFAULT_DEACTIVATION_WAIT_MILLIS = 100;
 
-    // instance attributes
+    /** The UDP channel for communication */
     private DatagramChannel m_Channel;
+    
+    /** Timeout for operations in milliseconds */
     private int m_Timeout = Modbus.DEFAULT_TIMEOUT;
+    
+    /** Flag indicating if the terminal is active */
     private boolean m_Active;
+    
+    /** Local address for the terminal */
     protected InetAddress m_LocalAddress;
+    
+    /** Local port for the terminal */
     private int m_LocalPort = Modbus.DEFAULT_PORT;
+    
+    /** Remote address for communication */
     protected InetAddress m_RemoteAddress;
+    
+    /** Remote port for communication */
     private int m_RemotePort = Modbus.DEFAULT_PORT;
+    
+    /** Transport layer for SBus protocol */
     protected ModbusTransport m_ModbusTransport;
 
+    /** Queue for outgoing messages */
     private LinkedQueue m_SendQueue;
+    
+    /** Queue for incoming messages */
     protected LinkedQueue m_ReceiveQueue;
+    
+    /** Handler for sending packets */
     private PacketSender m_PacketSender;
+    
+    /** Handler for receiving packets */
     private PacketReceiver m_PacketReceiver;
+    
+    /** Thread for receiving messages */
     private Thread m_Receiver;
+    
+    /** Thread for sending messages */
     private Thread m_Sender;
 
+    /** Flag indicating if the terminal is in listener mode */
     private boolean m_listenerMode;
+    
+    /** Table for tracking requests */
     protected Hashtable m_Requests;
     
-	byte[] smartCloud = new byte[] {'S', 'M', 'A', 'R', 'T', 'C', 'L', 'O', 'U', 'D', (byte)0xAA, (byte)0xAA};
+    /** Signature for SMARTCLOUD protocol */
+    byte[] smartCloud = new byte[] {'S', 'M', 'A', 'R', 'T', 'C', 'L', 'O', 'U', 'D', (byte)0xAA, (byte)0xAA};
 
+    /** Factory for creating transport instances */
     private ModbusUDPTransportFactory m_TransportFactory;
-    /**
-     * Time to wait for Threads to close when deactivate is called.
-     * Note that often no time is enough since threads might be waiting for data.
-     */
+    
+    /** Time to wait for threads to close during deactivation */
     private int m_DeactivationWaitMillis = 100;
 
+    /**
+     * Creates a new UDPSlaveTerminal with default settings and response enabled.
+     */
     public UDPSlaveTerminal() {
         this(null, true);
-    }// constructor
+    }
 
+    /**
+     * Creates a new UDPSlaveTerminal with specified response behavior.
+     * 
+     * @param withResponse true to enable responses, false for fire-and-forget
+     */
     public UDPSlaveTerminal(boolean withResponse) {
         this(null, withResponse);
-    }// constructor
+    }
 
+    /**
+     * Creates a new UDPSlaveTerminal with specified local address and response behavior.
+     * 
+     * @param localaddress the local address to bind to
+     * @param withResponse true to enable responses, false for fire-and-forget
+     */
     public UDPSlaveTerminal(InetAddress localaddress, boolean withResponse) {
         this(localaddress, new ModbusUDPTransportFactoryImpl(), DEFAULT_DEACTIVATION_WAIT_MILLIS, withResponse);
     }
 
+    /**
+     * Creates a new UDPSlaveTerminal with full configuration options.
+     * 
+     * @param localaddress the local address to bind to
+     * @param transportFactory factory for creating transport instances
+     * @param deactivationWaitMillis time to wait during deactivation
+     * @param withResponse true to enable responses, false for fire-and-forget
+     */
     public UDPSlaveTerminal(InetAddress localaddress, ModbusUDPTransportFactory transportFactory,
             int deactivationWaitMillis, boolean withResponse) {
         m_LocalAddress = localaddress;
@@ -104,70 +159,62 @@ public class UDPSlaveTerminal implements UDPTerminal {
         m_DeactivationWaitMillis = deactivationWaitMillis;
         m_SendQueue = new LinkedQueue();
         m_ReceiveQueue = new LinkedQueue();
-        // m_Requests = new Hashtable(342, 0.75F);
         m_Requests = new Hashtable(342);
-		m_listenerMode = withResponse;
-
-    }// constructor
+        m_listenerMode = withResponse;
+    }
 
     @Override
     public InetAddress getLocalAddress() {
         return m_LocalAddress;
-    }// getLocalAddress
+    }
 
     @Override
     public int getLocalPort() {
         return m_LocalPort;
-    }// getLocalPort
-
-    public void setLocalPort(int port) {
-        m_LocalPort = port;
-    }// setLocalPort
+    }
 
     /**
-     * Sets the destination port of this
-     * {@link UDPSlaveTerminal}.
-     * The default is defined as 6000
-     *
-     * @param port the port number as {@link int}.
+     * Sets the local port for this terminal.
+     * 
+     * @param port the port number to set
+     */
+    public void setLocalPort(int port) {
+        m_LocalPort = port;
+    }
+
+    /**
+     * Sets the remote port for this terminal.
+     * The default is 6000.
+     * 
+     * @param port the port number to set
      */
     public void setRemotePort(int port) {
         m_RemotePort = port;
-    }// setPort
+    }
 
     /**
-     * Sets the destination {@link InetAddress} of this
-     * {@link UDPSlaveTerminal}.
-     *
-     * @param adr the destination address as {@link InetAddress}.
+     * Sets the remote address for this terminal.
+     * 
+     * @param adr the address to set
      */
     public void setRemoteAddress(InetAddress adr) {
         m_RemoteAddress = adr;
-    }// setAddress
-    /**
-     * Tests if this {@link UDPSlaveTerminal} is active.
-     *
-     * @return true if active, false otherwise.
-     */
+    }
+
     @Override
     public boolean isActive() {
         return m_Active;
-    }// isActive
+    }
 
-    /**
-     * Activate this {@link UDPTerminal}.
-     *
-     * @throws Exception if there is a network failure.
-     */
     @Override
     public synchronized void activate() throws Exception {
         if (!isActive()) {
             logger.debug("UDPSlaveTerminal::activate()");
             if (m_Channel == null) {
-            	m_Channel = DatagramChannel.open();
-            	m_Channel.configureBlocking(true); // Enable non-blocking mode
-            	m_Channel.bind(new InetSocketAddress(m_LocalPort)); // Bind to the port
-                m_LocalAddress = new InetSocketAddress(m_LocalPort).getAddress();
+                m_Channel = DatagramChannel.open();
+                m_Channel.configureBlocking(true);
+                m_Channel.bind(new InetSocketAddress(m_LocalPort));
+                //m_LocalAddress = new InetSocketAddress(m_LocalPort).getAddress();
             }
             if (logger.isDebugEnabled()) {
                 logger.debug("UDPSlaveTerminal::haveSocket():{}", m_Channel.toString());
@@ -191,24 +238,18 @@ public class UDPSlaveTerminal implements UDPTerminal {
             m_Active = true;
         }
         logger.info("UDPSlaveTerminal::activated");
-    }// activate
+    }
 
-    /**
-     * Deactivates this {@link UDPSlaveTerminal}.
-     */
     @Override
     public void deactivate() {
         try {
             if (m_Active) {
-                // 1. stop receiver
                 m_PacketReceiver.stop();
                 m_Receiver.join(m_DeactivationWaitMillis);
                 m_Receiver.interrupt();
-                // 2. stop sender gracefully
                 m_PacketSender.stop();
                 m_Sender.join(m_DeactivationWaitMillis);
                 m_Sender.interrupt();
-                // 3. close socket
                 m_Channel.close();
                 m_ModbusTransport = null;
                 m_Active = false;
@@ -216,150 +257,145 @@ public class UDPSlaveTerminal implements UDPTerminal {
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
-    }// deactivate
+    }
 
-    /**
-     * Returns the {@link ModbusTransport} associated with this
-     * {@link UDPSlaveTerminal}.
-     *
-     * @return the connection's {@link ModbusTransport}.
-     */
     @Override
     public ModbusTransport getModbusTransport() {
         return m_ModbusTransport;
-    }// getModbusTransport
-
-    protected boolean hasResponse() {
-        return !m_ReceiveQueue.isEmpty();
-    }// hasResponse
+    }
 
     /**
-     * Returns the timeout for this {@link UDPMasterTerminal}.
-     *
-     * @return the timeout as {@link int}.
+     * Checks if there is a response available in the receive queue.
+     * 
+     * @return true if a response is available, false otherwise
+     */
+    protected boolean hasResponse() {
+        return !m_ReceiveQueue.isEmpty();
+    }
+
+    /**
+     * Gets the timeout value for operations.
+     * 
+     * @return timeout in milliseconds
      */
     public int getTimeout() {
         return m_Timeout;
-    }// getReceiveTimeout
+    }
 
     /**
-     * Sets the timeout for this {@link UDPMasterTerminal}.
-     *
-     * @param timeout the timeout as {@link int}.
+     * Sets the timeout value for operations.
+     * 
+     * @param timeout timeout in milliseconds
      */
     public void setTimeout(int timeout) {
         m_Timeout = timeout;
-    }// setReceiveTimeout
-
+    }
 
     @Override
     public void sendMessage(byte[] msg) throws Exception {
-    	byte[] localIp = m_LocalAddress.getAddress();
-    	byte[] fullMessage = new byte[msg.length + 16];
-    	
-    	System.arraycopy(localIp,0,fullMessage,0,localIp.length);
-    	System.arraycopy(smartCloud,0,fullMessage,4,smartCloud.length);
-    	System.arraycopy(msg,0,fullMessage,16,msg.length);
+        byte[] localIp = m_LocalAddress.getAddress();
+        byte[] fullMessage = new byte[msg.length + 16];
+        
+        System.arraycopy(localIp, 0, fullMessage, 0, localIp.length);
+        System.arraycopy(smartCloud, 0, fullMessage, 4, smartCloud.length);
+        System.arraycopy(msg, 0, fullMessage, 16, msg.length);
         System.out.println(ModbusUtil.toHex(fullMessage));
         m_SendQueue.put(fullMessage);
-    }// sendPackage
+    }
 
     @Override
     public byte[] receiveMessage() throws Exception {
         byte[] message = (byte[]) (m_listenerMode ? m_ReceiveQueue.take() : m_ReceiveQueue.poll(m_Timeout));
-		if(message == null)
-			throw new ModbusIOException("No message response arrived in due time", true);
-        byte[] signature = new byte[Math.min(message.length-4, smartCloud.length)]; //skip source IP from the message (first 4 bites)
-        System.arraycopy(message,4,signature,0,signature.length);
+        if(message == null)
+            throw new ModbusIOException("No message response arrived in due time", true);
+        byte[] signature = new byte[Math.min(message.length-4, smartCloud.length)];
+        System.arraycopy(message, 4, signature, 0, signature.length);
         int equal = Arrays.compare(signature, smartCloud);
         if(equal != 0)
-			throw new ModbusIOException("Message not for me", true);
+            throw new ModbusIOException("Message not for me", true);
         return Arrays.copyOfRange(message, signature.length+4, message.length);
-    }// receiveMessage
+    }
 
+    @Override
+    public boolean hasMessage() {
+        return !m_ReceiveQueue.isEmpty();
+    }
+
+    /**
+     * Inner class handling the sending of packets.
+     */
     class PacketSender implements Runnable {
-
         private boolean m_Continue;
 
         public PacketSender() {
             m_Continue = true;
-        }// constructor
+        }
 
         @Override
         public void run() {
             do {
                 try {
-                    // 1. pickup the message and corresponding request
                     byte[] message = (byte[]) m_SendQueue.take();
                     ByteBuffer buffer = ByteBuffer.allocate(1024);
                     buffer.put(message);
                     buffer.flip();
                     int bytesSent = 0;
-                	if(m_listenerMode) {
-                		InetSocketAddress sourceAddress =  (InetSocketAddress) ((Object[])m_Requests
-	                            .remove(ModbusUtil.registersToInt(message)))[0];
-                		bytesSent = m_Channel.send(buffer, sourceAddress);
-                	} else {
-                		bytesSent = m_Channel.send(buffer, new InetSocketAddress(m_RemoteAddress, m_LocalPort));
-                	}
+                    if(m_listenerMode) {
+                        InetSocketAddress sourceAddress = (InetSocketAddress) ((Object[])m_Requests
+                                .remove(ModbusUtil.registersToInt(message)))[0];
+                        bytesSent = m_Channel.send(buffer, sourceAddress);
+                    } else {
+                        bytesSent = m_Channel.send(buffer, new InetSocketAddress(m_RemoteAddress, m_LocalPort));
+                    }
                     logger.trace("Sent package from queue with length " + bytesSent);
                 } catch (Exception ex) {
-                	if(logger.isDebugEnabled())
+                    if(logger.isDebugEnabled())
                         logger.debug("Exception", ex);
                 }
             } while (m_Continue || !m_SendQueue.isEmpty());
-        }// run
+        }
 
         public void stop() {
             m_Continue = false;
-        }// stop
+        }
+    }
 
-    }// PacketSender
-
+    /**
+     * Inner class handling the receiving of packets.
+     */
     class PacketReceiver implements Runnable {
-
         private boolean m_Continue;
 
         public PacketReceiver() {
             m_Continue = true;
-        }// constructor
+        }
 
         @Override
         public void run() {
             do {
                 try {
-                    // 1. Prepare buffer and receive package
-                	ByteBuffer buffer = ByteBuffer.allocate(1024);
+                    ByteBuffer buffer = ByteBuffer.allocate(1024);
                     InetSocketAddress sourceAddress = (InetSocketAddress) m_Channel.receive(buffer);
                     if (sourceAddress == null) 
-                    	continue;
+                        continue;
                     buffer.flip();
                     byte[] fullMessage = new byte[buffer.remaining()];
                     buffer.get(fullMessage);
-                    // 2. Extract TID and remember request
                     Integer tid = new Integer(ModbusUtil.registersToInt(fullMessage));
                     if(m_listenerMode)
-                    	m_Requests.put(tid, new Object[] {sourceAddress, fullMessage});
-                    // 3. place the data buffer in the queue
+                        m_Requests.put(tid, new Object[] {sourceAddress, fullMessage});
                     m_ReceiveQueue.put(fullMessage);
                     System.out.println(ModbusUtil.toHex(fullMessage));
                     logger.trace("Received package placed in queue");
                 } catch (Exception ex) {
-                	if(logger.isDebugEnabled())
-                     logger.debug("Exception", ex);
+                    if(logger.isDebugEnabled())
+                        logger.debug("Exception", ex);
                 }
             } while (m_Continue);
-        }// run
+        }
 
         public void stop() {
             m_Continue = false;
-        }// stop
-
-    }// PacketReceiver
-
-	@Override
-	public boolean hasMessage() {
-		return !m_ReceiveQueue.isEmpty();
-	}
-
-}// class UDPTerminal
+        }
+    }
+}

@@ -21,12 +21,14 @@ import java.io.EOFException;
 import java.io.IOException;
 
 /**
- * Interface implementing a non word data handler for the
- * read/write multiple register commands (class 0).
+ * Interface for handling non-word data in the SBus protocol.
+ * This handler manages data that doesn't fit into the standard word (16-bit) format,
+ * particularly for read/write multiple register operations. It provides methods
+ * for reading, preparing, and committing data, along with conversion between
+ * byte and word representations.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
  * @version %I% (%G%)
  */
 public interface NonWordDataHandler {
@@ -34,53 +36,48 @@ public interface NonWordDataHandler {
     /**
      * Returns the intermediate raw non-word data.
      *
-     * @return the raw data as {@link byte[]}.
+     * @return the raw data as a byte array
      */
     public byte[] getData();
 
     /**
-     * Reads the non-word raw data based on an arbitrary
-     * implemented structure.
+     * Reads the non-word raw data based on an arbitrary implemented structure.
+     * This method handles reading data that doesn't conform to standard word boundaries.
      *
-     * @param in the {@link DataInput} to read from.
-     * @param reference to specify the offset as {@link int}.
-     * @param count to sepcify the amount of bytes as {@link int}.
-     *
-     * @throws IOException if I/O fails.
-     * @throws EOFException if the stream ends before all data is read.
+     * @param in the DataInput to read from
+     * @param reference the starting offset for reading
+     * @param count the number of bytes to read
+     * @throws IOException if an I/O error occurs
+     * @throws EOFException if the end of stream is reached before reading all data
      */
     public void readData(DataInput in, int reference, int count) throws IOException, EOFException;
 
     /**
      * Returns the word count of the data.
-     * Note that this should be the length of the byte
-     * array divided by two.
+     * This should be the length of the byte array divided by two,
+     * as each word consists of two bytes.
      *
-     * @return the number of words the data consists of.
+     * @return the number of words the data consists of
      */
     public int getWordCount();
 
     /**
-     * Commits the data if it has been read into an intermediate
-     * repository.
-     * This method is called by a {@link ro.ciprianpascu.sbus.msg.WriteMultipleRegistersRequest}
-     * instance when finished with reading, for creating a response.
+     * Commits the data if it has been read into an intermediate repository.
+     * This method is called when a write operation is complete to finalize
+     * the changes in the backing store.
      *
-     * @return -1 if the commit was successful, a Modbus exception code
-     *         valid for the read/write multiple registers commands
-     *         otherwise.
+     * @return -1 if the commit was successful, or an appropriate SBus exception
+     *         code if the commit failed
      */
     public int commitUpdate();
 
     /**
-     * Prepares the raw data, putting it together from a
-     * backing data store.
-     * This method is called by a {@link ro.ciprianpascu.sbus.msg.WriteMultipleRegistersRequest}
-     * instance when finshed with reading, for creating a response.
+     * Prepares the raw data from a backing data store.
+     * This method is called before a read operation to ensure the data
+     * is ready for transmission.
      *
-     * @param reference to specify the offset as {@link int}.
-     * @param count to sepcify the amount of bytes as {@link int}.
+     * @param reference the starting offset for the data preparation
+     * @param count the number of bytes to prepare
      */
     public void prepareData(int reference, int count);
-
-}// NonWordDataHandler
+}

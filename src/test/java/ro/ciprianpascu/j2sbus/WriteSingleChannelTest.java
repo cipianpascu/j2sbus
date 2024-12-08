@@ -40,7 +40,7 @@ public class WriteSingleChannelTest {
             Register[] registers = new Register[2];
     		registers[0] = new ByteRegister((byte)0);
     		registers[1] = new WordRegister((short)0);
-            req = new WriteSingleChannelRequest(1, registers);
+            req = new WriteSingleChannelRequest(24, registers);
             req.setSubnetID(1);
             req.setUnitID(75);
              

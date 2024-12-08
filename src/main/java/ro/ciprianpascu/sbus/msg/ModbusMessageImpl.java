@@ -30,7 +30,6 @@ import ro.ciprianpascu.sbus.util.ModbusUtil;
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
  * @version %I% (%G%)
  */
 public abstract class ModbusMessageImpl implements ModbusMessage {
@@ -44,81 +43,107 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
     private int m_SourceUnitID = Modbus.DEFAULT_SOURCE_UNIT_ID;
     private int m_SourceDeviceType = Modbus.DEFAULT_SOURCE_DEVICE_TYPE;
 
-    /*** Header ******************************************/
-
-
-
+    /**
+     * Gets the source subnet identifier of this message.
+     *
+     * @return the source subnet identifier as an integer.
+     */
     public int getSourceSubnetID() {
-		return m_SourceSubnetID;
-	}
-
-	public void setSourceSubnetID(int m_SourceSubnetID) {
-		this.m_SourceSubnetID = m_SourceSubnetID;
-	}
-
-	public int getSourceUnitID() {
-		return m_SourceUnitID;
-	}
-
-	public void setSourceUnitID(int m_SourceUnitID) {
-		this.m_SourceUnitID = m_SourceUnitID;
-	}
-
-	public int getSourceDeviceType() {
-		return m_SourceDeviceType;
-	}
-
-	public void setSourceDeviceType(int m_SourceDeviceType) {
-		this.m_SourceDeviceType = m_SourceDeviceType;
-	}
-
-	@Override
-    public int getDataLength() {
-        return m_DataLength;
-    }// getDataLength
+        return m_SourceSubnetID;
+    }
 
     /**
-     * Sets the length of the data appended
-     * after the protocol header.
-* 
-     * Note that this library, a bit in contrast to the
-     * specification, counts the subnet identifier, the unit identifier and the
-     * function code to the header, because it is part
-     * of each and every message. Thus this message will
-     * append three (3) to the passed in integer value.
-* 
+     * Sets the source subnet identifier of this message.
+     *
+     * @param sourceSubnetID the source subnet identifier to set
+     */
+    public void setSourceSubnetID(int sourceSubnetID) {
+        this.m_SourceSubnetID = sourceSubnetID;
+    }
+
+    /**
+     * Gets the source unit identifier of this message.
+     *
+     * @return the source unit identifier as an integer.
+     */
+    public int getSourceUnitID() {
+        return m_SourceUnitID;
+    }
+
+    /**
+     * Sets the source unit identifier of this message.
+     *
+     * @param sourceUnitID the source unit identifier to set
+     */
+    public void setSourceUnitID(int sourceUnitID) {
+        this.m_SourceUnitID = sourceUnitID;
+    }
+
+    /**
+     * Gets the source device type of this message.
+     *
+     * @return the source device type as an integer.
+     */
+    public int getSourceDeviceType() {
+        return m_SourceDeviceType;
+    }
+
+    /**
+     * Sets the source device type of this message.
+     *
+     * @param sourceDeviceType the source device type to set
+     */
+    public void setSourceDeviceType(int sourceDeviceType) {
+        this.m_SourceDeviceType = sourceDeviceType;
+    }
+
+    @Override
+    public int getDataLength() {
+        return m_DataLength;
+    }
+
+    /**
+     * Sets the length of the data appended after the protocol header.
+     * 
+     * Note that this library, a bit in contrast to the specification, counts 
+     * the subnet identifier, the unit identifier and the function code to 
+     * the header, because it is part of each and every message. Thus this 
+     * message will append three (3) to the passed in integer value.
      *
      * @param length the data length as {@link int}.
      */
     public void setDataLength(int length) {
         // should be below 255, check!
         m_DataLength = length + 11;
-    }// setData
-
-    public int getSubnetID() {
-		return m_SubnetID;
-	}
+    }
 
     /**
-     * Sets the subnetId identifier of this
-     * {@link ModbusMessage}.<br>
+     * Gets the subnet identifier of this message.
+     *
+     * @return the subnet identifier as an integer.
+     */
+    public int getSubnetID() {
+        return m_SubnetID;
+    }
+
+    /**
+     * Sets the subnet identifier of this {@link ModbusMessage}.
      * The identifier should be a 1-byte non negative
      * integer value valid in the range of 0-255.
      *
-     * @param subnetId the unit identifier number to be set.
+     * @param subnetId the subnet identifier number to be set.
      */
-	public void setSubnetID(int subnetId) {
-		this.m_SubnetID = subnetId;
-	}
+    public void setSubnetID(int subnetId) {
+        this.m_SubnetID = subnetId;
+    }
 
-	@Override
+    @Override
     public int getUnitID() {
         return m_UnitID;
-    }// getUnitID
+    }
 
     /**
-     * Sets the unit identifier of this
-     * {@link ModbusMessage}.<br>
+     * Sets the unit identifier of this {@link ModbusMessage}.
      * The identifier should be a 1-byte non negative
      * integer value valid in the range of 0-255.
      *
@@ -126,18 +151,17 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
      */
     public void setUnitID(int num) {
         m_UnitID = num;
-        // setChanged(true);
-    }// setUnitID
+    }
 
     @Override
     public int getFunctionCode() {
         return m_FunctionCode;
-    }// getFunctionCode
+    }
 
     /**
-     * Sets the function code of this {@link ModbusMessage}.<br>
+     * Sets the function code of this {@link ModbusMessage}.
      * The function code should be a 1-byte non negative
-     * integer value valid in the range of 0-127.<br>
+     * integer value valid in the range of 0-127.
      * Function codes are ordered in conformance
      * classes their values are specified in
      * {@link ro.ciprianpascu.sbus.Modbus}.
@@ -147,12 +171,7 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
      */
     protected void setFunctionCode(int code) {
         m_FunctionCode = code;
-        // setChanged(true);
-    }// setFunctionCode
-
-    /*** Data ********************************************/
-
-    /*** Transportable ***********************************/
+    }
 
     /**
      * Writes this message to the given {@link DataOutput}.
@@ -162,16 +181,15 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
      */
     @Override
     public void writeTo(DataOutput dout) throws IOException {
-
         dout.writeByte(getDataLength());
         dout.writeByte(getSourceSubnetID());
         dout.writeByte(getSourceUnitID());
-		dout.writeShort(getSourceDeviceType());
+        dout.writeShort(getSourceDeviceType());
         dout.writeShort(getFunctionCode());
         dout.writeByte(getSubnetID());
         dout.writeByte(getUnitID());
         writeData(dout);
-    }// writeTo
+    }
 
     /**
      * Writes the subclass specific data to the given DataOutput.
@@ -184,14 +202,14 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
     @Override
     public void readFrom(DataInput din) throws IOException {
         m_DataLength = din.readUnsignedByte();
-		setSourceSubnetID(din.readUnsignedByte());
-		setSourceUnitID(din.readUnsignedByte());
-		setSourceDeviceType(din.readUnsignedShort());
+        setSourceSubnetID(din.readUnsignedByte());
+        setSourceUnitID(din.readUnsignedByte());
+        setSourceDeviceType(din.readUnsignedShort());
         setFunctionCode(din.readUnsignedShort());
         setSubnetID(din.readUnsignedByte());
         setUnitID(din.readUnsignedByte());
         readData(din);
-    }// readFrom
+    }
 
     /**
      * Reads the subclass specific data from the given DataInput instance.
@@ -201,23 +219,25 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
      */
     public abstract void readData(DataInput din) throws IOException;
 
-
-
-    /*** END Transportable *******************************/
-
     /**
-     * Returns the this message as hexadecimal string.
+     * Returns this message as hexadecimal string.
      *
      * @return the message as hex encoded string.
      */
     @Override
     public String getHexMessage() {
         return ModbusUtil.toHex(this);
-    }// getHexMessage
-
-    @Override
-    public String toString() {
-    	return this.getSubnetID() + "_" + this.getUnitID() + "_" + this.getFunctionCode();
     }
 
-}// class ModbusMessageImpl
+    /**
+     * Returns a string representation of this message in the format:
+     * subnetID_unitID_functionCode
+     *
+     * @return a string representation of the message
+     */
+    @Override
+    public String toString() {
+        return this.getSubnetID() + "_" + this.getUnitID() + "_" + this.getFunctionCode();
+    }
+
+}

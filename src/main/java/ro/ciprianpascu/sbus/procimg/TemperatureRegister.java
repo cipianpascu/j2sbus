@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2002-2010 jamod development team
  *
@@ -18,80 +17,111 @@
 package ro.ciprianpascu.sbus.procimg;
 
 /**
- * Class implementing a simple {@link Register}.
-* 
+ * Class implementing a temperature {@link Register}.
+ * This register stores temperature values with a sign byte and a value byte.
  * The {@link Register#setValue(int)} method is synchronized,
  * which ensures atomic access, but no specific access order.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
  * @version %I% (%G%)
  */
-public class TemperatureRegister  implements Register {
+public class TemperatureRegister implements Register {
 
     /**
-     * The byte[4] holding the state of this
-     * register.
+     * The byte array holding the state of this register.
+     * byte[0] represents the sign (0 for positive, 1 for negative)
+     * byte[1] represents the absolute value
      */
     protected byte[] m_Register = new byte[2];
 
-
     /**
-     * Constructs a new {@link SimpleRegister} instance.
+     * Constructs a new {@link TemperatureRegister} instance.
      *
-     * @param b1 the first (hi) byte of the word.
+     * @param sign the sign byte (0 for positive, 1 for negative)
+     * @param value the absolute value byte
      */
     public TemperatureRegister(byte sign, byte value) {
         m_Register[0] = sign;
-		m_Register[1] = value;
-    }// constructor
+        m_Register[1] = value;
+    }
 
+    /**
+     * Returns the temperature value, taking the sign into account.
+     *
+     * @return the signed temperature value
+     */
+    @Override
+    public int getValue() {
+        return m_Register[0] == 0 ? m_Register[1] : -1 * m_Register[1];
+    }
 
-	@Override
-	public int getValue() {
-		return m_Register[0] == 0 ? m_Register[1] : -1 * m_Register[1];
-	}
+    /**
+     * Returns the absolute value as an unsigned short.
+     *
+     * @return the unsigned value
+     */
+    @Override
+    public int toUnsignedShort() {
+        return m_Register[1];
+    }
 
+    /**
+     * Returns the temperature value as a signed short.
+     *
+     * @return the signed temperature value
+     */
+    @Override
+    public short toShort() {
+        return (short) (m_Register[0] == 0 ? m_Register[1] : -m_Register[1]);
+    }
 
-	@Override
-	public int toUnsignedShort() {
-		return m_Register[1];
-	}
+    /**
+     * Returns the raw byte array containing the sign and value.
+     *
+     * @return byte array containing [sign, value]
+     */
+    @Override
+    public byte[] toBytes() {
+        return m_Register;
+    }
 
+    /**
+     * Sets the temperature value from an integer.
+     * The sign will be extracted automatically.
+     *
+     * @param v the temperature value to set
+     */
+    @Override
+    public void setValue(int v) {
+        setValue((short) v);
+    }
 
-	@Override
-	public short toShort() {
-		return (short) (m_Register[0] == 0 ? m_Register[1] : -m_Register[1]);
-	}
+    /**
+     * Sets the temperature value from a short.
+     * The sign will be extracted automatically.
+     *
+     * @param s the temperature value to set
+     */
+    @Override
+    public void setValue(short s) {
+        m_Register[0] = s < 0 ? (byte) 1 : (byte) 0;    
+        m_Register[1] = (byte) (0xff & s);    
+    }
 
-
-	@Override
-	public byte[] toBytes() {
-		return m_Register;
-	}
-
-
-	@Override
-	public void setValue(int v) {
-		setValue((short) v);
-	}
-
-
-	@Override
-	public void setValue(short s) {
-		m_Register[0] = s < 0 ? (byte) 1 : (byte) 0;	
-		m_Register[1] = (byte) (0xff & s);	
-	}
-
-
-	@Override
-	public void setValue(byte[] bytes) {
+    /**
+     * Sets the register value from a byte array.
+     * The array must contain exactly 2 bytes: [sign, value]
+     *
+     * @param bytes byte array containing [sign, value]
+     * @throws IllegalArgumentException if bytes.length != 2
+     */
+    @Override
+    public void setValue(byte[] bytes) {
         if (bytes.length != 2) 
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Byte array must have length 2");
 
-		m_Register = bytes;		
-	}// constructor
+        m_Register = bytes;        
+    }
 
-
-}// SimpleInputRegister
+}

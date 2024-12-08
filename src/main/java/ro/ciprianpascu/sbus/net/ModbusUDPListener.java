@@ -29,11 +29,12 @@ import ro.ciprianpascu.sbus.msg.ModbusResponse;
 import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
 /**
- * Class that implements a ModbusUDPListener.<br>
+ * Class implementing a UDP Listener for the SBus protocol.
+ * This listener handles incoming UDP messages and processes them
+ * according to the SBus protocol specification.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
  * @version %I% (%G%)
  */
 public class ModbusUDPListener {
@@ -54,17 +55,15 @@ public class ModbusUDPListener {
      */
     public ModbusUDPListener() {
         this(null);
-    }// ModbusUDPListener
+    }
 
     /**
-     * Create a new {@link ModbusUDPListener} instance
-     * listening to the given interface address.
+     * Creates a new ModbusUDPListener instance listening to the given interface address.
      *
-     * @param ifc an {@link InetAddress} instance.
+     * @param ifc an InetAddress instance representing the interface to listen on
      */
     public ModbusUDPListener(InetAddress ifc) {
         this(ifc, new UDPSlaveTerminalFactory() {
-
             @Override
             public UDPSlaveTerminal create(InetAddress interfac, int port) {
                 UDPSlaveTerminal terminal = new UDPSlaveTerminal(interfac, true);
@@ -72,46 +71,52 @@ public class ModbusUDPListener {
                 return terminal;
             }
         });
-    }// ModbusUDPListener
+    }
 
+    /**
+     * Creates a new ModbusUDPListener with a custom terminal factory.
+     *
+     * @param ifc the interface address to listen on
+     * @param terminalFactory factory for creating UDP slave terminals
+     */
     public ModbusUDPListener(InetAddress ifc, UDPSlaveTerminalFactory terminalFactory) {
         m_Interface = ifc;
         this.m_TerminalFactory = terminalFactory;
     }
 
     /**
-     * Returns the number of the port this {@link ModbusUDPListener}
-     * is listening to.
+     * Returns the port number this listener is listening to.
      *
-     * @return the number of the IP port as {@link int}.
+     * @return the port number
      */
     public int getPort() {
         return m_Port;
-    }// getPort
+    }
     
     /**
-	 * Sets the process image.With it, the {@link ModbusUDPListener} will act as a device driver.
-	 * @param processImage
-	 */
+     * Sets the process image for this listener. The process image acts as a device driver,
+     * handling the actual data processing for requests.
+     *
+     * @param processImage the ProcessImageImplementation to handle data processing
+     */
     public void setProcessImage(ProcessImageImplementation processImage) {
-		m_ProcessImage = processImage;
-	}
+        m_ProcessImage = processImage;
+    }
 
     /**
-     * Sets the number of the port this {@link ModbusUDPListener}
-     * is listening to.
+     * Sets the port number for this listener.
+     * If the port number is less than or equal to 0, the default port will be used.
      *
-     * @param port the number of the IP port as {@link int}.
+     * @param port the port number to listen on
      */
     public void setPort(int port) {
         m_Port = ((port > 0) ? port : Modbus.DEFAULT_PORT);
-    }// setPort
+    }
 
     /**
-     * Starts this {@link ModbusUDPListener}.
+     * Starts this listener, initializing the UDP terminal and handler thread.
      */
     public void start() {
-        // start listening
         try {
             m_Terminal = m_TerminalFactory.create(m_Interface, m_Port);
             m_Terminal.setLocalPort(m_Port);
@@ -122,83 +127,91 @@ public class ModbusUDPListener {
             m_HandlerThread.start();
 
         } catch (Exception e) {
-            // FIXME: this is a major failure, how do we handle this
+            logger.error("Failed to start UDP listener", e);
         }
         m_Listening = true;
-    }// start
+    }
 
     /**
-     * Stops this {@link ModbusUDPListener}.
+     * Stops this listener, deactivating the terminal and stopping the handler thread.
      */
     public void stop() {
-        // stop listening
         m_Terminal.deactivate();
         m_Handler.stop();
         m_Listening = false;
-    }// stop
+    }
 
     /**
-     * Tests if this {@link ModbusUDPListener} is listening
-     * and accepting incoming connections.
+     * Tests if this listener is currently active and accepting connections.
      *
-     * @return true if listening (and accepting incoming connections),
-     *         false otherwise.
+     * @return true if listening, false otherwise
      */
     public boolean isListening() {
         return m_Listening;
-    }// isListening
+    }
 
+    /**
+     * Handler class for processing UDP messages.
+     */
     class ModbusUDPHandler implements Runnable {
 
         private ModbusTransport m_Transport;
         private boolean m_Continue = true;
 
+        /**
+         * Creates a new handler instance.
+         *
+         * @param transport the transport layer to use for communication
+         */
         public ModbusUDPHandler(ModbusTransport transport) {
             m_Transport = transport;
-        }// constructor
+        }
 
         @Override
-		public void run() {
-			do {
-				try {
-					// 1. read the request
-					ModbusRequest request = m_Transport.readRequest();
-					if(request == null) {
-						continue;
-					}
-					logger.trace("Request: {}", request.getHexMessage());
-					ModbusResponse response = null;
+        public void run() {
+            do {
+                try {
+                    ModbusRequest request = m_Transport.readRequest();
+                    if(request == null) {
+                        continue;
+                    }
+                    logger.trace("Request: {}", request.getHexMessage());
+                    ModbusResponse response = null;
 
-					// test if Process image exists
-					if (m_ProcessImage == null) {
-						response = request.createExceptionResponse(Modbus.ILLEGAL_FUNCTION_EXCEPTION);
-					} else {
-						response = request.createResponse(m_ProcessImage);
-					}
-					logger.debug("Request: {}", request.getHexMessage());
-					logger.debug("Response: {}", response.getHexMessage());
+                    if (m_ProcessImage == null) {
+                        response = request.createExceptionResponse(Modbus.ILLEGAL_FUNCTION_EXCEPTION);
+                    } else {
+                        response = request.createResponse(m_ProcessImage);
+                    }
+                    logger.debug("Request: {}", request.getHexMessage());
+                    logger.debug("Response: {}", response.getHexMessage());
 
-					m_Transport.writeMessage(response);
-				} catch (ModbusIOException ex) {
-					if (!ex.isEOF()) {
-						// other troubles, output for debug
-						ex.printStackTrace();
-					}
-				} 
-			} while (m_Continue);
-		}// run
+                    m_Transport.writeMessage(response);
+                } catch (ModbusIOException ex) {
+                    if (!ex.isEOF()) {
+                        logger.error("Error processing request", ex);
+                    }
+                } 
+            } while (m_Continue);
+        }
 
+        /**
+         * Stops the handler's processing loop.
+         */
         public void stop() {
             m_Continue = false;
-        }// stop
+        }
+    }
 
-    }// inner class ModbusUDPHandler
-
+    /**
+     * Gets the local port number the terminal is bound to.
+     *
+     * @return the local port number, or -1 if terminal is not initialized
+     */
     public int getLocalPort() {
         if (m_Terminal == null) {
             return -1;
         }
         return m_Terminal.getLocalPort();
     }
-
-}// class ModbusUDPListener
+}

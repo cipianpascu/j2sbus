@@ -29,14 +29,12 @@ import ro.ciprianpascu.sbus.procimg.Register;
 import ro.ciprianpascu.sbus.procimg.WordRegister;
 
 /**
- * Class implementing a {@link WriteSingleChannelRequest}.
- * The implementation directly correlates with the class 0
- * function <i>write single register (FC 6)</i>. It
- * encapsulates the corresponding request message.
+ * Class implementing a WriteSingleChannelRequest for the SBus protocol.
+ * This request writes a value and timer to a single channel. It uses
+ * one byte register for the value and one word register for the timer.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
  * @version %I% (%G%)
  */
 public final class WriteSingleChannelRequest extends ModbusRequest {
@@ -46,24 +44,21 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
     private Register[] m_Registers;
 
     /**
-     * Constructs a new {@link WriteSingleChannelRequest}
-     * instance.
+     * Constructs a new WriteSingleChannelRequest instance with default values.
      */
     public WriteSingleChannelRequest() {
         super();
         setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST);
         // 4 bytes (unit id and function code is excluded)
         setDataLength(4);
-    }// constructor
+    }
 
     /**
-     * Constructs a new {@link WriteSingleChannelRequest}
-     * instance with a given reference and value to be written.
-     * 
+     * Constructs a new WriteSingleChannelRequest instance with given channel number
+     * and register values.
      *
-     * @param channelNo the reference number of the register
-     *            to write to.
-     * @param reg the register containing the data to be written.
+     * @param channelNo the channel number to write to
+     * @param regs array of registers containing [value, timer] data
      */
     public WriteSingleChannelRequest(int channelNo, Register[] regs) {
         super();
@@ -72,141 +67,119 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
         m_Registers = regs;
         // 4 bytes (unit id and function code is excluded)
         setDataLength(4);
-    }// constructor
+    }
 
     @Override
     public ModbusResponse createResponse(ProcessImageImplementation procimg) {
         WriteSingleChannelResponse response = null;
-        boolean updateSuccessfull = false;
+        boolean updateSuccessful = false;
 
-        // 1. get register
         try {
-        	Register regValue = procimg.getRegister(m_channelNo+1);
-        	Register regTimer = procimg.getRegister(m_channelNo*2+1);
-            // 3. set Register
-        	regValue.setValue(m_Registers[0].toBytes());
-			regTimer.setValue(m_Registers[1].toBytes());
-            updateSuccessfull = true;
+            Register regValue = procimg.getRegister(m_channelNo + 1);
+            Register regTimer = procimg.getRegister(m_channelNo * 2 + 1);
+            regValue.setValue(m_Registers[0].toBytes());
+            regTimer.setValue(m_Registers[1].toBytes());
+            updateSuccessful = true;
         } catch (IllegalAddressException iaex) {
             return createExceptionResponse(Modbus.ILLEGAL_ADDRESS_EXCEPTION);
         }
-        response = new WriteSingleChannelResponse(this.getChannelNo(), updateSuccessfull);
-        // transfer header data
+        
+        response = new WriteSingleChannelResponse(this.getChannelNo(), updateSuccessful);
+        // Transfer header data
         response.setSourceSubnetID(this.getSourceSubnetID());
-		response.setSourceUnitID(this.getSourceUnitID());
-		response.setSourceDeviceType(this.getSourceDeviceType());
+        response.setSourceUnitID(this.getSourceUnitID());
+        response.setSourceDeviceType(this.getSourceDeviceType());
         response.setSubnetID(this.getSubnetID());
         response.setUnitID(this.getUnitID());
         response.setFunctionCode(this.getFunctionCode());
         return response;
-    }// createResponse
+    }
 
     /**
-     * Sets the reference of the register to be written
-     * to with this {@link WriteSingleChannelRequest}.
-     * 
+     * Sets the channel number to write to.
      *
-     * @param channelNo channelNo 
-     *            to be written to.
+     * @param channelNo the channel number
      */
     public void setChannelNo(int channelNo) {
-    	m_channelNo = channelNo;
-        // setChanged(true);
-    }// setReference
+        m_channelNo = channelNo;
+    }
 
     /**
-     * Returns the channel No. to be
-     * written to with this
-     * {@link WriteSingleChannelRequest}.
-     * 
+     * Returns the channel number being written to.
      *
-     * @return the reference of the register
-     *         to be written to.
+     * @return the channel number
      */
     public int getChannelNo() {
         return m_channelNo;
-    }// getReference
+    }
 
     /**
-     * Returns the {@link InputRegister} at
-     * the given position (relative to the reference
-     * used in the request).
-     * 
+     * Returns the register at the specified index.
+     * Index 0 = value register
+     * Index 1 = timer register
      *
-     * @param index the relative index of the {@link InputRegister}.
-     * @return the register as {@link InputRegister}.
-     * @throws IndexOutOfBoundsException if
-     *             the index is out of bounds.
+     * @param index the index of the register to retrieve (0 or 1)
+     * @return the register at the specified index
+     * @throws IndexOutOfBoundsException if index is not 0 or 1
      */
     public InputRegister getRegister(int index) throws IndexOutOfBoundsException {
-
         if (index >= 2) {
             throw new IndexOutOfBoundsException();
-        } else {
-            return m_Registers[index];
         }
-    }// getRegister
+        return m_Registers[index];
+    }
 
     /**
-     * Returns the value of the register at
-     * the given position (relative to the reference
-     * used in the request) interpreted as usigned
-     * short.
-     * 
+     * Returns the value of the register at the specified index as an unsigned short.
+     * Index 0 = value register
+     * Index 1 = timer register
      *
-     * @param index the relative index of the register
-     *            for which the value should be retrieved.
-     * @return the value as {@link int}.
-     * @throws IndexOutOfBoundsException if
-     *             the index is out of bounds.
+     * @param index the index of the register value to retrieve (0 or 1)
+     * @return the register value as an unsigned short
+     * @throws IndexOutOfBoundsException if index is not 0 or 1
      */
     public int getRegisterValue(int index) throws IndexOutOfBoundsException {
-
         if (index >= 2) {
             throw new IndexOutOfBoundsException();
-        } else {
-            return m_Registers[index].toUnsignedShort();
         }
-    }// getRegisterValue
+        return m_Registers[index].toUnsignedShort();
+    }
 
     /**
-     * Returns a reference to the array of input
-     * registers read.
+     * Returns the array of registers containing the value and timer data.
      *
-     * @return a {@link InputRegister[]} instance.
+     * @return array containing [value, timer] registers
      */
     public InputRegister[] getRegisters() {
         return m_Registers;
-    }// getRegisters
+    }
     
     /**
-     * Sets the registers to be written with this
-     * {@link WriteMultipleRegistersRequest}.
-     * 
+     * Sets the registers containing the value and timer data.
+     * The array must contain exactly 2 registers:
+     * registers[0] = value register
+     * registers[1] = timer register
      *
-     * @param registers the registers to be written
-     *            as {@link Register[]}.
+     * @param registers array containing [value, timer] registers
      */
     public void setRegisters(Register[] registers) {
         m_Registers = registers;
-        setDataLength(4); // update message length in header
-    }// setRegisters
+        setDataLength(4);
+    }
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
         dout.writeByte(m_channelNo);
         dout.write(m_Registers[0].toBytes());
         dout.write(m_Registers[1].toBytes());
-    }// writeData
+    }
 
     @Override
     public void readData(DataInput din) throws IOException {
-    	m_channelNo = din.readByte();
-    	m_Registers = new Register[2];
-		m_Registers[0] = new ByteRegister(din.readByte());
-		m_Registers[1] = new WordRegister(din.readShort());
-
-		setDataLength(4);
-    }// readData
-
-}// class WriteSingleChannelRequest
+        m_channelNo = din.readByte();
+        m_Registers = new Register[2];
+        m_Registers[0] = new ByteRegister(din.readByte());
+        m_Registers[1] = new WordRegister(din.readShort());
+        setDataLength(4);
+    }
+}

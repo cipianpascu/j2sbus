@@ -38,72 +38,54 @@ package ro.ciprianpascu.sbus.util;
  * overhead that would normally make this worthwhile only in cases of
  * extreme contention.
  *
- * 
+ * <pre>
  * class Node {
- * Object item;
- * Node next;
- * Mutex lock = new Mutex(); // each node keeps its own lock
- * 
- * Node(Object x, Node n) { item = x; next = n; }
+ *     Object item;
+ *     Node next;
+ *     Mutex lock = new Mutex(); // each node keeps its own lock
+ *     
+ *     Node(Object x, Node n) { item = x; next = n; }
  * }
  * 
  * class List {
- * protected Node head; // pointer to first node of list
- * 
- * // Use plain java synchronization to protect head field.
- * // (We could instead use a Mutex here too but there is no
- * // reason to do so.)
- * protected synchronized Node getHead() { return head; }
- * 
- * boolean search(Object x) throws InterruptedException {
- * Node p = getHead();
- * if (p == null) return false;
- * 
- * // (This could be made more compact, but for clarity of illustration,
- * // all of the cases that can arise are handled separately.)
- * 
- * p.lock.acquire(); // Prime loop by acquiring first lock.
- * // (If the acquire fails due to
- * // interrupt, the method will throw
- * // InterruptedException now,
- * // so there is no need for any
- * // further cleanup.)
- * for (;;) {
- * if (x.equals(p.item)) {
- * p.lock.release(); // release current before return
- * return true;
+ *     protected Node head; // pointer to first node of list
+ *     
+ *     // Use plain java synchronization to protect head field.
+ *     protected synchronized Node getHead() { return head; }
+ *     
+ *     boolean search(Object x) throws InterruptedException {
+ *         Node p = getHead();
+ *         if (p == null) return false;
+ *         
+ *         p.lock.acquire(); // Prime loop by acquiring first lock.
+ *         for (;;) {
+ *             if (x.equals(p.item)) {
+ *                 p.lock.release();
+ *                 return true;
+ *             } else {
+ *                 Node nextp = p.next;
+ *                 if (nextp == null) {
+ *                     p.lock.release();
+ *                     return false;
+ *                 } else {
+ *                     try {
+ *                         nextp.lock.acquire();
+ *                     } catch (InterruptedException ex) {
+ *                         p.lock.release();
+ *                         throw ex;
+ *                     }
+ *                     p.lock.release();
+ *                     p = nextp;
+ *                 }
+ *             }
+ *         }
+ *     }
+ *     
+ *     synchronized void add(Object x) {
+ *         head = new Node(x, head);
+ *     }
  * }
- * else {
- * Node nextp = p.next;
- * if (nextp == null) {
- * p.lock.release(); // release final lock that was held
- * return false;
- * }
- * else {
- * try {
- * nextp.lock.acquire(); // get next lock before releasing current
- * }
- * catch (InterruptedException ex) {
- * p.lock.release(); // also release current if acquire fails
- * throw ex;
- * }
- * p.lock.release(); // release old lock now that new one held
- * p = nextp;
- * }
- * }
- * }
- * }
- * 
- * synchronized void add(Object x) { // simple prepend
- * // The use of `synchronized' here protects only head field.
- * // The method does not need to wait out other traversers
- * // who have already made it past head.
- * 
- * head = new Node(x, head);
- * }
- * 
- * // ... other similar traversal and update methods ...
- * }
+ * </pre>
  *
  * @author Doug Lea
  * @version %I% (%G%)
@@ -111,10 +93,16 @@ package ro.ciprianpascu.sbus.util;
 public class Mutex {
 
     /**
-     * The lock status
+     * The lock status. True if the lock is in use, false if it's free.
      */
     protected boolean inuse_ = false;
 
+    /**
+     * Acquires the lock. If the lock is already in use, waits until it becomes available.
+     * The method will wait indefinitely unless interrupted.
+     *
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public void acquire() throws InterruptedException {
         if (Thread.interrupted()) {
             throw new InterruptedException();
@@ -130,13 +118,27 @@ public class Mutex {
                 throw ex;
             }
         }
-    }// accquire
+    }
 
+    /**
+     * Releases the lock. If any other threads are waiting to acquire the lock,
+     * one of them will be notified and allowed to proceed.
+     * Releasing an already free lock has no effect.
+     */
     public synchronized void release() {
         inuse_ = false;
         notify();
-    }// release
+    }
 
+    /**
+     * Attempts to acquire the lock, waiting up to a specified time if necessary.
+     * If the lock is already in use, waits for the specified time for it to
+     * become available.
+     *
+     * @param msecs maximum time to wait in milliseconds
+     * @return true if the lock was acquired, false if the timeout elapsed
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public boolean attempt(long msecs) throws InterruptedException {
         if (Thread.interrupted()) {
             throw new InterruptedException();
@@ -169,6 +171,5 @@ public class Mutex {
                 }
             }
         }
-    }// attempt
-
-}// class Mutex
+    }
+}

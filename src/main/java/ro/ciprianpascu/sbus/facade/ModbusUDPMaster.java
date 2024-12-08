@@ -27,100 +27,103 @@ import ro.ciprianpascu.sbus.procimg.Register;
 import ro.ciprianpascu.sbus.procimg.WordRegister;
 
 /**
- * Modbus/UDP Master facade.
+ * SBus UDP Master facade.
+ * This class provides a high-level interface for communicating with SBus slaves
+ * over UDP. It handles connection management and provides simplified methods
+ * for reading and writing registers.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
  * @version %I% (%G%)
  */
 public class ModbusUDPMaster {
 
+    /** The UDP connection to the slave */
     private UDPMasterConnection m_Connection;
+    
+    /** The transaction handler for sending/receiving messages */
     private ModbusUDPTransaction m_Transaction;
+    
+    /** Request for reading status channels */
     private ReadStatusChannelsRequest m_ReadStatusChannelRequest;
+    
+    /** Request for writing to a single channel */
     private WriteSingleChannelRequest m_WriteSingleChannelRequest;
 
     /**
-     * Constructs a new master facade instance for communication
-     * with a given slave.
-     *
+     * Constructs a new master facade instance with default connection settings.
      */
     public ModbusUDPMaster() {
         m_Connection = new UDPMasterConnection();
         m_ReadStatusChannelRequest = new ReadStatusChannelsRequest();
         m_WriteSingleChannelRequest = new WriteSingleChannelRequest();
-    }// constructor
+    }
 
     /**
-     * Constructs a new master facade instance for communication
-     * with a given slave.
+     * Constructs a new master facade instance with a specific port.
      *
-     * @param port the port the slave is listening to.
+     * @param port the port number the slave is listening on
      */
-    public ModbusUDPMaster( int port) {
+    public ModbusUDPMaster(int port) {
+        m_Connection = new UDPMasterConnection();
         m_Connection.setPort(port);
-    }// constructor
+        m_ReadStatusChannelRequest = new ReadStatusChannelsRequest();
+        m_WriteSingleChannelRequest = new WriteSingleChannelRequest();
+    }
 
     /**
-     * Connects this {@link ModbusUDPMaster} with the slave.
+     * Connects this master to the slave.
+     * This must be called before any read or write operations.
      *
-     * @throws Exception if the connection cannot be established.
+     * @throws Exception if the connection cannot be established
      */
     public void connect() throws Exception {
         if (m_Connection != null && !m_Connection.isConnected()) {
             m_Connection.connect();
             m_Transaction = new ModbusUDPTransaction(m_Connection);
         }
-    }// connect
+    }
 
     /**
-     * Disconnects this {@link ModbusUDPMaster} from the slave.
+     * Disconnects this master from the slave.
+     * This should be called when communication is complete.
      */
     public void disconnect() {
         if (m_Connection != null && m_Connection.isConnected()) {
             m_Connection.close();
             m_Transaction = null;
         }
-    }// disconnect
-
+    }
 
     /**
-     * Reads a given number of input registers from the slave.
-     * 
-     * Note that the number of input registers returned (i.e. array length)
-     * will be according to the number received in the slave response.
+     * Reads the status of all input registers from the slave.
+     * The number of registers returned will be according to the slave's response.
      *
-     * @return a {@link InputRegister[]} with the received input registers.
-     * @throws ModbusException if an I/O error, a slave exception or
-     *             a transaction error occurs.
+     * @return array of input registers containing the current status values
+     * @throws ModbusException if an I/O error, slave exception, or transaction error occurs
      */
     public synchronized InputRegister[] readInputRegisters() throws ModbusException {
         m_Transaction.setRequest(m_ReadStatusChannelRequest);
         m_Transaction.execute();
         return ((ReadStatusChannelsResponse) m_Transaction.getResponse()).getRegisters();
-    }// readInputRegisters
-
-
+    }
 
     /**
-     * Writes a single channel to the slave.
+     * Writes a value to a single channel on the slave.
+     * The value is written to the specified channel number, with a default
+     * timer value of 0.
      *
-     * @param ref the offset of the register to be written.
-     * @param register a {@link Register} holding the value of the register
-     *            to be written.
-     * @throws ModbusException if an I/O error, a slave exception or
-     *             a transaction error occurs.
+     * @param channelNo the channel number to write to
+     * @param value the register containing the value to write
+     * @throws ModbusException if an I/O error, slave exception, or transaction error occurs
      */
-    public synchronized void writeSingleRegister(int ref, Register value) throws ModbusException {
-        m_WriteSingleChannelRequest.setChannelNo(ref);
+    public synchronized void writeSingleRegister(int channelNo, Register value) throws ModbusException {
+        m_WriteSingleChannelRequest.setChannelNo(channelNo);
         Register[] registers = new Register[2];
-		registers[0] = value;
-		registers[1] = new WordRegister((short)0);
-		m_WriteSingleChannelRequest.setRegisters(registers);
-		m_Transaction.setRequest(m_WriteSingleChannelRequest);
-		m_Transaction.execute();
-	}// writeSingleRegister
-
-
-}// class ModbusUDPMaster
+        registers[0] = value;
+        registers[1] = new WordRegister((short)0);
+        m_WriteSingleChannelRequest.setRegisters(registers);
+        m_Transaction.setRequest(m_WriteSingleChannelRequest);
+        m_Transaction.execute();
+    }
+}

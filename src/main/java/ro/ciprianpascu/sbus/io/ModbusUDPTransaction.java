@@ -16,6 +16,9 @@
 
 package ro.ciprianpascu.sbus.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ro.ciprianpascu.sbus.Modbus;
 import ro.ciprianpascu.sbus.ModbusException;
 import ro.ciprianpascu.sbus.ModbusIOException;
@@ -25,7 +28,6 @@ import ro.ciprianpascu.sbus.msg.ModbusRequest;
 import ro.ciprianpascu.sbus.msg.ModbusResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 import ro.ciprianpascu.sbus.net.UDPTerminal;
-import ro.ciprianpascu.sbus.util.AtomicCounter;
 import ro.ciprianpascu.sbus.util.Mutex;
 
 /**
@@ -38,6 +40,8 @@ import ro.ciprianpascu.sbus.util.Mutex;
  * @version %I% (%G%)
  */
 public class ModbusUDPTransaction implements ModbusTransaction {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ModbusUDPTransaction.class);
 
     // instance attributes and associations
     private UDPTerminal m_Terminal;
@@ -127,7 +131,7 @@ public class ModbusUDPTransaction implements ModbusTransaction {
 
     @Override
     public String getTransactionID() {
-        return m_Request.getSubnetID() + "_" + m_Request.getUnitID() + "_" + m_Request.getFunctionCode();
+        return m_Request.getSubnetID() + "_" + m_Request.getUnitID() + "_" + (m_Request.getFunctionCode()+1);
     }// getTransactionID
 
     @Override
@@ -190,11 +194,14 @@ public class ModbusUDPTransaction implements ModbusTransaction {
                     synchronized (m_IO) {
                         // write request message
                         m_IO.writeMessage(m_Request);
+                        if (m_Request.isFireAndForget())
+                        	break;
                         // read response message
                         m_Response = m_IO.readResponse(getTransactionID());
                         break;
                     }
                 } catch (ModbusIOException ex) {
+                	logger.debug("ModbusIOException: " + ex.getMessage());
                     m_RetryCounter++;
                     continue;
                 }

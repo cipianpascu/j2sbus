@@ -16,6 +16,7 @@
 
 package ro.ciprianpascu.sbus.net;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -73,8 +74,8 @@ public class UDPMasterConnection implements ModbusSlaveConnection {
 			m_Terminal.setLocalPort(LOCAL_PORT);
 			m_Terminal.setRemoteAddress(m_RemoteAddress == null ? InetAddress.getByAddress(getTargetIP(localAddress.getAddress())) : m_RemoteAddress);
 			m_Terminal.setRemotePort(m_Port);
-			m_Terminal.setTimeout(m_Timeout);
 			m_Terminal.activate();
+			m_Terminal.setTimeout(m_Timeout);
 			m_Connected = true;
 		}
 		return m_Connected;
@@ -189,7 +190,7 @@ public class UDPMasterConnection implements ModbusSlaveConnection {
 			NetworkInterface intf = en.nextElement();
 			for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 				InetAddress inetAddress = enumIpAddr.nextElement();
-				if (!inetAddress.isLoopbackAddress()) {
+                if (!inetAddress.isLoopbackAddress()&&inetAddress instanceof Inet4Address) {
 					return inetAddress;
 				}
 			}

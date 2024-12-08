@@ -1,3 +1,4 @@
+
 /**
  * Copyright 2002-2010 jamod development team
  *
@@ -27,36 +28,70 @@ package ro.ciprianpascu.sbus.procimg;
 
  * @version %I% (%G%)
  */
-public class SimpleRegister extends SynchronizedAbstractRegister implements Register {
+public class TemperatureRegister  implements Register {
 
     /**
-     * Constructs a new {@link SimpleRegister} instance.
-     * Its state will be invalid.
+     * The byte[4] holding the state of this
+     * register.
      */
-    public SimpleRegister() {
-        m_Register = null;
-    }// constructor
+    protected byte[] m_Register = new byte[2];
+
 
     /**
      * Constructs a new {@link SimpleRegister} instance.
      *
      * @param b1 the first (hi) byte of the word.
-     * @param b2 the second (low) byte of the word.
      */
-    public SimpleRegister(byte b1, byte b2) {
-        m_Register[0] = b1;
-        m_Register[1] = b2;
+    public TemperatureRegister(byte sign, byte value) {
+        m_Register[0] = sign;
+		m_Register[1] = value;
     }// constructor
 
-    /**
-     * Constructs a new {@link SimpleRegister} instance
-     * with the given value.
-     *
-     * @param value the value of this {@link SimpleRegister}
-     *            as {@link int}.
-     */
-    public SimpleRegister(int value) {
-        setValue(value);
-    }// constructor(int)
+
+	@Override
+	public int getValue() {
+		return m_Register[0] == 0 ? m_Register[1] : -1 * m_Register[1];
+	}
+
+
+	@Override
+	public int toUnsignedShort() {
+		return m_Register[1];
+	}
+
+
+	@Override
+	public short toShort() {
+		return (short) (m_Register[0] == 0 ? m_Register[1] : -m_Register[1]);
+	}
+
+
+	@Override
+	public byte[] toBytes() {
+		return m_Register;
+	}
+
+
+	@Override
+	public void setValue(int v) {
+		setValue((short) v);
+	}
+
+
+	@Override
+	public void setValue(short s) {
+		m_Register[0] = s < 0 ? (byte) 1 : (byte) 0;	
+		m_Register[1] = (byte) (0xff & s);	
+	}
+
+
+	@Override
+	public void setValue(byte[] bytes) {
+        if (bytes.length != 2) 
+            throw new IllegalArgumentException();
+
+		m_Register = bytes;		
+	}// constructor
+
 
 }// SimpleInputRegister

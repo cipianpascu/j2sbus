@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import ro.ciprianpascu.sbus.Modbus;
 import ro.ciprianpascu.sbus.ModbusIOException;
-import ro.ciprianpascu.sbus.msg.IllegalFunctionRequest;
 import ro.ciprianpascu.sbus.msg.ModbusMessage;
 import ro.ciprianpascu.sbus.msg.ModbusRequest;
 import ro.ciprianpascu.sbus.msg.ModbusResponse;
@@ -162,6 +161,8 @@ public class ModbusUDPTransport implements ModbusTransport {
             return res;
         } catch (InterruptedIOException ioex) {
             throw new ModbusIOException("Socket timed out. " + ioex.getMessage());
+        } catch (ModbusIOException mioex) {
+            throw mioex;
         } catch (Exception ex) {
             // ex.printStackTrace();
             throw new ModbusIOException("I/O exception - failed to read. " + ex.getMessage());
@@ -170,7 +171,7 @@ public class ModbusUDPTransport implements ModbusTransport {
 
 	private void cacheResponses() throws ModbusIOException {
 		try {
-			while (!m_Terminal.hasMessage()) {
+			while (m_Terminal.hasMessage()) {
 				ModbusResponse res = null;
 				synchronized (m_ByteIn) {
 					m_ByteIn.reset(m_Terminal.receiveMessage());

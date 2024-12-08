@@ -424,48 +424,40 @@ public final class ModbusUtil {
     }// makeWord
 
     public static final byte[] calculateCRC(byte[] data, int len) {
-
-   	    short shortCRC=0;
-   	    byte bytTMP=0;
-   	    short shortIndexOfBuf=0;
-   	    byte byteIndex_Of_CRCTable=0;
-   	    byte[] crc = { 1, 1 };
-		while (len!=0) 
-		{
-			bytTMP= (byte) (shortCRC >> 8) ;    //>>: right move bit                              
-			shortCRC=(short) (shortCRC << 8);   //<<: left  move bit   
-			byteIndex_Of_CRCTable=(byte) (bytTMP ^ data[shortIndexOfBuf]);
-			shortCRC=(short) (shortCRC ^ mbufintCRCTable[(byteIndex_Of_CRCTable & 0xFF)]);   //^: xor
-			shortIndexOfBuf=(short) (shortIndexOfBuf+1);
-		    len=(short) (len-1);
-		};
-		
-		crc[0]=(byte) (shortCRC >> 8);
-		crc[1]=(byte) (shortCRC & 0x00FF);
-		return crc;
+        int crc = 0;
+        byte dat;
+        int index = 0;
+        
+        while (len-- != 0) {
+            dat = (byte)(crc >> 8);
+            crc <<= 8;
+            crc ^= mbufintCRCTable[(dat ^ data[index]) & 0xFF];  // & 0xFF to ensure unsigned byte operation
+            index++;
+        }
+        return new byte[] { ((byte) (crc >> 8)), ((byte) (crc & 0x00FF)) };
     }// calculateCRC
 
 	/*
 	 * Check the UDP packets is correct or not by checking CRC 
 	 */
-	public static boolean checkCRC(byte[] data,int intlength)
+	public static boolean checkCRC(byte[] data,int len)
 	{
-		short shortCRC=0;
-   	    byte bytTMP=0;
-   	    short shortIndexOfBuf=0;
-   	    byte byteIndex_Of_CRCTable=0;
-        		
-		while (intlength!=0) 
-		{
-			bytTMP= (byte) (shortCRC >> 8) ;    //>>: right move bit                              
-			shortCRC=(short) (shortCRC << 8);   //<<: left  move bit   
-			byteIndex_Of_CRCTable=(byte) (bytTMP ^ data[shortIndexOfBuf]);
-			shortCRC=(short) (shortCRC ^ mbufintCRCTable[(byteIndex_Of_CRCTable & 0xFF)]);   //^: xor
-			shortIndexOfBuf=(short) (shortIndexOfBuf+1);
-		    intlength=(short) (intlength-1);
-		};
-		
-		return (data[shortIndexOfBuf]==(shortCRC >> 8) && data[shortIndexOfBuf+1]==(short)(shortCRC & 0xFF));
+	    int crc = 0;
+	    byte dat;
+	    int index = 0;
+	    
+	    while (len-- != 0) {
+	        dat = (byte)(crc >> 8);
+	        crc <<= 8;
+	        crc ^= mbufintCRCTable[(dat ^ data[index]) & 0xFF];  // & 0xFF to ensure unsigned byte operation
+	        index++;
+	    }
+	    
+	    if ((data[index] == (byte)(crc >> 8)) && (data[index + 1] == (byte)crc)) {
+	        return true;
+	    } else {
+	        return false;
+	    }
 	}
 	
 	/* CRCtable */

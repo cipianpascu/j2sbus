@@ -35,36 +35,61 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
 
  * @version %I% (%G%)
  */
-public final class ReadStatusChannelsResponse extends ModbusResponse {
+public final class ReadRgbwResponse extends ModbusResponse {
 
     // instance attributes
+    private int m_LimitType;
     private int m_ByteCount;
     // private int[] m_RegisterValues;
     private InputRegister[] m_Registers;
 
     /**
-     * Constructs a new {@link ReadStatusChannelsResponse}
+     * Constructs a new {@link ReadRgbwResponse}
      * instance. Reader focus
      */
-    public ReadStatusChannelsResponse() {
+    public ReadRgbwResponse() {
         super();
-        setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST+1);
+        setFunctionCode(Modbus.READ_RGBW_REQUEST+1);
     }// constructor
 
     /**
-     * Constructs a new {@link ReadStatusChannelsResponse}
+     * Constructs a new {@link ReadRgbwResponse}
      * instance. Writer focus
      *
      * @param registers the InputRegister[] holding response input registers.
      */
-    public ReadStatusChannelsResponse(InputRegister[] registers) {
+    public ReadRgbwResponse(InputRegister[] registers) {
         super();
-        setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST+1);
+        setFunctionCode(Modbus.READ_RGBW_REQUEST+1);
         m_ByteCount = registers.length;
         m_Registers = registers;
         // set correct data length excluding unit id and fc
         setDataLength(m_ByteCount + 1);
     }// constructor
+    
+    /**
+     * Sets the limit
+     * from with this {@link ReadRgbwRequest}.
+     * 
+     *
+     * @param type the limit type 0 Low, 1 High
+     */
+    public void setLimitType(int type) {
+        m_LimitType = type;
+        // setChanged(true);
+    }// setReference
+
+    /**
+     * Returns the  limit  from this
+     * {@link ReadRgbwRequest}.
+     * 
+     *
+     * @return the limit 0 Low, 1 High
+     */
+    public int getLimitType() {
+        return m_LimitType;
+    }// getReference
+
 
     /**
      * Returns the number of bytes that have been read.
@@ -143,7 +168,7 @@ public final class ReadStatusChannelsResponse extends ModbusResponse {
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeByte(m_ByteCount+1);
+        dout.writeByte(m_LimitType);
         for (int k = 0; k < getByteCount(); k++) {
             dout.write(m_Registers[k].getValue());
         }
@@ -151,7 +176,7 @@ public final class ReadStatusChannelsResponse extends ModbusResponse {
 
     @Override
     public void readData(DataInput din) throws IOException {
-        setByteCount(din.readUnsignedByte()-1);
+        setByteCount(4);
 
         InputRegister[] registers = new InputRegister[getByteCount()];
         for (int k = 0; k < getByteCount(); k++) {

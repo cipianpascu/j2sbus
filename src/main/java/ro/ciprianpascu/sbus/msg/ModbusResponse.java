@@ -61,20 +61,11 @@ public abstract class ModbusResponse extends ModbusMessageImpl {
         ModbusResponse response = null;
 
         switch (functionCode) {
-            case Modbus.READ_MULTIPLE_REGISTERS:
-                response = new ReadMultipleRegistersResponse();
-                break;
             case Modbus.READ_STATUS_CHANNELS_REQUEST+1:
                 response = new ReadStatusChannelsResponse();
                 break;
             case Modbus.READ_TEMPERATURE_REQUEST+1:
             	response = new ReadTemperatureResponse();
-                break;
-            case Modbus.WRITE_MULTIPLE_REGISTERS:
-                response = new WriteMultipleRegistersResponse();
-                break;
-            case Modbus.WRITE_SINGLE_CHANNEL_REQUEST+1:
-                response = new WriteSingleChannelResponse();
                 break;
             default:
                 response = new ExceptionResponse();

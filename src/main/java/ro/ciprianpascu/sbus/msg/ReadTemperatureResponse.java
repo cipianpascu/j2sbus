@@ -22,7 +22,7 @@ import java.io.IOException;
 
 import ro.ciprianpascu.sbus.Modbus;
 import ro.ciprianpascu.sbus.procimg.InputRegister;
-import ro.ciprianpascu.sbus.procimg.SimpleInputRegister;
+import ro.ciprianpascu.sbus.procimg.TemperatureRegister;
 
 /**
  * Class implementing a {@link ReadStatusChannelsRequest}.
@@ -139,7 +139,7 @@ public final class ReadTemperatureResponse extends ModbusResponse {
         if (index >= getWordCount()) {
             throw new IndexOutOfBoundsException();
         } else {
-            return m_Registers[index].toUnsignedShort();
+            return m_Registers[index].getValue();
         }
     }// getRegisterValue
 
@@ -179,7 +179,6 @@ public final class ReadTemperatureResponse extends ModbusResponse {
     
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeByte(m_ByteCount);
         dout.writeByte(m_TemperatureUnit);
         //value
         for (int k = 0; k < getWordCount(); k++) {
@@ -193,7 +192,7 @@ public final class ReadTemperatureResponse extends ModbusResponse {
 
     @Override
     public void readData(DataInput din) throws IOException {
-        setByteCount(din.readUnsignedByte()-2);
+        setByteCount(8*2); //value & sign
         setTemperatureUnit(din.readUnsignedByte());
 
         byte[] data = new byte[getWordCount()];
@@ -201,7 +200,7 @@ public final class ReadTemperatureResponse extends ModbusResponse {
 		
         InputRegister[] registers = new InputRegister[getWordCount()];
         for (int k = 0; k < getWordCount(); k++) {
-            registers[k] = new SimpleInputRegister(din.readByte(), data[k]);
+            registers[k] = new TemperatureRegister(din.readByte(), data[k]);
         }
         m_Registers = registers;
         // update data length

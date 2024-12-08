@@ -32,18 +32,28 @@ public interface Modbus {
      * ro.ciprianpascu.sbus.debug=false|true (-D flag to the jvm).
      */
     public static final boolean debug = "true".equals(System.getProperty("ro.ciprianpascu.sbus.debug"));
+    
+    /**
+	 * Defines the success response
+     */
+    public static final int SUCCESS = 0xF8;
+    /**
+     * Defines the failure response
+     */
+    public static final int FAILURE = 0xF5;
+
 
     /**
      * Defines the class 0 function code
      * for {@link READ_MULTIPLE_REGISTERS}.
      */
-    public static final int READ_MULTIPLE_REGISTERS = 3;
+    public static final int READ_MULTIPLE_REGISTERS = 0xDD28;
 
     /**
      * Defines the class 0 function code
      * for {@link WRITE_MULTIPLE_REGISTERS}.
      */
-    public static final int WRITE_MULTIPLE_REGISTERS = 16;
+    public static final int WRITE_MULTIPLE_REGISTERS = 0xDD2A;
 
 
     /**
@@ -64,7 +74,18 @@ public interface Modbus {
      */
     public static final int WRITE_SINGLE_CHANNEL_REQUEST = 0x0031;
 
+    /**
+     * Defines a class 1 function code
+     * for {@link WRITE_RGB_REQUEST}.
+     */
+    public static final int READ_RGBW_REQUEST = 0xF016;
 
+    /**
+     * Defines a class 1 function code
+     * for {@link WRITE_RGB_REQUEST}.
+     */
+    public static final int WRITE_RGBW_REQUEST = 0xF080;
+    
     /**
      * Defines the maximum number of bits in multiple read/write
      * of input discretes or coils (<b>2000</b>).
@@ -138,7 +159,7 @@ public interface Modbus {
     /**
      * Defines the default unit identifier (=254).
      */
-    public static final int DEFAULT_SOURCE_UNIT_ID = 0xB0;
+    public static final int DEFAULT_SOURCE_UNIT_ID = 0xBB;
 
     /**
      * Defines the default unit identifier (=1).

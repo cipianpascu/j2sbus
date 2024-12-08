@@ -18,15 +18,13 @@ package ro.ciprianpascu.sbus.facade;
 
 import ro.ciprianpascu.sbus.ModbusException;
 import ro.ciprianpascu.sbus.io.ModbusUDPTransaction;
-import ro.ciprianpascu.sbus.msg.ReadMultipleRegistersRequest;
-import ro.ciprianpascu.sbus.msg.ReadMultipleRegistersResponse;
 import ro.ciprianpascu.sbus.msg.ReadStatusChannelsRequest;
 import ro.ciprianpascu.sbus.msg.ReadStatusChannelsResponse;
-import ro.ciprianpascu.sbus.msg.WriteMultipleRegistersRequest;
 import ro.ciprianpascu.sbus.msg.WriteSingleChannelRequest;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 import ro.ciprianpascu.sbus.procimg.InputRegister;
 import ro.ciprianpascu.sbus.procimg.Register;
+import ro.ciprianpascu.sbus.procimg.WordRegister;
 
 /**
  * Modbus/UDP Master facade.
@@ -41,9 +39,7 @@ public class ModbusUDPMaster {
     private UDPMasterConnection m_Connection;
     private ModbusUDPTransaction m_Transaction;
     private ReadStatusChannelsRequest m_ReadStatusChannelRequest;
-    private ReadMultipleRegistersRequest m_ReadMultipleRegistersRequest;
     private WriteSingleChannelRequest m_WriteSingleChannelRequest;
-    private WriteMultipleRegistersRequest m_WriteMultipleRegistersRequest;
 
     /**
      * Constructs a new master facade instance for communication
@@ -53,9 +49,7 @@ public class ModbusUDPMaster {
     public ModbusUDPMaster() {
         m_Connection = new UDPMasterConnection();
         m_ReadStatusChannelRequest = new ReadStatusChannelsRequest();
-        m_ReadMultipleRegistersRequest = new ReadMultipleRegistersRequest();
         m_WriteSingleChannelRequest = new WriteSingleChannelRequest();
-        m_WriteMultipleRegistersRequest = new WriteMultipleRegistersRequest();
     }// constructor
 
     /**
@@ -107,28 +101,10 @@ public class ModbusUDPMaster {
         return ((ReadStatusChannelsResponse) m_Transaction.getResponse()).getRegisters();
     }// readInputRegisters
 
-    /**
-     * Reads a given number of registers from the slave.
-     * 
-     * Note that the number of registers returned (i.e. array length)
-     * will be according to the number received in the slave response.
-     *
-     * @param ref the offset of the register to start reading from.
-     * @param count the number of registers to be read.
-     * @return a {@link Register[]} holding the received registers.
-     * @throws ModbusException if an I/O error, a slave exception or
-     *             a transaction error occurs.
-     */
-    public synchronized Register[] readMultipleRegisters(int ref, int count) throws ModbusException {
-        m_ReadMultipleRegistersRequest.setReference(ref);
-        m_ReadMultipleRegistersRequest.setWordCount(count);
-        m_Transaction.setRequest(m_ReadMultipleRegistersRequest);
-        m_Transaction.execute();
-        return ((ReadMultipleRegistersResponse) m_Transaction.getResponse()).getRegisters();
-    }// readMultipleRegisters
+
 
     /**
-     * Writes a single register to the slave.
+     * Writes a single channel to the slave.
      *
      * @param ref the offset of the register to be written.
      * @param register a {@link Register} holding the value of the register
@@ -136,27 +112,15 @@ public class ModbusUDPMaster {
      * @throws ModbusException if an I/O error, a slave exception or
      *             a transaction error occurs.
      */
-    public synchronized void writeSingleRegister(int ref, Register register) throws ModbusException {
+    public synchronized void writeSingleRegister(int ref, Register value) throws ModbusException {
         m_WriteSingleChannelRequest.setChannelNo(ref);
-        m_WriteSingleChannelRequest.setRegister(register);
-        m_Transaction.setRequest(m_WriteSingleChannelRequest);
-        m_Transaction.execute();
-    }// writeSingleRegister
+        Register[] registers = new Register[2];
+		registers[0] = value;
+		registers[1] = new WordRegister((short)0);
+		m_WriteSingleChannelRequest.setRegisters(registers);
+		m_Transaction.setRequest(m_WriteSingleChannelRequest);
+		m_Transaction.execute();
+	}// writeSingleRegister
 
-    /**
-     * Writes a number of registers to the slave.
-     *
-     * @param ref the offset of the register to start writing to.
-     * @param registers a {@link Register[]} holding the values of
-     *            the registers to be written.
-     * @throws ModbusException if an I/O error, a slave exception or
-     *             a transaction error occurs.
-     */
-    public synchronized void writeMultipleRegisters(int ref, Register[] registers) throws ModbusException {
-        m_WriteMultipleRegistersRequest.setReference(ref);
-        m_WriteMultipleRegistersRequest.setRegisters(registers);
-        m_Transaction.setRequest(m_WriteMultipleRegistersRequest);
-        m_Transaction.execute();
-    }// writeMultipleRegisters
 
 }// class ModbusUDPMaster

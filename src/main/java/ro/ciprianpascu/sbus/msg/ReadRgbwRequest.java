@@ -26,7 +26,7 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
 import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
 /**
- * Class implementing a {@link ReadTemperatureRequest}.
+ * Class implementing a {@link ReadRgbwRequest}.
  * The implementation directly correlates with the class 0
  * function <i>read multiple registers (FC 4)</i>. It
  * encapsulates the corresponding request message.
@@ -36,34 +36,34 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
  * @version %I% (%G%)
  */
-public final class ReadTemperatureRequest extends ModbusRequest {
+public final class ReadRgbwRequest extends ModbusRequest {
 
     // instance attributes
-    private int m_TemperatureUnit;
-
+    private int m_LimitType;
     /**
-     * Constructs a new {@link ReadTemperatureRequest}
+     * Constructs a new {@link ReadRgbwRequest}
      * instance.
      */
-    public ReadTemperatureRequest() {
+    public ReadRgbwRequest() {
         super();
-        setFunctionCode(Modbus.READ_TEMPERATURE_REQUEST);
-        setDataLength(1);
+        setFunctionCode(Modbus.READ_RGBW_REQUEST);
+        setLimitType(1);
+        setDataLength(0);
     }// constructor
 
 
     @Override
     public ModbusResponse createResponse(ProcessImageImplementation procimg) {
-        ReadTemperatureResponse response = null;
+        ReadStatusChannelsResponse response = null;
         InputRegister[] inpregs = null;
 
-        // 1. get input registers range
+        // 1. get input registers range. WordCount depends on the device type (num channels + 1)
         try {
-            inpregs = procimg.getInputRegisterRange(0, 1);
+            inpregs = procimg.getInputRegisterRange(0, procimg.getRegisterCount()-1);
         } catch (IllegalAddressException iaex) {
             return createExceptionResponse(Modbus.ILLEGAL_ADDRESS_EXCEPTION);
         }
-        response = new ReadTemperatureResponse(inpregs);
+        response = new ReadStatusChannelsResponse(inpregs);
         // transfer header data
         response.setSourceSubnetID(this.getSourceSubnetID());
 		response.setSourceUnitID(this.getSourceUnitID());
@@ -75,37 +75,36 @@ public final class ReadTemperatureRequest extends ModbusRequest {
     }// createResponse
 
     /**
-     * Sets the temperature unit
-     * from with this {@link ReadTemperatureRequest}.
+     * Sets the limit
+     * from with this {@link ReadRgbwRequest}.
      * 
      *
-     * @param unit the temperature unit 0 Fahrenheit, 1 Celsius
+     * @param type the limit type 0 Low, 1 High
      */
-    public void setTemperatureUnit(int unit) {
-        m_TemperatureUnit = unit;
+    public void setLimitType(int type) {
+        m_LimitType = type;
         // setChanged(true);
     }// setReference
 
     /**
-     * Returns the  temperature unit from this
-     * {@link ReadTemperatureRequest}.
+     * Returns the  limit  from this
+     * {@link ReadRgbwRequest}.
      * 
      *
-     * @return the temperature unit 0 Fahrenheit, 1 Celsius
+     * @return the limit 0 Low, 1 High
      */
-    public int getTemperatureUnit() {
-        return m_TemperatureUnit;
+    public int getLimitType() {
+        return m_LimitType;
     }// getReference
-
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeByte(m_TemperatureUnit);
+        dout.writeByte(m_LimitType);
     }// writeData
 
     @Override
     public void readData(DataInput din) throws IOException {
-        m_TemperatureUnit = din.readUnsignedByte();
+		m_LimitType = din.readByte();
     }// readData
 
 }// class ReadStatusChannelsRequest

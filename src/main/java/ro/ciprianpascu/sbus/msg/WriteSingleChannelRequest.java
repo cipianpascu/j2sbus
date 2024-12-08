@@ -21,10 +21,12 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.procimg.ByteRegister;
 import ro.ciprianpascu.sbus.procimg.IllegalAddressException;
+import ro.ciprianpascu.sbus.procimg.InputRegister;
 import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 import ro.ciprianpascu.sbus.procimg.Register;
-import ro.ciprianpascu.sbus.procimg.SimpleInputRegister;
+import ro.ciprianpascu.sbus.procimg.WordRegister;
 
 /**
  * Class implementing a {@link WriteSingleChannelRequest}.
@@ -41,7 +43,7 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
 
     // instance attributes
     private int m_channelNo;
-    private Register m_Register;
+    private Register[] m_Registers;
 
     /**
      * Constructs a new {@link WriteSingleChannelRequest}
@@ -63,11 +65,11 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
      *            to write to.
      * @param reg the register containing the data to be written.
      */
-    public WriteSingleChannelRequest(int channelNo, Register reg) {
+    public WriteSingleChannelRequest(int channelNo, Register[] regs) {
         super();
         setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST);
         m_channelNo = channelNo;
-        m_Register = reg;
+        m_Registers = regs;
         // 4 bytes (unit id and function code is excluded)
         setDataLength(4);
     }// constructor
@@ -75,17 +77,20 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
     @Override
     public ModbusResponse createResponse(ProcessImageImplementation procimg) {
         WriteSingleChannelResponse response = null;
-        Register reg = null;
+        boolean updateSuccessfull = false;
 
         // 1. get register
         try {
-            reg = procimg.getRegister(m_channelNo);
+        	Register regValue = procimg.getRegister(m_channelNo+1);
+        	Register regTimer = procimg.getRegister(m_channelNo*2+1);
             // 3. set Register
-            reg.setValue(m_Register.toBytes());
+        	regValue.setValue(m_Registers[0].toBytes());
+			regTimer.setValue(m_Registers[1].toBytes());
+            updateSuccessfull = true;
         } catch (IllegalAddressException iaex) {
             return createExceptionResponse(Modbus.ILLEGAL_ADDRESS_EXCEPTION);
         }
-        response = new WriteSingleChannelResponse(this.getChannelNo(), reg.getValue());
+        response = new WriteSingleChannelResponse(this.getChannelNo(), updateSuccessfull);
         // transfer header data
         response.setSourceSubnetID(this.getSourceSubnetID());
 		response.setSourceUnitID(this.getSourceUnitID());
@@ -123,37 +128,85 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
     }// getReference
 
     /**
-     * Sets the value that should be written to the
-     * register with this {@link WriteSingleChannelRequest}.
+     * Returns the {@link InputRegister} at
+     * the given position (relative to the reference
+     * used in the request).
      * 
      *
-     * @param reg the register to be written.
+     * @param index the relative index of the {@link InputRegister}.
+     * @return the register as {@link InputRegister}.
+     * @throws IndexOutOfBoundsException if
+     *             the index is out of bounds.
      */
-    public void setRegister(Register reg) {
-        m_Register = reg;
-    }// setRegister
+    public InputRegister getRegister(int index) throws IndexOutOfBoundsException {
+
+        if (index >= 2) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            return m_Registers[index];
+        }
+    }// getRegister
 
     /**
-     * Returns the value that should be written to the
-     * register with this {@link WriteSingleChannelRequest}.
+     * Returns the value of the register at
+     * the given position (relative to the reference
+     * used in the request) interpreted as usigned
+     * short.
      * 
      *
-     * @return the value to be written to the register.
+     * @param index the relative index of the register
+     *            for which the value should be retrieved.
+     * @return the value as {@link int}.
+     * @throws IndexOutOfBoundsException if
+     *             the index is out of bounds.
      */
-    public Register getRegister() {
-        return m_Register;
-    }// getRegister
+    public int getRegisterValue(int index) throws IndexOutOfBoundsException {
+
+        if (index >= 2) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            return m_Registers[index].toUnsignedShort();
+        }
+    }// getRegisterValue
+
+    /**
+     * Returns a reference to the array of input
+     * registers read.
+     *
+     * @return a {@link InputRegister[]} instance.
+     */
+    public InputRegister[] getRegisters() {
+        return m_Registers;
+    }// getRegisters
+    
+    /**
+     * Sets the registers to be written with this
+     * {@link WriteMultipleRegistersRequest}.
+     * 
+     *
+     * @param registers the registers to be written
+     *            as {@link Register[]}.
+     */
+    public void setRegisters(Register[] registers) {
+        m_Registers = registers;
+        setDataLength(4); // update message length in header
+    }// setRegisters
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeShort(m_channelNo);
-        dout.write(m_Register.toBytes(), 0, 2);
+        dout.writeByte(m_channelNo);
+        dout.write(m_Registers[0].toBytes());
+        dout.write(m_Registers[1].toBytes());
     }// writeData
 
     @Override
     public void readData(DataInput din) throws IOException {
-    	m_channelNo = din.readUnsignedShort();
-        m_Register = new SimpleInputRegister(din.readByte(), din.readByte());
+    	m_channelNo = din.readByte();
+    	m_Registers = new Register[2];
+		m_Registers[0] = new ByteRegister(din.readByte());
+		m_Registers[1] = new WordRegister(din.readShort());
+
+		setDataLength(4);
     }// readData
 
 }// class WriteSingleChannelRequest

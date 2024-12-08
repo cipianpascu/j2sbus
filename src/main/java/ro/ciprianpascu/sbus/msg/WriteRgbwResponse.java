@@ -23,7 +23,7 @@ import java.io.IOException;
 import ro.ciprianpascu.sbus.Modbus;
 
 /**
- * Class implementing a {@link WriteSingleChannelResponse}.
+ * Class implementing a {@link WriteRgbwResponse}.
  * The implementation directly correlates with the class 0
  * function <i>write single register (FC 6)</i>. It
  * encapsulates the corresponding response message.
@@ -33,41 +33,40 @@ import ro.ciprianpascu.sbus.Modbus;
 
  * @version %I% (%G%)
  */
-public final class WriteSingleChannelResponse extends ModbusResponse {
+public final class WriteRgbwResponse extends ModbusResponse {
 
+	private static final int SUCCESS = 0xF8;
+	private static final int FAILURE = 0xF5;
 	
     // instance attributes
-    private int m_ChannelNo;
     private boolean m_StatusValue;
 
     /**
-     * Constructs a new {@link WriteSingleChannelResponse}
+     * Constructs a new {@link WriteRgbwResponse}
      * instance.
      */
-    public WriteSingleChannelResponse() {
+    public WriteRgbwResponse() {
         super();
-		setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST+1);
-        setDataLength(2);
+		setFunctionCode(Modbus.WRITE_RGBW_REQUEST+1);
+        setDataLength(1);
     }// constructor
 
     /**
-     * Constructs a new {@link WriteSingleChannelResponse}
+     * Constructs a new {@link WriteRgbwResponse}
      * instance.
      *
-     * @param channelNo the offset of the register written.
      * @param success notify success/failure of the write operation to the register.
      */
-    public WriteSingleChannelResponse(int channelNo, boolean success) {
+    public WriteRgbwResponse( boolean success) {
         super();
-		setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST+1);
-        setChannelNo(channelNo);
+		setFunctionCode(Modbus.WRITE_RGBW_REQUEST+1);
         setStatusValue(success);
-        setDataLength(2);
+        setDataLength(1);
     }// constructor
 
     /**
      * Returns the value that has been returned in
-     * this {@link WriteSingleChannelResponse}.
+     * this {@link WriteRgbwResponse}.
 * 
      *
      * @return the value of the register.
@@ -87,49 +86,26 @@ public final class WriteSingleChannelResponse extends ModbusResponse {
         m_StatusValue = value;
     }// setStatusValue
 
-    /**
-     * Returns the reference of the register
-     * that has been written to.
-* 
-     *
-     * @return the reference of the written register.
-     */
-    public int getChannelNo() {
-        return m_ChannelNo;
-    }// getReference
-
-    /**
-     * Sets the reference of the register that has
-     * been written to.
-* 
-     *
-     * @param ref the reference of the written register.
-     */
-    private void setChannelNo(int channelNo) {
-    	m_ChannelNo = channelNo;
-    }// setReference
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeByte(m_ChannelNo);
-        dout.writeByte(m_StatusValue ? Modbus.SUCCESS : Modbus.FAILURE);
+        dout.writeByte(m_StatusValue ? SUCCESS : FAILURE);
     }// writeData
 
     @Override
     public void readData(DataInput din) throws IOException {
-        setChannelNo(din.readByte());
-        if(Modbus.SUCCESS == din.readByte()) {
+        if(SUCCESS == din.readByte()) {
 	        setStatusValue(true);
 		} else {
 			setStatusValue(false);
         }
         // update data length
-        setDataLength(2);
+        setDataLength(1);
     }// readData
 
 	@Override
 	public String toString() {
-		return "WriteSingleChannelResponse: " + getChannelNo() + " " + getStatusValue();
+		return "WriteSingleChannelResponse: " + getStatusValue();
 	}
 
 }// class WriteSingleChannelResponse

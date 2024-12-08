@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import ro.ciprianpascu.sbus.util.ModbusUtil;
+
 public class ModbusUDPListener {
     private DatagramSocket socket;
     private int port;
@@ -23,6 +25,7 @@ public class ModbusUDPListener {
                 while (true) {
                     socket.receive(packet);
 					System.out.println("Received packet from " + packet.getAddress().getHostAddress() + ":" + packet.getPort());
+					System.out.println(ModbusUtil.toHex(packet.getData(), 0, packet.getLength()));
                     // Handle the received packet here
                 }
             } catch (IOException e) {

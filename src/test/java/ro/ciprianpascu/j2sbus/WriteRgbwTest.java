@@ -1,21 +1,30 @@
+/**
+ * 
+ */
 package ro.ciprianpascu.j2sbus;
 
 import org.junit.Test;
 
 import ro.ciprianpascu.sbus.Modbus;
 import ro.ciprianpascu.sbus.io.ModbusUDPTransaction;
-import ro.ciprianpascu.sbus.msg.ReadTemperatureRequest;
-import ro.ciprianpascu.sbus.msg.ReadTemperatureResponse;
+import ro.ciprianpascu.sbus.msg.WriteRgbwRequest;
+import ro.ciprianpascu.sbus.msg.WriteRgbwResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
+import ro.ciprianpascu.sbus.procimg.Register;
+import ro.ciprianpascu.sbus.procimg.ByteRegister;
+import ro.ciprianpascu.sbus.procimg.WordRegister;
 
-public class ReadTemperatureTest {
-	
+/**
+ * 
+ */
+public class WriteRgbwTest {
+
 	@Test
 	public void testDataIn() {
         UDPMasterConnection conn = null;
         ModbusUDPTransaction trans = null;
-        ReadTemperatureRequest req = null;
-        ReadTemperatureResponse res = null;
+        WriteRgbwRequest req = null;
+        WriteRgbwResponse res = null;
 
         int repeat = 1;
         int port = Modbus.DEFAULT_PORT;
@@ -28,10 +37,17 @@ public class ReadTemperatureTest {
             conn.connect();
 
             // 3. Prepare the request
-            req = new ReadTemperatureRequest();
+            Register[] regs = new Register[5];
+            regs[0] = new ByteRegister((byte)0);
+            regs[1] = new ByteRegister((byte)100);
+            regs[2] = new ByteRegister((byte)0);
+            regs[3] = new ByteRegister((byte)0);
+            regs[4] = new WordRegister((short)0);
+            req = new WriteRgbwRequest(regs);
             req.setSubnetID(1);
-            req.setUnitID(62);
-            req.setTemperatureUnit(1);
+            req.setUnitID(72);
+             
+            
             if (Modbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
             }
@@ -45,7 +61,7 @@ public class ReadTemperatureTest {
             do {
                 trans.execute();
 
-                res = (ReadTemperatureResponse) trans.getResponse();
+                res = (WriteRgbwResponse) trans.getResponse();
                 if(res == null) {
                 	k++;
                 	continue;
@@ -53,6 +69,7 @@ public class ReadTemperatureTest {
                 if (Modbus.debug) {
                     System.out.println("Response: " + res.getHexMessage());
                 }
+                System.out.println("Digital Inputs Status=" + res.getStatusValue());
                 k++;
             } while (k < repeat);
 
@@ -63,5 +80,10 @@ public class ReadTemperatureTest {
             ex.printStackTrace();
         }
 	}
+	
+    private static void printUsage() {
+        System.out.println(
+                "java ro.ciprianpascu.sbus.cmd.UDPDITest <register [int16]> <bitcount [int16]> {<repeat [int]>}");
+    }// printUsage
 
 }

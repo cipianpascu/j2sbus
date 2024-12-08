@@ -20,9 +20,7 @@ import ro.ciprianpascu.sbus.Modbus;
 import ro.ciprianpascu.sbus.net.ModbusUDPListener;
 import ro.ciprianpascu.sbus.procimg.SimpleDigitalIn;
 import ro.ciprianpascu.sbus.procimg.SimpleDigitalOut;
-import ro.ciprianpascu.sbus.procimg.SimpleInputRegister;
 import ro.ciprianpascu.sbus.procimg.SimpleProcessImage;
-import ro.ciprianpascu.sbus.procimg.SimpleRegister;
 
 /**
  * Class implementing a simple Modbus/UDP slave.
@@ -57,8 +55,8 @@ public class UDPSlaveTest {
             spi.addDigitalIn(new SimpleDigitalIn(true));
             spi.addDigitalIn(new SimpleDigitalIn(false));
             spi.addDigitalIn(new SimpleDigitalIn(true));
-            spi.addRegister(new SimpleRegister(251));
-            spi.addInputRegister(new SimpleInputRegister(45));
+//            spi.addRegister(new RelayRegister(251));
+//            spi.addInputRegister(new SimpleInputRegister(45));
 
             // 2. Setup and start listener
             listener = new ModbusUDPListener();

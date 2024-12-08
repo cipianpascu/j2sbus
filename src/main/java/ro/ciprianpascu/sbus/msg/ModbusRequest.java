@@ -82,17 +82,11 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
         ModbusRequest request = null;
 
         switch (functionCode) {
-            case Modbus.READ_MULTIPLE_REGISTERS:
-                request = new ReadMultipleRegistersRequest();
-                break;
             case Modbus.READ_STATUS_CHANNELS_REQUEST:
                 request = new ReadStatusChannelsRequest();
                 break;
             case Modbus.READ_TEMPERATURE_REQUEST:
                 request = new ReadTemperatureRequest();
-                break;
-            case Modbus.WRITE_MULTIPLE_REGISTERS:
-                request = new WriteMultipleRegistersRequest();
                 break;
             case Modbus.WRITE_SINGLE_CHANNEL_REQUEST:
                 request = new WriteSingleChannelRequest();
@@ -103,5 +97,20 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
         }
         return request;
     }// createModbusRequest
+    
+    public boolean isFireAndForget() {
+    	boolean result = false;
+    	switch(this.getFunctionCode()) {
+    		case Modbus.WRITE_MULTIPLE_REGISTERS:
+	        case Modbus.WRITE_SINGLE_CHANNEL_REQUEST:
+	        case Modbus.WRITE_RGBW_REQUEST:
+	            result = true;
+	            break;
+	        default:
+	            result = false;
+	        	break;
+    	}
+		return result;
+	}
     
 }// class ModbusRequest

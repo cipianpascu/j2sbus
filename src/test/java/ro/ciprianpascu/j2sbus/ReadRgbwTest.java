@@ -4,18 +4,18 @@ import org.junit.Test;
 
 import ro.ciprianpascu.sbus.Modbus;
 import ro.ciprianpascu.sbus.io.ModbusUDPTransaction;
-import ro.ciprianpascu.sbus.msg.ReadTemperatureRequest;
-import ro.ciprianpascu.sbus.msg.ReadTemperatureResponse;
+import ro.ciprianpascu.sbus.msg.ReadRgbwRequest;
+import ro.ciprianpascu.sbus.msg.ReadRgbwResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 
-public class ReadTemperatureTest {
+public class ReadRgbwTest {
 	
 	@Test
 	public void testDataIn() {
         UDPMasterConnection conn = null;
         ModbusUDPTransaction trans = null;
-        ReadTemperatureRequest req = null;
-        ReadTemperatureResponse res = null;
+        ReadRgbwRequest req = null;
+        ReadRgbwResponse res = null;
 
         int repeat = 1;
         int port = Modbus.DEFAULT_PORT;
@@ -28,10 +28,10 @@ public class ReadTemperatureTest {
             conn.connect();
 
             // 3. Prepare the request
-            req = new ReadTemperatureRequest();
+            req = new ReadRgbwRequest();
             req.setSubnetID(1);
-            req.setUnitID(62);
-            req.setTemperatureUnit(1);
+            req.setUnitID(72);
+            req.setLimitType(1);
             if (Modbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
             }
@@ -45,7 +45,7 @@ public class ReadTemperatureTest {
             do {
                 trans.execute();
 
-                res = (ReadTemperatureResponse) trans.getResponse();
+                res = (ReadRgbwResponse) trans.getResponse();
                 if(res == null) {
                 	k++;
                 	continue;

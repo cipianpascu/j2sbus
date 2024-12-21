@@ -19,7 +19,7 @@ package ro.ciprianpascu.sbus.procimg;
 /**
  * Interface defining a digital output.
 * 
- * In Modbus terms this represents a
+ * In Sbus terms this represents a
  * coil, which is read-write from slave and
  * master or device side.<br>
  * Therefor implementations have to be carefully

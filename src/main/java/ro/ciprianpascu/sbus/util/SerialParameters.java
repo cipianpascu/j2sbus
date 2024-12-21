@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.Properties;
 
 import gnu.io.SerialPort;
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 
 /**
  * Helper class for managing serial port communication parameters in the SBus protocol.
@@ -75,7 +75,7 @@ public class SerialParameters {
      */
     public SerialParameters() {
         this("", 9600, SerialPort.FLOWCONTROL_NONE, SerialPort.FLOWCONTROL_NONE, SerialPort.DATABITS_8,
-                SerialPort.STOPBITS_1, SerialPort.PARITY_NONE, Modbus.DEFAULT_SERIAL_ENCODING, false,
+                SerialPort.STOPBITS_1, SerialPort.PARITY_NONE, Sbus.DEFAULT_SERIAL_ENCODING, false,
                 DEFAULT_RECEIVE_TIMEOUT_MILLIS);
     }
 
@@ -126,7 +126,7 @@ public class SerialParameters {
         setParity(props.getProperty(prefix + "parity", "" + SerialPort.PARITY_NONE));
         setDatabits(props.getProperty(prefix + "databits", "" + SerialPort.DATABITS_8));
         setStopbits(props.getProperty(prefix + "stopbits", "" + SerialPort.STOPBITS_1));
-        setEncoding(props.getProperty(prefix + "encoding", Modbus.DEFAULT_SERIAL_ENCODING));
+        setEncoding(props.getProperty(prefix + "encoding", Sbus.DEFAULT_SERIAL_ENCODING));
         setEcho("true".equals(props.getProperty(prefix + "echo")));
         setReceiveTimeoutMillis(props.getProperty(prefix + "timeout", "" + DEFAULT_RECEIVE_TIMEOUT_MILLIS));
     }

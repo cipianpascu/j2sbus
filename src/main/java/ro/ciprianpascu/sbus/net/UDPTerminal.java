@@ -18,7 +18,7 @@ package ro.ciprianpascu.sbus.net;
 
 import java.net.InetAddress;
 
-import ro.ciprianpascu.sbus.io.ModbusTransport;
+import ro.ciprianpascu.sbus.io.SbusTransport;
 
 /**
  * Interface defining a UDP Terminal for the SBus protocol.
@@ -67,9 +67,9 @@ public interface UDPTerminal {
     /**
      * Returns the transport layer associated with this terminal.
      *
-     * @return the ModbusTransport instance used by this terminal
+     * @return the SbusTransport instance used by this terminal
      */
-    public ModbusTransport getModbusTransport();
+    public SbusTransport getSbusTransport();
 
     /**
      * Sends a message through this terminal.

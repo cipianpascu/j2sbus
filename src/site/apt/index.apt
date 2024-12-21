@@ -10,8 +10,8 @@
 
 About
 
-    This project represents a Modbus implementation in 100% Java. It can be used to 
-    implement Modbus masters and slaves in various flavors:
+    This project represents a Sbus implementation in 100% Java. It can be used to 
+    implement Sbus masters and slaves in various flavors:
 
     * <<Serial>>
     
@@ -36,7 +36,7 @@ About
 
 Target Audience
 
-    Java developers which need to access or share data using Modbus protocols.
+    Java developers which need to access or share data using Sbus protocols.
     
     
 Notice

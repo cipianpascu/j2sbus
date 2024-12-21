@@ -16,12 +16,12 @@
 
 package ro.ciprianpascu.sbus.io;
 
-import ro.ciprianpascu.sbus.ModbusException;
-import ro.ciprianpascu.sbus.msg.ModbusRequest;
-import ro.ciprianpascu.sbus.msg.ModbusResponse;
+import ro.ciprianpascu.sbus.SbusException;
+import ro.ciprianpascu.sbus.msg.SbusRequest;
+import ro.ciprianpascu.sbus.msg.SbusResponse;
 
 /**
- * Interface defining a ModbusTransaction.
+ * Interface defining a SbusTransaction.
 * 
  * A transaction is defined by the sequence of
  * sending a request message and receiving a
@@ -32,41 +32,41 @@ import ro.ciprianpascu.sbus.msg.ModbusResponse;
 
  * @version %I% (%G%)
  */
-public interface ModbusTransaction {
+public interface SbusTransaction {
 
     /**
-     * Sets the {@link ModbusRequest} for this
-     * {@link ModbusTransaction}.
+     * Sets the {@link SbusRequest} for this
+     * {@link SbusTransaction}.
 * 
-     * The related {@link ModbusResponse} is acquired
-     * from the passed in {@link ModbusRequest} instance.<br>
+     * The related {@link SbusResponse} is acquired
+     * from the passed in {@link SbusRequest} instance.<br>
 * 
      *
-     * @param req a {@link ModbusRequest}.
+     * @param req a {@link SbusRequest}.
      */
-    public void setRequest(ModbusRequest req);
+    public void setRequest(SbusRequest req);
 
     /**
-     * Returns the {@link ModbusRequest} instance
-     * associated with this {@link ModbusTransaction}.
+     * Returns the {@link SbusRequest} instance
+     * associated with this {@link SbusTransaction}.
 * 
      *
-     * @return the associated {@link ModbusRequest} instance.
+     * @return the associated {@link SbusRequest} instance.
      */
-    public ModbusRequest getRequest();
+    public SbusRequest getRequest();
 
     /**
-     * Returns the {@link ModbusResponse} instance
-     * associated with this {@link ModbusTransaction}.
+     * Returns the {@link SbusResponse} instance
+     * associated with this {@link SbusTransaction}.
 * 
      *
-     * @return the associated {@link ModbusRequest} instance.
+     * @return the associated {@link SbusRequest} instance.
      */
-    public ModbusResponse getResponse();
+    public SbusResponse getResponse();
 
     /**
      * Returns the actual transaction identifier of
-     * this {@link ModbusTransaction}.
+     * this {@link SbusTransaction}.
      * The identifier is a 2-byte (short) non negative
      * String value subnetId + _ + unitId + _ + functionCode<br>
      * 
@@ -127,17 +127,17 @@ public interface ModbusTransaction {
     public boolean isCheckingValidity();
 
     /**
-     * Executes this {@link ModbusTransaction}.
-     * Locks the {@link ModbusTransport} for sending
-     * the {@link ModbusRequest} and reading the
-     * related {@link ModbusResponse}.
+     * Executes this {@link SbusTransaction}.
+     * Locks the {@link SbusTransport} for sending
+     * the {@link SbusRequest} and reading the
+     * related {@link SbusResponse}.
      * If reconnecting is activated the connection will
      * be opened for the transaction and closed afterwards.
      * 
      *
-     * @throws ModbusException if an I/O error occurs,
-     *             or the response is a modbus protocol exception.
+     * @throws SbusException if an I/O error occurs,
+     *             or the response is a sbus protocol exception.
      */
-    public void execute() throws ModbusException;
+    public void execute() throws SbusException;
 
-}// interface ModbusTransaction
+}// interface SbusTransaction

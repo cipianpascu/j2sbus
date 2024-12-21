@@ -19,19 +19,19 @@ package ro.ciprianpascu.sbus.io;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.ModbusException;
-import ro.ciprianpascu.sbus.ModbusIOException;
-import ro.ciprianpascu.sbus.ModbusSlaveException;
+import ro.ciprianpascu.sbus.Sbus;
+import ro.ciprianpascu.sbus.SbusException;
+import ro.ciprianpascu.sbus.SbusIOException;
+import ro.ciprianpascu.sbus.SbusSlaveException;
 import ro.ciprianpascu.sbus.msg.ExceptionResponse;
-import ro.ciprianpascu.sbus.msg.ModbusRequest;
-import ro.ciprianpascu.sbus.msg.ModbusResponse;
+import ro.ciprianpascu.sbus.msg.SbusRequest;
+import ro.ciprianpascu.sbus.msg.SbusResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 import ro.ciprianpascu.sbus.net.UDPTerminal;
 import ro.ciprianpascu.sbus.util.Mutex;
 
 /**
- * Class implementing the {@link ModbusTransaction}
+ * Class implementing the {@link SbusTransaction}
  * interface for the UDP transport mechanism.
  *
  * @author Dieter Wimberger
@@ -39,17 +39,17 @@ import ro.ciprianpascu.sbus.util.Mutex;
 
  * @version %I% (%G%)
  */
-public class ModbusUDPTransaction implements ModbusTransaction {
+public class SbusUDPTransaction implements SbusTransaction {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ModbusUDPTransaction.class);
+	private static final Logger logger = LoggerFactory.getLogger(SbusUDPTransaction.class);
 
     // instance attributes and associations
     private UDPTerminal m_Terminal;
-    private ModbusTransport m_IO;
-    private ModbusRequest m_Request;
-    private ModbusResponse m_Response;
-    private boolean m_ValidityCheck = Modbus.DEFAULT_VALIDITYCHECK;
-    private int m_Retries = Modbus.DEFAULT_RETRIES;
+    private SbusTransport m_IO;
+    private SbusRequest m_Request;
+    private SbusResponse m_Response;
+    private boolean m_ValidityCheck = Sbus.DEFAULT_VALIDITYCHECK;
+    private int m_Retries = Sbus.DEFAULT_RETRIES;
     private int m_RetryCounter = 0;
 
     private Mutex m_TransactionLock = new Mutex();
@@ -57,50 +57,50 @@ public class ModbusUDPTransaction implements ModbusTransaction {
     private long m_RetryDelayMillis;
 
     /**
-     * Constructs a new {@link ModbusUDPTransaction}
+     * Constructs a new {@link SbusUDPTransaction}
      * instance.
      */
-    public ModbusUDPTransaction() {
+    public SbusUDPTransaction() {
     }// constructor
 
     /**
-     * Constructs a new {@link ModbusUDPTransaction}
-     * instance with a given {@link ModbusRequest} to
+     * Constructs a new {@link SbusUDPTransaction}
+     * instance with a given {@link SbusRequest} to
      * be send when the transaction is executed.
      * 
      *
-     * @param request a {@link ModbusRequest} instance.
+     * @param request a {@link SbusRequest} instance.
      */
-    public ModbusUDPTransaction(ModbusRequest request) {
+    public SbusUDPTransaction(SbusRequest request) {
         setRequest(request);
     }// constructor
 
     /**
-     * Constructs a new {@link ModbusUDPTransaction}
+     * Constructs a new {@link SbusUDPTransaction}
      * instance with a given {@link UDPTerminal} to
      * be used for transactions.
      * 
      *
      * @param terminal a {@link UDPTerminal} instance.
      */
-    public ModbusUDPTransaction(UDPTerminal terminal) {
+    public SbusUDPTransaction(UDPTerminal terminal) {
         setTerminal(terminal);
     }// constructor
 
     /**
-     * Constructs a new {@link ModbusUDPTransaction}
+     * Constructs a new {@link SbusUDPTransaction}
      * instance with a given {@link UDPMasterConnection}
      * to be used for transactions.
      * 
      *
      * @param con a {@link UDPMasterConnection} instance.
      */
-    public ModbusUDPTransaction(UDPMasterConnection con) {
+    public SbusUDPTransaction(UDPMasterConnection con) {
         setTerminal(con.getTerminal());
     }// constructor
 
     /**
-     * Sets the terminal on which this {@link ModbusTransaction}
+     * Sets the terminal on which this {@link SbusTransaction}
      * should be executed.
 * 
      *
@@ -109,23 +109,23 @@ public class ModbusUDPTransaction implements ModbusTransaction {
     public void setTerminal(UDPTerminal terminal) {
         m_Terminal = terminal;
         if (terminal.isActive()) {
-            m_IO = terminal.getModbusTransport();
+            m_IO = terminal.getSbusTransport();
         }
     }// setConnection
 
     @Override
-    public void setRequest(ModbusRequest req) {
+    public void setRequest(SbusRequest req) {
         m_Request = req;
         // m_Response = req.getResponse();
     }// setRequest
 
     @Override
-    public ModbusRequest getRequest() {
+    public SbusRequest getRequest() {
         return m_Request;
     }// getRequest
 
     @Override
-    public ModbusResponse getResponse() {
+    public SbusResponse getResponse() {
         return m_Response;
     }// getResponse
 
@@ -155,7 +155,7 @@ public class ModbusUDPTransaction implements ModbusTransaction {
     }// setRetries
 
     @Override
-    public void execute() throws ModbusIOException, ModbusSlaveException, ModbusException {
+    public void execute() throws SbusIOException, SbusSlaveException, SbusException {
 
         // 1. assert executeability
         assertExecutable();
@@ -173,9 +173,9 @@ public class ModbusUDPTransaction implements ModbusTransaction {
             if (!m_Terminal.isActive()) {
                 try {
                     m_Terminal.activate();
-                    m_IO = m_Terminal.getModbusTransport();
+                    m_IO = m_Terminal.getSbusTransport();
                 } catch (Exception ex) {
-                    throw new ModbusIOException("Activation failed.");
+                    throw new SbusIOException("Activation failed.");
 
                 }
             }
@@ -200,8 +200,8 @@ public class ModbusUDPTransaction implements ModbusTransaction {
                         m_Response = m_IO.readResponse(getTransactionID());
                         break;
                     }
-                } catch (ModbusIOException ex) {
-                	logger.debug("ModbusIOException: " + ex.getMessage());
+                } catch (SbusIOException ex) {
+                	logger.debug("SbusIOException: " + ex.getMessage());
                     m_RetryCounter++;
                     continue;
                 }
@@ -209,14 +209,14 @@ public class ModbusUDPTransaction implements ModbusTransaction {
 
             // 4. deal with "application level" exceptions
             if (m_Response instanceof ExceptionResponse) {
-                throw new ModbusSlaveException(((ExceptionResponse) m_Response).getExceptionCode());
+                throw new SbusSlaveException(((ExceptionResponse) m_Response).getExceptionCode());
             }
 
             if (isCheckingValidity()) {
                 checkValidity();
             }
         } catch (InterruptedException ex) {
-            throw new ModbusIOException("Thread acquiring lock was interrupted.");
+            throw new SbusIOException("Thread acquiring lock was interrupted.");
         } finally {
             m_TransactionLock.release();
         }
@@ -224,15 +224,15 @@ public class ModbusUDPTransaction implements ModbusTransaction {
     }// execute
 
     /**
-     * Asserts if this {@link ModbusTCPTransaction} is
+     * Asserts if this {@link SbusTCPTransaction} is
      * executable.
      *
-     * @throws ModbusException if this transaction cannot be
+     * @throws SbusException if this transaction cannot be
      *             asserted as executable.
      */
-    private void assertExecutable() throws ModbusException {
+    private void assertExecutable() throws SbusException {
         if (m_Request == null || m_Terminal == null) {
-            throw new ModbusException("Assertion failed, transaction not executable");
+            throw new SbusException("Assertion failed, transaction not executable");
         }
     }// assertExecuteable
 
@@ -242,9 +242,9 @@ public class ModbusUDPTransaction implements ModbusTransaction {
      * to the values of the request.
      * Use an override to provide some checks, this method will only return.
      *
-     * @throws ModbusException if this transaction has not been valid.
+     * @throws SbusException if this transaction has not been valid.
      */
-    protected void checkValidity() throws ModbusException {
+    protected void checkValidity() throws SbusException {
     }// checkValidity
 
     @Override
@@ -257,4 +257,4 @@ public class ModbusUDPTransaction implements ModbusTransaction {
         this.m_RetryDelayMillis = retryDelayMillis;
     }
 
-}// class ModbusUDPTransaction
+}// class SbusUDPTransaction

@@ -5,8 +5,8 @@ package ro.ciprianpascu.j2sbus;
 
 import org.junit.Test;
 
-import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.io.ModbusUDPTransaction;
+import ro.ciprianpascu.sbus.Sbus;
+import ro.ciprianpascu.sbus.io.SbusUDPTransaction;
 import ro.ciprianpascu.sbus.msg.ReadStatusChannelsRequest;
 import ro.ciprianpascu.sbus.msg.ReadStatusChannelsResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
@@ -19,12 +19,12 @@ public class ReadStatusChannelTest {
 	@Test
 	public void testDataIn() {
         UDPMasterConnection conn = null;
-        ModbusUDPTransaction trans = null;
+        SbusUDPTransaction trans = null;
         ReadStatusChannelsRequest req = null;
         ReadStatusChannelsResponse res = null;
 
         int repeat = 1;
-        int port = Modbus.DEFAULT_PORT;
+        int port = Sbus.DEFAULT_PORT;
 
         try {
 
@@ -39,12 +39,12 @@ public class ReadStatusChannelTest {
             req.setUnitID(75);
              
             
-            if (Modbus.debug) {
+            if (Sbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
             }
 
             // 4. Prepare the transaction
-            trans = new ModbusUDPTransaction(conn);
+            trans = new SbusUDPTransaction(conn);
             trans.setRequest(req);
 
             // 5. Execute the transaction repeat times
@@ -57,7 +57,7 @@ public class ReadStatusChannelTest {
                 	k++;
                 	continue;
                 }
-                if (Modbus.debug) {
+                if (Sbus.debug) {
                     System.out.println("Response: " + res.getHexMessage());
                 }
                 k++;

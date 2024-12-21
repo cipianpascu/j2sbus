@@ -20,7 +20,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.procimg.InputRegister;
 import ro.ciprianpascu.sbus.procimg.TemperatureRegister;
 
@@ -35,7 +35,7 @@ import ro.ciprianpascu.sbus.procimg.TemperatureRegister;
 
  * @version %I% (%G%)
  */
-public final class ReadTemperatureResponse extends ModbusResponse {
+public final class ReadTemperatureResponse extends SbusResponse {
 
     // instance attributes
     private int m_ByteCount;
@@ -49,7 +49,7 @@ public final class ReadTemperatureResponse extends ModbusResponse {
      */
     public ReadTemperatureResponse() {
         super();
-        setFunctionCode(Modbus.READ_TEMPERATURE_REQUEST+1);
+        setFunctionCode(Sbus.READ_TEMPERATURE_REQUEST+1);
     }// constructor
 
     /**
@@ -60,7 +60,7 @@ public final class ReadTemperatureResponse extends ModbusResponse {
      */
     public ReadTemperatureResponse(InputRegister[] registers) {
         super();
-        setFunctionCode(Modbus.READ_TEMPERATURE_REQUEST+1);
+        setFunctionCode(Sbus.READ_TEMPERATURE_REQUEST+1);
         m_ByteCount = registers.length * 2;
         m_Registers = registers;
         // set correct data length excluding unit id and fc

@@ -20,7 +20,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 
 /**
  * Class implementing a {@link WriteRgbwResponse}.
@@ -33,7 +33,7 @@ import ro.ciprianpascu.sbus.Modbus;
 
  * @version %I% (%G%)
  */
-public final class WriteRgbwResponse extends ModbusResponse {
+public final class WriteRgbwResponse extends SbusResponse {
 
 	private static final int SUCCESS = 0xF8;
 	private static final int FAILURE = 0xF5;
@@ -47,7 +47,7 @@ public final class WriteRgbwResponse extends ModbusResponse {
      */
     public WriteRgbwResponse() {
         super();
-		setFunctionCode(Modbus.WRITE_RGBW_REQUEST+1);
+		setFunctionCode(Sbus.WRITE_RGBW_REQUEST+1);
         setDataLength(1);
     }// constructor
 
@@ -59,7 +59,7 @@ public final class WriteRgbwResponse extends ModbusResponse {
      */
     public WriteRgbwResponse( boolean success) {
         super();
-		setFunctionCode(Modbus.WRITE_RGBW_REQUEST+1);
+		setFunctionCode(Sbus.WRITE_RGBW_REQUEST+1);
         setStatusValue(success);
         setDataLength(1);
     }// constructor

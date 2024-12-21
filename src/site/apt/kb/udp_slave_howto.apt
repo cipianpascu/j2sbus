@@ -11,16 +11,16 @@
 About
       
 
-       This document is a tutorial for writing Modbus/UDP Slave applications utilizing 
+       This document is a tutorial for writing Sbus/UDP Slave applications utilizing 
        the <jamod> library. It explains the basics and walk's you through 
        a simple command line Slave implementation,that will serve the values from a 
        static process image on Master requests.
 
-       If you are new to Modbus, it is highly recommended to first take a look at {{{./protocol.html}<Understanding 
-       the Protocol>}} as well as {{{./modbus_udp.html}the actual protocol specification}}. 
+       If you are new to Sbus, it is highly recommended to first take a look at {{{./protocol.html}<Understanding 
+       the Protocol>}} as well as {{{./sbus_udp.html}the actual protocol specification}}. 
 
        The application build in the tutorial is actually part of the distribution codebase
-       ({{{../apidocs/net/wimpi/modbus/cmd/UDPSlaveTest.html}<<<ro.ciprianpascu.sbus.cmd.UDPSlaveTest>>>}}).
+       ({{{../apidocs/net/wimpi/sbus/cmd/UDPSlaveTest.html}<<<ro.ciprianpascu.sbus.cmd.UDPSlaveTest>>>}}).
     
     
 What is a Slave?
@@ -35,10 +35,10 @@ What is a Slave?
 [../images/udpmaster_network_nodal.png] Figure 1: Network Setup
 
     The implementation from the <jamod> library will automagically construct 
-    the actual responses for requests related to the standard Modbus data model, according 
+    the actual responses for requests related to the standard Sbus data model, according 
     to the contents of the actually set <Process Image>.
     
-    The reference to the actual <Process Image> is stored in the <Modbus Coupler> a singleton
+    The reference to the actual <Process Image> is stored in the <Sbus Coupler> a singleton
     instance accessible throughout the VM.
 
 
@@ -52,30 +52,30 @@ What is a Process Image?
 Classes of Interest for the Developer
 
     The motivation for creating <jamod> was to achieve an intuitive and object 
-    oriented implementation of the Modbus protocol, in a way, that there is a natural mapping 
-    from the domain knowledge (i.e. Modbus protocol) to the abstract class model. 
+    oriented implementation of the Sbus protocol, in a way, that there is a natural mapping 
+    from the domain knowledge (i.e. Sbus protocol) to the abstract class model. 
     The important elements in the description above (<<What is a Slave?>>) have been 
     highlighted and the following list represents the mapping between them and the classes from 
     <jamod> that will be needed for a slave implementation:
     
-    * <Listener>: {{{../apidocs/net/wimpi/modbus/net/ModbusUDPListener.html}<<<ModbusUDPListener>>>}}
+    * <Listener>: {{{../apidocs/net/wimpi/sbus/net/SbusUDPListener.html}<<<SbusUDPListener>>>}}
     
-    * <Process Image>: {{{../apidocs/net/wimpi/modbus/procimg/ProcessImage.html}<<<ProcessImage>>>}}
-        (respectively it's direct known subclass {{{../apidocs/net/wimpi/modbus/procimg/SimpleProcessImage.html}<<<SimpleProcessImage>>>}})
+    * <Process Image>: {{{../apidocs/net/wimpi/sbus/procimg/ProcessImage.html}<<<ProcessImage>>>}}
+        (respectively it's direct known subclass {{{../apidocs/net/wimpi/sbus/procimg/SimpleProcessImage.html}<<<SimpleProcessImage>>>}})
     
-    * <Discrete Inputs>: {{{../apidocs/net/wimpi/modbus/procimg/DigitalIn.html}<<<DigitalIn>>>}}
-        (respectively it's direct known subclass {{{../apidocs/net/wimpi/modbus/procimg/SimpleDigitalIn.html}<<<SimpleDigitalIn>>>}})
+    * <Discrete Inputs>: {{{../apidocs/net/wimpi/sbus/procimg/DigitalIn.html}<<<DigitalIn>>>}}
+        (respectively it's direct known subclass {{{../apidocs/net/wimpi/sbus/procimg/SimpleDigitalIn.html}<<<SimpleDigitalIn>>>}})
     
-    * <Discrete Outputs>: {{{../apidocs/net/wimpi/modbus/procimg/SimpleDigitalOut.html}<<<DigitalOut>>>}}
-        (respectively it's direct known subclass {{{../apidocs/net/wimpi/modbus/procimg/SimpleDigitalOut.html}<<<SimpleDigitalOut>>>}})
+    * <Discrete Outputs>: {{{../apidocs/net/wimpi/sbus/procimg/SimpleDigitalOut.html}<<<DigitalOut>>>}}
+        (respectively it's direct known subclass {{{../apidocs/net/wimpi/sbus/procimg/SimpleDigitalOut.html}<<<SimpleDigitalOut>>>}})
     
-    * <Input Registers>: {{{../apidocs/net/wimpi/modbus/procimg/InputRegister.html}<<<InputRegister>>>}}
-        (respectively it's direct known subclass {{{../apidocs/net/wimpi/modbus/procimg/SimpleInputRegister.html}<<<SimpleInputRegister>>>}})
+    * <Input Registers>: {{{../apidocs/net/wimpi/sbus/procimg/InputRegister.html}<<<InputRegister>>>}}
+        (respectively it's direct known subclass {{{../apidocs/net/wimpi/sbus/procimg/SimpleInputRegister.html}<<<SimpleInputRegister>>>}})
     
-    * <Registers>: {{{../apidocs/net/wimpi/modbus/procimg/Register.html}<<<Register>>>}}
-        (respectively it's direct known subclass {{{../apidocs/net/wimpi/modbus/procimg/SimpleRegister.html}<<<SimpleRegister>>>}})
+    * <Registers>: {{{../apidocs/net/wimpi/sbus/procimg/Register.html}<<<Register>>>}}
+        (respectively it's direct known subclass {{{../apidocs/net/wimpi/sbus/procimg/SimpleRegister.html}<<<SimpleRegister>>>}})
     
-    * <Modbus Coupler>: {{{../apidocs/net/wimpi/modbus/ModbusCoupler.html}<<<ModbusCoupler>>>}}
+    * <Sbus Coupler>: {{{../apidocs/net/wimpi/sbus/SbusCoupler.html}<<<SbusCoupler>>>}}
 
     []
 
@@ -93,7 +93,7 @@ Implementation
 +----------
 import ro.ciprianpascu.sbus.net.*;
 import ro.ciprianpascu.sbus.procimg.*;
-import ro.ciprianpascu.sbus.ModbusCoupler;
+import ro.ciprianpascu.sbus.SbusCoupler;
 
 public class UDPSlaveTest {
   
@@ -114,9 +114,9 @@ public class UDPSlaveTest {
 
 +----------
 /* The important instances and variables */
-ModbusUDPListener listener = null;
+SbusUDPListener listener = null;
 SimpleProcessImage spi = null;
-int port = Modbus.DEFAULT_PORT;
+int port = Sbus.DEFAULT_PORT;
 
   //1. Set port number from commandline parameter
   if(args != null && args.length ==1) {
@@ -140,9 +140,9 @@ spi.addRegister(new SimpleRegister(251));
 spi.addInputRegister(new SimpleInputRegister(45));
 
 //3. Prepare coupler holding image reference
-ModbusCoupler.getReference().setProcessImage(spi);
-ModbusCoupler.getReference().setMaster(false);
-ModbusCoupler.getReference().setUnitID(15);  
+SbusCoupler.getReference().setProcessImage(spi);
+SbusCoupler.getReference().setMaster(false);
+SbusCoupler.getReference().setUnitID(15);  
 +----------
 
 *--------+
@@ -156,7 +156,7 @@ ModbusCoupler.getReference().setUnitID(15);
 
 +----------
 //4. Create a listener with 3 threads in pool
-listener = new ModbusUDPListener();
+listener = new SbusUDPListener();
 listener.setPort(port);
 listener.start();  
 +----------   
@@ -176,9 +176,9 @@ listener.start();
    mentioned <UDP Master How-To>.
 
 +----------
-Fangorn:~/development/java/jamod wimpi$ java -Dnet.wimpi.modbus.debug=true \
+Fangorn:~/development/java/jamod wimpi$ java -Dnet.wimpi.sbus.debug=true \
   -cp build/classes ro.ciprianpascu.sbus.cmd.UDPSlaveTest 5555
-jamod Modbus/UDP Slave v0.1
+jamod Sbus/UDP Slave v0.1
 UDPSlaveTerminal::activate()
 UDPSlaveTerminal::haveSocket():java.net.DatagramSocket@86db54
 UDPSlaveTerminal::addr=:localhost/127.0.0.1:port=5555
@@ -204,5 +204,5 @@ Sent package from queue.
 *--------+
 ||Note   |
 *--------+
-| The debug outputs of the library can be activated by passing the property <<<ro.ciprianpascu.sbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.modbus.debug=true>>>) and allow to see the actually exchanged modbus messages encoded as hex.
+| The debug outputs of the library can be activated by passing the property <<<ro.ciprianpascu.sbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.sbus.debug=true>>>) and allow to see the actually exchanged sbus messages encoded as hex.
 *--------+

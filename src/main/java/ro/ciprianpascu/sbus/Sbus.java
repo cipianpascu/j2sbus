@@ -24,7 +24,7 @@ package ro.ciprianpascu.sbus;
  * @author Ciprian Pascu
  * @version %I% (%G%)
  */
-public interface Modbus {
+public interface Sbus {
 
     /**
      * JVM flag for debug mode. Can be set passing the system property

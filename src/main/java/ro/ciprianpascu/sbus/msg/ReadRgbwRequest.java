@@ -20,7 +20,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.procimg.IllegalAddressException;
 import ro.ciprianpascu.sbus.procimg.InputRegister;
 import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
@@ -36,7 +36,7 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
  * @version %I% (%G%)
  */
-public final class ReadRgbwRequest extends ModbusRequest {
+public final class ReadRgbwRequest extends SbusRequest {
 
     // instance attributes
     private int m_LimitType;
@@ -46,14 +46,14 @@ public final class ReadRgbwRequest extends ModbusRequest {
      */
     public ReadRgbwRequest() {
         super();
-        setFunctionCode(Modbus.READ_RGBW_REQUEST);
+        setFunctionCode(Sbus.READ_RGBW_REQUEST);
         setLimitType(1);
         setDataLength(0);
     }// constructor
 
 
     @Override
-    public ModbusResponse createResponse(ProcessImageImplementation procimg) {
+    public SbusResponse createResponse(ProcessImageImplementation procimg) {
         ReadStatusChannelsResponse response = null;
         InputRegister[] inpregs = null;
 
@@ -61,7 +61,7 @@ public final class ReadRgbwRequest extends ModbusRequest {
         try {
             inpregs = procimg.getInputRegisterRange(0, procimg.getRegisterCount()-1);
         } catch (IllegalAddressException iaex) {
-            return createExceptionResponse(Modbus.ILLEGAL_ADDRESS_EXCEPTION);
+            return createExceptionResponse(Sbus.ILLEGAL_ADDRESS_EXCEPTION);
         }
         response = new ReadStatusChannelsResponse(inpregs);
         // transfer header data

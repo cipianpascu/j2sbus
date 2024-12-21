@@ -10,17 +10,17 @@
 
 About
 
-    This document is a tutorial for writing Modbus/UDP Master applications utilizing 
+    This document is a tutorial for writing Sbus/UDP Master applications utilizing 
     the <jamod> library. It explains the basics and walk's you through
     a simple command line Master implementation, that will allow you to read the state 
     of one or more input registers from a slave on the network.
     
-    If you are new to Modbus, it is highly recommended to first take a look at 
+    If you are new to Sbus, it is highly recommended to first take a look at 
     {{{./protocol.html}Understanding the Protocol}} (especially the section about the Serial 
     implementation) as well as the actual protocol specifications (see {{{./index.html}Knowledge Base Index}}).
 
     The application build in the tutorial is actually part of the distribution codebase
-    ({{{../apidocs/net/wimpi/modbus/cmd/UDPDITest.html}<<<ro.ciprianpascu.sbus.cmd.UDPDITest>>>}}).
+    ({{{../apidocs/net/wimpi/sbus/cmd/UDPDITest.html}<<<ro.ciprianpascu.sbus.cmd.UDPDITest>>>}}).
 
 What is a Master?
     
@@ -34,7 +34,7 @@ What is a Master?
     
     Figure 1 shows a simple graphical representation of such a cycle:
     
-[../images/transaction.png] Figure 1: Modbus Transaction
+[../images/transaction.png] Figure 1: Sbus Transaction
 
     The master can pull or poll (repeatedly) data from a source (data acquisition),
     as well as control a device. In the latter case it is often recommended to understand
@@ -50,7 +50,7 @@ What is a Master?
 
 What is a Discrete Input?
 
-    According to the Modbus data model, which is part of the protocol specification
+    According to the Sbus data model, which is part of the protocol specification
     (see section 4.3) a <Discrete Input> is a single bit (i.e. 0 or 1, false
     or true), read-only "data item", which is usually provided by an I/O
     system. Figure 3 shows an example with simple switches that are mapped into the
@@ -70,20 +70,20 @@ Classes of Interest for the Developer
 
     The motivation for creating <jamod> was to achieve an intuitive and object
     oriented implementation of the protocol, in a way, that there is a natural mapping
-    from the domain knowledge (i.e. Modbus protocol) to the abstract class model.
+    from the domain knowledge (i.e. Sbus protocol) to the abstract class model.
     The important elements in the description above (<What is a Master?>) have been
     highlighted and the following list represents the mapping between them and the classes from
     <jamod> that will be needed for a master implementation:
 
-    * <Connection>: {{{../apidocs/net/wimpi/modbus/net/UDPMasterConnection.html}<<<UDPMasterConnection>>>}}
+    * <Connection>: {{{../apidocs/net/wimpi/sbus/net/UDPMasterConnection.html}<<<UDPMasterConnection>>>}}
     
-    * <Transaction>: {{{../apidocs/net/wimpi/modbus/io/ModbusUDPTransaction.html}<<<ModbusUDPTransaction>>>}}
+    * <Transaction>: {{{../apidocs/net/wimpi/sbus/io/SbusUDPTransaction.html}<<<SbusUDPTransaction>>>}}
     
-    * <Request>: {{{../apidocs/net/wimpi/modbus/msg/ModbusRequest.html}<<<ModbusRequest>>>}}
-        (respectively it's direct known subclass {{{../apidocs/net/wimpi/modbus/msg/ReadInputDiscretesRequest.html}<<<ReadInputDiscretesRequest>>>}})
+    * <Request>: {{{../apidocs/net/wimpi/sbus/msg/SbusRequest.html}<<<SbusRequest>>>}}
+        (respectively it's direct known subclass {{{../apidocs/net/wimpi/sbus/msg/ReadInputDiscretesRequest.html}<<<ReadInputDiscretesRequest>>>}})
     
-    * <Response>: {{{../apidocs/net/wimpi/modbus/msg/ModbusResponse.html}<<<ModbusResponse>>>}}
-        (respectively it's direct known subclass {{{../apidocs/net/wimpi/modbus/msg/ReadInputDiscretesResponse.html}<<<ReadInputDiscretesResponse>>>}})
+    * <Response>: {{{../apidocs/net/wimpi/sbus/msg/SbusResponse.html}<<<SbusResponse>>>}}
+        (respectively it's direct known subclass {{{../apidocs/net/wimpi/sbus/msg/ReadInputDiscretesResponse.html}<<<ReadInputDiscretesResponse>>>}})
 
     []
 
@@ -136,13 +136,13 @@ public class UDPDITest {
 +-------------
 /* The important instances of the classes mentioned before */
 UDPMasterConnection con = null; //the connection
-ModbusUDPTransaction trans = null; //the transaction
+SbusUDPTransaction trans = null; //the transaction
 ReadInputDiscretesRequest req = null; //the request
 ReadInputDiscretesResponse res = null; //the response
 
 /* Variables for storing the parameters */
 InetAddress addr = null; //the slave's address
-int port = Modbus.DEFAULT_PORT;
+int port = Sbus.DEFAULT_PORT;
 int ref = 0; //the reference; offset where to start reading from
 int count = 0; //the number of DI's to read
 int repeat = 1; //a loop for repeating the transaction
@@ -199,7 +199,7 @@ con.connect();
 req = new ReadInputDiscretesRequest(ref, count);
 
 //4. Prepare the transaction
-trans = new ModbusUDPTransaction(con);
+trans = new SbusUDPTransaction(con);
 trans.setRequest(req);
 +----------
 
@@ -229,7 +229,7 @@ con.close();
     The following is an example output with (debug enabled) of the application run against a test slave:
 
 +----------
-Fangorn:~/development/java/jamod wimpi$ java -Dnet.wimpi.modbus.debug=true \
+Fangorn:~/development/java/jamod wimpi$ java -Dnet.wimpi.sbus.debug=true \
   -cp build/classes ro.ciprianpascu.sbus.cmd.UDPDITest Fangorn.local.:5555 0 4 3
 UDPMasterTerminal::activate()::laddr=:localhost/127.0.0.1:lport=5000
 UDPMasterTerminal::haveSocket():java.net.DatagramSocket@a457b6
@@ -249,6 +249,6 @@ UDPMasterTerminal::deactivate()
 *--------+
 ||Note   |
 *--------+
-| The debug outputs of the library can be activated by passing the property <<<ro.ciprianpascu.sbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.modbus.debug=true>>>) and allow to see the actually exchanged modbus messages encoded as hex.
+| The debug outputs of the library can be activated by passing the property <<<ro.ciprianpascu.sbus.debug>>> to the JVM (i.e. <<<java -Dnet.wimpi.sbus.debug=true>>>) and allow to see the actually exchanged sbus messages encoded as hex.
 *--------+
 

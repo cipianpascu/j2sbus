@@ -20,7 +20,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.procimg.ByteRegister;
 import ro.ciprianpascu.sbus.procimg.InputRegister;
 
@@ -35,7 +35,7 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
 
  * @version %I% (%G%)
  */
-public final class ReadStatusChannelsResponse extends ModbusResponse {
+public final class ReadStatusChannelsResponse extends SbusResponse {
 
     // instance attributes
     private int m_ByteCount;
@@ -48,7 +48,7 @@ public final class ReadStatusChannelsResponse extends ModbusResponse {
      */
     public ReadStatusChannelsResponse() {
         super();
-        setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST+1);
+        setFunctionCode(Sbus.READ_STATUS_CHANNELS_REQUEST+1);
     }// constructor
 
     /**
@@ -59,7 +59,7 @@ public final class ReadStatusChannelsResponse extends ModbusResponse {
      */
     public ReadStatusChannelsResponse(InputRegister[] registers) {
         super();
-        setFunctionCode(Modbus.READ_STATUS_CHANNELS_REQUEST+1);
+        setFunctionCode(Sbus.READ_STATUS_CHANNELS_REQUEST+1);
         m_ByteCount = registers.length;
         m_Registers = registers;
         // set correct data length excluding unit id and fc

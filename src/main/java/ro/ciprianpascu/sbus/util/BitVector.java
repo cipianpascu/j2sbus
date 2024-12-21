@@ -353,7 +353,7 @@ public final class BitVector {
         test.toggleAccess(true);
         System.out.println(test);
 
-        System.out.println(ModbusUtil.toHex(test.getBytes()));
+        System.out.println(SbusUtil.toHex(test.getBytes()));
     }
 
     private static final int[] ODD_OFFSETS = { -1, -3, -5, -7 };

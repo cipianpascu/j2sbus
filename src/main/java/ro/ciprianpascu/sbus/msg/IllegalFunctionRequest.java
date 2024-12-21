@@ -20,11 +20,11 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
 /**
- * Provides an implementation of a {@link ModbusRequest}
+ * Provides an implementation of a {@link SbusRequest}
  * which is created for illegal or non implemented
  * function codes.
 * 
@@ -36,7 +36,7 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
  * @version %I% (%G%)
  */
-public class IllegalFunctionRequest extends ModbusRequest {
+public class IllegalFunctionRequest extends SbusRequest {
 
     /**
      * Constructs a new {@link IllegalFunctionRequest} instance for
@@ -49,8 +49,8 @@ public class IllegalFunctionRequest extends ModbusRequest {
     }// constructor
 
     @Override
-    public ModbusResponse createResponse(ProcessImageImplementation procimg) {
-        return this.createExceptionResponse(Modbus.ILLEGAL_FUNCTION_EXCEPTION);
+    public SbusResponse createResponse(ProcessImageImplementation procimg) {
+        return this.createExceptionResponse(Sbus.ILLEGAL_FUNCTION_EXCEPTION);
     }// createResponse
 
     @Override

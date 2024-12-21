@@ -20,11 +20,11 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.util.ModbusUtil;
+import ro.ciprianpascu.sbus.Sbus;
+import ro.ciprianpascu.sbus.util.SbusUtil;
 
 /**
- * Abstract class implementing a {@link ModbusMessage}.
+ * Abstract class implementing a {@link SbusMessage}.
  * This class provides specialised implementations with
  * the functionality they have in common.
  *
@@ -32,16 +32,16 @@ import ro.ciprianpascu.sbus.util.ModbusUtil;
  * @author Ciprian Pascu
  * @version %I% (%G%)
  */
-public abstract class ModbusMessageImpl implements ModbusMessage {
+public abstract class SbusMessageImpl implements SbusMessage {
 
     // instance attributes
     private int m_DataLength;
-    private int m_SubnetID = Modbus.DEFAULT_SUBNET_ID;
-    private int m_UnitID = Modbus.DEFAULT_UNIT_ID;
+    private int m_SubnetID = Sbus.DEFAULT_SUBNET_ID;
+    private int m_UnitID = Sbus.DEFAULT_UNIT_ID;
     private int m_FunctionCode;
-    private int m_SourceSubnetID = Modbus.DEFAULT_SOURCE_SUBNET_ID;
-    private int m_SourceUnitID = Modbus.DEFAULT_SOURCE_UNIT_ID;
-    private int m_SourceDeviceType = Modbus.DEFAULT_SOURCE_DEVICE_TYPE;
+    private int m_SourceSubnetID = Sbus.DEFAULT_SOURCE_SUBNET_ID;
+    private int m_SourceUnitID = Sbus.DEFAULT_SOURCE_UNIT_ID;
+    private int m_SourceDeviceType = Sbus.DEFAULT_SOURCE_DEVICE_TYPE;
 
     /**
      * Gets the source subnet identifier of this message.
@@ -127,7 +127,7 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
     }
 
     /**
-     * Sets the subnet identifier of this {@link ModbusMessage}.
+     * Sets the subnet identifier of this {@link SbusMessage}.
      * The identifier should be a 1-byte non negative
      * integer value valid in the range of 0-255.
      *
@@ -143,7 +143,7 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
     }
 
     /**
-     * Sets the unit identifier of this {@link ModbusMessage}.
+     * Sets the unit identifier of this {@link SbusMessage}.
      * The identifier should be a 1-byte non negative
      * integer value valid in the range of 0-255.
      *
@@ -159,15 +159,15 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
     }
 
     /**
-     * Sets the function code of this {@link ModbusMessage}.
+     * Sets the function code of this {@link SbusMessage}.
      * The function code should be a 1-byte non negative
      * integer value valid in the range of 0-127.
      * Function codes are ordered in conformance
      * classes their values are specified in
-     * {@link ro.ciprianpascu.sbus.Modbus}.
+     * {@link ro.ciprianpascu.sbus.Sbus}.
      *
      * @param code the code of the function to be set.
-     * @see ro.ciprianpascu.sbus.Modbus
+     * @see ro.ciprianpascu.sbus.Sbus
      */
     protected void setFunctionCode(int code) {
         m_FunctionCode = code;
@@ -226,7 +226,7 @@ public abstract class ModbusMessageImpl implements ModbusMessage {
      */
     @Override
     public String getHexMessage() {
-        return ModbusUtil.toHex(this);
+        return SbusUtil.toHex(this);
     }
 
     /**

@@ -21,11 +21,11 @@ import java.net.InetAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.ModbusIOException;
-import ro.ciprianpascu.sbus.io.ModbusTransport;
-import ro.ciprianpascu.sbus.msg.ModbusRequest;
-import ro.ciprianpascu.sbus.msg.ModbusResponse;
+import ro.ciprianpascu.sbus.Sbus;
+import ro.ciprianpascu.sbus.SbusIOException;
+import ro.ciprianpascu.sbus.io.SbusTransport;
+import ro.ciprianpascu.sbus.msg.SbusRequest;
+import ro.ciprianpascu.sbus.msg.SbusResponse;
 import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
 /**
@@ -37,13 +37,13 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
  * @author Ciprian Pascu
  * @version %I% (%G%)
  */
-public class ModbusUDPListener {
-    private static final Logger logger = LoggerFactory.getLogger(ModbusUDPListener.class);
+public class SbusUDPListener {
+    private static final Logger logger = LoggerFactory.getLogger(SbusUDPListener.class);
 
     private UDPSlaveTerminal m_Terminal;
-    private ModbusUDPHandler m_Handler;
+    private SbusUDPHandler m_Handler;
     private Thread m_HandlerThread;
-    private int m_Port = Modbus.DEFAULT_PORT;
+    private int m_Port = Sbus.DEFAULT_PORT;
     private boolean m_Listening;
     private InetAddress m_Interface;
 
@@ -51,18 +51,18 @@ public class ModbusUDPListener {
     private ProcessImageImplementation m_ProcessImage;
 
     /**
-     * Constructs a new ModbusUDPListener instance.
+     * Constructs a new SbusUDPListener instance.
      */
-    public ModbusUDPListener() {
+    public SbusUDPListener() {
         this(null);
     }
 
     /**
-     * Creates a new ModbusUDPListener instance listening to the given interface address.
+     * Creates a new SbusUDPListener instance listening to the given interface address.
      *
      * @param ifc an InetAddress instance representing the interface to listen on
      */
-    public ModbusUDPListener(InetAddress ifc) {
+    public SbusUDPListener(InetAddress ifc) {
         this(ifc, new UDPSlaveTerminalFactory() {
             @Override
             public UDPSlaveTerminal create(InetAddress interfac, int port) {
@@ -74,12 +74,12 @@ public class ModbusUDPListener {
     }
 
     /**
-     * Creates a new ModbusUDPListener with a custom terminal factory.
+     * Creates a new SbusUDPListener with a custom terminal factory.
      *
      * @param ifc the interface address to listen on
      * @param terminalFactory factory for creating UDP slave terminals
      */
-    public ModbusUDPListener(InetAddress ifc, UDPSlaveTerminalFactory terminalFactory) {
+    public SbusUDPListener(InetAddress ifc, UDPSlaveTerminalFactory terminalFactory) {
         m_Interface = ifc;
         this.m_TerminalFactory = terminalFactory;
     }
@@ -110,7 +110,7 @@ public class ModbusUDPListener {
      * @param port the port number to listen on
      */
     public void setPort(int port) {
-        m_Port = ((port > 0) ? port : Modbus.DEFAULT_PORT);
+        m_Port = ((port > 0) ? port : Sbus.DEFAULT_PORT);
     }
 
     /**
@@ -122,7 +122,7 @@ public class ModbusUDPListener {
             m_Terminal.setLocalPort(m_Port);
             m_Terminal.activate();
 
-            m_Handler = new ModbusUDPHandler(m_Terminal.getModbusTransport());
+            m_Handler = new SbusUDPHandler(m_Terminal.getSbusTransport());
             m_HandlerThread = new Thread(m_Handler);
             m_HandlerThread.start();
 
@@ -153,9 +153,9 @@ public class ModbusUDPListener {
     /**
      * Handler class for processing UDP messages.
      */
-    class ModbusUDPHandler implements Runnable {
+    class SbusUDPHandler implements Runnable {
 
-        private ModbusTransport m_Transport;
+        private SbusTransport m_Transport;
         private boolean m_Continue = true;
 
         /**
@@ -163,7 +163,7 @@ public class ModbusUDPListener {
          *
          * @param transport the transport layer to use for communication
          */
-        public ModbusUDPHandler(ModbusTransport transport) {
+        public SbusUDPHandler(SbusTransport transport) {
             m_Transport = transport;
         }
 
@@ -171,15 +171,15 @@ public class ModbusUDPListener {
         public void run() {
             do {
                 try {
-                    ModbusRequest request = m_Transport.readRequest();
+                    SbusRequest request = m_Transport.readRequest();
                     if(request == null) {
                         continue;
                     }
                     logger.trace("Request: {}", request.getHexMessage());
-                    ModbusResponse response = null;
+                    SbusResponse response = null;
 
                     if (m_ProcessImage == null) {
-                        response = request.createExceptionResponse(Modbus.ILLEGAL_FUNCTION_EXCEPTION);
+                        response = request.createExceptionResponse(Sbus.ILLEGAL_FUNCTION_EXCEPTION);
                     } else {
                         response = request.createResponse(m_ProcessImage);
                     }
@@ -187,7 +187,7 @@ public class ModbusUDPListener {
                     logger.debug("Response: {}", response.getHexMessage());
 
                     m_Transport.writeMessage(response);
-                } catch (ModbusIOException ex) {
+                } catch (SbusIOException ex) {
                     if (!ex.isEOF()) {
                         logger.error("Error processing request", ex);
                     }

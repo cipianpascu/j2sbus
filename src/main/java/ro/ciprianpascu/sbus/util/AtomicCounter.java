@@ -18,7 +18,7 @@ package ro.ciprianpascu.sbus.util;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 
 /**
  * Provides an atomic integer.
@@ -56,7 +56,7 @@ public class AtomicCounter {
      * @return the resulting value.
      */
     public synchronized int increment() {
-        if (m_Value == Modbus.MAX_TRANSACTION_ID) {
+        if (m_Value == Sbus.MAX_TRANSACTION_ID) {
             m_Value = 0;
         }
         return ++m_Value;

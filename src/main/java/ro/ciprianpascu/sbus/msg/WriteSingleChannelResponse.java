@@ -20,7 +20,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 
 /**
  * Class implementing a {@link WriteSingleChannelResponse}.
@@ -33,7 +33,7 @@ import ro.ciprianpascu.sbus.Modbus;
 
  * @version %I% (%G%)
  */
-public final class WriteSingleChannelResponse extends ModbusResponse {
+public final class WriteSingleChannelResponse extends SbusResponse {
 
 	
     // instance attributes
@@ -46,7 +46,7 @@ public final class WriteSingleChannelResponse extends ModbusResponse {
      */
     public WriteSingleChannelResponse() {
         super();
-		setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST+1);
+		setFunctionCode(Sbus.WRITE_SINGLE_CHANNEL_REQUEST+1);
         setDataLength(2);
     }// constructor
 
@@ -59,7 +59,7 @@ public final class WriteSingleChannelResponse extends ModbusResponse {
      */
     public WriteSingleChannelResponse(int channelNo, boolean success) {
         super();
-		setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST+1);
+		setFunctionCode(Sbus.WRITE_SINGLE_CHANNEL_REQUEST+1);
         setChannelNo(channelNo);
         setStatusValue(success);
         setDataLength(2);
@@ -112,13 +112,13 @@ public final class WriteSingleChannelResponse extends ModbusResponse {
     @Override
     public void writeData(DataOutput dout) throws IOException {
         dout.writeByte(m_ChannelNo);
-        dout.writeByte(m_StatusValue ? Modbus.SUCCESS : Modbus.FAILURE);
+        dout.writeByte(m_StatusValue ? Sbus.SUCCESS : Sbus.FAILURE);
     }// writeData
 
     @Override
     public void readData(DataInput din) throws IOException {
         setChannelNo(din.readByte());
-        if(Modbus.SUCCESS == din.readByte()) {
+        if(Sbus.SUCCESS == din.readByte()) {
 	        setStatusValue(true);
 		} else {
 			setStatusValue(false);

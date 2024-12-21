@@ -17,7 +17,7 @@
 package ro.ciprianpascu.sbus;
 
 /**
- * Class that implements a {@link ModbusIOException}.
+ * Class that implements a {@link SbusIOException}.
  * Instances of this exception are thrown when
  * errors in the I/O occur.
  *
@@ -26,55 +26,55 @@ package ro.ciprianpascu.sbus;
 
  * @version %I% (%G%)
  */
-public class ModbusIOException extends ModbusException {
+public class SbusIOException extends SbusException {
 
     private boolean m_EOF = false;
 
     /**
-     * Constructs a new {@link ModbusIOException}
+     * Constructs a new {@link SbusIOException}
      * instance.
      */
-    public ModbusIOException() {
+    public SbusIOException() {
     }// constructor
 
     /**
-     * Constructs a new {@link ModbusIOException}
+     * Constructs a new {@link SbusIOException}
      * instance with the given message.
 * 
      *
      * @param message the message describing this
-     *            {@link ModbusIOException}.
+     *            {@link SbusIOException}.
      */
-    public ModbusIOException(String message) {
+    public SbusIOException(String message) {
         super(message);
     }// constructor(String)
 
     /**
-     * Constructs a new {@link ModbusIOException}
+     * Constructs a new {@link SbusIOException}
      * instance.
      *
      * @param b true if caused by end of stream, false otherwise.
      */
-    public ModbusIOException(boolean b) {
+    public SbusIOException(boolean b) {
         m_EOF = b;
     }// constructor
 
     /**
-     * Constructs a new {@link ModbusIOException}
+     * Constructs a new {@link SbusIOException}
      * instance with the given message.
 * 
      *
      * @param message the message describing this
-     *            {@link ModbusIOException}.
+     *            {@link SbusIOException}.
      * @param b true if caused by end of stream, false otherwise.
      */
-    public ModbusIOException(String message, boolean b) {
+    public SbusIOException(String message, boolean b) {
         super(message);
         m_EOF = b;
     }// constructor(String)
 
     /**
-     * Tests if this {@link ModbusIOException}
+     * Tests if this {@link SbusIOException}
      * is caused by an end of the stream.
 * 
      *
@@ -86,7 +86,7 @@ public class ModbusIOException extends ModbusException {
 
     /**
      * Sets the flag that determines whether this
-     * {@link ModbusIOException} was caused by
+     * {@link SbusIOException} was caused by
      * an end of the stream.
 * 
      *
@@ -96,4 +96,4 @@ public class ModbusIOException extends ModbusException {
         m_EOF = b;
     }// setEOF
 
-}// ModbusIOException
+}// SbusIOException

@@ -13,7 +13,7 @@ About
     This part of the documentation aims at getting you started with jamod, as well 
     as at opening doors for improvement and extension of the library itself.
     
-    If you want to become familiar with Modbus, it is highly recommended to take a 
+    If you want to become familiar with Sbus, it is highly recommended to take a 
     look at {{{./protocol.html}Understanding the Protocol}} and the specifications
     (see {{{./index.html}Knowledge Base Index}}).
  

@@ -17,66 +17,66 @@
 package ro.ciprianpascu.sbus;
 
 /**
- * Class that implements a {@link ModbusSlaveException}.
+ * Class that implements a {@link SbusSlaveException}.
  * Instances of this exception are thrown when
- * the slave returns a Modbus exception.
+ * the slave returns a Sbus exception.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
 
  * @version %I% (%G%)
  */
-public class ModbusSlaveException extends ModbusException {
+public class SbusSlaveException extends SbusException {
 
     // instance attributes
     private int m_Type = -1;
 
     /**
-     * Constructs a new {@link ModbusSlaveException}
+     * Constructs a new {@link SbusSlaveException}
      * instance with the given type.<br>
      * Types are defined according to the protocol
-     * specification in {@link ro.ciprianpascu.sbus.Modbus}.
+     * specification in {@link ro.ciprianpascu.sbus.Sbus}.
 * 
      *
      * @param TYPE the type of exception that occured.
      *
-     * @see ro.ciprianpascu.sbus.Modbus
+     * @see ro.ciprianpascu.sbus.Sbus
      */
-    public ModbusSlaveException(int TYPE) {
+    public SbusSlaveException(int TYPE) {
         super();
         m_Type = TYPE;
     }// constructor
 
     /**
-     * Returns the type of this {@link ModbusSlaveException}.
+     * Returns the type of this {@link SbusSlaveException}.
      * <br>
      * Types are defined according to the protocol
-     * specification in {@link ro.ciprianpascu.sbus.Modbus}.
+     * specification in {@link ro.ciprianpascu.sbus.Sbus}.
 * 
      *
-     * @return the type of this {@link ModbusSlaveException}.
+     * @return the type of this {@link SbusSlaveException}.
      *
-     * @see ro.ciprianpascu.sbus.Modbus
+     * @see ro.ciprianpascu.sbus.Sbus
      */
     public int getType() {
         return m_Type;
     }// getType
 
     /**
-     * Tests if this {@link ModbusSlaveException}
+     * Tests if this {@link SbusSlaveException}
      * is of a given type.
      * <br>
      * Types are defined according to the protocol
-     * specification in {@link ro.ciprianpascu.sbus.Modbus}.
+     * specification in {@link ro.ciprianpascu.sbus.Sbus}.
 * 
      *
      * @param TYPE the type to test this
-     *            {@link ModbusSlaveException} type against.
+     *            {@link SbusSlaveException} type against.
      *
-     * @return true if this {@link ModbusSlaveException}
+     * @return true if this {@link SbusSlaveException}
      *         is of the given type, false otherwise.
      *
-     * @see ro.ciprianpascu.sbus.Modbus
+     * @see ro.ciprianpascu.sbus.Sbus
      */
     public boolean isType(int TYPE) {
         return (TYPE == m_Type);
@@ -87,4 +87,4 @@ public class ModbusSlaveException extends ModbusException {
         return "Error Code = " + m_Type;
     }// getMessage
 
-}// ModbusSlaveException
+}// SbusSlaveException

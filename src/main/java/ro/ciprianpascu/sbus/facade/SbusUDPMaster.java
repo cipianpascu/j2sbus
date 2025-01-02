@@ -16,8 +16,8 @@
 
 package ro.ciprianpascu.sbus.facade;
 
-import ro.ciprianpascu.sbus.ModbusException;
-import ro.ciprianpascu.sbus.io.ModbusUDPTransaction;
+import ro.ciprianpascu.sbus.SbusException;
+import ro.ciprianpascu.sbus.io.SbusUDPTransaction;
 import ro.ciprianpascu.sbus.msg.ReadStatusChannelsRequest;
 import ro.ciprianpascu.sbus.msg.ReadStatusChannelsResponse;
 import ro.ciprianpascu.sbus.msg.WriteSingleChannelRequest;
@@ -36,13 +36,13 @@ import ro.ciprianpascu.sbus.procimg.WordRegister;
  * @author Ciprian Pascu
  * @version %I% (%G%)
  */
-public class ModbusUDPMaster {
+public class SbusUDPMaster {
 
     /** The UDP connection to the slave */
     private UDPMasterConnection m_Connection;
     
     /** The transaction handler for sending/receiving messages */
-    private ModbusUDPTransaction m_Transaction;
+    private SbusUDPTransaction m_Transaction;
     
     /** Request for reading status channels */
     private ReadStatusChannelsRequest m_ReadStatusChannelRequest;
@@ -53,7 +53,7 @@ public class ModbusUDPMaster {
     /**
      * Constructs a new master facade instance with default connection settings.
      */
-    public ModbusUDPMaster() {
+    public SbusUDPMaster() {
         m_Connection = new UDPMasterConnection();
         m_ReadStatusChannelRequest = new ReadStatusChannelsRequest();
         m_WriteSingleChannelRequest = new WriteSingleChannelRequest();
@@ -64,7 +64,7 @@ public class ModbusUDPMaster {
      *
      * @param port the port number the slave is listening on
      */
-    public ModbusUDPMaster(int port) {
+    public SbusUDPMaster(int port) {
         m_Connection = new UDPMasterConnection();
         m_Connection.setPort(port);
         m_ReadStatusChannelRequest = new ReadStatusChannelsRequest();
@@ -80,7 +80,7 @@ public class ModbusUDPMaster {
     public void connect() throws Exception {
         if (m_Connection != null && !m_Connection.isConnected()) {
             m_Connection.connect();
-            m_Transaction = new ModbusUDPTransaction(m_Connection);
+            m_Transaction = new SbusUDPTransaction(m_Connection);
         }
     }
 
@@ -100,9 +100,9 @@ public class ModbusUDPMaster {
      * The number of registers returned will be according to the slave's response.
      *
      * @return array of input registers containing the current status values
-     * @throws ModbusException if an I/O error, slave exception, or transaction error occurs
+     * @throws SbusException if an I/O error, slave exception, or transaction error occurs
      */
-    public synchronized InputRegister[] readInputRegisters() throws ModbusException {
+    public synchronized InputRegister[] readInputRegisters() throws SbusException {
         m_Transaction.setRequest(m_ReadStatusChannelRequest);
         m_Transaction.execute();
         return ((ReadStatusChannelsResponse) m_Transaction.getResponse()).getRegisters();
@@ -115,9 +115,9 @@ public class ModbusUDPMaster {
      *
      * @param channelNo the channel number to write to
      * @param value the register containing the value to write
-     * @throws ModbusException if an I/O error, slave exception, or transaction error occurs
+     * @throws SbusException if an I/O error, slave exception, or transaction error occurs
      */
-    public synchronized void writeSingleRegister(int channelNo, Register value) throws ModbusException {
+    public synchronized void writeSingleRegister(int channelNo, Register value) throws SbusException {
         m_WriteSingleChannelRequest.setChannelNo(channelNo);
         Register[] registers = new Register[2];
         registers[0] = value;

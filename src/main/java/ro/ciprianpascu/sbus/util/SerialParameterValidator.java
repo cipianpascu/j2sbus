@@ -12,7 +12,7 @@ package ro.ciprianpascu.sbus.util;
 import java.util.Arrays;
 
 import gnu.io.SerialPort;
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 
 /**
  * Utility class for validating serial communication parameters.
@@ -99,7 +99,7 @@ public class SerialParameterValidator {
      * @return true if the encoding is valid
      */
     public static boolean isEncodingValid(String enc) {
-        return Arrays.asList(Modbus.validSerialEncodings).contains(enc);
+        return Arrays.asList(Sbus.validSerialEncodings).contains(enc);
     }
 
     /**

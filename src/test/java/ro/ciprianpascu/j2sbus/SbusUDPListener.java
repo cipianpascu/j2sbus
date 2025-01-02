@@ -5,13 +5,13 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import ro.ciprianpascu.sbus.util.ModbusUtil;
+import ro.ciprianpascu.sbus.util.SbusUtil;
 
-public class ModbusUDPListener {
+public class SbusUDPListener {
     private DatagramSocket socket;
     private int port;
 
-    public ModbusUDPListener(int port) throws SocketException {
+    public SbusUDPListener(int port) throws SocketException {
         this.port = port;
         this.socket = new DatagramSocket(port);
         this.socket.setBroadcast(true); // Enable broadcasting
@@ -25,7 +25,7 @@ public class ModbusUDPListener {
                 while (true) {
                     socket.receive(packet);
 					System.out.println("Received packet from " + packet.getAddress().getHostAddress() + ":" + packet.getPort());
-					System.out.println(ModbusUtil.toHex(packet.getData(), 0, packet.getLength()));
+					System.out.println(SbusUtil.toHex(packet.getData(), 0, packet.getLength()));
                     // Handle the received packet here
                 }
             } catch (IOException e) {
@@ -41,7 +41,7 @@ public class ModbusUDPListener {
     public static void main(String[] args) throws IOException {
         int port = 6000; // Replace with the desired port number
 
-        ModbusUDPListener listener = new ModbusUDPListener(port);
+        SbusUDPListener listener = new SbusUDPListener(port);
         listener.start();
 
         // Wait for user input to stop the listener

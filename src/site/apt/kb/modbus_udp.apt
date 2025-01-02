@@ -1,5 +1,5 @@
         ------
-        Modbus/UDP
+        Sbus/UDP
         ------
         Ciprian Pascu
         ------
@@ -10,8 +10,8 @@
 
 About
 
-    This document introduces a Modbus/UDP flavor which we have developed to verify
-	if the Modbus protocol is suited for the use of UDP/IP as lower level communication
+    This document introduces a Sbus/UDP flavor which we have developed to verify
+	if the Sbus protocol is suited for the use of UDP/IP as lower level communication
 	stack as the protocol:
 
     [[1]] is stateless,
@@ -26,21 +26,21 @@ About
 
 	    
 	We succeeded with a relatively simple design and implementation
-	and are convinced that a Modbus/UDP flavor is an interesting 
+	and are convinced that a Sbus/UDP flavor is an interesting 
     approach for reducing the traffic overhead, achieving high throughput performance.
 
 
 Protocol and Specification
 
-    That's the beauty of the thing, basically we have <<not changed anything>> of the Modbus 
+    That's the beauty of the thing, basically we have <<not changed anything>> of the Sbus 
 	application level (and TCP) specification but how messages are transported.
 
     This means that the IP specific header (called MBAP in the specification) is exactly 
-    the same as for Modbus/TCP. It's 7 bytes long and composed of the following fields: 
+    the same as for Sbus/TCP. It's 7 bytes long and composed of the following fields: 
 
     [[1]] the <invocation identification> (2 bytes) used for transaction pairing; formerly called <transaction identifier>
 
-    [[2]] the <protocol identifier> (2 bytes), is 0 for Modbus by default; reserved for future extensions
+    [[2]] the <protocol identifier> (2 bytes), is 0 for Sbus by default; reserved for future extensions
 
     [[3]] the <length> (2 bytes), a byte count of all following bytes
 
@@ -78,9 +78,9 @@ This is a joke right?
     Right. That's why we have implemented it and added some examples to the <jamod> library.
     Please see yourself:
     
-    * Modbus/UDP Slave: {{{../development/udp_slave_howto.html}UDP Slave How-To}}
+    * Sbus/UDP Slave: {{{../development/udp_slave_howto.html}UDP Slave How-To}}
 
-    * Modbus/UDP Master: {{{../development/udp_master_howto.html}UDP Master How-To}}
+    * Sbus/UDP Master: {{{../development/udp_master_howto.html}UDP Master How-To}}
 
     []
     

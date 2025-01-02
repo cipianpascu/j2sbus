@@ -19,7 +19,7 @@ package ro.ciprianpascu.sbus.procimg;
 /**
  * Interface defining a digital input.
 * 
- * In Modbus terms this represents an
+ * In Sbus terms this represents an
  * input discrete, it is read only from
  * the slave side.
  *

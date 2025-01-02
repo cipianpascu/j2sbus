@@ -20,7 +20,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.procimg.ByteRegister;
 import ro.ciprianpascu.sbus.procimg.IllegalAddressException;
 import ro.ciprianpascu.sbus.procimg.InputRegister;
@@ -37,7 +37,7 @@ import ro.ciprianpascu.sbus.procimg.WordRegister;
  * @author Ciprian Pascu
  * @version %I% (%G%)
  */
-public final class WriteSingleChannelRequest extends ModbusRequest {
+public final class WriteSingleChannelRequest extends SbusRequest {
 
     // instance attributes
     private int m_channelNo;
@@ -48,7 +48,7 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
      */
     public WriteSingleChannelRequest() {
         super();
-        setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST);
+        setFunctionCode(Sbus.WRITE_SINGLE_CHANNEL_REQUEST);
         // 4 bytes (unit id and function code is excluded)
         setDataLength(4);
     }
@@ -62,7 +62,7 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
      */
     public WriteSingleChannelRequest(int channelNo, Register[] regs) {
         super();
-        setFunctionCode(Modbus.WRITE_SINGLE_CHANNEL_REQUEST);
+        setFunctionCode(Sbus.WRITE_SINGLE_CHANNEL_REQUEST);
         m_channelNo = channelNo;
         m_Registers = regs;
         // 4 bytes (unit id and function code is excluded)
@@ -70,7 +70,7 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
     }
 
     @Override
-    public ModbusResponse createResponse(ProcessImageImplementation procimg) {
+    public SbusResponse createResponse(ProcessImageImplementation procimg) {
         WriteSingleChannelResponse response = null;
         boolean updateSuccessful = false;
 
@@ -81,7 +81,7 @@ public final class WriteSingleChannelRequest extends ModbusRequest {
             regTimer.setValue(m_Registers[1].toBytes());
             updateSuccessful = true;
         } catch (IllegalAddressException iaex) {
-            return createExceptionResponse(Modbus.ILLEGAL_ADDRESS_EXCEPTION);
+            return createExceptionResponse(Sbus.ILLEGAL_ADDRESS_EXCEPTION);
         }
         
         response = new WriteSingleChannelResponse(this.getChannelNo(), updateSuccessful);

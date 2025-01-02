@@ -20,7 +20,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.io.NonWordDataHandler;
 import ro.ciprianpascu.sbus.procimg.ByteRegister;
 import ro.ciprianpascu.sbus.procimg.IllegalAddressException;
@@ -38,7 +38,7 @@ import ro.ciprianpascu.sbus.procimg.WordRegister;
  * @author Ciprian Pascu
  * @version %I% (%G%)
  */
-public final class WriteRgbwRequest extends ModbusRequest {
+public final class WriteRgbwRequest extends SbusRequest {
 
     // instance attributes
     private Register[] m_Registers;
@@ -49,7 +49,7 @@ public final class WriteRgbwRequest extends ModbusRequest {
      */
     public WriteRgbwRequest() {
         super();
-        setFunctionCode(Modbus.WRITE_RGBW_REQUEST);
+        setFunctionCode(Sbus.WRITE_RGBW_REQUEST);
         // 4 bytes for RGBW values + 2 bytes for temporisation
         setDataLength(6);
     }
@@ -67,14 +67,14 @@ public final class WriteRgbwRequest extends ModbusRequest {
      */
     public WriteRgbwRequest(Register[] reg) {
         super();
-        setFunctionCode(Modbus.WRITE_RGBW_REQUEST);
+        setFunctionCode(Sbus.WRITE_RGBW_REQUEST);
         m_Registers = reg;
         setDataLength(6);
     }
 
 
     @Override
-    public ModbusResponse createResponse(ProcessImageImplementation procimg) {
+    public SbusResponse createResponse(ProcessImageImplementation procimg) {
         WriteRgbwResponse response = null;
 
         if (m_NonWordDataHandler == null) {
@@ -86,7 +86,7 @@ public final class WriteRgbwRequest extends ModbusRequest {
                     regs[i].setValue(this.getRegister(i).toBytes());
                 }
             } catch (IllegalAddressException iaex) {
-                return createExceptionResponse(Modbus.ILLEGAL_ADDRESS_EXCEPTION);
+                return createExceptionResponse(Sbus.ILLEGAL_ADDRESS_EXCEPTION);
             }
         } else {
             int result = m_NonWordDataHandler.commitUpdate();

@@ -20,7 +20,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.procimg.IllegalAddressException;
 import ro.ciprianpascu.sbus.procimg.InputRegister;
 import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
@@ -36,7 +36,7 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
  * @version %I% (%G%)
  */
-public final class ReadTemperatureRequest extends ModbusRequest {
+public final class ReadTemperatureRequest extends SbusRequest {
 
     // instance attributes
     private int m_TemperatureUnit;
@@ -47,13 +47,13 @@ public final class ReadTemperatureRequest extends ModbusRequest {
      */
     public ReadTemperatureRequest() {
         super();
-        setFunctionCode(Modbus.READ_TEMPERATURE_REQUEST);
+        setFunctionCode(Sbus.READ_TEMPERATURE_REQUEST);
         setDataLength(1);
     }// constructor
 
 
     @Override
-    public ModbusResponse createResponse(ProcessImageImplementation procimg) {
+    public SbusResponse createResponse(ProcessImageImplementation procimg) {
         ReadTemperatureResponse response = null;
         InputRegister[] inpregs = null;
 
@@ -61,7 +61,7 @@ public final class ReadTemperatureRequest extends ModbusRequest {
         try {
             inpregs = procimg.getInputRegisterRange(0, 1);
         } catch (IllegalAddressException iaex) {
-            return createExceptionResponse(Modbus.ILLEGAL_ADDRESS_EXCEPTION);
+            return createExceptionResponse(Sbus.ILLEGAL_ADDRESS_EXCEPTION);
         }
         response = new ReadTemperatureResponse(inpregs);
         // transfer header data

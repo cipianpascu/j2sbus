@@ -25,16 +25,16 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.ModbusIOException;
-import ro.ciprianpascu.sbus.msg.ModbusMessage;
-import ro.ciprianpascu.sbus.msg.ModbusRequest;
-import ro.ciprianpascu.sbus.msg.ModbusResponse;
+import ro.ciprianpascu.sbus.Sbus;
+import ro.ciprianpascu.sbus.SbusIOException;
+import ro.ciprianpascu.sbus.msg.SbusMessage;
+import ro.ciprianpascu.sbus.msg.SbusRequest;
+import ro.ciprianpascu.sbus.msg.SbusResponse;
 import ro.ciprianpascu.sbus.net.UDPTerminal;
-import ro.ciprianpascu.sbus.util.ModbusUtil;
+import ro.ciprianpascu.sbus.util.SbusUtil;
 
 /**
- * Class that implements the Modbus UDP transport
+ * Class that implements the Sbus UDP transport
  * flavor.
  * 
  * @author Dieter Wimberger
@@ -42,28 +42,28 @@ import ro.ciprianpascu.sbus.util.ModbusUtil;
 
  * @version 1.0 (29/04/2002)
  */
-public class ModbusUDPTransport implements ModbusTransport {
+public class SbusUDPTransport implements SbusTransport {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ModbusUDPTransport.class);
+	private static final Logger logger = LoggerFactory.getLogger(SbusUDPTransport.class);
 
     // instance attributes
     private UDPTerminal m_Terminal;
     private BytesOutputStream m_ByteOut;
     private BytesInputStream m_ByteIn;
-    private ExpiringCache<ModbusResponse> messages;
+    private ExpiringCache<SbusResponse> messages;
 
     /**
-     * Constructs a new {@link ModbusTransport} instance,
+     * Constructs a new {@link SbusTransport} instance,
      * for a given {@link UDPTerminal}.
 * 
      *
      * @param terminal the {@link UDPTerminal} used for message transport.
      */
-    public ModbusUDPTransport(UDPTerminal terminal) {
+    public SbusUDPTransport(UDPTerminal terminal) {
         m_Terminal = terminal;
-        m_ByteOut = new BytesOutputStream(Modbus.MAX_MESSAGE_LENGTH);
-        m_ByteIn = new BytesInputStream(Modbus.MAX_MESSAGE_LENGTH);
-        messages = new ExpiringCache<ModbusResponse>();
+        m_ByteOut = new BytesOutputStream(Sbus.MAX_MESSAGE_LENGTH);
+        m_ByteIn = new BytesInputStream(Sbus.MAX_MESSAGE_LENGTH);
+        messages = new ExpiringCache<SbusResponse>();
     }// constructor
 
     @Override
@@ -72,29 +72,29 @@ public class ModbusUDPTransport implements ModbusTransport {
     }// close
 
     @Override
-    public void writeMessage(ModbusMessage msg) throws ModbusIOException {
+    public void writeMessage(SbusMessage msg) throws SbusIOException {
         try {
         	cacheResponses();
-        	ModbusResponse cachedMessage = messages.get("" + msg.getSubnetID() + "_" + msg.getUnitID() + "_" + msg.getFunctionCode());
+        	SbusResponse cachedMessage = messages.get("" + msg.getSubnetID() + "_" + msg.getUnitID() + "_" + msg.getFunctionCode());
         	if(cachedMessage != null) // already have recent information in the cache
         		return;
             synchronized (m_ByteOut) {
                 m_ByteOut.reset();
                 msg.writeTo(m_ByteOut);
-                byte[] crc = ModbusUtil.calculateCRC(m_ByteOut.getBuffer(), m_ByteOut.size());
+                byte[] crc = SbusUtil.calculateCRC(m_ByteOut.getBuffer(), m_ByteOut.size());
                 m_ByteOut.writeByte(crc[0]);
                 m_ByteOut.writeByte(crc[1]);
                 m_Terminal.sendMessage(m_ByteOut.toByteArray());
             }
         } catch (Exception ex) {
-            throw new ModbusIOException("I/O exception - failed to write.");
+            throw new SbusIOException("I/O exception - failed to write.");
         }
     }// write
 
     @Override
-    public ModbusRequest readRequest() throws ModbusIOException {
+    public SbusRequest readRequest() throws SbusIOException {
         try {
-            ModbusRequest req = null;
+            SbusRequest req = null;
             synchronized (m_ByteIn) {
                 m_ByteIn.reset(m_Terminal.receiveMessage());
                 
@@ -105,9 +105,9 @@ public class ModbusUDPTransport implements ModbusTransport {
 					logger.debug("No data received. Message not targeted for me.");
 					return null;
 				}
-                if (!ModbusUtil.checkCRC(data, dlength-2)) { 
+                if (!SbusUtil.checkCRC(data, dlength-2)) { 
                     throw new IOException("CRC Error in received frame: " + dlength + " bytes: "
-                            + ModbusUtil.toHex(m_ByteIn.getBuffer(), 0, dlength));
+                            + SbusUtil.toHex(m_ByteIn.getBuffer(), 0, dlength));
                 }
                 m_ByteIn.reset();
                 
@@ -118,23 +118,23 @@ public class ModbusUDPTransport implements ModbusTransport {
 				int deviceType = m_ByteIn.readUnsignedShort();
                 int functionCode = m_ByteIn.readUnsignedShort();
                 m_ByteIn.reset();
-                req = ModbusRequest.createModbusRequest(functionCode);
+                req = SbusRequest.createSbusRequest(functionCode);
                 req.readFrom(m_ByteIn);
             }
             return req;
         } catch (InterruptedIOException ioex) {
-            throw new ModbusIOException("Socket timed out. " + ioex.getMessage());
+            throw new SbusIOException("Socket timed out. " + ioex.getMessage());
         } catch (Exception ex) {
-            throw new ModbusIOException("I/O exception - failed to read. " + ex.getMessage());
+            throw new SbusIOException("I/O exception - failed to read. " + ex.getMessage());
         }
     }// readRequest
 
     @Override
-    public ModbusResponse readResponse(String transactionId) throws ModbusIOException {
+    public SbusResponse readResponse(String transactionId) throws SbusIOException {
 
         try {
         	cacheResponses();
-            ModbusResponse res =  messages.get(transactionId);
+            SbusResponse res =  messages.get(transactionId);
         	if(res != null)
         		return res;
             synchronized (m_ByteIn) {
@@ -143,9 +143,9 @@ public class ModbusUDPTransport implements ModbusTransport {
                 // check CRC
                 byte[] data = new byte[m_ByteIn.available()];
 				int dlength = m_ByteIn.read(data);
-                if (!ModbusUtil.checkCRC(data, dlength-2)) {
+                if (!SbusUtil.checkCRC(data, dlength-2)) {
                     throw new IOException("CRC Error in received frame: " + dlength + " bytes: "
-                            + ModbusUtil.toHex(m_ByteIn.getBuffer(), 0, dlength));
+                            + SbusUtil.toHex(m_ByteIn.getBuffer(), 0, dlength));
                 }
                 m_ByteIn.reset();
                 
@@ -155,33 +155,33 @@ public class ModbusUDPTransport implements ModbusTransport {
 				int deviceType = m_ByteIn.readUnsignedShort();
                 int functionCode = m_ByteIn.readUnsignedShort();
                 m_ByteIn.reset();
-                res = ModbusResponse.createModbusResponse(functionCode);
+                res = SbusResponse.createSbusResponse(functionCode);
                 res.readFrom(m_ByteIn);
             }
             return res;
         } catch (InterruptedIOException ioex) {
-            throw new ModbusIOException("Socket timed out. " + ioex.getMessage());
-        } catch (ModbusIOException mioex) {
+            throw new SbusIOException("Socket timed out. " + ioex.getMessage());
+        } catch (SbusIOException mioex) {
             throw mioex;
         } catch (Exception ex) {
             // ex.printStackTrace();
-            throw new ModbusIOException("I/O exception - failed to read. " + ex.getMessage());
+            throw new SbusIOException("I/O exception - failed to read. " + ex.getMessage());
         }
     }// readResponse
 
-	private void cacheResponses() throws ModbusIOException {
+	private void cacheResponses() throws SbusIOException {
 		try {
 			while (m_Terminal.hasMessage()) {
-				ModbusResponse res = null;
+				SbusResponse res = null;
 				synchronized (m_ByteIn) {
 					m_ByteIn.reset(m_Terminal.receiveMessage());
 
 					// check CRC
 					byte[] data = new byte[m_ByteIn.available()];
 					int dlength = m_ByteIn.read(data);
-					if (!ModbusUtil.checkCRC(data, dlength - 2)) {
+					if (!SbusUtil.checkCRC(data, dlength - 2)) {
 						logger.warn("CRC Error in received frame: " + dlength + " bytes: "
-								+ ModbusUtil.toHex(m_ByteIn.getBuffer(), 0, dlength));
+								+ SbusUtil.toHex(m_ByteIn.getBuffer(), 0, dlength));
 					}
 					m_ByteIn.reset();
 
@@ -191,16 +191,16 @@ public class ModbusUDPTransport implements ModbusTransport {
 					int deviceType = m_ByteIn.readUnsignedShort();
 					int functionCode = m_ByteIn.readUnsignedShort();
 					m_ByteIn.reset();
-					res = ModbusResponse.createModbusResponse(functionCode);
+					res = SbusResponse.createSbusResponse(functionCode);
 					res.readFrom(m_ByteIn);
 					messages.put(subnetID + "_" + unitID + "_" + functionCode, res);
 				}
 			}
 		} catch (InterruptedIOException ioex) {
-			throw new ModbusIOException("Socket timed out. " + ioex.getMessage());
+			throw new SbusIOException("Socket timed out. " + ioex.getMessage());
 		} catch (Exception ex) {
 			// ex.printStackTrace();
-			throw new ModbusIOException("I/O exception - failed to read. " + ex.getMessage());
+			throw new SbusIOException("I/O exception - failed to read. " + ex.getMessage());
 		}
 	}
    
@@ -300,4 +300,4 @@ public class ModbusUDPTransport implements ModbusTransport {
         }
     }
 
-}// class ModbusUDPTransport
+}// class SbusUDPTransport

@@ -13,7 +13,7 @@ package ro.ciprianpascu.sbus.net;
 /**
  * @author Sami Salonen
  **/
-public interface ModbusSlaveConnection {
+public interface SbusSlaveConnection {
     /**
      * Connects the connection to the endpoint
      *

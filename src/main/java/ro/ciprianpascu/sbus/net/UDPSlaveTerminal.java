@@ -27,13 +27,13 @@ import java.util.Hashtable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.ModbusIOException;
-import ro.ciprianpascu.sbus.io.ModbusTransport;
-import ro.ciprianpascu.sbus.io.ModbusUDPTransport;
-import ro.ciprianpascu.sbus.io.ModbusUDPTransportFactory;
+import ro.ciprianpascu.sbus.Sbus;
+import ro.ciprianpascu.sbus.SbusIOException;
+import ro.ciprianpascu.sbus.io.SbusTransport;
+import ro.ciprianpascu.sbus.io.SbusUDPTransport;
+import ro.ciprianpascu.sbus.io.SbusUDPTransportFactory;
 import ro.ciprianpascu.sbus.util.LinkedQueue;
-import ro.ciprianpascu.sbus.util.ModbusUtil;
+import ro.ciprianpascu.sbus.util.SbusUtil;
 
 /**
  * Class implementing a UDP slave terminal for the SBus protocol.
@@ -47,12 +47,12 @@ import ro.ciprianpascu.sbus.util.ModbusUtil;
 public class UDPSlaveTerminal implements UDPTerminal {
     
     /**
-     * Implementation of ModbusUDPTransportFactory for creating UDP transports.
+     * Implementation of SbusUDPTransportFactory for creating UDP transports.
      */
-    public static class ModbusUDPTransportFactoryImpl implements ModbusUDPTransportFactory {
+    public static class SbusUDPTransportFactoryImpl implements SbusUDPTransportFactory {
         @Override
-        public ModbusTransport create(UDPTerminal terminal) {
-            return new ModbusUDPTransport(terminal);
+        public SbusTransport create(UDPTerminal terminal) {
+            return new SbusUDPTransport(terminal);
         }
     }
 
@@ -65,7 +65,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
     private DatagramChannel m_Channel;
     
     /** Timeout for operations in milliseconds */
-    private int m_Timeout = Modbus.DEFAULT_TIMEOUT;
+    private int m_Timeout = Sbus.DEFAULT_TIMEOUT;
     
     /** Flag indicating if the terminal is active */
     private boolean m_Active;
@@ -74,16 +74,16 @@ public class UDPSlaveTerminal implements UDPTerminal {
     protected InetAddress m_LocalAddress;
     
     /** Local port for the terminal */
-    private int m_LocalPort = Modbus.DEFAULT_PORT;
+    private int m_LocalPort = Sbus.DEFAULT_PORT;
     
     /** Remote address for communication */
     protected InetAddress m_RemoteAddress;
     
     /** Remote port for communication */
-    private int m_RemotePort = Modbus.DEFAULT_PORT;
+    private int m_RemotePort = Sbus.DEFAULT_PORT;
     
     /** Transport layer for SBus protocol */
-    protected ModbusTransport m_ModbusTransport;
+    protected SbusTransport m_SbusTransport;
 
     /** Queue for outgoing messages */
     private LinkedQueue m_SendQueue;
@@ -113,7 +113,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
     byte[] smartCloud = new byte[] {'S', 'M', 'A', 'R', 'T', 'C', 'L', 'O', 'U', 'D', (byte)0xAA, (byte)0xAA};
 
     /** Factory for creating transport instances */
-    private ModbusUDPTransportFactory m_TransportFactory;
+    private SbusUDPTransportFactory m_TransportFactory;
     
     /** Time to wait for threads to close during deactivation */
     private int m_DeactivationWaitMillis = 100;
@@ -141,7 +141,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
      * @param withResponse true to enable responses, false for fire-and-forget
      */
     public UDPSlaveTerminal(InetAddress localaddress, boolean withResponse) {
-        this(localaddress, new ModbusUDPTransportFactoryImpl(), DEFAULT_DEACTIVATION_WAIT_MILLIS, withResponse);
+        this(localaddress, new SbusUDPTransportFactoryImpl(), DEFAULT_DEACTIVATION_WAIT_MILLIS, withResponse);
     }
 
     /**
@@ -152,7 +152,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
      * @param deactivationWaitMillis time to wait during deactivation
      * @param withResponse true to enable responses, false for fire-and-forget
      */
-    public UDPSlaveTerminal(InetAddress localaddress, ModbusUDPTransportFactory transportFactory,
+    public UDPSlaveTerminal(InetAddress localaddress, SbusUDPTransportFactory transportFactory,
             int deactivationWaitMillis, boolean withResponse) {
         m_LocalAddress = localaddress;
         m_TransportFactory = transportFactory;
@@ -233,7 +233,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
             m_Sender.setName("PacketSender");
             m_Sender.start();
             logger.debug("UDPSlaveTerminal::sender started()");
-            m_ModbusTransport = m_TransportFactory.create(this);
+            m_SbusTransport = m_TransportFactory.create(this);
             logger.debug("UDPSlaveTerminal::transport created");
             m_Active = true;
         }
@@ -251,7 +251,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
                 m_Sender.join(m_DeactivationWaitMillis);
                 m_Sender.interrupt();
                 m_Channel.close();
-                m_ModbusTransport = null;
+                m_SbusTransport = null;
                 m_Active = false;
             }
         } catch (Exception ex) {
@@ -260,8 +260,8 @@ public class UDPSlaveTerminal implements UDPTerminal {
     }
 
     @Override
-    public ModbusTransport getModbusTransport() {
-        return m_ModbusTransport;
+    public SbusTransport getSbusTransport() {
+        return m_SbusTransport;
     }
 
     /**
@@ -299,7 +299,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
         System.arraycopy(localIp, 0, fullMessage, 0, localIp.length);
         System.arraycopy(smartCloud, 0, fullMessage, 4, smartCloud.length);
         System.arraycopy(msg, 0, fullMessage, 16, msg.length);
-        System.out.println(ModbusUtil.toHex(fullMessage));
+        System.out.println(SbusUtil.toHex(fullMessage));
         m_SendQueue.put(fullMessage);
     }
 
@@ -307,12 +307,12 @@ public class UDPSlaveTerminal implements UDPTerminal {
     public byte[] receiveMessage() throws Exception {
         byte[] message = (byte[]) (m_listenerMode ? m_ReceiveQueue.take() : m_ReceiveQueue.poll(m_Timeout));
         if(message == null)
-            throw new ModbusIOException("No message response arrived in due time", true);
+            throw new SbusIOException("No message response arrived in due time", true);
         byte[] signature = new byte[Math.min(message.length-4, smartCloud.length)];
         System.arraycopy(message, 4, signature, 0, signature.length);
         int equal = Arrays.compare(signature, smartCloud);
         if(equal != 0)
-            throw new ModbusIOException("Message not for me", true);
+            throw new SbusIOException("Message not for me", true);
         return Arrays.copyOfRange(message, signature.length+4, message.length);
     }
 
@@ -342,7 +342,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
                     int bytesSent = 0;
                     if(m_listenerMode) {
                         InetSocketAddress sourceAddress = (InetSocketAddress) ((Object[])m_Requests
-                                .remove(ModbusUtil.registersToInt(message)))[0];
+                                .remove(SbusUtil.registersToInt(message)))[0];
                         bytesSent = m_Channel.send(buffer, sourceAddress);
                     } else {
                         bytesSent = m_Channel.send(buffer, new InetSocketAddress(m_RemoteAddress, m_LocalPort));
@@ -381,11 +381,11 @@ public class UDPSlaveTerminal implements UDPTerminal {
                     buffer.flip();
                     byte[] fullMessage = new byte[buffer.remaining()];
                     buffer.get(fullMessage);
-                    Integer tid = new Integer(ModbusUtil.registersToInt(fullMessage));
+                    Integer tid = new Integer(SbusUtil.registersToInt(fullMessage));
                     if(m_listenerMode)
                         m_Requests.put(tid, new Object[] {sourceAddress, fullMessage});
                     m_ReceiveQueue.put(fullMessage);
-                    System.out.println(ModbusUtil.toHex(fullMessage));
+                    System.out.println(SbusUtil.toHex(fullMessage));
                     logger.trace("Received package placed in queue");
                 } catch (Exception ex) {
                     if(logger.isDebugEnabled())

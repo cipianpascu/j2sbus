@@ -2,7 +2,7 @@
 <project name="jamod">
 
   <bannerLeft>
-    <name>Java Modbus Library (jamod)</name>
+    <name>Java Sbus Library (jamod)</name>
     <href>http://jamod.sf.net/</href>
   </bannerLeft>
 
@@ -40,8 +40,8 @@
     <menu name="Development">
       <item name="Index" href="kb/index.html"/>
       <item name="Understanding the Protocol" href="kb/protocol.html"/>
-      <item name="Modbus/UDP" href="kb/modbus_udp.html"/>
-      <item name="Modbus/BIN" href="kb/modbus_bin.html"/>
+      <item name="Sbus/UDP" href="kb/sbus_udp.html"/>
+      <item name="Sbus/BIN" href="kb/sbus_bin.html"/>
       
       <item name="How-To" href="kb/howto_index.html">
         <item name="Process Image" href="kb/processimage.html"/>

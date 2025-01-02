@@ -18,25 +18,25 @@ package ro.ciprianpascu.sbus.io;
 
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.ModbusIOException;
-import ro.ciprianpascu.sbus.msg.ModbusMessage;
-import ro.ciprianpascu.sbus.msg.ModbusRequest;
-import ro.ciprianpascu.sbus.msg.ModbusResponse;
+import ro.ciprianpascu.sbus.SbusIOException;
+import ro.ciprianpascu.sbus.msg.SbusMessage;
+import ro.ciprianpascu.sbus.msg.SbusRequest;
+import ro.ciprianpascu.sbus.msg.SbusResponse;
 
 /**
  * Interface defining the I/O mechanisms for
- * {@link ModbusMessage} instances.
+ * {@link SbusMessage} instances.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
 
  * @version %I% (%G%)
  */
-public interface ModbusTransport {
+public interface SbusTransport {
 
     /**
      * Closes the raw input and output streams of
-     * this {@link ModbusTransport}.
+     * this {@link SbusTransport}.
      * 
      *
      * @throws IOException if a stream
@@ -45,39 +45,39 @@ public interface ModbusTransport {
     public void close() throws IOException;
 
     /**
-     * Writes a {@link ModbusMessage} to the
-     * output stream of this {@link ModbusTransport}.
+     * Writes a {@link SbusMessage} to the
+     * output stream of this {@link SbusTransport}.
      * 
      *
-     * @param msg a {@link ModbusMessage}.
-     * @throws ModbusIOException data cannot be
+     * @param msg a {@link SbusMessage}.
+     * @throws SbusIOException data cannot be
      *             written properly to the raw output stream of
-     *             this {@link ModbusTransport}.
+     *             this {@link SbusTransport}.
      */
-    public void writeMessage(ModbusMessage msg) throws ModbusIOException;
+    public void writeMessage(SbusMessage msg) throws SbusIOException;
 
     /**
-     * Reads a {@link ModbusRequest} from the
-     * input stream of this {@link ModbusTransport}.
+     * Reads a {@link SbusRequest} from the
+     * input stream of this {@link SbusTransport}.
      * 
-     * @return req the {@link ModbusRequest} read from the underlying stream.
+     * @return req the {@link SbusRequest} read from the underlying stream.
      *
-     * @throws ModbusIOException data cannot be
+     * @throws SbusIOException data cannot be
      *             read properly from the raw input stream of
-     *             this {@link ModbusTransport}.
+     *             this {@link SbusTransport}.
      */
-    public ModbusRequest readRequest() throws ModbusIOException;
+    public SbusRequest readRequest() throws SbusIOException;
 
     /**
-     * Reads a {@link ModbusResponse} from the
-     * input stream of this {@link ModbusTransport} .
+     * Reads a {@link SbusResponse} from the
+     * input stream of this {@link SbusTransport} .
      * @param transactionId Transaction identifier for the cached response
-     * @return res the {@link ModbusResponse} read from the underlying stream.
+     * @return res the {@link SbusResponse} read from the underlying stream.
      *
-     * @throws ModbusIOException data cannot be
+     * @throws SbusIOException data cannot be
      *             read properly from the raw input stream of
-     *             this {@link ModbusTransport}.
+     *             this {@link SbusTransport}.
      */
-    public ModbusResponse readResponse(String transactionId) throws ModbusIOException;
+    public SbusResponse readResponse(String transactionId) throws SbusIOException;
 
-}// class ModbusTransport
+}// class SbusTransport

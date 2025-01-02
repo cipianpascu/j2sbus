@@ -11,7 +11,7 @@
 About
 
     This document should help the reader to understand the ideas behind the abstraction 
-    of a process image suited for the Modbus basic data types.
+    of a process image suited for the Sbus basic data types.
 
 
 What is a Process Image?
@@ -34,10 +34,10 @@ What is a Process Image?
     at a certain point of time (respectively in terms of what we can measure).
 
 
-* A Process Image for Modbus
+* A Process Image for Sbus
 
-    As described in {{{./protocol.html}Understanding the Protocol - Modbus Data Model}},
-    a set of simple data types is defined by the Modbus specification. 
+    As described in {{{./protocol.html}Understanding the Protocol - Sbus Data Model}},
+    a set of simple data types is defined by the Sbus specification. 
     The following list presents the abstract models for the different corresponding 
     types of the data model:
 
@@ -61,7 +61,7 @@ What is a Process Image?
    Basically represents an abstraction for an input that is fed by a digital sensor 
    (i.e. 1 or 0, respectively true/false or on/off etc.). Figure 1 presents a possible 
    symbolic notation and the interface representing the corresponding software model 
-   ({{{../apidocs/net/wimpi/modbus/procimg/DigitalIn.html}<<<DigitalIn>>>}}).
+   ({{{../apidocs/net/wimpi/sbus/procimg/DigitalIn.html}<<<DigitalIn>>>}}).
 
 
 [../images/procimage_digitalin.png] Figure 1.a: Digital Input Model
@@ -79,7 +79,7 @@ What is a Process Image?
     can be in, as well as switched into, the states on/off (respectively true/false 
     or 1/0 etc.). Figure 2 presents a possible symbolic notation of the input states 
     and the interface representing the corresponding software model 
-    ({{{../apidocs/net/wimpi/modbus/procimg/DigitalOut.html}<<<DigitalOut>>>}}).
+    ({{{../apidocs/net/wimpi/sbus/procimg/DigitalOut.html}<<<DigitalOut>>>}}).
 
 [../images/procimage_digitalout.png] Figure 2.a: Digital Output Model
 
@@ -96,7 +96,7 @@ What is a Process Image?
     It can take a range of values, which is basically limited by the number of possible 
     values for a 16 bit Integer. Figure 3presents a possible symbolic notation and 
     the interface representing the corresponding software model
-    ({{{../apidocs/net/wimpi/modbus/procimg/InputRegister.html}<<<InputRegister>>>}}).
+    ({{{../apidocs/net/wimpi/sbus/procimg/InputRegister.html}<<<InputRegister>>>}}).
 
 [../images/procimage_inputregister.png] Figure 3.a: Input Register Model
 
@@ -113,7 +113,7 @@ What is a Process Image?
     take and be set a range of values, which is limited by the number of possible 
     values for a 16 bit Integer. Figure 4 presents a possible symbolic notation and 
     the interface representing the corresponding software model 
-    ({{{../apidocs/net/wimpi/modbus/procimg/Register.html}<<<Register>>>}}).
+    ({{{../apidocs/net/wimpi/sbus/procimg/Register.html}<<<Register>>>}}).
 
 [../images/procimage_register.png] Figure 4.a: Register Model
 
@@ -130,11 +130,11 @@ What is a Process Image?
     presented elements ({{{DI}<<<DigitalIn>>>}}, {{{DO}<<<DigitalOut>>>}}, {{{IR}<<<InputRegister>>>}},
     and {{{RE}<<<Register>>>}}).
     
-    According to the Modbus specification, the simplest organization of this data in "memory"
+    According to the Sbus specification, the simplest organization of this data in "memory"
     for a virtual device which has no real memory limits, are separate blocks for 
     each data type. The resulting software model 
-    ({{{../apidocs/net/wimpi/modbus/procimg/ProcessImage.html}<<<ProcessImage>>>}}, 
-    and {{{../apidocs/net/wimpi/modbus/procimg/ProcessImageImplementation.html}<<<ProcessImageImplementation>>>}}) 
+    ({{{../apidocs/net/wimpi/sbus/procimg/ProcessImage.html}<<<ProcessImage>>>}}, 
+    and {{{../apidocs/net/wimpi/sbus/procimg/ProcessImageImplementation.html}<<<ProcessImageImplementation>>>}}) 
     are presented in Figure 5.
 
 [../images/procimage_interface.png] Figure 5: Process Image Model
@@ -149,22 +149,22 @@ What is a Process Image?
      with new data. However, if this is not necessary, synchronization mechanisms can be still 
      deployed at the level of element instances (respectively their implementations). 
 
-    Second, the generic interface allows generic slave access to the standard Modbus 
-    data types; in a few lines of code you can have your Modbus slave (or server) 
+    Second, the generic interface allows generic slave access to the standard Sbus 
+    data types; in a few lines of code you can have your Sbus slave (or server) 
     up and running.
 
     jamod comes with a very simple demonstration implementation. All related classes 
     are prefixed with <<<Simple>>>:
 
-    * {{{../apidocs/net/wimpi/modbus/procimg/SimpleDigitalIn.html}<<<SimpleDigitalIn>>>}}
+    * {{{../apidocs/net/wimpi/sbus/procimg/SimpleDigitalIn.html}<<<SimpleDigitalIn>>>}}
     
-    * {{{../apidocs/net/wimpi/modbus/procimg/SimpleDigitalOut.html}<<<SimpleDigitalOut>>>}}
+    * {{{../apidocs/net/wimpi/sbus/procimg/SimpleDigitalOut.html}<<<SimpleDigitalOut>>>}}
     
-    * {{{../apidocs/net/wimpi/modbus/procimg/SimpleInputRegister.html}<<<SimpleInputRegister>>>}}
+    * {{{../apidocs/net/wimpi/sbus/procimg/SimpleInputRegister.html}<<<SimpleInputRegister>>>}}
     
-    * {{{../apidocs/net/wimpi/modbus/procimg/SimpleRegister.html}<<<SimpleRegister>>>}}
+    * {{{../apidocs/net/wimpi/sbus/procimg/SimpleRegister.html}<<<SimpleRegister>>>}}
     
-    * {{{../apidocs/net/wimpi/modbus/procimg/SimpleProcessImage.html}<<<SimpleProcessImage>>>}}
+    * {{{../apidocs/net/wimpi/sbus/procimg/SimpleProcessImage.html}<<<SimpleProcessImage>>>}}
     
     []
     

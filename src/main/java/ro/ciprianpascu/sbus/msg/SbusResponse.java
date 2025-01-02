@@ -20,10 +20,10 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 
 /**
- * Abstract class implementing a {@link ModbusResponse}.
+ * Abstract class implementing a {@link SbusResponse}.
  * This class provides specialised implementations with
  * the functionality they have in common.
  *
@@ -32,14 +32,14 @@ import ro.ciprianpascu.sbus.Modbus;
 
  * @version %I% (%G%)
  */
-public abstract class ModbusResponse extends ModbusMessageImpl {
+public abstract class SbusResponse extends SbusMessageImpl {
 
     /**
      * Utility method to set the raw data of the message.
      * Should not be used except under rare circumstances.
 * 
      *
-     * @param msg the {@link byte[]} resembling the raw modbus
+     * @param msg the {@link byte[]} resembling the raw sbus
      *            response message.
      */
     protected void setMessage(byte[] msg) {
@@ -51,20 +51,20 @@ public abstract class ModbusResponse extends ModbusMessageImpl {
     }// setMessage
 
     /**
-     * Factory method creating the required specialized {@link ModbusResponse}
+     * Factory method creating the required specialized {@link SbusResponse}
      * instance.
      *
      * @param functionCode the function code of the response as {@link int}.
-     * @return a ModbusResponse instance specific for the given function code.
+     * @return a SbusResponse instance specific for the given function code.
      */
-    public static ModbusResponse createModbusResponse(int functionCode) {
-        ModbusResponse response = null;
+    public static SbusResponse createSbusResponse(int functionCode) {
+        SbusResponse response = null;
 
         switch (functionCode) {
-            case Modbus.READ_STATUS_CHANNELS_REQUEST+1:
+            case Sbus.READ_STATUS_CHANNELS_REQUEST+1:
                 response = new ReadStatusChannelsResponse();
                 break;
-            case Modbus.READ_TEMPERATURE_REQUEST+1:
+            case Sbus.READ_TEMPERATURE_REQUEST+1:
             	response = new ReadTemperatureResponse();
                 break;
             default:
@@ -72,6 +72,6 @@ public abstract class ModbusResponse extends ModbusMessageImpl {
                 break;
         }
         return response;
-    }// createModbusResponse
+    }// createSbusResponse
 
-}// class ModbusResponse
+}// class SbusResponse

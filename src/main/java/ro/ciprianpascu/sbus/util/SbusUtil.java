@@ -20,9 +20,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.io.BytesOutputStream;
-import ro.ciprianpascu.sbus.msg.ModbusMessage;
+import ro.ciprianpascu.sbus.msg.SbusMessage;
 
 /**
  * Helper class that provides utility methods for the SBus protocol implementation.
@@ -32,17 +32,17 @@ import ro.ciprianpascu.sbus.msg.ModbusMessage;
  * @author John Charlton
  * @version %I% (%G%)
  */
-public final class ModbusUtil {
+public final class SbusUtil {
 
-    private static BytesOutputStream m_ByteOut = new BytesOutputStream(Modbus.MAX_MESSAGE_LENGTH);
+    private static BytesOutputStream m_ByteOut = new BytesOutputStream(Sbus.MAX_MESSAGE_LENGTH);
 
     /**
-     * Converts a {@link ModbusMessage} instance into a hex encoded string representation.
+     * Converts a {@link SbusMessage} instance into a hex encoded string representation.
      *
      * @param msg the message to be converted
      * @return the converted hex encoded string representation of the message
      */
-    public static final String toHex(ModbusMessage msg) {
+    public static final String toHex(SbusMessage msg) {
         String ret = "-1";
         try {
             synchronized (m_ByteOut) {

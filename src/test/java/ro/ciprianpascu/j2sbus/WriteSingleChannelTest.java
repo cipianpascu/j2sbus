@@ -5,8 +5,8 @@ package ro.ciprianpascu.j2sbus;
 
 import org.junit.Test;
 
-import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.io.ModbusUDPTransaction;
+import ro.ciprianpascu.sbus.Sbus;
+import ro.ciprianpascu.sbus.io.SbusUDPTransaction;
 import ro.ciprianpascu.sbus.msg.WriteSingleChannelRequest;
 import ro.ciprianpascu.sbus.msg.WriteSingleChannelResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
@@ -22,12 +22,12 @@ public class WriteSingleChannelTest {
 	@Test
 	public void testDataIn() {
         UDPMasterConnection conn = null;
-        ModbusUDPTransaction trans = null;
+        SbusUDPTransaction trans = null;
         WriteSingleChannelRequest req = null;
         WriteSingleChannelResponse res = null;
 
         int repeat = 1;
-        int port = Modbus.DEFAULT_PORT;
+        int port = Sbus.DEFAULT_PORT;
 
         try {
 
@@ -45,12 +45,12 @@ public class WriteSingleChannelTest {
             req.setUnitID(75);
              
             
-            if (Modbus.debug) {
+            if (Sbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
             }
 
             // 4. Prepare the transaction
-            trans = new ModbusUDPTransaction(conn);
+            trans = new SbusUDPTransaction(conn);
             trans.setRequest(req);
 
             // 5. Execute the transaction repeat times
@@ -63,7 +63,7 @@ public class WriteSingleChannelTest {
                 	k++;
                 	continue;
                 }
-                if (Modbus.debug) {
+                if (Sbus.debug) {
                     System.out.println("Response: " + res.getHexMessage());
                 }
                 System.out.println("Digital Inputs Status=" + res.getStatusValue());
@@ -80,14 +80,14 @@ public class WriteSingleChannelTest {
 	
 	public void testDataOut() {
         UDPMasterConnection conn = null;
-        ModbusUDPTransaction trans = null;
+        SbusUDPTransaction trans = null;
         WriteSingleChannelRequest req = null;
 
 
         int ref = 0;
         boolean set = false;
         int repeat = 1;
-        int port = Modbus.DEFAULT_PORT;
+        int port = Sbus.DEFAULT_PORT;
 
         try {
 
@@ -103,12 +103,12 @@ public class WriteSingleChannelTest {
             // 3. Prepare a request
             req = new WriteSingleChannelRequest(ref, registers);
             req.setUnitID(0);
-            if (Modbus.debug) {
+            if (Sbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
             }
 
             // 4. Prepare the transaction
-            trans = new ModbusUDPTransaction(conn);
+            trans = new SbusUDPTransaction(conn);
             trans.setRequest(req);
 
             // 5. Execute the transaction repeat times
@@ -116,7 +116,7 @@ public class WriteSingleChannelTest {
             do {
                 trans.execute();
 
-                if (Modbus.debug) {
+                if (Sbus.debug) {
                     System.out.println("Response: " + trans.getResponse().getHexMessage());
                 }
                 k++;

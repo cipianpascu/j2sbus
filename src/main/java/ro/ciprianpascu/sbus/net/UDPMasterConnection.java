@@ -26,8 +26,8 @@ import java.util.Enumeration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.io.ModbusTransport;
+import ro.ciprianpascu.sbus.Sbus;
+import ro.ciprianpascu.sbus.io.SbusTransport;
 
 /**
  * Class implementing a UDP Master Connection for the SBus protocol.
@@ -38,18 +38,18 @@ import ro.ciprianpascu.sbus.io.ModbusTransport;
  * @author Ciprian Pascu
  * @version %I% (%G%)
  */
-public class UDPMasterConnection implements ModbusSlaveConnection {
+public class UDPMasterConnection implements SbusSlaveConnection {
     
     private static final Logger logger = LoggerFactory.getLogger(UDPMasterConnection.class);
 
     /** Default local port for UDP communication */
-    private static int LOCAL_PORT = Modbus.DEFAULT_PORT;
+    private static int LOCAL_PORT = Sbus.DEFAULT_PORT;
 
     /** The terminal handling UDP communication */
     private UDPMasterTerminal m_Terminal;
     
     /** Timeout for communication operations in milliseconds */
-    private int m_Timeout = Modbus.DEFAULT_TIMEOUT;
+    private int m_Timeout = Sbus.DEFAULT_TIMEOUT;
     
     /** Flag indicating if the connection is active */
     private boolean m_Connected;
@@ -58,7 +58,7 @@ public class UDPMasterConnection implements ModbusSlaveConnection {
     protected InetAddress m_RemoteAddress;
 
     /** Remote port for the slave device */
-    private int m_Port = Modbus.DEFAULT_PORT;
+    private int m_Port = Sbus.DEFAULT_PORT;
     
     /**
      * Constructs a new UDPMasterConnection with default settings.
@@ -107,7 +107,7 @@ public class UDPMasterConnection implements ModbusSlaveConnection {
             try {
                 m_Terminal.deactivate();
             } catch (Exception ex) {
-                if (Modbus.debug) {
+                if (Sbus.debug) {
                     ex.printStackTrace();
                 }
             }
@@ -118,10 +118,10 @@ public class UDPMasterConnection implements ModbusSlaveConnection {
     /**
      * Returns the transport layer used for communication.
      *
-     * @return the connection's ModbusTransport instance
+     * @return the connection's SbusTransport instance
      */
-    public ModbusTransport getModbusTransport() {
-        return m_Terminal.getModbusTransport();
+    public SbusTransport getSbusTransport() {
+        return m_Terminal.getSbusTransport();
     }
 
     /**

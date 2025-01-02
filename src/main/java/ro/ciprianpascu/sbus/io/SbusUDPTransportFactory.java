@@ -14,15 +14,15 @@
  ***/
 package ro.ciprianpascu.sbus.io;
 
-import java.net.Socket;
+import ro.ciprianpascu.sbus.net.UDPTerminal;
 
 /**
 * 
- * ModbusSocketBasedTransportFactory interface.
+ * SbusUDPTransportFactory interface.
  * 
  *
  * @author Sami Salonen
  */
-public interface ModbusSocketBasedTransportFactory {
-    public ModbusTransport create(Socket socket);
+public interface SbusUDPTransportFactory {
+    public SbusTransport create(UDPTerminal terminal);
 }

@@ -19,14 +19,14 @@ package ro.ciprianpascu.sbus.msg;
 import ro.ciprianpascu.sbus.io.Transportable;
 
 /**
- * Interface defining a Modbus Message.
+ * Interface defining a Sbus Message.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
 
  * @version %I% (%G%)
  */
-public interface ModbusMessage extends Transportable {
+public interface SbusMessage extends Transportable {
 
 
     /**
@@ -40,7 +40,7 @@ public interface ModbusMessage extends Transportable {
 
     /**
      * Returns the source subnet identifier of this
-     * {@link ModbusMessage} as {@link int}.<br>
+     * {@link SbusMessage} as {@link int}.<br>
      * The identifier is a 1-byte non negative
      * integer value valid in the range of 0-255.
      * 
@@ -51,7 +51,7 @@ public interface ModbusMessage extends Transportable {
     
     /**
      * Returns the source unit identifier of this
-     * {@link ModbusMessage} as {@link int}.<br>
+     * {@link SbusMessage} as {@link int}.<br>
      * The identifier is a 1-byte non negative
      * integer value valid in the range of 0-255.
      * 
@@ -62,7 +62,7 @@ public interface ModbusMessage extends Transportable {
 
     /**
      * Returns the source device type of this
-     * {@link ModbusMessage} as {@link int}.<br>
+     * {@link SbusMessage} as {@link int}.<br>
      * The identifier is a 2-byte non negative
      * integer value valid in the range of 0-255.
      * 
@@ -73,7 +73,7 @@ public interface ModbusMessage extends Transportable {
 
     /**
      * Returns the subnet identifier of this
-     * {@link ModbusMessage} as {@link int}.<br>
+     * {@link SbusMessage} as {@link int}.<br>
      * The identifier is a 1-byte non negative
      * integer value valid in the range of 0-255.
      * 
@@ -84,7 +84,7 @@ public interface ModbusMessage extends Transportable {
     
     /**
      * Returns the unit identifier of this
-     * {@link ModbusMessage} as {@link int}.<br>
+     * {@link SbusMessage} as {@link int}.<br>
      * The identifier is a 1-byte non negative
      * integer value valid in the range of 0-255.
      * 
@@ -95,17 +95,17 @@ public interface ModbusMessage extends Transportable {
 
     /**
      * Returns the function code of this
-     * {@link ModbusMessage} as {@link int}.<br>
+     * {@link SbusMessage} as {@link int}.<br>
      * The function code is a 1-byte non negative
      * integer value valid in the range of 0-127.<br>
      * Function codes are ordered in conformance
      * classes their values are specified in
-     * {@link ro.ciprianpascu.sbus.Modbus}.
+     * {@link ro.ciprianpascu.sbus.Sbus}.
      * 
      *
      * @return the function code as {@link int}.
      *
-     * @see ro.ciprianpascu.sbus.Modbus
+     * @see ro.ciprianpascu.sbus.Sbus
      */
     public int getFunctionCode();
 
@@ -124,4 +124,4 @@ public interface ModbusMessage extends Transportable {
      */
     public String getHexMessage();
 
-}// interface ModbusMessage
+}// interface SbusMessage

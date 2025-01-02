@@ -25,26 +25,26 @@ package ro.ciprianpascu.sbus;
 
  * @version %I% (%G%)
  */
-public class ModbusException extends Exception {
+public class SbusException extends Exception {
 
     /**
-     * Constructs a new {@link ModbusException}
+     * Constructs a new {@link SbusException}
      * instance.
      */
-    public ModbusException() {
+    public SbusException() {
         super();
     }// constructor
 
     /**
-     * Constructs a new {@link ModbusException}
+     * Constructs a new {@link SbusException}
      * instance with the given message.
 * 
      *
      * @param message the message describing this
-     *            {@link ModbusException}.
+     *            {@link SbusException}.
      */
-    public ModbusException(String message) {
+    public SbusException(String message) {
         super(message);
     }// constructor
 
-}// ModbusException
+}// SbusException

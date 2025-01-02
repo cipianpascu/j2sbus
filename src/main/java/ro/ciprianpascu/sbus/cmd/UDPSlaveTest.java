@@ -16,8 +16,8 @@
 
 package ro.ciprianpascu.sbus.cmd;
 
-import ro.ciprianpascu.sbus.Modbus;
-import ro.ciprianpascu.sbus.net.ModbusUDPListener;
+import ro.ciprianpascu.sbus.Sbus;
+import ro.ciprianpascu.sbus.net.SbusUDPListener;
 import ro.ciprianpascu.sbus.procimg.SimpleDigitalIn;
 import ro.ciprianpascu.sbus.procimg.SimpleDigitalOut;
 import ro.ciprianpascu.sbus.procimg.SimpleProcessImage;
@@ -43,9 +43,9 @@ public class UDPSlaveTest {
      * @param args command line arguments - optional port number as first argument
      */
     public static void main(String[] args) {
-        ModbusUDPListener listener = null;
+        SbusUDPListener listener = null;
         SimpleProcessImage spi = null;
-        int port = Modbus.DEFAULT_PORT;
+        int port = Sbus.DEFAULT_PORT;
 
         try {
             if (args != null && args.length == 1) {
@@ -63,7 +63,7 @@ public class UDPSlaveTest {
             spi.addDigitalIn(new SimpleDigitalIn(true));
 
             // Setup and start the UDP listener
-            listener = new ModbusUDPListener();
+            listener = new SbusUDPListener();
             listener.setProcessImage(spi);
             listener.setPort(port);
             listener.start();

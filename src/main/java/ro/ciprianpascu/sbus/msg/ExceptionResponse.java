@@ -20,18 +20,18 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 
 /**
- * Provides the a{@link ModbusResponse}
- * implementation that represents a Modbus exception.
+ * Provides the a{@link SbusResponse}
+ * implementation that represents a Sbus exception.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
 
  * @version %I% (%G%)
  */
-public class ExceptionResponse extends ModbusResponse {
+public class ExceptionResponse extends SbusResponse {
 
     // instance attributes
     private int m_ExceptionCode = -1;
@@ -53,7 +53,7 @@ public class ExceptionResponse extends ModbusResponse {
     public ExceptionResponse(int fc) {
         // unitid and function code not counted.
         setDataLength(1);
-        setFunctionCode(fc + Modbus.EXCEPTION_OFFSET);
+        setFunctionCode(fc + Sbus.EXCEPTION_OFFSET);
     }// constructor
 
     /**
@@ -68,12 +68,12 @@ public class ExceptionResponse extends ModbusResponse {
     public ExceptionResponse(int fc, int exc) {
         // exception code, unitid and function code not counted.
         setDataLength(1);
-        setFunctionCode(fc + Modbus.EXCEPTION_OFFSET);
+        setFunctionCode(fc + Sbus.EXCEPTION_OFFSET);
         m_ExceptionCode = exc;
     }// constructor
 
     /**
-     * Returns the Modbus exception code of this
+     * Returns the Sbus exception code of this
      * {@link ExceptionResponse}.
 * 
      *

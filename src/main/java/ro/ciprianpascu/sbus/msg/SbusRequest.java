@@ -16,11 +16,11 @@
 
 package ro.ciprianpascu.sbus.msg;
 
-import ro.ciprianpascu.sbus.Modbus;
+import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 
 /**
- * Abstract class implementing a {@link ModbusRequest}.
+ * Abstract class implementing a {@link SbusRequest}.
  * This class provides specialised implementations with
  * the functionality they have in common.
  *
@@ -28,30 +28,30 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
  * @author Ciprian Pascu
  * @version %I% (%G%)
  */
-public abstract class ModbusRequest extends ModbusMessageImpl {
+public abstract class SbusRequest extends SbusMessageImpl {
 
 
 
     /**
-     * Returns the {@link ModbusResponse} that
-     * represents the answer to this {@link ModbusRequest}.
+     * Returns the {@link SbusResponse} that
+     * represents the answer to this {@link SbusRequest}.
      * The implementation should take care about assembling
-     * the reply to this {@link ModbusRequest}.
+     * the reply to this {@link SbusRequest}.
      *
      * @param procImg the process image implementation to create the response from
-     * @return the corresponding {@link ModbusResponse}.
+     * @return the corresponding {@link SbusResponse}.
      */
-    public abstract ModbusResponse createResponse(ProcessImageImplementation procImg);
+    public abstract SbusResponse createResponse(ProcessImageImplementation procImg);
 
     /**
      * Factory method for creating exception responses with the
      * given exception code.
      *
      * @param EXCEPTION_CODE the code of the exception.
-     * @return a ModbusResponse instance representing the exception
+     * @return a SbusResponse instance representing the exception
      *         response.
      */
-    public ModbusResponse createExceptionResponse(int EXCEPTION_CODE) {
+    public SbusResponse createExceptionResponse(int EXCEPTION_CODE) {
         ExceptionResponse response = new ExceptionResponse(this.getFunctionCode(), EXCEPTION_CODE);
         response.setSourceSubnetID(this.getSourceSubnetID());
         response.setSourceUnitID(this.getSourceUnitID());
@@ -62,23 +62,23 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
     }
 
     /**
-     * Factory method creating the required specialized {@link ModbusRequest}
+     * Factory method creating the required specialized {@link SbusRequest}
      * instance.
      *
      * @param functionCode the function code of the request as {@link int}.
-     * @return a ModbusRequest instance specific for the given function type.
+     * @return a SbusRequest instance specific for the given function type.
      */
-    public static ModbusRequest createModbusRequest(int functionCode) {
-        ModbusRequest request = null;
+    public static SbusRequest createSbusRequest(int functionCode) {
+        SbusRequest request = null;
 
         switch (functionCode) {
-            case Modbus.READ_STATUS_CHANNELS_REQUEST:
+            case Sbus.READ_STATUS_CHANNELS_REQUEST:
                 request = new ReadStatusChannelsRequest();
                 break;
-            case Modbus.READ_TEMPERATURE_REQUEST:
+            case Sbus.READ_TEMPERATURE_REQUEST:
                 request = new ReadTemperatureRequest();
                 break;
-            case Modbus.WRITE_SINGLE_CHANNEL_REQUEST:
+            case Sbus.WRITE_SINGLE_CHANNEL_REQUEST:
                 request = new WriteSingleChannelRequest();
                 break;
             default:
@@ -98,9 +98,9 @@ public abstract class ModbusRequest extends ModbusMessageImpl {
     public boolean isFireAndForget() {
         boolean result = false;
         switch(this.getFunctionCode()) {
-            case Modbus.WRITE_MULTIPLE_REGISTERS:
-            case Modbus.WRITE_SINGLE_CHANNEL_REQUEST:
-            case Modbus.WRITE_RGBW_REQUEST:
+            case Sbus.WRITE_MULTIPLE_REGISTERS:
+            case Sbus.WRITE_SINGLE_CHANNEL_REQUEST:
+            case Sbus.WRITE_RGBW_REQUEST:
                 result = true;
                 break;
             default:

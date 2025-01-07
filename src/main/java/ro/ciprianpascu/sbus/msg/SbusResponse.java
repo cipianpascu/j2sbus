@@ -29,7 +29,7 @@ import ro.ciprianpascu.sbus.Sbus;
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
+ *
  * @version %I% (%G%)
  */
 public abstract class SbusResponse extends SbusMessageImpl {
@@ -37,7 +37,7 @@ public abstract class SbusResponse extends SbusMessageImpl {
     /**
      * Utility method to set the raw data of the message.
      * Should not be used except under rare circumstances.
-* 
+     *
      *
      * @param msg the {@link byte[]} resembling the raw sbus
      *            response message.
@@ -61,11 +61,14 @@ public abstract class SbusResponse extends SbusMessageImpl {
         SbusResponse response = null;
 
         switch (functionCode) {
-            case Sbus.READ_STATUS_CHANNELS_REQUEST+1:
+            case Sbus.READ_STATUS_CHANNELS_REQUEST + 1:
                 response = new ReadStatusChannelsResponse();
                 break;
-            case Sbus.READ_TEMPERATURE_REQUEST+1:
-            	response = new ReadTemperatureResponse();
+            case Sbus.READ_TEMPERATURE_REQUEST + 1:
+                response = new ReadTemperatureResponse();
+                break;
+            case Sbus.READ_CUSTOM_COLORS_REQUEST + 1:
+                response = new ReadRgbwResponse();
                 break;
             default:
                 response = new ExceptionResponse();

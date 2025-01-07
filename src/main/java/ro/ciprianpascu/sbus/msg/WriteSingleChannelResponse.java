@@ -30,12 +30,11 @@ import ro.ciprianpascu.sbus.Sbus;
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
+ *
  * @version %I% (%G%)
  */
 public final class WriteSingleChannelResponse extends SbusResponse {
 
-	
     // instance attributes
     private int m_ChannelNo;
     private boolean m_StatusValue;
@@ -46,7 +45,7 @@ public final class WriteSingleChannelResponse extends SbusResponse {
      */
     public WriteSingleChannelResponse() {
         super();
-		setFunctionCode(Sbus.WRITE_SINGLE_CHANNEL_REQUEST+1);
+        setFunctionCode(Sbus.WRITE_SINGLE_CHANNEL_REQUEST + 1);
         setDataLength(2);
     }// constructor
 
@@ -59,7 +58,7 @@ public final class WriteSingleChannelResponse extends SbusResponse {
      */
     public WriteSingleChannelResponse(int channelNo, boolean success) {
         super();
-		setFunctionCode(Sbus.WRITE_SINGLE_CHANNEL_REQUEST+1);
+        setFunctionCode(Sbus.WRITE_SINGLE_CHANNEL_REQUEST + 1);
         setChannelNo(channelNo);
         setStatusValue(success);
         setDataLength(2);
@@ -68,7 +67,7 @@ public final class WriteSingleChannelResponse extends SbusResponse {
     /**
      * Returns the value that has been returned in
      * this {@link WriteSingleChannelResponse}.
-* 
+     *
      *
      * @return the value of the register.
      */
@@ -79,7 +78,7 @@ public final class WriteSingleChannelResponse extends SbusResponse {
     /**
      * Sets the value that has been returned in the
      * response message.
-* 
+     *
      *
      * @param value the returned register value.
      */
@@ -90,7 +89,7 @@ public final class WriteSingleChannelResponse extends SbusResponse {
     /**
      * Returns the reference of the register
      * that has been written to.
-* 
+     *
      *
      * @return the reference of the written register.
      */
@@ -101,12 +100,12 @@ public final class WriteSingleChannelResponse extends SbusResponse {
     /**
      * Sets the reference of the register that has
      * been written to.
-* 
+     *
      *
      * @param ref the reference of the written register.
      */
     private void setChannelNo(int channelNo) {
-    	m_ChannelNo = channelNo;
+        m_ChannelNo = channelNo;
     }// setReference
 
     @Override
@@ -118,18 +117,19 @@ public final class WriteSingleChannelResponse extends SbusResponse {
     @Override
     public void readData(DataInput din) throws IOException {
         setChannelNo(din.readByte());
-        if(Sbus.SUCCESS == din.readByte()) {
-	        setStatusValue(true);
-		} else {
-			setStatusValue(false);
+        if (Sbus.SUCCESS == din.readUnsignedByte()) {
+            setStatusValue(true);
+        } else {
+            setStatusValue(false);
+            return;
         }
         // update data length
         setDataLength(2);
     }// readData
 
-	@Override
-	public String toString() {
-		return "WriteSingleChannelResponse: " + getChannelNo() + " " + getStatusValue();
-	}
+    @Override
+    public String toString() {
+        return "WriteSingleChannelResponse: " + getChannelNo() + " " + getStatusValue();
+    }
 
 }// class WriteSingleChannelResponse

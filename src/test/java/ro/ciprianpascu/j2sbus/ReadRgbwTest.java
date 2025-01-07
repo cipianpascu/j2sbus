@@ -9,9 +9,9 @@ import ro.ciprianpascu.sbus.msg.ReadRgbwResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 
 public class ReadRgbwTest {
-	
-	@Test
-	public void testDataIn() {
+
+    @Test
+    public void testDataIn() {
         UDPMasterConnection conn = null;
         SbusUDPTransaction trans = null;
         ReadRgbwRequest req = null;
@@ -29,9 +29,9 @@ public class ReadRgbwTest {
 
             // 3. Prepare the request
             req = new ReadRgbwRequest();
-            req.setSubnetID(1);
-            req.setUnitID(72);
-            req.setLimitType(1);
+            req.setSubnetID(11);
+            req.setUnitID(172);
+            req.setLoopNumber(11);
             if (Sbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
             }
@@ -46,9 +46,9 @@ public class ReadRgbwTest {
                 trans.execute();
 
                 res = (ReadRgbwResponse) trans.getResponse();
-                if(res == null) {
-                	k++;
-                	continue;
+                if (res == null) {
+                    k++;
+                    continue;
                 }
                 if (Sbus.debug) {
                     System.out.println("Response: " + res.getHexMessage());
@@ -62,6 +62,6 @@ public class ReadRgbwTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-	}
+    }
 
 }

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ro.ciprianpascu.j2sbus;
 
@@ -10,17 +10,16 @@ import ro.ciprianpascu.sbus.io.SbusUDPTransaction;
 import ro.ciprianpascu.sbus.msg.WriteRgbwRequest;
 import ro.ciprianpascu.sbus.msg.WriteRgbwResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
-import ro.ciprianpascu.sbus.procimg.Register;
 import ro.ciprianpascu.sbus.procimg.ByteRegister;
-import ro.ciprianpascu.sbus.procimg.WordRegister;
+import ro.ciprianpascu.sbus.procimg.Register;
 
 /**
- * 
+ *
  */
 public class WriteRgbwTest {
 
-	@Test
-	public void testDataIn() {
+    @Test
+    public void testDataIn() {
         UDPMasterConnection conn = null;
         SbusUDPTransaction trans = null;
         WriteRgbwRequest req = null;
@@ -37,17 +36,15 @@ public class WriteRgbwTest {
             conn.connect();
 
             // 3. Prepare the request
-            Register[] regs = new Register[5];
-            regs[0] = new ByteRegister((byte)0);
-            regs[1] = new ByteRegister((byte)100);
-            regs[2] = new ByteRegister((byte)0);
-            regs[3] = new ByteRegister((byte)0);
-            regs[4] = new WordRegister((short)0);
-            req = new WriteRgbwRequest(regs);
-            req.setSubnetID(1);
-            req.setUnitID(72);
-             
-            
+            Register[] regs = new Register[4];
+            regs[0] = new ByteRegister((byte) 0);
+            regs[1] = new ByteRegister((byte) 100);
+            regs[2] = new ByteRegister((byte) 0);
+            regs[3] = new ByteRegister((byte) 0);
+            req = new WriteRgbwRequest(11, regs);
+            req.setSubnetID(11);
+            req.setUnitID(172);
+
             if (Sbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
             }
@@ -62,9 +59,9 @@ public class WriteRgbwTest {
                 trans.execute();
 
                 res = (WriteRgbwResponse) trans.getResponse();
-                if(res == null) {
-                	k++;
-                	continue;
+                if (res == null) {
+                    k++;
+                    continue;
                 }
                 if (Sbus.debug) {
                     System.out.println("Response: " + res.getHexMessage());
@@ -79,8 +76,8 @@ public class WriteRgbwTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-	}
-	
+    }
+
     private static void printUsage() {
         System.out.println(
                 "java ro.ciprianpascu.sbus.cmd.UDPDITest <register [int16]> <bitcount [int16]> {<repeat [int]>}");

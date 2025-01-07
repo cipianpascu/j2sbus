@@ -46,11 +46,15 @@ public final class WriteSingleChannelRequest extends SbusRequest {
     /**
      * Constructs a new WriteSingleChannelRequest instance with default values.
      */
-    public WriteSingleChannelRequest() {
+    public WriteSingleChannelRequest(boolean withTimer) {
         super();
         setFunctionCode(Sbus.WRITE_SINGLE_CHANNEL_REQUEST);
         // 4 bytes (unit id and function code is excluded)
-        setDataLength(4);
+        if (withTimer) {
+            setDataLength(4);
+        } else {
+            setDataLength(2);
+        }
     }
 
     /**
@@ -65,8 +69,14 @@ public final class WriteSingleChannelRequest extends SbusRequest {
         setFunctionCode(Sbus.WRITE_SINGLE_CHANNEL_REQUEST);
         m_channelNo = channelNo;
         m_Registers = regs;
-        // 4 bytes (unit id and function code is excluded)
-        setDataLength(4);
+        if (regs.length == 1) {
+            // 2 bytes for channel and value (unit id and function code is excluded)
+            setDataLength(2);
+        }
+        if (regs.length == 2) {
+            // 4 bytes for channel, value and timer (unit id and function code is excluded)
+            setDataLength(4);
+        }
     }
 
     @Override
@@ -76,14 +86,16 @@ public final class WriteSingleChannelRequest extends SbusRequest {
 
         try {
             Register regValue = procimg.getRegister(m_channelNo + 1);
-            Register regTimer = procimg.getRegister(m_channelNo * 2 + 1);
             regValue.setValue(m_Registers[0].toBytes());
-            regTimer.setValue(m_Registers[1].toBytes());
+            if (getDataLength() == (11 + 4)) {
+                Register regTimer = procimg.getRegister(m_channelNo * 2 + 1);
+                regTimer.setValue(m_Registers[1].toBytes());
+            }
             updateSuccessful = true;
         } catch (IllegalAddressException iaex) {
             return createExceptionResponse(Sbus.ILLEGAL_ADDRESS_EXCEPTION);
         }
-        
+
         response = new WriteSingleChannelResponse(this.getChannelNo(), updateSuccessful);
         // Transfer header data
         response.setSourceSubnetID(this.getSourceSubnetID());
@@ -123,7 +135,7 @@ public final class WriteSingleChannelRequest extends SbusRequest {
      * @throws IndexOutOfBoundsException if index is not 0 or 1
      */
     public InputRegister getRegister(int index) throws IndexOutOfBoundsException {
-        if (index >= 2) {
+        if (index > m_Registers.length) {
             throw new IndexOutOfBoundsException();
         }
         return m_Registers[index];
@@ -139,7 +151,7 @@ public final class WriteSingleChannelRequest extends SbusRequest {
      * @throws IndexOutOfBoundsException if index is not 0 or 1
      */
     public int getRegisterValue(int index) throws IndexOutOfBoundsException {
-        if (index >= 2) {
+        if (index > m_Registers.length) {
             throw new IndexOutOfBoundsException();
         }
         return m_Registers[index].toUnsignedShort();
@@ -153,7 +165,7 @@ public final class WriteSingleChannelRequest extends SbusRequest {
     public InputRegister[] getRegisters() {
         return m_Registers;
     }
-    
+
     /**
      * Sets the registers containing the value and timer data.
      * The array must contain exactly 2 registers:
@@ -164,22 +176,38 @@ public final class WriteSingleChannelRequest extends SbusRequest {
      */
     public void setRegisters(Register[] registers) {
         m_Registers = registers;
-        setDataLength(4);
+        if (registers.length == 1) {
+            // 2 bytes for channel and value (unit id and function code is excluded)
+            setDataLength(2);
+        }
+        if (registers.length == 2) {
+            // 4 bytes for channel, value and timer (unit id and function code is excluded)
+            setDataLength(4);
+        }
     }
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
         dout.writeByte(m_channelNo);
         dout.write(m_Registers[0].toBytes());
-        dout.write(m_Registers[1].toBytes());
+        if (m_Registers.length == 2) {
+            dout.write(m_Registers[1].toBytes());
+        }
     }
 
     @Override
     public void readData(DataInput din) throws IOException {
         m_channelNo = din.readByte();
-        m_Registers = new Register[2];
-        m_Registers[0] = new ByteRegister(din.readByte());
-        m_Registers[1] = new WordRegister(din.readShort());
-        setDataLength(4);
+        if (getDataLength() == (11 + 4)) {
+            m_Registers = new Register[2];
+            m_Registers[0] = new ByteRegister(din.readByte());
+            m_Registers[1] = new WordRegister(din.readShort());
+            setDataLength(4);
+        } else {
+            m_Registers = new Register[1];
+            m_Registers[0] = new ByteRegister(din.readByte());
+            setDataLength(2);
+        }
+
     }
 }

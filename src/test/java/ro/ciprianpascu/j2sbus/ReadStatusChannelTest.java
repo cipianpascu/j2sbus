@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ro.ciprianpascu.j2sbus;
 
@@ -12,12 +12,12 @@ import ro.ciprianpascu.sbus.msg.ReadStatusChannelsResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 
 /**
- * 
+ *
  */
 public class ReadStatusChannelTest {
 
-	@Test
-	public void testDataIn() {
+    @Test
+    public void testDataIn() {
         UDPMasterConnection conn = null;
         SbusUDPTransaction trans = null;
         ReadStatusChannelsRequest req = null;
@@ -30,15 +30,15 @@ public class ReadStatusChannelTest {
 
             // 2. Open the connection
             conn = new UDPMasterConnection();
+            // conn.setRemoteAddress(InetAddress.getByName("192.168.100.252"));
             conn.setPort(port);
             conn.connect();
 
             // 3. Prepare the request
             req = new ReadStatusChannelsRequest();
-            req.setSubnetID(1);
-            req.setUnitID(75);
-             
-            
+            req.setSubnetID(11);
+            req.setUnitID(175);
+
             if (Sbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
             }
@@ -53,9 +53,9 @@ public class ReadStatusChannelTest {
                 trans.execute();
 
                 res = (ReadStatusChannelsResponse) trans.getResponse();
-                if(res == null) {
-                	k++;
-                	continue;
+                if (res == null) {
+                    k++;
+                    continue;
                 }
                 if (Sbus.debug) {
                     System.out.println("Response: " + res.getHexMessage());
@@ -69,8 +69,8 @@ public class ReadStatusChannelTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-	}
-	
+    }
+
     private static void printUsage() {
         System.out.println(
                 "java ro.ciprianpascu.sbus.cmd.UDPDITest <register [int16]> <bitcount [int16]> {<repeat [int]>}");

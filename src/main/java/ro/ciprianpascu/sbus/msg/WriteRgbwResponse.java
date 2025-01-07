@@ -28,16 +28,15 @@ import ro.ciprianpascu.sbus.Sbus;
  * function <i>write single register (FC 6)</i>. It
  * encapsulates the corresponding response message.
  *
- * @author Dieter Wimberger
  * @author Ciprian Pascu
-
+ *
  * @version %I% (%G%)
  */
 public final class WriteRgbwResponse extends SbusResponse {
 
-	private static final int SUCCESS = 0xF8;
-	private static final int FAILURE = 0xF5;
-	
+    private static final int SUCCESS = 0xF8;
+    private static final int FAILURE = 0xF5;
+
     // instance attributes
     private boolean m_StatusValue;
 
@@ -47,7 +46,7 @@ public final class WriteRgbwResponse extends SbusResponse {
      */
     public WriteRgbwResponse() {
         super();
-		setFunctionCode(Sbus.WRITE_RGBW_REQUEST+1);
+        setFunctionCode(Sbus.WRITE_CUSTOM_COLORS_REQUEST + 1);
         setDataLength(1);
     }// constructor
 
@@ -57,9 +56,9 @@ public final class WriteRgbwResponse extends SbusResponse {
      *
      * @param success notify success/failure of the write operation to the register.
      */
-    public WriteRgbwResponse( boolean success) {
+    public WriteRgbwResponse(boolean success) {
         super();
-		setFunctionCode(Sbus.WRITE_RGBW_REQUEST+1);
+        setFunctionCode(Sbus.WRITE_CUSTOM_COLORS_REQUEST + 1);
         setStatusValue(success);
         setDataLength(1);
     }// constructor
@@ -67,7 +66,7 @@ public final class WriteRgbwResponse extends SbusResponse {
     /**
      * Returns the value that has been returned in
      * this {@link WriteRgbwResponse}.
-* 
+     *
      *
      * @return the value of the register.
      */
@@ -78,14 +77,13 @@ public final class WriteRgbwResponse extends SbusResponse {
     /**
      * Sets the value that has been returned in the
      * response message.
-* 
+     *
      *
      * @param value the returned register value.
      */
     private void setStatusValue(boolean value) {
         m_StatusValue = value;
     }// setStatusValue
-
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
@@ -94,18 +92,18 @@ public final class WriteRgbwResponse extends SbusResponse {
 
     @Override
     public void readData(DataInput din) throws IOException {
-        if(SUCCESS == din.readByte()) {
-	        setStatusValue(true);
-		} else {
-			setStatusValue(false);
+        if (SUCCESS == din.readByte()) {
+            setStatusValue(true);
+        } else {
+            setStatusValue(false);
         }
         // update data length
         setDataLength(1);
     }// readData
 
-	@Override
-	public String toString() {
-		return "WriteSingleChannelResponse: " + getStatusValue();
-	}
+    @Override
+    public String toString() {
+        return "WriteSingleChannelResponse: " + getStatusValue();
+    }
 
 }// class WriteSingleChannelResponse

@@ -31,7 +31,7 @@ public interface Sbus {
      * ro.ciprianpascu.sbus.debug=false|true (-D flag to the jvm).
      */
     public static final boolean debug = "true".equals(System.getProperty("ro.ciprianpascu.sbus.debug"));
-    
+
     /**
      * Defines the success response code (0xF8)
      */
@@ -43,14 +43,14 @@ public interface Sbus {
     public static final int FAILURE = 0xF5;
 
     /**
-     * Function code for reading multiple registers (0xDD28)
+     * Function code for reading color information (0xDD30)
      */
-    public static final int READ_MULTIPLE_REGISTERS = 0xDD28;
+    public static final int READ_CUSTOM_COLORS_REQUEST = 0xDD30;
 
     /**
-     * Function code for writing multiple registers (0xDD2A)
+     * Function code for writing color information (0xDD32)
      */
-    public static final int WRITE_MULTIPLE_REGISTERS = 0xDD2A;
+    public static final int WRITE_CUSTOM_COLORS_REQUEST = 0xDD32;
 
     /**
      * Function code for reading status channels (0x0033)
@@ -67,16 +67,6 @@ public interface Sbus {
      */
     public static final int WRITE_SINGLE_CHANNEL_REQUEST = 0x0031;
 
-    /**
-     * Function code for reading RGBW values (0xF016)
-     */
-    public static final int READ_RGBW_REQUEST = 0xF016;
-
-    /**
-     * Function code for writing RGBW values (0xF080)
-     */
-    public static final int WRITE_RGBW_REQUEST = 0xF080;
-    
     /**
      * Defines the maximum number of bits in multiple read/write
      * of input discretes or coils (2000).
@@ -203,10 +193,7 @@ public interface Sbus {
     /**
      * List of valid serial encoding options
      */
-    public static final String[] validSerialEncodings = {
-        SERIAL_ENCODING_ASCII,
-        SERIAL_ENCODING_RTU,
-        SERIAL_ENCODING_BIN
-    };
+    public static final String[] validSerialEncodings = { SERIAL_ENCODING_ASCII, SERIAL_ENCODING_RTU,
+            SERIAL_ENCODING_BIN };
 
 }

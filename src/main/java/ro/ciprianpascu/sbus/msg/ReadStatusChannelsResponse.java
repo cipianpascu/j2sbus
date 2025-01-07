@@ -32,7 +32,7 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
+ *
  * @version %I% (%G%)
  */
 public final class ReadStatusChannelsResponse extends SbusResponse {
@@ -48,7 +48,7 @@ public final class ReadStatusChannelsResponse extends SbusResponse {
      */
     public ReadStatusChannelsResponse() {
         super();
-        setFunctionCode(Sbus.READ_STATUS_CHANNELS_REQUEST+1);
+        setFunctionCode(Sbus.READ_STATUS_CHANNELS_REQUEST + 1);
     }// constructor
 
     /**
@@ -59,7 +59,7 @@ public final class ReadStatusChannelsResponse extends SbusResponse {
      */
     public ReadStatusChannelsResponse(InputRegister[] registers) {
         super();
-        setFunctionCode(Sbus.READ_STATUS_CHANNELS_REQUEST+1);
+        setFunctionCode(Sbus.READ_STATUS_CHANNELS_REQUEST + 1);
         m_ByteCount = registers.length;
         m_Registers = registers;
         // set correct data length excluding unit id and fc
@@ -68,7 +68,7 @@ public final class ReadStatusChannelsResponse extends SbusResponse {
 
     /**
      * Returns the number of bytes that have been read.
-     * 
+     *
      *
      * @return the number of bytes that have been read
      *         as {@link int}.
@@ -77,11 +77,9 @@ public final class ReadStatusChannelsResponse extends SbusResponse {
         return m_ByteCount;
     }// getByteCount
 
-
-
     /**
      * Sets the number of bytes that have been returned.
-     * 
+     *
      *
      * @param count the number of bytes as {@link int}.
      */
@@ -93,7 +91,7 @@ public final class ReadStatusChannelsResponse extends SbusResponse {
      * Returns the {@link InputRegister} at
      * the given position (relative to the reference
      * used in the request).
-     * 
+     *
      *
      * @param index the relative index of the {@link InputRegister}.
      * @return the register as {@link InputRegister}.
@@ -114,7 +112,7 @@ public final class ReadStatusChannelsResponse extends SbusResponse {
      * the given position (relative to the reference
      * used in the request) interpreted as usigned
      * short.
-     * 
+     *
      *
      * @param index the relative index of the register
      *            for which the value should be retrieved.
@@ -143,7 +141,7 @@ public final class ReadStatusChannelsResponse extends SbusResponse {
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeByte(m_ByteCount+1);
+        dout.writeByte(m_ByteCount + 1);
         for (int k = 0; k < getByteCount(); k++) {
             dout.write(m_Registers[k].getValue());
         }
@@ -151,7 +149,7 @@ public final class ReadStatusChannelsResponse extends SbusResponse {
 
     @Override
     public void readData(DataInput din) throws IOException {
-        setByteCount(din.readUnsignedByte()-1);
+        setByteCount(din.readUnsignedByte());
 
         InputRegister[] registers = new InputRegister[getByteCount()];
         for (int k = 0; k < getByteCount(); k++) {

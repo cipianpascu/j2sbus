@@ -9,9 +9,9 @@ import ro.ciprianpascu.sbus.msg.ReadTemperatureResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 
 public class ReadTemperatureTest {
-	
-	@Test
-	public void testDataIn() {
+
+    @Test
+    public void testDataIn() {
         UDPMasterConnection conn = null;
         SbusUDPTransaction trans = null;
         ReadTemperatureRequest req = null;
@@ -29,8 +29,8 @@ public class ReadTemperatureTest {
 
             // 3. Prepare the request
             req = new ReadTemperatureRequest();
-            req.setSubnetID(1);
-            req.setUnitID(62);
+            req.setSubnetID(11);
+            req.setUnitID(162);
             req.setTemperatureUnit(1);
             if (Sbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
@@ -46,9 +46,9 @@ public class ReadTemperatureTest {
                 trans.execute();
 
                 res = (ReadTemperatureResponse) trans.getResponse();
-                if(res == null) {
-                	k++;
-                	continue;
+                if (res == null) {
+                    k++;
+                    continue;
                 }
                 if (Sbus.debug) {
                     System.out.println("Response: " + res.getHexMessage());
@@ -62,6 +62,6 @@ public class ReadTemperatureTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-	}
+    }
 
 }

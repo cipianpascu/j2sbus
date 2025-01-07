@@ -30,8 +30,6 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
  */
 public abstract class SbusRequest extends SbusMessageImpl {
 
-
-
     /**
      * Returns the {@link SbusResponse} that
      * represents the answer to this {@link SbusRequest}.
@@ -79,7 +77,7 @@ public abstract class SbusRequest extends SbusMessageImpl {
                 request = new ReadTemperatureRequest();
                 break;
             case Sbus.WRITE_SINGLE_CHANNEL_REQUEST:
-                request = new WriteSingleChannelRequest();
+                request = new WriteSingleChannelRequest(false);
                 break;
             default:
                 request = new IllegalFunctionRequest(functionCode);
@@ -87,7 +85,7 @@ public abstract class SbusRequest extends SbusMessageImpl {
         }
         return request;
     }
-    
+
     /**
      * Checks if this request is a fire-and-forget type request that doesn't require a response.
      * This includes write operations like WRITE_MULTIPLE_REGISTERS, WRITE_SINGLE_CHANNEL_REQUEST,
@@ -97,10 +95,9 @@ public abstract class SbusRequest extends SbusMessageImpl {
      */
     public boolean isFireAndForget() {
         boolean result = false;
-        switch(this.getFunctionCode()) {
-            case Sbus.WRITE_MULTIPLE_REGISTERS:
+        switch (this.getFunctionCode()) {
+            case Sbus.WRITE_CUSTOM_COLORS_REQUEST:
             case Sbus.WRITE_SINGLE_CHANNEL_REQUEST:
-            case Sbus.WRITE_RGBW_REQUEST:
                 result = true;
                 break;
             default:

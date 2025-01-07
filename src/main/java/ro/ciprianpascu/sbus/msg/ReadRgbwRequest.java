@@ -33,24 +33,24 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
+ *
  * @version %I% (%G%)
  */
 public final class ReadRgbwRequest extends SbusRequest {
 
     // instance attributes
-    private int m_LimitType;
+    private int m_LoopNumber;
+
     /**
      * Constructs a new {@link ReadRgbwRequest}
      * instance.
      */
     public ReadRgbwRequest() {
         super();
-        setFunctionCode(Sbus.READ_RGBW_REQUEST);
-        setLimitType(1);
-        setDataLength(0);
+        setFunctionCode(Sbus.READ_CUSTOM_COLORS_REQUEST);
+        setLoopNumber(1);
+        setDataLength(1);
     }// constructor
-
 
     @Override
     public SbusResponse createResponse(ProcessImageImplementation procimg) {
@@ -59,15 +59,15 @@ public final class ReadRgbwRequest extends SbusRequest {
 
         // 1. get input registers range. WordCount depends on the device type (num channels + 1)
         try {
-            inpregs = procimg.getInputRegisterRange(0, procimg.getRegisterCount()-1);
+            inpregs = procimg.getInputRegisterRange(0, procimg.getRegisterCount() - 1);
         } catch (IllegalAddressException iaex) {
             return createExceptionResponse(Sbus.ILLEGAL_ADDRESS_EXCEPTION);
         }
         response = new ReadStatusChannelsResponse(inpregs);
         // transfer header data
         response.setSourceSubnetID(this.getSourceSubnetID());
-		response.setSourceUnitID(this.getSourceUnitID());
-		response.setSourceDeviceType(this.getSourceDeviceType());
+        response.setSourceUnitID(this.getSourceUnitID());
+        response.setSourceDeviceType(this.getSourceDeviceType());
         response.setSubnetID(this.getSubnetID());
         response.setUnitID(this.getUnitID());
         response.setFunctionCode(this.getFunctionCode());
@@ -77,34 +77,34 @@ public final class ReadRgbwRequest extends SbusRequest {
     /**
      * Sets the limit
      * from with this {@link ReadRgbwRequest}.
-     * 
      *
-     * @param type the limit type 0 Low, 1 High
+     *
+     * @param type the loop number type 0 Low, 1 High
      */
-    public void setLimitType(int type) {
-        m_LimitType = type;
+    public void setLoopNumber(int type) {
+        m_LoopNumber = type;
         // setChanged(true);
     }// setReference
 
     /**
-     * Returns the  limit  from this
+     * Returns the loop number from this
      * {@link ReadRgbwRequest}.
-     * 
      *
-     * @return the limit 0 Low, 1 High
+     *
+     * @return the loop number 0 Low, 1 High
      */
-    public int getLimitType() {
-        return m_LimitType;
+    public int getLoopNumber() {
+        return m_LoopNumber;
     }// getReference
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeByte(m_LimitType);
+        dout.writeByte(m_LoopNumber);
     }// writeData
 
     @Override
     public void readData(DataInput din) throws IOException {
-		m_LimitType = din.readByte();
+        m_LoopNumber = din.readByte();
     }// readData
 
 }// class ReadStatusChannelsRequest

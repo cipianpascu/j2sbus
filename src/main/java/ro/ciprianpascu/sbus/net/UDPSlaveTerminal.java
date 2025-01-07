@@ -16,8 +16,10 @@
 
 package ro.ciprianpascu.sbus.net;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.StandardProtocolFamily;
 import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
@@ -45,7 +47,7 @@ import ro.ciprianpascu.sbus.util.SbusUtil;
  * @version %I% (%G%)
  */
 public class UDPSlaveTerminal implements UDPTerminal {
-    
+
     /**
      * Implementation of SbusUDPTransportFactory for creating UDP transports.
      */
@@ -57,64 +59,64 @@ public class UDPSlaveTerminal implements UDPTerminal {
     }
 
     private static final Logger logger = LoggerFactory.getLogger(UDPSlaveTerminal.class);
-    
+
     /** Default wait time in milliseconds when deactivating the terminal */
     public static final int DEFAULT_DEACTIVATION_WAIT_MILLIS = 100;
 
     /** The UDP channel for communication */
     private DatagramChannel m_Channel;
-    
+
     /** Timeout for operations in milliseconds */
     private int m_Timeout = Sbus.DEFAULT_TIMEOUT;
-    
+
     /** Flag indicating if the terminal is active */
     private boolean m_Active;
-    
+
     /** Local address for the terminal */
     protected InetAddress m_LocalAddress;
-    
+
     /** Local port for the terminal */
     private int m_LocalPort = Sbus.DEFAULT_PORT;
-    
+
     /** Remote address for communication */
     protected InetAddress m_RemoteAddress;
-    
+
     /** Remote port for communication */
     private int m_RemotePort = Sbus.DEFAULT_PORT;
-    
+
     /** Transport layer for SBus protocol */
     protected SbusTransport m_SbusTransport;
 
     /** Queue for outgoing messages */
     private LinkedQueue m_SendQueue;
-    
+
     /** Queue for incoming messages */
     protected LinkedQueue m_ReceiveQueue;
-    
+
     /** Handler for sending packets */
     private PacketSender m_PacketSender;
-    
+
     /** Handler for receiving packets */
     private PacketReceiver m_PacketReceiver;
-    
+
     /** Thread for receiving messages */
     private Thread m_Receiver;
-    
+
     /** Thread for sending messages */
     private Thread m_Sender;
 
     /** Flag indicating if the terminal is in listener mode */
     private boolean m_listenerMode;
-    
+
     /** Table for tracking requests */
     protected Hashtable m_Requests;
-    
+
     /** Signature for SMARTCLOUD protocol */
-    byte[] smartCloud = new byte[] {'S', 'M', 'A', 'R', 'T', 'C', 'L', 'O', 'U', 'D', (byte)0xAA, (byte)0xAA};
+    byte[] smartCloud = new byte[] { 'S', 'M', 'A', 'R', 'T', 'C', 'L', 'O', 'U', 'D', (byte) 0xAA, (byte) 0xAA };
 
     /** Factory for creating transport instances */
     private SbusUDPTransportFactory m_TransportFactory;
-    
+
     /** Time to wait for threads to close during deactivation */
     private int m_DeactivationWaitMillis = 100;
 
@@ -127,7 +129,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
     /**
      * Creates a new UDPSlaveTerminal with specified response behavior.
-     * 
+     *
      * @param withResponse true to enable responses, false for fire-and-forget
      */
     public UDPSlaveTerminal(boolean withResponse) {
@@ -136,7 +138,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
     /**
      * Creates a new UDPSlaveTerminal with specified local address and response behavior.
-     * 
+     *
      * @param localaddress the local address to bind to
      * @param withResponse true to enable responses, false for fire-and-forget
      */
@@ -146,7 +148,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
     /**
      * Creates a new UDPSlaveTerminal with full configuration options.
-     * 
+     *
      * @param localaddress the local address to bind to
      * @param transportFactory factory for creating transport instances
      * @param deactivationWaitMillis time to wait during deactivation
@@ -175,7 +177,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
     /**
      * Sets the local port for this terminal.
-     * 
+     *
      * @param port the port number to set
      */
     public void setLocalPort(int port) {
@@ -185,7 +187,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
     /**
      * Sets the remote port for this terminal.
      * The default is 6000.
-     * 
+     *
      * @param port the port number to set
      */
     public void setRemotePort(int port) {
@@ -194,7 +196,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
     /**
      * Sets the remote address for this terminal.
-     * 
+     *
      * @param adr the address to set
      */
     public void setRemoteAddress(InetAddress adr) {
@@ -211,10 +213,10 @@ public class UDPSlaveTerminal implements UDPTerminal {
         if (!isActive()) {
             logger.debug("UDPSlaveTerminal::activate()");
             if (m_Channel == null) {
-                m_Channel = DatagramChannel.open();
+                m_Channel = DatagramChannel.open(StandardProtocolFamily.INET);
                 m_Channel.configureBlocking(true);
                 m_Channel.bind(new InetSocketAddress(m_LocalPort));
-                //m_LocalAddress = new InetSocketAddress(m_LocalPort).getAddress();
+                // m_LocalAddress = new InetSocketAddress(m_LocalPort).getAddress();
             }
             if (logger.isDebugEnabled()) {
                 logger.debug("UDPSlaveTerminal::haveSocket():{}", m_Channel.toString());
@@ -266,7 +268,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
     /**
      * Checks if there is a response available in the receive queue.
-     * 
+     *
      * @return true if a response is available, false otherwise
      */
     protected boolean hasResponse() {
@@ -275,7 +277,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
     /**
      * Gets the timeout value for operations.
-     * 
+     *
      * @return timeout in milliseconds
      */
     public int getTimeout() {
@@ -284,7 +286,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
     /**
      * Sets the timeout value for operations.
-     * 
+     *
      * @param timeout timeout in milliseconds
      */
     public void setTimeout(int timeout) {
@@ -295,25 +297,28 @@ public class UDPSlaveTerminal implements UDPTerminal {
     public void sendMessage(byte[] msg) throws Exception {
         byte[] localIp = m_LocalAddress.getAddress();
         byte[] fullMessage = new byte[msg.length + 16];
-        
+
         System.arraycopy(localIp, 0, fullMessage, 0, localIp.length);
         System.arraycopy(smartCloud, 0, fullMessage, 4, smartCloud.length);
         System.arraycopy(msg, 0, fullMessage, 16, msg.length);
-        System.out.println(SbusUtil.toHex(fullMessage));
+        System.out.println("Sent     " + SbusUtil.toHex(fullMessage));
         m_SendQueue.put(fullMessage);
     }
 
     @Override
     public byte[] receiveMessage() throws Exception {
         byte[] message = (byte[]) (m_listenerMode ? m_ReceiveQueue.take() : m_ReceiveQueue.poll(m_Timeout));
-        if(message == null)
+        if (message == null) {
             throw new SbusIOException("No message response arrived in due time", true);
-        byte[] signature = new byte[Math.min(message.length-4, smartCloud.length)];
+        }
+        System.out.println("Received " + SbusUtil.toHex(message));
+        byte[] signature = new byte[Math.min(message.length - 4, smartCloud.length)];
         System.arraycopy(message, 4, signature, 0, signature.length);
         int equal = Arrays.compare(signature, smartCloud);
-        if(equal != 0)
+        if (equal != 0) {
             throw new SbusIOException("Message not for me", true);
-        return Arrays.copyOfRange(message, signature.length+4, message.length);
+        }
+        return Arrays.copyOfRange(message, signature.length + 4, message.length);
     }
 
     @Override
@@ -340,8 +345,8 @@ public class UDPSlaveTerminal implements UDPTerminal {
                     buffer.put(message);
                     buffer.flip();
                     int bytesSent = 0;
-                    if(m_listenerMode) {
-                        InetSocketAddress sourceAddress = (InetSocketAddress) ((Object[])m_Requests
+                    if (m_listenerMode) {
+                        InetSocketAddress sourceAddress = (InetSocketAddress) ((Object[]) m_Requests
                                 .remove(SbusUtil.registersToInt(message)))[0];
                         bytesSent = m_Channel.send(buffer, sourceAddress);
                     } else {
@@ -349,8 +354,9 @@ public class UDPSlaveTerminal implements UDPTerminal {
                     }
                     logger.trace("Sent package from queue with length " + bytesSent);
                 } catch (Exception ex) {
-                    if(logger.isDebugEnabled())
+                    if (logger.isDebugEnabled()) {
                         logger.debug("Exception", ex);
+                    }
                 }
             } while (m_Continue || !m_SendQueue.isEmpty());
         }
@@ -376,22 +382,31 @@ public class UDPSlaveTerminal implements UDPTerminal {
                 try {
                     ByteBuffer buffer = ByteBuffer.allocate(1024);
                     InetSocketAddress sourceAddress = (InetSocketAddress) m_Channel.receive(buffer);
-                    if (sourceAddress == null) 
+                    if (isSelfAddress(sourceAddress)) {
                         continue;
+                    }
                     buffer.flip();
                     byte[] fullMessage = new byte[buffer.remaining()];
                     buffer.get(fullMessage);
                     Integer tid = new Integer(SbusUtil.registersToInt(fullMessage));
-                    if(m_listenerMode)
-                        m_Requests.put(tid, new Object[] {sourceAddress, fullMessage});
+                    if (m_listenerMode) {
+                        m_Requests.put(tid, new Object[] { sourceAddress, fullMessage });
+                    }
                     m_ReceiveQueue.put(fullMessage);
-                    System.out.println(SbusUtil.toHex(fullMessage));
                     logger.trace("Received package placed in queue");
                 } catch (Exception ex) {
-                    if(logger.isDebugEnabled())
+                    if (logger.isDebugEnabled()) {
                         logger.debug("Exception", ex);
+                    }
                 }
             } while (m_Continue);
+        }
+
+        // This method must figure out whether the sender is this process
+        private boolean isSelfAddress(InetSocketAddress senderAddr) throws IOException {
+
+            // If they're exactly the same socket address, skip it
+            return senderAddr == null || m_LocalAddress.equals(senderAddr.getAddress());
         }
 
         public void stop() {

@@ -32,13 +32,14 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
+ *
  * @version %I% (%G%)
  */
 public final class ReadRgbwResponse extends SbusResponse {
 
     // instance attributes
-    private int m_LimitType;
+    private int m_LoopNumber;
+    private boolean m_StatusValue;
     private int m_ByteCount;
     // private int[] m_RegisterValues;
     private InputRegister[] m_Registers;
@@ -49,51 +50,55 @@ public final class ReadRgbwResponse extends SbusResponse {
      */
     public ReadRgbwResponse() {
         super();
-        setFunctionCode(Sbus.READ_RGBW_REQUEST+1);
+        setFunctionCode(Sbus.READ_CUSTOM_COLORS_REQUEST + 1);
+        setDataLength(1);
     }// constructor
 
     /**
      * Constructs a new {@link ReadRgbwResponse}
      * instance. Writer focus
      *
+     * @param channelNo the offset of the register written.
+     * @param success notify success/failure of the write operation to the register.
      * @param registers the InputRegister[] holding response input registers.
      */
-    public ReadRgbwResponse(InputRegister[] registers) {
+    public ReadRgbwResponse(int channelNo, boolean success, InputRegister[] registers) {
         super();
-        setFunctionCode(Sbus.READ_RGBW_REQUEST+1);
+        setFunctionCode(Sbus.READ_CUSTOM_COLORS_REQUEST + 1);
+        setStatusValue(success);
+        setLoopNumber(channelNo);
         m_ByteCount = registers.length;
         m_Registers = registers;
         // set correct data length excluding unit id and fc
-        setDataLength(m_ByteCount + 1);
+        setDataLength(m_ByteCount + 2);
     }// constructor
-    
+
     /**
-     * Sets the limit
-     * from with this {@link ReadRgbwRequest}.
-     * 
+     * Sets the loop number
+     * from with this {@link ReadRgbwResponse}.
      *
-     * @param type the limit type 0 Low, 1 High
+     *
+     * @param type the loop number type 0 Low, 1 High
      */
-    public void setLimitType(int type) {
-        m_LimitType = type;
+    public void setLoopNumber(int type) {
+        m_LoopNumber = type;
         // setChanged(true);
     }// setReference
 
     /**
-     * Returns the  limit  from this
-     * {@link ReadRgbwRequest}.
-     * 
+     * Returns the loop number from this
+     * {@link ReadRgbwResponse}.
      *
-     * @return the limit 0 Low, 1 High
+     *
+     * @return the loop number 0 Low, 1 High
      */
-    public int getLimitType() {
-        return m_LimitType;
+    public int getLoopNumber() {
+        return m_LoopNumber;
     }// getReference
-
 
     /**
      * Returns the number of bytes that have been read.
-     * 
+     *
      *
      * @return the number of bytes that have been read
      *         as {@link int}.
@@ -102,11 +107,9 @@ public final class ReadRgbwResponse extends SbusResponse {
         return m_ByteCount;
     }// getByteCount
 
-
-
     /**
      * Sets the number of bytes that have been returned.
-     * 
+     *
      *
      * @param count the number of bytes as {@link int}.
      */
@@ -115,10 +118,32 @@ public final class ReadRgbwResponse extends SbusResponse {
     }// setByteCount
 
     /**
+     * Returns the value that has been returned in
+     * this {@link WriteSingleChannelResponse}.
+     *
+     *
+     * @return the value of the register.
+     */
+    public boolean getStatusValue() {
+        return m_StatusValue;
+    }// getValue
+
+    /**
+     * Sets the value that has been returned in the
+     * response message.
+     *
+     *
+     * @param value the returned register value.
+     */
+    private void setStatusValue(boolean value) {
+        m_StatusValue = value;
+    }// setStatusValue
+
+    /**
      * Returns the {@link InputRegister} at
      * the given position (relative to the reference
      * used in the request).
-     * 
+     *
      *
      * @param index the relative index of the {@link InputRegister}.
      * @return the register as {@link InputRegister}.
@@ -139,7 +164,7 @@ public final class ReadRgbwResponse extends SbusResponse {
      * the given position (relative to the reference
      * used in the request) interpreted as usigned
      * short.
-     * 
+     *
      *
      * @param index the relative index of the register
      *            for which the value should be retrieved.
@@ -168,7 +193,8 @@ public final class ReadRgbwResponse extends SbusResponse {
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeByte(m_LimitType);
+        dout.writeByte(m_StatusValue ? Sbus.SUCCESS : Sbus.FAILURE);
+        dout.writeByte(m_LoopNumber);
         for (int k = 0; k < getByteCount(); k++) {
             dout.write(m_Registers[k].getValue());
         }
@@ -176,6 +202,13 @@ public final class ReadRgbwResponse extends SbusResponse {
 
     @Override
     public void readData(DataInput din) throws IOException {
+        if (Sbus.SUCCESS == din.readUnsignedByte()) {
+            setStatusValue(true);
+        } else {
+            setStatusValue(false);
+            return;
+        }
+        setLoopNumber(din.readByte());
         setByteCount(4);
 
         InputRegister[] registers = new InputRegister[getByteCount()];
@@ -184,7 +217,7 @@ public final class ReadRgbwResponse extends SbusResponse {
         }
         m_Registers = registers;
         // update data length
-        setDataLength(getByteCount() + 1);
+        setDataLength(getByteCount() + 2);
     }// readData
 
 }// class ReadStatusChannelsResponse

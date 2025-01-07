@@ -26,7 +26,6 @@ import ro.ciprianpascu.sbus.procimg.ByteRegister;
 import ro.ciprianpascu.sbus.procimg.IllegalAddressException;
 import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 import ro.ciprianpascu.sbus.procimg.Register;
-import ro.ciprianpascu.sbus.procimg.WordRegister;
 
 /**
  * Class implementing a WriteRgbwRequest for the SBus protocol.
@@ -34,13 +33,13 @@ import ro.ciprianpascu.sbus.procimg.WordRegister;
  * to a device. It uses 4 byte registers for the RGBW values and 1 word register
  * for the temporisation.
  *
- * @author Dieter Wimberger
  * @author Ciprian Pascu
  * @version %I% (%G%)
  */
 public final class WriteRgbwRequest extends SbusRequest {
 
     // instance attributes
+    private int m_LoopNumber;
     private Register[] m_Registers;
     private NonWordDataHandler m_NonWordDataHandler = null;
 
@@ -49,9 +48,9 @@ public final class WriteRgbwRequest extends SbusRequest {
      */
     public WriteRgbwRequest() {
         super();
-        setFunctionCode(Sbus.WRITE_RGBW_REQUEST);
-        // 4 bytes for RGBW values + 2 bytes for temporisation
-        setDataLength(6);
+        setFunctionCode(Sbus.WRITE_CUSTOM_COLORS_REQUEST);
+        // 4 bytes for RGBW values + 1 bytes for channelNumber
+        setDataLength(5);
     }
 
     /**
@@ -61,17 +60,17 @@ public final class WriteRgbwRequest extends SbusRequest {
      * reg[1] = green
      * reg[2] = blue
      * reg[3] = white
-     * reg[4] = temporisation
      *
+     * @param channelNo the offset of the register written.
      * @param reg array of registers containing the RGBW and temporisation values
      */
-    public WriteRgbwRequest(Register[] reg) {
+    public WriteRgbwRequest(int channelNo, Register[] reg) {
         super();
-        setFunctionCode(Sbus.WRITE_RGBW_REQUEST);
+        setFunctionCode(Sbus.WRITE_CUSTOM_COLORS_REQUEST);
+        setLoopNumber(channelNo);
         m_Registers = reg;
-        setDataLength(6);
+        setDataLength(5);
     }
-
 
     @Override
     public SbusResponse createResponse(ProcessImageImplementation procimg) {
@@ -82,7 +81,8 @@ public final class WriteRgbwRequest extends SbusRequest {
                 // Get registers for RGBW values (4 bytes) and temporisation (1 word)
                 Register[] regs = procimg.getRegisterRange(0, 5);
                 // Update register values
-                for (int i = 0; i < regs.length; i++) {
+                regs[0].setValue(this.getLoopNumber());
+                for (int i = 1; i < regs.length; i++) {
                     regs[i].setValue(this.getRegister(i).toBytes());
                 }
             } catch (IllegalAddressException iaex) {
@@ -94,7 +94,7 @@ public final class WriteRgbwRequest extends SbusRequest {
                 return createExceptionResponse(result);
             }
         }
-        
+
         response = new WriteRgbwResponse(true);
         // Transfer header data
         response.setSourceSubnetID(this.getSourceSubnetID());
@@ -105,6 +105,29 @@ public final class WriteRgbwRequest extends SbusRequest {
         response.setFunctionCode(this.getFunctionCode());
         return response;
     }
+
+    /**
+     * Sets the loop number
+     * from with this {@link ReadRgbwResponse}.
+     *
+     *
+     * @param type the loop number type 0 Low, 1 High
+     */
+    public void setLoopNumber(int type) {
+        m_LoopNumber = type;
+        // setChanged(true);
+    }// setReference
+
+    /**
+     * Returns the loop number from this
+     * {@link ReadRgbwResponse}.
+     *
+     *
+     * @return the loop number 0 Low, 1 High
+     */
+    public int getLoopNumber() {
+        return m_LoopNumber;
+    }// getReference
 
     /**
      * Sets the registers containing RGBW and temporisation values.
@@ -152,7 +175,7 @@ public final class WriteRgbwRequest extends SbusRequest {
      */
     public void setNonWordDataHandler(NonWordDataHandler dhandler) {
         m_NonWordDataHandler = dhandler;
-        setDataLength(6);
+        setDataLength(5);
     }
 
     /**
@@ -163,24 +186,24 @@ public final class WriteRgbwRequest extends SbusRequest {
     public NonWordDataHandler getNonWordDataHandler() {
         return m_NonWordDataHandler;
     }
-    
+
     @Override
     public void writeData(DataOutput dout) throws IOException {
+        dout.writeByte(m_LoopNumber);
         dout.writeByte(m_Registers[0].toShort()); // red
         dout.writeByte(m_Registers[1].toShort()); // green
         dout.writeByte(m_Registers[2].toShort()); // blue
         dout.writeByte(m_Registers[3].toShort()); // white
-        dout.writeShort(m_Registers[4].toUnsignedShort()); // temporisation
     }
 
     @Override
     public void readData(DataInput din) throws IOException {
-        m_Registers = new Register[5]; // 4 for RGBW + 1 for temporisation
+        m_LoopNumber = din.readByte();
+        m_Registers = new Register[4]; // 4 for RGBW
         m_Registers[0] = new ByteRegister(din.readByte()); // red
         m_Registers[1] = new ByteRegister(din.readByte()); // green
         m_Registers[2] = new ByteRegister(din.readByte()); // blue
         m_Registers[3] = new ByteRegister(din.readByte()); // white
-        m_Registers[4] = new WordRegister(din.readShort()); // temporisation
-        setDataLength(6);
+        setDataLength(5);
     }
 }

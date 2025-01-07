@@ -36,12 +36,12 @@ import ro.ciprianpascu.sbus.util.Mutex;
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
+ *
  * @version %I% (%G%)
  */
 public class SbusUDPTransaction implements SbusTransaction {
-	
-	private static final Logger logger = LoggerFactory.getLogger(SbusUDPTransaction.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(SbusUDPTransaction.class);
 
     // instance attributes and associations
     private UDPTerminal m_Terminal;
@@ -50,11 +50,10 @@ public class SbusUDPTransaction implements SbusTransaction {
     private SbusResponse m_Response;
     private boolean m_ValidityCheck = Sbus.DEFAULT_VALIDITYCHECK;
     private int m_Retries = Sbus.DEFAULT_RETRIES;
-    private int m_RetryCounter = 0;
 
     private Mutex m_TransactionLock = new Mutex();
 
-    private long m_RetryDelayMillis;
+    private long m_RetryDelayMillis = Sbus.DEFAULT_TIMEOUT;
 
     /**
      * Constructs a new {@link SbusUDPTransaction}
@@ -67,7 +66,7 @@ public class SbusUDPTransaction implements SbusTransaction {
      * Constructs a new {@link SbusUDPTransaction}
      * instance with a given {@link SbusRequest} to
      * be send when the transaction is executed.
-     * 
+     *
      *
      * @param request a {@link SbusRequest} instance.
      */
@@ -79,7 +78,7 @@ public class SbusUDPTransaction implements SbusTransaction {
      * Constructs a new {@link SbusUDPTransaction}
      * instance with a given {@link UDPTerminal} to
      * be used for transactions.
-     * 
+     *
      *
      * @param terminal a {@link UDPTerminal} instance.
      */
@@ -91,7 +90,7 @@ public class SbusUDPTransaction implements SbusTransaction {
      * Constructs a new {@link SbusUDPTransaction}
      * instance with a given {@link UDPMasterConnection}
      * to be used for transactions.
-     * 
+     *
      *
      * @param con a {@link UDPMasterConnection} instance.
      */
@@ -102,7 +101,7 @@ public class SbusUDPTransaction implements SbusTransaction {
     /**
      * Sets the terminal on which this {@link SbusTransaction}
      * should be executed.
-* 
+     *
      *
      * @param terminal a {@link UDPTerminal}.
      */
@@ -131,8 +130,12 @@ public class SbusUDPTransaction implements SbusTransaction {
 
     @Override
     public String getTransactionID() {
-        return m_Request.getSubnetID() + "_" + m_Request.getUnitID() + "_" + (m_Request.getFunctionCode()+1);
+        return m_Request.getSubnetID() + "_" + m_Request.getUnitID() + "_" + (m_Request.getFunctionCode() + 1);
     }// getTransactionID
+
+    public String getResponseTransactionID() {
+        return m_Response.getSourceSubnetID() + "_" + m_Response.getSourceUnitID() + "_" + m_Response.getFunctionCode();
+    }// getResponseTransactionID
 
     @Override
     public void setCheckingValidity(boolean b) {
@@ -182,29 +185,30 @@ public class SbusUDPTransaction implements SbusTransaction {
 
             // 3. Retry transaction m_Retries times, in case of
             // I/O Exception problems.
-            m_RetryCounter = 0;
+            int m_RetryCounter = 0;
 
             while (m_RetryCounter < m_Retries) {
-                if (m_RetryCounter != 0) {
-                    Thread.sleep(m_RetryDelayMillis);
-                }
                 try {
                     // 3. write request, and read response,
                     // while holding the lock on the IO object
                     synchronized (m_IO) {
                         // write request message
                         m_IO.writeMessage(m_Request);
-                        if (m_Request.isFireAndForget())
-                        	break;
+                        if (m_Request.isFireAndForget()) {
+                            break;
+                        }
+                        Thread.sleep(m_RetryDelayMillis);
                         // read response message
                         m_Response = m_IO.readResponse(getTransactionID());
+                        if (isCheckingValidity()) {
+                            checkValidity();
+                        }
                         break;
                     }
                 } catch (SbusIOException ex) {
-                	logger.debug("SbusIOException: " + ex.getMessage());
-                    m_RetryCounter++;
-                    continue;
+                    logger.debug("SbusIOException: " + ex.getMessage());
                 }
+                m_RetryCounter++;
             }
 
             // 4. deal with "application level" exceptions
@@ -212,9 +216,6 @@ public class SbusUDPTransaction implements SbusTransaction {
                 throw new SbusSlaveException(((ExceptionResponse) m_Response).getExceptionCode());
             }
 
-            if (isCheckingValidity()) {
-                checkValidity();
-            }
         } catch (InterruptedException ex) {
             throw new SbusIOException("Thread acquiring lock was interrupted.");
         } finally {
@@ -245,6 +246,9 @@ public class SbusUDPTransaction implements SbusTransaction {
      * @throws SbusException if this transaction has not been valid.
      */
     protected void checkValidity() throws SbusException {
+        if (!getTransactionID().equals(getResponseTransactionID())) {
+            throw new SbusIOException("Wrong message. Keep trying");
+        }
     }// checkValidity
 
     @Override

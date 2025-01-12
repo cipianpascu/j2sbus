@@ -19,10 +19,21 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
 import ro.ciprianpascu.sbus.procimg.Register;
 import ro.ciprianpascu.sbus.procimg.WordRegister;
 
+/**
+ * Adapter class for SBUS UDP communication that provides high-level methods for interacting
+ * with SBUS devices. This class handles UDP connections and protocol-specific message formatting.
+ */
 public class SbusAdapter {
 
     private UDPMasterConnection connection;
 
+    /**
+     * Initializes a new SBUS adapter with the specified host and port.
+     *
+     * @param host The hostname or IP address of the SBUS device
+     * @param port The UDP port number for communication
+     * @throws SbusException If connection initialization fails
+     */
     public SbusAdapter(String host, int port) throws SbusException {
         try {
             // Initialize UDPMasterConnection
@@ -35,6 +46,14 @@ public class SbusAdapter {
         }
     }
 
+    /**
+     * Reads the status of all channels from a specified SBUS device.
+     *
+     * @param subnetId The subnet identifier of the target device
+     * @param unitId The unit identifier within the subnet
+     * @return An array of integer values representing the status of each channel
+     * @throws SbusException If reading fails or an invalid response is received
+     */
     public int[] readStatusChannels(int subnetId, int unitId) throws SbusException {
         ReadStatusChannelsRequest request = new ReadStatusChannelsRequest();
         request.setSubnetID(subnetId);
@@ -64,6 +83,16 @@ public class SbusAdapter {
         }
     }
 
+    /**
+     * Writes a state value to a single channel, optionally with a timer.
+     *
+     * @param subnetId The subnet identifier of the target device
+     * @param unitId The unit identifier within the subnet
+     * @param channelNumber The channel number to write to
+     * @param state The state value to write (between 0 and 100)
+     * @param timer Timer value in seconds, or negative value for no timer
+     * @throws SbusException If writing fails
+     */
     public void writeSingleChannel(int subnetId, int unitId, int channelNumber, int state, int timer)
             throws SbusException {
         WriteSingleChannelRequest request = new WriteSingleChannelRequest(timer >= 0);
@@ -95,9 +124,18 @@ public class SbusAdapter {
         }
     }
 
-    public float[] readTemperatures(int subnetId, int unitId) throws SbusException {
+    /**
+     * Reads temperature values from all temperature sensors on a specified SBUS device.
+     *
+     * @param subnetId The subnet identifier of the target device
+     * @param unitId The unit identifier within the subnet
+     * @param temperatureUnit The unit of measurement (e.g., 0 for Fahrenheit, 1 for Celsius)
+     * @return An array of float values representing temperatures from each sensor
+     * @throws SbusException If reading fails or an invalid response is received
+     */
+    public float[] readTemperatures(int subnetId, int unitId, int temperatureUnit) throws SbusException {
         ReadTemperatureRequest request = new ReadTemperatureRequest();
-        request.setTemperatureUnit(1); // Celsius
+        request.setTemperatureUnit(temperatureUnit); // Celsius
         request.setSubnetID(subnetId);
         request.setUnitID(unitId);
 
@@ -124,6 +162,15 @@ public class SbusAdapter {
         }
     }
 
+    /**
+     * Reads RGBW (Red, Green, Blue, White) values from a specified channel.
+     *
+     * @param subnetId The subnet identifier of the target device
+     * @param unitId The unit identifier within the subnet
+     * @param channelNumber The channel number to read from
+     * @return An array of 4 integers representing RGBW values (0-255 each)
+     * @throws SbusException If reading fails or an invalid response is received
+     */
     public int[] readRgbw(int subnetId, int unitId, int channelNumber) throws SbusException {
         ReadRgbwRequest request = new ReadRgbwRequest();
         request.setSubnetID(subnetId);
@@ -153,14 +200,22 @@ public class SbusAdapter {
         }
     }
 
-    public void writeRgbw(int subnetId, int unitId, int channelNumber, int red, int green, int blue, int white)
-            throws SbusException {
+    /**
+     * Writes RGBW (Red, Green, Blue, White) values to a specified channel.
+     *
+     * @param subnetId The subnet identifier of the target device
+     * @param unitId The unit identifier within the subnet
+     * @param channelNumber The channel number to write to
+     * @param color An array of 4 integers representing RGBW values (0-255 each)
+     * @throws SbusException If writing fails
+     */
+    public void writeRgbw(int subnetId, int unitId, int channelNumber, int[] color) throws SbusException {
         // Create registers for RGBW values
         Register[] registers = new Register[4];
-        registers[0] = new ByteRegister((byte) red);
-        registers[1] = new ByteRegister((byte) green);
-        registers[2] = new ByteRegister((byte) blue);
-        registers[3] = new ByteRegister((byte) white);
+        registers[0] = new ByteRegister((byte) color[0]);
+        registers[1] = new ByteRegister((byte) color[1]);
+        registers[2] = new ByteRegister((byte) color[2]);
+        registers[3] = new ByteRegister((byte) color[3]);
 
         WriteRgbwRequest request = new WriteRgbwRequest(channelNumber, registers);
         request.setSubnetID(subnetId);
@@ -177,6 +232,10 @@ public class SbusAdapter {
         }
     }
 
+    /**
+     * Closes the UDP connection to the SBUS device.
+     * This method should be called when the adapter is no longer needed to free system resources.
+     */
     public void close() {
         if (connection != null) {
             connection.close();

@@ -301,7 +301,9 @@ public class UDPSlaveTerminal implements UDPTerminal {
         System.arraycopy(localIp, 0, fullMessage, 0, localIp.length);
         System.arraycopy(smartCloud, 0, fullMessage, 4, smartCloud.length);
         System.arraycopy(msg, 0, fullMessage, 16, msg.length);
-        System.out.println("Sent     " + SbusUtil.toHex(fullMessage));
+        if (logger.isDebugEnabled()) {
+            logger.info("Sent     " + SbusUtil.toHex(fullMessage));
+        }
         m_SendQueue.put(fullMessage);
     }
 
@@ -311,7 +313,9 @@ public class UDPSlaveTerminal implements UDPTerminal {
         if (message == null) {
             throw new SbusIOException("No message response arrived in due time", true);
         }
-        System.out.println("Received " + SbusUtil.toHex(message));
+        if (logger.isDebugEnabled()) {
+            logger.info("Received " + SbusUtil.toHex(message));
+        }
         byte[] signature = new byte[Math.min(message.length - 4, smartCloud.length)];
         System.arraycopy(message, 4, signature, 0, signature.length);
         int equal = Arrays.compare(signature, smartCloud);

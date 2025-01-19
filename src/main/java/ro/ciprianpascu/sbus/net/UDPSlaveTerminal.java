@@ -344,6 +344,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
         public void run() {
             do {
                 try {
+                    Thread.sleep(200); // slow gateway
                     byte[] message = (byte[]) m_SendQueue.take();
                     ByteBuffer buffer = ByteBuffer.allocate(1024);
                     buffer.put(message);

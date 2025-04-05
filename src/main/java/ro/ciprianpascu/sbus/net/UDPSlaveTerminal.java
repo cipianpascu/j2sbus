@@ -219,7 +219,8 @@ public class UDPSlaveTerminal implements UDPTerminal {
                 // m_LocalAddress = new InetSocketAddress(m_LocalPort).getAddress();
             }
             if (logger.isDebugEnabled()) {
-                logger.debug("UDPSlaveTerminal::haveSocket():{}", m_Channel.toString());
+                logger.debug("UDPSlaveTerminal::haveSocket(): local address: {}, local port: {}",
+                        m_Channel.socket().getLocalAddress(), m_Channel.socket().getLocalPort());
                 logger.debug("UDPSlaveTerminal::addr=:{}:port={}", m_LocalAddress.toString(), m_LocalPort);
             }
 

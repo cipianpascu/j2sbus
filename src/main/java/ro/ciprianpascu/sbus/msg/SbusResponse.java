@@ -35,6 +35,14 @@ import ro.ciprianpascu.sbus.Sbus;
 public abstract class SbusResponse extends SbusMessageImpl {
 
     /**
+     * Constructs a new SbusResponse instance.
+     * Initializes the response with default values inherited from SbusMessageImpl.
+     */
+    public SbusResponse() {
+        super();
+    }
+
+    /**
      * Utility method to set the raw data of the message.
      * Should not be used except under rare circumstances.
      *
@@ -66,6 +74,9 @@ public abstract class SbusResponse extends SbusMessageImpl {
                 break;
             case Sbus.READ_TEMPERATURE_REQUEST + 1:
                 response = new ReadTemperatureResponse();
+                break;
+            case Sbus.READ_DRY_CONNECTOR_REQUEST + 1:
+                response = new ReadDryChannelsResponse();
                 break;
             case Sbus.READ_CUSTOM_COLORS_REQUEST + 1:
                 response = new ReadRgbwResponse();

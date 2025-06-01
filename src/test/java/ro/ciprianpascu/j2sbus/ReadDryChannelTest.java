@@ -4,18 +4,18 @@ import org.junit.Test;
 
 import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.io.SbusUDPTransaction;
-import ro.ciprianpascu.sbus.msg.ReadRgbwRequest;
-import ro.ciprianpascu.sbus.msg.ReadRgbwResponse;
+import ro.ciprianpascu.sbus.msg.ReadDryChannelsRequest;
+import ro.ciprianpascu.sbus.msg.ReadDryChannelsResponse;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 
-public class ReadRgbwTest {
+public class ReadDryChannelTest {
 
     @Test
     public void testDataIn() {
         UDPMasterConnection conn = null;
         SbusUDPTransaction trans = null;
-        ReadRgbwRequest req = null;
-        ReadRgbwResponse res = null;
+        ReadDryChannelsRequest req = null;
+        ReadDryChannelsResponse res = null;
 
         int repeat = 1;
         int port = Sbus.DEFAULT_PORT;
@@ -28,10 +28,9 @@ public class ReadRgbwTest {
             conn.connect();
 
             // 3. Prepare the request
-            req = new ReadRgbwRequest();
+            req = new ReadDryChannelsRequest();
             req.setSubnetID(1);
-            req.setUnitID(72);
-            req.setLoopNumber(1);
+            req.setUnitID(101);
             if (Sbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
             }
@@ -45,7 +44,7 @@ public class ReadRgbwTest {
             do {
                 trans.execute();
 
-                res = (ReadRgbwResponse) trans.getResponse();
+                res = (ReadDryChannelsResponse) trans.getResponse();
                 if (res == null) {
                     k++;
                     continue;

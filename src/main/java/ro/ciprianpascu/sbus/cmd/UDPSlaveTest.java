@@ -35,6 +35,14 @@ import ro.ciprianpascu.sbus.procimg.SimpleProcessImage;
 public class UDPSlaveTest {
 
     /**
+     * Private constructor to prevent instantiation.
+     * This class is designed to be used via its main method.
+     */
+    private UDPSlaveTest() {
+        // Not meant to be instantiated
+    }
+
+    /**
      * Main entry point for the UDP slave test application.
      * Sets up and starts a UDP listener with a simple process image.
      * The listener will accept connections on the default port unless

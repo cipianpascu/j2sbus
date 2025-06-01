@@ -25,6 +25,9 @@
 package ro.ciprianpascu.sbus.util;
 
 /**
+ * A thread-safe linked queue implementation that supports concurrent access.
+ * This class provides a FIFO (first-in-first-out) queue with synchronized methods
+ * for adding and removing elements, with support for blocking operations.
  *
  * @author Jamod developers
  *

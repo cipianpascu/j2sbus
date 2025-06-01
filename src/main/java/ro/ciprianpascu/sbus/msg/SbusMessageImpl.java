@@ -34,6 +34,19 @@ import ro.ciprianpascu.sbus.util.SbusUtil;
  */
 public abstract class SbusMessageImpl implements SbusMessage {
 
+    /**
+     * Constructs a new SbusMessageImpl instance.
+     * Initializes the message with default values for subnet ID, unit ID,
+     * source subnet ID, source unit ID, and source device type.
+     */
+    public SbusMessageImpl() {
+        m_SubnetID = Sbus.DEFAULT_SUBNET_ID;
+        m_UnitID = Sbus.DEFAULT_UNIT_ID;
+        m_SourceSubnetID = Sbus.DEFAULT_SOURCE_SUBNET_ID;
+        m_SourceUnitID = Sbus.DEFAULT_SOURCE_UNIT_ID;
+        m_SourceDeviceType = Sbus.DEFAULT_SOURCE_DEVICE_TYPE;
+    }
+
     // instance attributes
     private int m_DataLength;
     private int m_SubnetID = Sbus.DEFAULT_SUBNET_ID;

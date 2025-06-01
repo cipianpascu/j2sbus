@@ -24,6 +24,14 @@ import ro.ciprianpascu.sbus.Sbus;
  */
 public class SerialParameterValidator {
 
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     * All methods in this class are static and should be accessed directly.
+     */
+    private SerialParameterValidator() {
+        // Utility class, not meant to be instantiated
+    }
+
     /** List of commonly supported baud rates for serial communication */
     public static final Integer[] COMMON_BAUD_RATES = { 
         75, 110, 300, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200 

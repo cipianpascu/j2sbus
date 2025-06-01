@@ -46,6 +46,17 @@ public class WordRegister implements Register {
     }
 
     /**
+     * Constructs a new WordRegister instance with separate high and low byte values.
+     *
+     * @param lowValue the low byte value (bits 0-7)
+     * @param highValue the high byte value (bits 8-15)
+     */
+    public WordRegister(byte lowValue, byte highValue) {
+        m_Register[0] = highValue;
+        m_Register[1] = lowValue;
+    }
+
+    /**
      * Returns the register value as a signed integer.
      *
      * @return the register value as a signed integer
@@ -103,8 +114,8 @@ public class WordRegister implements Register {
      */
     @Override
     public void setValue(short s) {
-        m_Register[0] = (byte) (s >> 8);    
-        m_Register[1] = (byte) (s & 0xff);    
+        m_Register[0] = (byte) (s >> 8);
+        m_Register[1] = (byte) (s & 0xff);
     }
 
     /**
@@ -116,9 +127,10 @@ public class WordRegister implements Register {
      */
     @Override
     public void setValue(byte[] bytes) {
-        if (bytes.length != 2) 
+        if (bytes.length != 2) {
             throw new IllegalArgumentException("Byte array must have length 2");
+        }
 
-        m_Register = bytes;        
+        m_Register = bytes;
     }
 }

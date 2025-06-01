@@ -31,6 +31,14 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 public abstract class SbusRequest extends SbusMessageImpl {
 
     /**
+     * Constructs a new SbusRequest instance.
+     * Initializes the request with default values inherited from SbusMessageImpl.
+     */
+    public SbusRequest() {
+        super();
+    }
+
+    /**
      * Returns the {@link SbusResponse} that
      * represents the answer to this {@link SbusRequest}.
      * The implementation should take care about assembling
@@ -75,6 +83,9 @@ public abstract class SbusRequest extends SbusMessageImpl {
                 break;
             case Sbus.READ_TEMPERATURE_REQUEST:
                 request = new ReadTemperatureRequest();
+                break;
+            case Sbus.READ_DRY_CONNECTOR_REQUEST:
+                request = new ReadDryChannelsRequest();
                 break;
             case Sbus.WRITE_SINGLE_CHANNEL_REQUEST:
                 request = new WriteSingleChannelRequest(false);

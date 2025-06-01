@@ -11,6 +11,11 @@
 package ro.ciprianpascu.sbus.net;
 
 /**
+ * Interface defining the connection between a slave device and the S-Bus network.
+ * This interface provides methods for establishing, checking, and resetting connections
+ * between S-Bus slave devices and the network. It abstracts the underlying connection
+ * details and provides a consistent API for managing slave device connectivity.
+ * 
  * @author Sami Salonen
  **/
 public interface SbusSlaveConnection {
@@ -28,6 +33,7 @@ public interface SbusSlaveConnection {
     public void resetConnection();
 
     /**
+     * Checks if the connection is currently established and active.
      *
      * @return whether connection is now fully connected
      */

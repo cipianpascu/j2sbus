@@ -4,6 +4,8 @@ import java.net.InetAddress;
 
 import ro.ciprianpascu.sbus.SbusException;
 import ro.ciprianpascu.sbus.io.SbusUDPTransaction;
+import ro.ciprianpascu.sbus.msg.ReadDryChannelsRequest;
+import ro.ciprianpascu.sbus.msg.ReadDryChannelsResponse;
 import ro.ciprianpascu.sbus.msg.ReadRgbwRequest;
 import ro.ciprianpascu.sbus.msg.ReadRgbwResponse;
 import ro.ciprianpascu.sbus.msg.ReadStatusChannelsRequest;
@@ -47,6 +49,43 @@ public class SbusAdapter {
     }
 
     /**
+     * Reads the contact status of all channels from a specified SBUS device.
+     *
+     * @param subnetId The subnet identifier of the target device
+     * @param unitId The unit identifier within the subnet
+     * @return An array of integer values representing the status of each channel
+     * @throws SbusException If reading fails or an invalid response is received
+     */
+    public boolean[] readContactStatusChannels(int subnetId, int unitId) throws SbusException {
+        ReadDryChannelsRequest request = new ReadDryChannelsRequest();
+        request.setSubnetID(subnetId);
+        request.setUnitID(unitId);
+
+        SbusUDPTransaction transaction = new SbusUDPTransaction(connection);
+        transaction.setRequest(request);
+
+        try {
+            transaction.execute();
+            SbusMessage response = transaction.getResponse();
+            if (response instanceof ReadDryChannelsResponse) {
+                ReadDryChannelsResponse statusResponse = (ReadDryChannelsResponse) response;
+                InputRegister[] registers = statusResponse.getRegisters();
+
+                boolean[] statuses = new boolean[registers.length];
+                for (int i = 0; i < registers.length; i++) {
+                    statuses[i] = (registers[i].getValue() & 0xff) > 0;
+                }
+                return statuses;
+
+            } else {
+                throw new SbusException("Invalid response received");
+            }
+        } catch (Exception e) {
+            throw new SbusException("Error reading status channels: " + e.getMessage());
+        }
+    }
+
+    /**
      * Reads the status of all channels from a specified SBUS device.
      *
      * @param subnetId The subnet identifier of the target device
@@ -54,7 +93,7 @@ public class SbusAdapter {
      * @return An array of integer values representing the status of each channel
      * @throws SbusException If reading fails or an invalid response is received
      */
-    public int[] readStatusChannels(int subnetId, int unitId) throws SbusException {
+    public int[] readExecutionStatusChannels(int subnetId, int unitId) throws SbusException {
         ReadStatusChannelsRequest request = new ReadStatusChannelsRequest();
         request.setSubnetID(subnetId);
         request.setUnitID(unitId);
@@ -93,7 +132,7 @@ public class SbusAdapter {
      * @param timer Timer value in seconds, or negative value for no timer
      * @throws SbusException If writing fails
      */
-    public void writeSingleChannel(int subnetId, int unitId, int channelNumber, int state, int timer)
+    public void writeSingleExecutionChannel(int subnetId, int unitId, int channelNumber, int state, int timer)
             throws SbusException {
         WriteSingleChannelRequest request = new WriteSingleChannelRequest(timer >= 0);
         request.setSubnetID(subnetId);

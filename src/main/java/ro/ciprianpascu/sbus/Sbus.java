@@ -63,6 +63,11 @@ public interface Sbus {
     public static final int READ_TEMPERATURE_REQUEST = 0xE3E7;
 
     /**
+     * Function code for reading dry connector status (0x012C)
+     */
+    public static final int READ_DRY_CONNECTOR_REQUEST = 0x012C;
+
+    /**
      * Function code for writing to a single channel (0x0031)
      */
     public static final int WRITE_SINGLE_CHANNEL_REQUEST = 0x0031;

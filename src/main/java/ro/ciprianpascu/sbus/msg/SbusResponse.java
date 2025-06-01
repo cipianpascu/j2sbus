@@ -67,6 +67,9 @@ public abstract class SbusResponse extends SbusMessageImpl {
             case Sbus.READ_TEMPERATURE_REQUEST + 1:
                 response = new ReadTemperatureResponse();
                 break;
+            case Sbus.READ_DRY_CONNECTOR_REQUEST + 1:
+                response = new ReadDryChannelsResponse();
+                break;
             case Sbus.READ_CUSTOM_COLORS_REQUEST + 1:
                 response = new ReadRgbwResponse();
                 break;

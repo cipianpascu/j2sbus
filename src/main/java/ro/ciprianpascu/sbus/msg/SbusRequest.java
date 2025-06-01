@@ -76,6 +76,9 @@ public abstract class SbusRequest extends SbusMessageImpl {
             case Sbus.READ_TEMPERATURE_REQUEST:
                 request = new ReadTemperatureRequest();
                 break;
+            case Sbus.READ_DRY_CONNECTOR_REQUEST:
+                request = new ReadDryChannelsRequest();
+                break;
             case Sbus.WRITE_SINGLE_CHANNEL_REQUEST:
                 request = new WriteSingleChannelRequest(false);
                 break;

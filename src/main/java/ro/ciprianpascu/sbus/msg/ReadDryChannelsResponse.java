@@ -25,7 +25,7 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
 import ro.ciprianpascu.sbus.procimg.WordRegister;
 
 /**
- * Class implementing a {@link ReadStatusChannelsRequest}.
+ * Class implementing a {@link ReadDryChannelsResponse}.
  * The implementation directly correlates with the class 0
  * function <i>read multiple registers (FC 4)</i>. It
  * encapsulates the corresponding response message.
@@ -35,37 +35,59 @@ import ro.ciprianpascu.sbus.procimg.WordRegister;
  *
  * @version %I% (%G%)
  */
-public final class ReadTemperatureResponse extends SbusResponse {
+public final class ReadDryChannelsResponse extends SbusResponse {
 
     // instance attributes
     private int m_ByteCount;
-    private int m_TemperatureUnit;
     // private int[] m_RegisterValues;
     private InputRegister[] m_Registers;
+    private boolean m_StatusValue;
 
     /**
-     * Constructs a new {@link ReadTemperatureResponse}
+     * Constructs a new {@link ReadDryChannelsResponse}
      * instance. Reader focus
      */
-    public ReadTemperatureResponse() {
+    public ReadDryChannelsResponse() {
         super();
-        setFunctionCode(Sbus.READ_TEMPERATURE_REQUEST + 1);
+        setFunctionCode(Sbus.READ_DRY_CONNECTOR_REQUEST + 1);
     }// constructor
 
     /**
-     * Constructs a new {@link ReadTemperatureResponse}
+     * Constructs a new {@link ReadDryChannelsResponse}
      * instance. Writer focus
      *
      * @param registers the InputRegister[] holding response input registers.
      */
-    public ReadTemperatureResponse(InputRegister[] registers) {
+    public ReadDryChannelsResponse(InputRegister[] registers) {
         super();
-        setFunctionCode(Sbus.READ_TEMPERATURE_REQUEST + 1);
+        setFunctionCode(Sbus.READ_DRY_CONNECTOR_REQUEST + 1);
         m_ByteCount = registers.length * 2;
         m_Registers = registers;
         // set correct data length excluding unit id and fc
         setDataLength(m_ByteCount + 2);
     }// constructor
+
+    /**
+     * Returns the value that has been returned in
+     * this {@link WriteSingleChannelResponse}.
+     *
+     *
+     * @return the value of the register.
+     */
+    public boolean getStatusValue() {
+        return m_StatusValue;
+    }// getValue
+
+    /**
+     * Sets the value that has been returned in the
+     * response message.
+     *
+     *
+     * @param value the returned register value.
+     */
+    private void setStatusValue(boolean value) {
+        m_StatusValue = value;
+    }// setStatusValue
 
     /**
      * Returns the number of bytes that have been read.
@@ -114,7 +136,7 @@ public final class ReadTemperatureResponse extends SbusResponse {
      */
     public InputRegister getRegister(int index) throws IndexOutOfBoundsException {
 
-        if (index >= getWordCount()) {
+        if (index >= getByteCount()) {
             throw new IndexOutOfBoundsException();
         } else {
             return m_Registers[index];
@@ -136,10 +158,10 @@ public final class ReadTemperatureResponse extends SbusResponse {
      */
     public int getRegisterValue(int index) throws IndexOutOfBoundsException {
 
-        if (index >= getWordCount()) {
+        if (index >= getByteCount()) {
             throw new IndexOutOfBoundsException();
         } else {
-            return m_Registers[index].getValue();
+            return m_Registers[index].toUnsignedShort();
         }
     }// getRegisterValue
 
@@ -153,37 +175,16 @@ public final class ReadTemperatureResponse extends SbusResponse {
         return m_Registers;
     }// getRegisters
 
-    /**
-     * Sets the temperature unit
-     * from with this {@link ReadTemperatureRequest}.
-     *
-     *
-     * @param unit the temperature unit 0 Fahrenheit, 1 Celsius
-     */
-    public void setTemperatureUnit(int unit) {
-        m_TemperatureUnit = unit;
-        // setChanged(true);
-    }// setReference
-
-    /**
-     * Returns the temperature unit from this
-     * {@link ReadTemperatureRequest}.
-     *
-     *
-     * @return the temperature unit 0 Fahrenheit, 1 Celsius
-     */
-    public int getTemperatureUnit() {
-        return m_TemperatureUnit;
-    }// getReference
-
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeByte(m_TemperatureUnit);
-        // value
+        dout.writeByte(m_StatusValue ? Sbus.SUCCESS : Sbus.FAILURE);
+        dout.writeByte(getWordCount());
+
+        // configuration 0x00 = NC / 0x01 = NO
         for (int k = 0; k < getWordCount(); k++) {
             dout.write(m_Registers[k].toBytes()[1]);
         }
-        // sign
+        // status 0 = Connected / 1 = Disconnected
         for (int k = 0; k < getWordCount(); k++) {
             dout.write(m_Registers[k].toBytes()[0]);
         }
@@ -191,15 +192,20 @@ public final class ReadTemperatureResponse extends SbusResponse {
 
     @Override
     public void readData(DataInput din) throws IOException {
-        setByteCount(8 * 2); // value & sign
-        setTemperatureUnit(din.readUnsignedByte());
+        if (Sbus.SUCCESS == din.readUnsignedByte()) {
+            setStatusValue(true);
+        } else {
+            setStatusValue(false);
+            return;
+        }
+        setByteCount(din.readUnsignedByte());
 
-        // read value
+        // read configuration 0x00 = NC / 0x01 = NO
         byte[] data = new byte[getWordCount()];
         din.readFully(data);
 
         InputRegister[] registers = new InputRegister[getWordCount()];
-        // read sign and add previous value
+        // read status 0 = Connected / 1 = Disconnected
         for (int k = 0; k < getWordCount(); k++) {
             registers[k] = new WordRegister(din.readByte(), data[k]);
         }

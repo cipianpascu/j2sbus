@@ -394,6 +394,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
                     buffer.flip();
                     byte[] fullMessage = new byte[buffer.remaining()];
                     buffer.get(fullMessage);
+                    System.out.println(SbusUtil.toHex(fullMessage));
                     Integer tid = new Integer(SbusUtil.registersToInt(fullMessage));
                     if (m_listenerMode) {
                         m_Requests.put(tid, new Object[] { sourceAddress, fullMessage });

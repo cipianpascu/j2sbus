@@ -52,6 +52,16 @@ public class UDPSlaveTerminal implements UDPTerminal {
      * Implementation of SbusUDPTransportFactory for creating UDP transports.
      */
     public static class SbusUDPTransportFactoryImpl implements SbusUDPTransportFactory {
+        
+        /**
+         * Constructs a new SbusUDPTransportFactoryImpl instance.
+         * This default constructor creates a factory that can produce
+         * SbusUDPTransport instances for UDP terminals.
+         */
+        public SbusUDPTransportFactoryImpl() {
+            // Default constructor
+        }
+        
         @Override
         public SbusTransport create(UDPTerminal terminal) {
             return new SbusUDPTransport(terminal);

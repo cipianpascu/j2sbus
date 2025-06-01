@@ -45,6 +45,8 @@ public final class WriteSingleChannelRequest extends SbusRequest {
 
     /**
      * Constructs a new WriteSingleChannelRequest instance with default values.
+     *
+     * @param withTimer true to include timer data in the request, false for value only
      */
     public WriteSingleChannelRequest(boolean withTimer) {
         super();

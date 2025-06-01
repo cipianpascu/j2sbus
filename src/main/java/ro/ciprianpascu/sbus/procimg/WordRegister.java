@@ -46,9 +46,10 @@ public class WordRegister implements Register {
     }
 
     /**
-     * Constructs a new WordRegister instance.
+     * Constructs a new WordRegister instance with separate high and low byte values.
      *
-     * @param value the initial value to set (high byte in bits 8-15, low byte in bits 0-7)
+     * @param lowValue the low byte value (bits 0-7)
+     * @param highValue the high byte value (bits 8-15)
      */
     public WordRegister(byte lowValue, byte highValue) {
         m_Register[0] = highValue;

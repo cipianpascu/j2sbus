@@ -93,6 +93,14 @@ package ro.ciprianpascu.sbus.util;
 public class Mutex {
 
     /**
+     * Constructs a new Mutex instance.
+     * The lock is free upon construction.
+     */
+    public Mutex() {
+        // Lock is initially free
+    }
+
+    /**
      * The lock status. True if the lock is in use, false if it's free.
      */
     protected boolean inuse_ = false;

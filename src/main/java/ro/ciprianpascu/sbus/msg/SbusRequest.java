@@ -31,6 +31,14 @@ import ro.ciprianpascu.sbus.procimg.ProcessImageImplementation;
 public abstract class SbusRequest extends SbusMessageImpl {
 
     /**
+     * Constructs a new SbusRequest instance.
+     * Initializes the request with default values inherited from SbusMessageImpl.
+     */
+    public SbusRequest() {
+        super();
+    }
+
+    /**
      * Returns the {@link SbusResponse} that
      * represents the answer to this {@link SbusRequest}.
      * The implementation should take care about assembling

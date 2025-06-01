@@ -34,6 +34,14 @@ import ro.ciprianpascu.sbus.msg.SbusMessage;
  */
 public final class SbusUtil {
 
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     * All methods in this class are static and should be accessed directly.
+     */
+    private SbusUtil() {
+        // Utility class, not meant to be instantiated
+    }
+
     private static BytesOutputStream m_ByteOut = new BytesOutputStream(Sbus.MAX_MESSAGE_LENGTH);
 
     /**

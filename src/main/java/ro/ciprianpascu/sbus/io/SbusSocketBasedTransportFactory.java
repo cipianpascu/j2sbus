@@ -17,12 +17,19 @@ package ro.ciprianpascu.sbus.io;
 import java.net.Socket;
 
 /**
-* 
- * SbusSocketBasedTransportFactory interface.
- * 
+ * Factory interface for creating socket-based SbusTransport instances.
+ * This interface defines a factory method for creating transport objects
+ * that use standard Java sockets for communication, allowing for flexible
+ * instantiation of transport implementations.
  *
  * @author Sami Salonen
  */
 public interface SbusSocketBasedTransportFactory {
+    /**
+     * Creates a new SbusTransport instance based on the provided socket.
+     *
+     * @param socket the socket to use for transport communication
+     * @return a new SbusTransport instance
+     */
     public SbusTransport create(Socket socket);
 }

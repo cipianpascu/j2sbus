@@ -17,12 +17,20 @@ package ro.ciprianpascu.sbus.net;
 import java.net.InetAddress;
 
 /**
-* 
- * UDPSlaveTerminalFactory interface.
- * 
+ * Factory interface for creating UDPSlaveTerminal instances.
+ * This interface defines a factory method for creating UDP slave terminals
+ * bound to specific network interfaces and ports, allowing for flexible
+ * instantiation of terminal objects.
  *
  * @author Sami Salonen
  */
 public interface UDPSlaveTerminalFactory {
+    /**
+     * Creates a new UDPSlaveTerminal instance bound to the specified network interface and port.
+     *
+     * @param interfac the network interface to bind to
+     * @param port the port number to listen on
+     * @return a new UDPSlaveTerminal instance
+     */
     public UDPSlaveTerminal create(InetAddress interfac, int port);
 }

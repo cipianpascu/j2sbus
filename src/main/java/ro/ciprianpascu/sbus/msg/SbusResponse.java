@@ -35,6 +35,14 @@ import ro.ciprianpascu.sbus.Sbus;
 public abstract class SbusResponse extends SbusMessageImpl {
 
     /**
+     * Constructs a new SbusResponse instance.
+     * Initializes the response with default values inherited from SbusMessageImpl.
+     */
+    public SbusResponse() {
+        super();
+    }
+
+    /**
      * Utility method to set the raw data of the message.
      * Should not be used except under rare circumstances.
      *

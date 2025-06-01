@@ -29,6 +29,23 @@ import ro.ciprianpascu.sbus.util.Observable;
 public class ObservableDigitalOut extends Observable implements DigitalOut {
 
     /**
+     * Constructs a new ObservableDigitalOut instance.
+     * The digital output is initially set to false (off).
+     */
+    public ObservableDigitalOut() {
+        m_Set = false;
+    }
+
+    /**
+     * Constructs a new ObservableDigitalOut instance with the given initial state.
+     *
+     * @param state the initial state of this digital output
+     */
+    public ObservableDigitalOut(boolean state) {
+        m_Set = state;
+    }
+
+    /**
      * A boolean holding the state of this digital out.
      */
     protected boolean m_Set;

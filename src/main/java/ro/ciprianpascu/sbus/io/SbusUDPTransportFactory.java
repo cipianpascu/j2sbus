@@ -17,12 +17,19 @@ package ro.ciprianpascu.sbus.io;
 import ro.ciprianpascu.sbus.net.UDPTerminal;
 
 /**
-* 
- * SbusUDPTransportFactory interface.
- * 
+ * Factory interface for creating UDP-based SbusTransport instances.
+ * This interface defines a factory method for creating transport objects
+ * that use UDP terminals for communication, allowing for flexible
+ * instantiation of transport implementations for UDP-based SBus communication.
  *
  * @author Sami Salonen
  */
 public interface SbusUDPTransportFactory {
+    /**
+     * Creates a new SbusTransport instance based on the provided UDP terminal.
+     *
+     * @param terminal the UDP terminal to use for transport communication
+     * @return a new SbusTransport instance
+     */
     public SbusTransport create(UDPTerminal terminal);
 }

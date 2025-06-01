@@ -29,6 +29,16 @@ import ro.ciprianpascu.sbus.util.Observable;
 public class ObservableRegister extends Observable implements Register {
 
     /**
+     * Constructs a new ObservableRegister instance.
+     * Initializes the register with a default value of 0.
+     */
+    public ObservableRegister() {
+        // Initialize register with default value (0)
+        m_Register[0] = 0;
+        m_Register[1] = 0;
+    }
+
+    /**
      * The word byte[2] holding the content of this register.
      */
     protected byte[] m_Register = new byte[2];

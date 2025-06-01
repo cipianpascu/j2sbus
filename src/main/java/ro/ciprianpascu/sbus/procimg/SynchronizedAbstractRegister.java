@@ -28,6 +28,16 @@ package ro.ciprianpascu.sbus.procimg;
 public abstract class SynchronizedAbstractRegister implements Register {
 
     /**
+     * Constructs a new SynchronizedAbstractRegister instance.
+     * Initializes the register with a default value of 0.
+     */
+    public SynchronizedAbstractRegister() {
+        // Initialize register with default value (0)
+        m_Register[0] = 0;
+        m_Register[1] = 0;
+    }
+
+    /**
      * The word byte[2] holding the state of this
      * register.
      */

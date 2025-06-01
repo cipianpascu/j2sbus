@@ -133,6 +133,11 @@ public class SbusUDPTransaction implements SbusTransaction {
         return m_Request.getSubnetID() + "_" + m_Request.getUnitID() + "_" + (m_Request.getFunctionCode() + 1);
     }// getTransactionID
 
+    /**
+     * Gets the transaction ID for the response message.
+     * 
+     * @return a string representing the response transaction ID
+     */
     public String getResponseTransactionID() {
         return m_Response.getSourceSubnetID() + "_" + m_Response.getSourceUnitID() + "_" + m_Response.getFunctionCode();
     }// getResponseTransactionID

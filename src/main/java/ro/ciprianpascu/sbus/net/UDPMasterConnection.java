@@ -39,7 +39,7 @@ import ro.ciprianpascu.sbus.io.SbusTransport;
  * @version %I% (%G%)
  */
 public class UDPMasterConnection implements SbusSlaveConnection {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(UDPMasterConnection.class);
 
     /** Default local port for UDP communication */
@@ -47,19 +47,19 @@ public class UDPMasterConnection implements SbusSlaveConnection {
 
     /** The terminal handling UDP communication */
     private UDPMasterTerminal m_Terminal;
-    
+
     /** Timeout for communication operations in milliseconds */
     private int m_Timeout = Sbus.DEFAULT_TIMEOUT;
-    
+
     /** Flag indicating if the connection is active */
     private boolean m_Connected;
-    
+
     /** Remote address for the slave device */
     protected InetAddress m_RemoteAddress;
 
     /** Remote port for the slave device */
     private int m_Port = Sbus.DEFAULT_PORT;
-    
+
     /**
      * Constructs a new UDPMasterConnection with default settings.
      */
@@ -88,9 +88,9 @@ public class UDPMasterConnection implements SbusSlaveConnection {
             InetAddress localAddress = getLocalIP();
             m_Terminal = new UDPMasterTerminal(localAddress);
             m_Terminal.setLocalPort(LOCAL_PORT);
-            m_Terminal.setRemoteAddress(m_RemoteAddress == null ? 
-                InetAddress.getByAddress(getTargetIP(localAddress.getAddress())) : 
-                m_RemoteAddress);
+            m_Terminal.setRemoteAddress(
+                    m_RemoteAddress == null ? InetAddress.getByAddress(getTargetIP(localAddress.getAddress()))
+                            : m_RemoteAddress);
             m_Terminal.setRemotePort(m_Port);
             m_Terminal.activate();
             m_Terminal.setTimeout(m_Timeout);
@@ -122,6 +122,28 @@ public class UDPMasterConnection implements SbusSlaveConnection {
      */
     public SbusTransport getSbusTransport() {
         return m_Terminal.getSbusTransport();
+    }
+
+    /**
+     * Adds a message listener for unsolicited messages.
+     * The listener will be notified when messages arrive that are not
+     * part of a synchronous request/response transaction.
+     *
+     * @param listener the listener to add
+     */
+    public void addMessageListener(SbusMessageListener listener) {
+        SbusTransport transport = getSbusTransport();
+        transport.addMessageListener(listener);
+    }
+
+    /**
+     * Removes a message listener.
+     *
+     * @param listener the listener to remove
+     */
+    public void removeMessageListener(SbusMessageListener listener) {
+        SbusTransport transport = getSbusTransport();
+        transport.removeMessageListener(listener);
     }
 
     /**
@@ -179,7 +201,7 @@ public class UDPMasterConnection implements SbusSlaveConnection {
     public void setRemoteAddress(InetAddress adr) {
         m_RemoteAddress = adr;
     }
-    
+
     /**
      * Tests if this connection is currently active.
      *
@@ -197,10 +219,8 @@ public class UDPMasterConnection implements SbusSlaveConnection {
 
     @Override
     public String toString() {
-        return "UDPMasterConnection [m_Terminal=" + m_Terminal + 
-               ", m_Timeout=" + m_Timeout + 
-               ", m_Connected=" + m_Connected + 
-               ", m_Port=" + m_Port + "]";
+        return "UDPMasterConnection [m_Terminal=" + m_Terminal + ", m_Timeout=" + m_Timeout + ", m_Connected="
+                + m_Connected + ", m_Port=" + m_Port + "]";
     }
 
     /**
@@ -223,7 +243,7 @@ public class UDPMasterConnection implements SbusSlaveConnection {
         }
         return InetAddress.getLocalHost();
     }
-    
+
     /**
      * Calculates the target broadcast IP address based on the local IP.
      * Determines the network class (A, B, C) and sets appropriate broadcast bits.
@@ -231,33 +251,33 @@ public class UDPMasterConnection implements SbusSlaveConnection {
      * @param arraybyteLocalIP the local IP address as a byte array
      * @return the target broadcast IP address as a byte array
      */
-    private byte[] getTargetIP(byte[] arraybyteLocalIP) {    
+    private byte[] getTargetIP(byte[] arraybyteLocalIP) {
         byte[] arraybyteTargetIP = new byte[4];
         byte byteBit;
-           
+
         byteBit = (byte) ((arraybyteLocalIP[0] & 0xFF) >> 5);
         if (((byteBit & 0xFF) >= 0) && ((byteBit & 0xFF) <= 3)) { // Class A
             arraybyteTargetIP[0] = arraybyteLocalIP[0];
             arraybyteTargetIP[1] = (byte) 255;
             arraybyteTargetIP[2] = (byte) 255;
-            arraybyteTargetIP[3] = (byte) 255;    
+            arraybyteTargetIP[3] = (byte) 255;
         } else if (((byteBit & 0xFF) >= 4) && ((byteBit & 0xFF) <= 5)) { // Class B
             arraybyteTargetIP[0] = arraybyteLocalIP[0];
             arraybyteTargetIP[1] = arraybyteLocalIP[1];
             arraybyteTargetIP[2] = (byte) 255;
-            arraybyteTargetIP[3] = (byte) 255;    
+            arraybyteTargetIP[3] = (byte) 255;
         } else if (((byteBit & 0xFF) >= 6) && ((byteBit & 0xFF) <= 7)) { // Class C
             arraybyteTargetIP[0] = arraybyteLocalIP[0];
             arraybyteTargetIP[1] = arraybyteLocalIP[1];
             arraybyteTargetIP[2] = arraybyteLocalIP[2];
-            arraybyteTargetIP[3] = (byte) 255;    
+            arraybyteTargetIP[3] = (byte) 255;
         } else { // Default broadcast
             arraybyteTargetIP[0] = (byte) 255;
             arraybyteTargetIP[1] = (byte) 255;
             arraybyteTargetIP[2] = (byte) 255;
-            arraybyteTargetIP[3] = (byte) 255;    
+            arraybyteTargetIP[3] = (byte) 255;
         }
-    
+
         return arraybyteTargetIP;
-    }    
+    }
 }

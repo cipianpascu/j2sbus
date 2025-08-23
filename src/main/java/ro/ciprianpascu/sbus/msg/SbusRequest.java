@@ -87,6 +87,9 @@ public abstract class SbusRequest extends SbusMessageImpl {
             case Sbus.READ_DRY_CONNECTOR_REQUEST:
                 request = new ReadDryChannelsRequest();
                 break;
+            case Sbus.READ_NINE_IN_ONE_STATUS_REQUEST:
+                request = new ReadNineInOneStatusRequest();
+                break;
             case Sbus.WRITE_SINGLE_CHANNEL_REQUEST:
                 request = new WriteSingleChannelRequest(false);
                 break;

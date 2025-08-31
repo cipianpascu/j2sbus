@@ -10,6 +10,10 @@ import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 
 public class ReadTemperatureTest {
 
+    public static void main(String[] args) {
+        new ReadTemperatureTest().testDataIn();
+    }
+
     @Test
     public void testDataIn() {
         UDPMasterConnection conn = null;
@@ -29,8 +33,8 @@ public class ReadTemperatureTest {
 
             // 3. Prepare the request
             req = new ReadTemperatureRequest();
-            req.setSubnetID(11);
-            req.setUnitID(162);
+            req.setSubnetID(1);
+            req.setUnitID(61);
             req.setTemperatureUnit(1);
             if (Sbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());

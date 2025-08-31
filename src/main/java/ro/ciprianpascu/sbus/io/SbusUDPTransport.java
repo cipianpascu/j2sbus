@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.SbusIOException;
+import ro.ciprianpascu.sbus.msg.ExceptionResponse;
 import ro.ciprianpascu.sbus.msg.SbusMessage;
 import ro.ciprianpascu.sbus.msg.SbusRequest;
 import ro.ciprianpascu.sbus.msg.SbusResponse;
@@ -150,7 +151,7 @@ public class SbusUDPTransport implements SbusTransport, UDPSlaveTerminal.Message
                 logger.debug("Routed response to pending (request/response) transaction via expiringCache: "
                         + responseTransactionId);
                 messages.put(responseTransactionId, res);
-            } else {
+            } else if (!(res instanceof ExceptionResponse)) {
                 // No pending transactions, this is definitely unsolicited
                 logger.debug("Routing unsolicited message to listeners: " + responseTransactionId);
                 notifyListeners(res);
@@ -187,7 +188,11 @@ public class SbusUDPTransport implements SbusTransport, UDPSlaveTerminal.Message
      * @return the transaction ID
      */
     private String extractTransactionId(SbusResponse response) {
-        return response.getSubnetID() + "_" + response.getUnitID() + "_" + response.getFunctionCode();
+        // Use the request function code for transaction ID
+        // Wire analysis: request=0xE3E7, response=0xE3E8, so response = request + 1
+        int requestFunctionCode = response.getFunctionCode() - 1;
+        // For responses, use sourceSubnetID and sourceUnitID to match the original request
+        return response.getSourceSubnetID() + "_" + response.getSourceUnitID() + "_" + requestFunctionCode;
     }
 
     /**
@@ -214,7 +219,7 @@ public class SbusUDPTransport implements SbusTransport, UDPSlaveTerminal.Message
     public void writeMessage(SbusMessage msg) throws SbusIOException {
         try {
             SbusResponse cachedMessage = messages
-                    .get("" + msg.getSubnetID() + "_" + msg.getUnitID() + "_" + (msg.getFunctionCode() + 1));
+                    .get("" + msg.getSubnetID() + "_" + msg.getUnitID() + "_" + msg.getFunctionCode());
             if (cachedMessage != null) { // already have recent information in the cache
                 return;
             }
@@ -271,33 +276,29 @@ public class SbusUDPTransport implements SbusTransport, UDPSlaveTerminal.Message
 
     @Override
     public SbusResponse readResponse(String transactionId) throws SbusIOException {
+        // Register that we're waiting for this transaction
+        pendingTransactions.add(transactionId);
+
         try {
-            // Register that we're waiting for this transaction
-            pendingTransactions.add(transactionId);
-
-            try {
-                // Block on cache with timeout - this will wait for notification-driven population
-                int timeout = (m_Terminal instanceof UDPSlaveTerminal) ? ((UDPSlaveTerminal) m_Terminal).getTimeout()
-                        : Sbus.DEFAULT_TIMEOUT;
-                SbusResponse res = messages.getWithTimeout(transactionId, timeout);
-                if (res != null) {
-                    logger.debug("Found response after waiting for transaction: " + transactionId);
-                    return res;
-                }
-
-                // Timeout occurred
-                throw new SbusIOException("No response received for transaction: " + transactionId);
-            } finally {
-                // Always clean up pending transaction
-                pendingTransactions.remove(transactionId);
+            // Block on cache with timeout - this will wait for notification-driven population
+            SbusResponse res = messages.getWithTimeout(transactionId, m_Terminal.getTimeout());
+            if (res != null) {
+                logger.debug("Found response after waiting for transaction: " + transactionId);
+                return res;
             }
 
+            // Timeout occurred
+            throw new SbusIOException("No response received for transaction: " + transactionId);
         } catch (SbusIOException mioex) {
             throw mioex;
         } catch (Exception ex) {
             // ex.printStackTrace();
             throw new SbusIOException("I/O exception - failed to read. " + ex.getMessage());
+        } finally {
+            // Always clean up pending transaction
+            pendingTransactions.remove(transactionId);
         }
+
     }
 
     /**

@@ -87,7 +87,7 @@ public interface UDPTerminal {
      * @throws Exception if receiving the message fails
      */
     public byte[] receiveMessage() throws Exception;
-    
+
     /**
      * Checks if there is a message available to be received.
      * This is a non-blocking operation that can be used to check
@@ -96,4 +96,18 @@ public interface UDPTerminal {
      * @return true if a message is available, false otherwise
      */
     public boolean hasMessage();
+
+    /**
+     * Gets the timeout value for operations.
+     *
+     * @return timeout in milliseconds
+     */
+    public int getTimeout();
+
+    /**
+     * Sets the timeout value for operations.
+     *
+     * @param timeout timeout in milliseconds
+     */
+    public void setTimeout(int timeout);
 }

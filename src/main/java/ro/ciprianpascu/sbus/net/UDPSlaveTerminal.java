@@ -147,7 +147,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
     /**
      * Sets a callback to be notified when messages arrive in the receive queue.
      * This enables non-blocking master mode operation.
-     * 
+     *
      * @param callback the callback to set, or null to disable notifications
      */
     public void setMessageArrivalCallback(MessageArrivalCallback callback) {
@@ -315,6 +315,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
      *
      * @return timeout in milliseconds
      */
+    @Override
     public int getTimeout() {
         return m_Timeout;
     }
@@ -324,6 +325,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
      *
      * @param timeout timeout in milliseconds
      */
+    @Override
     public void setTimeout(int timeout) {
         m_Timeout = timeout;
     }
@@ -336,7 +338,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
         System.arraycopy(localIp, 0, fullMessage, 0, localIp.length);
         System.arraycopy(smartCloud, 0, fullMessage, 4, smartCloud.length);
         System.arraycopy(msg, 0, fullMessage, 16, msg.length);
-        if (logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled() || Sbus.debug) {
             logger.info("Sent     " + SbusUtil.toHex(fullMessage));
         }
         m_SendQueue.put(fullMessage);
@@ -348,7 +350,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
         if (message == null) {
             throw new SbusIOException("No message response arrived in due time", true);
         }
-        if (logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled() || Sbus.debug) {
             logger.info("Received " + SbusUtil.toHex(message));
         }
         byte[] signature = new byte[Math.min(message.length - 4, smartCloud.length)];
@@ -363,7 +365,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
     /**
      * Non-blocking version of receiveMessage for notification-driven cache population.
      * Returns null immediately if no message is available.
-     * 
+     *
      * @return the message bytes, or null if no message is available
      * @throws Exception if there's an error processing the message
      */
@@ -372,7 +374,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
         if (message == null) {
             return null; // No message available
         }
-        if (logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled() || Sbus.debug) {
             logger.info("Received " + SbusUtil.toHex(message));
         }
         byte[] signature = new byte[Math.min(message.length - 4, smartCloud.length)];
@@ -459,7 +461,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
                     }
                     m_ReceiveQueue.put(fullMessage);
                     logger.trace("Received package placed in queue");
-                    
+
                     // Notify callback for notification-driven cache population
                     if (m_MessageCallback != null) {
                         m_MessageCallback.onMessageArrived();

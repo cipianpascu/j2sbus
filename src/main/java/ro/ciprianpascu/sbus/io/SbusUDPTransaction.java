@@ -53,8 +53,6 @@ public class SbusUDPTransaction implements SbusTransaction {
 
     private Mutex m_TransactionLock = new Mutex();
 
-    private long m_RetryDelayMillis = Sbus.DEFAULT_TIMEOUT;
-
     /**
      * Constructs a new {@link SbusUDPTransaction}
      * instance.
@@ -130,16 +128,19 @@ public class SbusUDPTransaction implements SbusTransaction {
 
     @Override
     public String getTransactionID() {
-        return m_Request.getSubnetID() + "_" + m_Request.getUnitID() + "_" + (m_Request.getFunctionCode() + 1);
+        return m_Request.getSubnetID() + "_" + m_Request.getUnitID() + "_" + m_Request.getFunctionCode();
     }// getTransactionID
 
     /**
      * Gets the transaction ID for the response message.
-     * 
+     *
      * @return a string representing the response transaction ID
      */
     public String getResponseTransactionID() {
-        return m_Response.getSourceSubnetID() + "_" + m_Response.getSourceUnitID() + "_" + m_Response.getFunctionCode();
+        // Use the request function code for transaction ID
+        // Wire analysis: request=0xE3E7, response=0xE3E8, so response = request + 1
+        int requestFunctionCode = m_Response.getFunctionCode() - 1;
+        return m_Response.getSourceSubnetID() + "_" + m_Response.getSourceUnitID() + "_" + requestFunctionCode;
     }// getResponseTransactionID
 
     @Override
@@ -202,7 +203,6 @@ public class SbusUDPTransaction implements SbusTransaction {
                         if (m_Request.isFireAndForget()) {
                             break;
                         }
-                        Thread.sleep(m_RetryDelayMillis);
                         // read response message
                         m_Response = m_IO.readResponse(getTransactionID());
                         if (isCheckingValidity()) {
@@ -257,13 +257,13 @@ public class SbusUDPTransaction implements SbusTransaction {
     }// checkValidity
 
     @Override
-    public long getRetryDelayMillis() {
-        return m_RetryDelayMillis;
+    public int getRetryDelayMillis() {
+        return m_Terminal.getTimeout();
     }
 
     @Override
-    public void setRetryDelayMillis(long retryDelayMillis) {
-        this.m_RetryDelayMillis = retryDelayMillis;
+    public void setRetryDelayMillis(int retryDelayMillis) {
+        m_Terminal.setTimeout(retryDelayMillis);
     }
 
 }// class SbusUDPTransaction

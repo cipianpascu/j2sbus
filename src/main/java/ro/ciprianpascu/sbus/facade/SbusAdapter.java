@@ -18,19 +18,23 @@ public class SbusAdapter {
 
     private UDPMasterConnection connection;
 
+
+
     /**
-     * Initializes a new SBUS adapter with the specified host and port.
+     * Initializes a new SBUS adapter with the specified host, port, and timeout.
      *
      * @param host The hostname or IP address of the SBUS device
      * @param port The UDP port number for communication
+     * @param timeout The timeout in milliseconds to wait for response after sending a request
      * @throws SbusException If connection initialization fails
      */
-    public SbusAdapter(String host, int port) throws SbusException {
+    public SbusAdapter(String host, int port, int timeout) throws SbusException {
         try {
             // Initialize UDPMasterConnection
             connection = new UDPMasterConnection();
             connection.setRemoteAddress(InetAddress.getByName(host));
             connection.setPort(port);
+            connection.setTimeout(timeout);
             connection.connect();
         } catch (Exception e) {
             throw new SbusException("Error initializing SBUS connection: " + e.getMessage());

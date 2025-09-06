@@ -6,7 +6,7 @@
 	<groupId>ro.ciprianpascu</groupId>
 	<artifactId>j2sbus</artifactId>
 	<packaging>jar</packaging>
-	<version>1.6.2-SNAPSHOT</version>
+	<version>1.6.3-SNAPSHOT</version>
 	<name>Java 2 S-Bus</name>
 	<url>https://github.com/cipianpascu/j2sbus</url>
 	<description>

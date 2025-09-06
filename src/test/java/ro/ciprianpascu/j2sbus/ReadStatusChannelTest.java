@@ -23,7 +23,7 @@ public class ReadStatusChannelTest {
         ReadStatusChannelsRequest req = null;
         ReadStatusChannelsResponse res = null;
 
-        int repeat = 1;
+        int repeat = 3;
         int port = Sbus.DEFAULT_PORT;
 
         try {
@@ -36,8 +36,8 @@ public class ReadStatusChannelTest {
 
             // 3. Prepare the request
             req = new ReadStatusChannelsRequest();
-            req.setSubnetID(11);
-            req.setUnitID(175);
+            req.setSubnetID(1);
+            req.setUnitID(75);
 
             if (Sbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());

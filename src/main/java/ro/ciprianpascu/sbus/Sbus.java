@@ -68,6 +68,16 @@ public interface Sbus {
     public static final int READ_DRY_CONNECTOR_REQUEST = 0x012C;
 
     /**
+     * Function code for reading 9-in-1 sensor status (0xDB00)
+     */
+    public static final int READ_NINE_IN_ONE_STATUS_REQUEST = 0xDB00;
+
+    /**
+     * Function code for motion sensor status report (0x02CA)
+     */
+    public static final int MOTION_SENSOR_STATUS_REPORT = 0x02CA;
+
+    /**
      * Function code for writing to a single channel (0x0031)
      */
     public static final int WRITE_SINGLE_CHANNEL_REQUEST = 0x0031;

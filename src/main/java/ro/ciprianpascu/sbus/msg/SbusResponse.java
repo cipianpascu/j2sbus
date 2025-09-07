@@ -78,6 +78,12 @@ public abstract class SbusResponse extends SbusMessageImpl {
             case Sbus.READ_DRY_CONNECTOR_REQUEST + 1:
                 response = new ReadDryChannelsResponse();
                 break;
+            case Sbus.READ_NINE_IN_ONE_STATUS_REQUEST + 1:
+                response = new ReadNineInOneStatusResponse();
+                break;
+            case Sbus.MOTION_SENSOR_STATUS_REPORT:
+                response = new MotionSensorStatusReport();
+                break;
             case Sbus.READ_CUSTOM_COLORS_REQUEST + 1:
                 response = new ReadRgbwResponse();
                 break;

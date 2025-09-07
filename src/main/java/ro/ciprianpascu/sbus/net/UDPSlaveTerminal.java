@@ -52,7 +52,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
      * Implementation of SbusUDPTransportFactory for creating UDP transports.
      */
     public static class SbusUDPTransportFactoryImpl implements SbusUDPTransportFactory {
-        
+
         /**
          * Constructs a new SbusUDPTransportFactoryImpl instance.
          * This default constructor creates a factory that can produce
@@ -61,7 +61,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
         public SbusUDPTransportFactoryImpl() {
             // Default constructor
         }
-        
+
         @Override
         public SbusTransport create(UDPTerminal terminal) {
             return new SbusUDPTransport(terminal);
@@ -129,6 +129,30 @@ public class UDPSlaveTerminal implements UDPTerminal {
 
     /** Time to wait for threads to close during deactivation */
     private int m_DeactivationWaitMillis = 100;
+
+    /** Callback for message arrival notifications */
+    private MessageArrivalCallback m_MessageCallback;
+
+    /**
+     * Interface for receiving notifications when messages arrive in the receive queue.
+     */
+    public interface MessageArrivalCallback {
+        /**
+         * Called when a new message arrives in the receive queue.
+         * This is called from the PacketReceiver thread.
+         */
+        void onMessageArrived();
+    }
+
+    /**
+     * Sets a callback to be notified when messages arrive in the receive queue.
+     * This enables non-blocking master mode operation.
+     *
+     * @param callback the callback to set, or null to disable notifications
+     */
+    public void setMessageArrivalCallback(MessageArrivalCallback callback) {
+        m_MessageCallback = callback;
+    }
 
     /**
      * Creates a new UDPSlaveTerminal with default settings and response enabled.
@@ -291,6 +315,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
      *
      * @return timeout in milliseconds
      */
+    @Override
     public int getTimeout() {
         return m_Timeout;
     }
@@ -300,6 +325,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
      *
      * @param timeout timeout in milliseconds
      */
+    @Override
     public void setTimeout(int timeout) {
         m_Timeout = timeout;
     }
@@ -312,7 +338,7 @@ public class UDPSlaveTerminal implements UDPTerminal {
         System.arraycopy(localIp, 0, fullMessage, 0, localIp.length);
         System.arraycopy(smartCloud, 0, fullMessage, 4, smartCloud.length);
         System.arraycopy(msg, 0, fullMessage, 16, msg.length);
-        if (logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled() || Sbus.debug) {
             logger.info("Sent     " + SbusUtil.toHex(fullMessage));
         }
         m_SendQueue.put(fullMessage);
@@ -324,7 +350,31 @@ public class UDPSlaveTerminal implements UDPTerminal {
         if (message == null) {
             throw new SbusIOException("No message response arrived in due time", true);
         }
-        if (logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled() || Sbus.debug) {
+            logger.info("Received " + SbusUtil.toHex(message));
+        }
+        byte[] signature = new byte[Math.min(message.length - 4, smartCloud.length)];
+        System.arraycopy(message, 4, signature, 0, signature.length);
+        int equal = Arrays.compare(signature, smartCloud);
+        if (equal != 0) {
+            throw new SbusIOException("Message not for me", true);
+        }
+        return Arrays.copyOfRange(message, signature.length + 4, message.length);
+    }
+
+    /**
+     * Non-blocking version of receiveMessage for notification-driven cache population.
+     * Returns null immediately if no message is available.
+     *
+     * @return the message bytes, or null if no message is available
+     * @throws Exception if there's an error processing the message
+     */
+    public byte[] receiveMessageNonBlocking() throws Exception {
+        byte[] message = (byte[]) m_ReceiveQueue.poll(0); // Non-blocking poll with 0 timeout
+        if (message == null) {
+            return null; // No message available
+        }
+        if (logger.isDebugEnabled() || Sbus.debug) {
             logger.info("Received " + SbusUtil.toHex(message));
         }
         byte[] signature = new byte[Math.min(message.length - 4, smartCloud.length)];
@@ -404,13 +454,18 @@ public class UDPSlaveTerminal implements UDPTerminal {
                     buffer.flip();
                     byte[] fullMessage = new byte[buffer.remaining()];
                     buffer.get(fullMessage);
-                    System.out.println(SbusUtil.toHex(fullMessage));
+                    // System.out.println(SbusUtil.toHex(fullMessage));
                     Integer tid = new Integer(SbusUtil.registersToInt(fullMessage));
                     if (m_listenerMode) {
                         m_Requests.put(tid, new Object[] { sourceAddress, fullMessage });
                     }
                     m_ReceiveQueue.put(fullMessage);
                     logger.trace("Received package placed in queue");
+
+                    // Notify callback for notification-driven cache population
+                    if (m_MessageCallback != null) {
+                        m_MessageCallback.onMessageArrived();
+                    }
                 } catch (Exception ex) {
                     if (logger.isDebugEnabled()) {
                         logger.debug("Exception", ex);

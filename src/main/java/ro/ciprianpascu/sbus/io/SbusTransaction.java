@@ -22,14 +22,14 @@ import ro.ciprianpascu.sbus.msg.SbusResponse;
 
 /**
  * Interface defining a SbusTransaction.
-* 
+ *
  * A transaction is defined by the sequence of
  * sending a request message and receiving a
  * related response message.
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
+ *
  * @version %I% (%G%)
  */
 public interface SbusTransaction {
@@ -37,10 +37,10 @@ public interface SbusTransaction {
     /**
      * Sets the {@link SbusRequest} for this
      * {@link SbusTransaction}.
-* 
+     *
      * The related {@link SbusResponse} is acquired
      * from the passed in {@link SbusRequest} instance.<br>
-* 
+     *
      *
      * @param req a {@link SbusRequest}.
      */
@@ -49,7 +49,7 @@ public interface SbusTransaction {
     /**
      * Returns the {@link SbusRequest} instance
      * associated with this {@link SbusTransaction}.
-* 
+     *
      *
      * @return the associated {@link SbusRequest} instance.
      */
@@ -58,7 +58,7 @@ public interface SbusTransaction {
     /**
      * Returns the {@link SbusResponse} instance
      * associated with this {@link SbusTransaction}.
-* 
+     *
      *
      * @return the associated {@link SbusRequest} instance.
      */
@@ -69,7 +69,7 @@ public interface SbusTransaction {
      * this {@link SbusTransaction}.
      * The identifier is a 2-byte (short) non negative
      * String value subnetId + _ + unitId + _ + functionCode<br>
-     * 
+     *
      *
      * @return the actual transaction identifier as
      *         {@link int}.
@@ -78,8 +78,8 @@ public interface SbusTransaction {
 
     /**
      * Set the amount of retries for opening
-     * the connection for executing the transaction.	
-     * 
+     * the connection for executing the transaction.
+     *
      *
      * @param retries the amount of retries as {@link int}.
      */
@@ -88,7 +88,7 @@ public interface SbusTransaction {
     /**
      * Returns the amount of retries for opening
      * the connection for executing the transaction.
-     * 
+     *
      *
      * @return the amount of retries as {@link int}.
      */
@@ -96,22 +96,22 @@ public interface SbusTransaction {
 
     /**
      * Sets the time to wait in milliseconds between retries
-     * 
+     *
      * @param retryDelayMillis the time to wait in milliseconds between retries
      */
-    public void setRetryDelayMillis(long retryDelayMillis);
+    public void setRetryDelayMillis(int retryDelayMillis);
 
     /**
      * Returns the time to wait in milliseconds between retries
      *
      * @return time to wait in milliseconds between retries as {@link long}
      */
-    public long getRetryDelayMillis();
+    public int getRetryDelayMillis();
 
     /**
      * Sets the flag that controls whether the
      * validity of a transaction will be checked.
-     * 
+     *
      *
      * @param b true if checking validity, false otherwise.
      */
@@ -120,7 +120,7 @@ public interface SbusTransaction {
     /**
      * Tests whether the validity of a transaction
      * will be checked.
-     * 
+     *
      *
      * @return true if checking validity, false otherwise.
      */
@@ -133,7 +133,7 @@ public interface SbusTransaction {
      * related {@link SbusResponse}.
      * If reconnecting is activated the connection will
      * be opened for the transaction and closed afterwards.
-     * 
+     *
      *
      * @throws SbusException if an I/O error occurs,
      *             or the response is a sbus protocol exception.

@@ -22,6 +22,7 @@ import ro.ciprianpascu.sbus.SbusIOException;
 import ro.ciprianpascu.sbus.msg.SbusMessage;
 import ro.ciprianpascu.sbus.msg.SbusRequest;
 import ro.ciprianpascu.sbus.msg.SbusResponse;
+import ro.ciprianpascu.sbus.net.SbusMessageListener;
 
 /**
  * Interface defining the I/O mechanisms for
@@ -29,7 +30,7 @@ import ro.ciprianpascu.sbus.msg.SbusResponse;
  *
  * @author Dieter Wimberger
  * @author Ciprian Pascu
-
+ *
  * @version %I% (%G%)
  */
 public interface SbusTransport {
@@ -37,7 +38,7 @@ public interface SbusTransport {
     /**
      * Closes the raw input and output streams of
      * this {@link SbusTransport}.
-     * 
+     *
      *
      * @throws IOException if a stream
      *             cannot be closed properly.
@@ -45,9 +46,23 @@ public interface SbusTransport {
     public void close() throws IOException;
 
     /**
+     * Adds a message listener for unsolicited messages.
+     *
+     * @param listener the listener to add
+     */
+    public void addMessageListener(SbusMessageListener listener);
+
+    /**
+     * Removes a message listener.
+     *
+     * @param listener the listener to remove
+     */
+    public void removeMessageListener(SbusMessageListener listener);
+
+    /**
      * Writes a {@link SbusMessage} to the
      * output stream of this {@link SbusTransport}.
-     * 
+     *
      *
      * @param msg a {@link SbusMessage}.
      * @throws SbusIOException data cannot be
@@ -59,7 +74,7 @@ public interface SbusTransport {
     /**
      * Reads a {@link SbusRequest} from the
      * input stream of this {@link SbusTransport}.
-     * 
+     *
      * @return req the {@link SbusRequest} read from the underlying stream.
      *
      * @throws SbusIOException data cannot be
@@ -71,6 +86,7 @@ public interface SbusTransport {
     /**
      * Reads a {@link SbusResponse} from the
      * input stream of this {@link SbusTransport} .
+     *
      * @param transactionId Transaction identifier for the cached response
      * @return res the {@link SbusResponse} read from the underlying stream.
      *

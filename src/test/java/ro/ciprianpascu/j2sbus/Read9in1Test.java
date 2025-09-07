@@ -4,24 +4,22 @@ import org.junit.Test;
 
 import ro.ciprianpascu.sbus.Sbus;
 import ro.ciprianpascu.sbus.io.SbusUDPTransaction;
-import ro.ciprianpascu.sbus.msg.ReadTemperatureRequest;
-import ro.ciprianpascu.sbus.msg.ReadTemperatureResponse;
+import ro.ciprianpascu.sbus.msg.ReadNineInOneStatusRequest;
+import ro.ciprianpascu.sbus.msg.ReadNineInOneStatusResponse;
+import ro.ciprianpascu.sbus.msg.SbusResponse;
+import ro.ciprianpascu.sbus.net.SbusMessageListener;
 import ro.ciprianpascu.sbus.net.UDPMasterConnection;
 
-public class ReadTemperatureTest {
-
-    public static void main(String[] args) {
-        new ReadTemperatureTest().testDataIn();
-    }
+public class Read9in1Test {
 
     @Test
     public void testDataIn() {
         UDPMasterConnection conn = null;
         SbusUDPTransaction trans = null;
-        ReadTemperatureRequest req = null;
-        ReadTemperatureResponse res = null;
+        ReadNineInOneStatusRequest req = null;
+        ReadNineInOneStatusResponse res = null;
 
-        int repeat = 5;
+        int repeat = 2;
         int port = Sbus.DEFAULT_PORT;
 
         try {
@@ -29,14 +27,19 @@ public class ReadTemperatureTest {
             // 2. Open the connection
             conn = new UDPMasterConnection();
             conn.setPort(port);
-            conn.setTimeout(5000);
             conn.connect();
+            conn.addMessageListener(new SbusMessageListener() {
+				
+				@Override
+				public void onMessageReceived(SbusResponse response) {
+					System.out.println("Notification: " + response.getHexMessage());
+				}
+			});
 
             // 3. Prepare the request
-            req = new ReadTemperatureRequest();
+            req = new ReadNineInOneStatusRequest();
             req.setSubnetID(1);
-            req.setUnitID(62);
-            req.setTemperatureUnit(1);
+            req.setUnitID(52);
             if (Sbus.debug) {
                 System.out.println("Request: " + req.getHexMessage());
             }
@@ -50,7 +53,7 @@ public class ReadTemperatureTest {
             do {
                 trans.execute();
 
-                res = (ReadTemperatureResponse) trans.getResponse();
+                res = (ReadNineInOneStatusResponse) trans.getResponse();
                 if (res == null) {
                     k++;
                     continue;

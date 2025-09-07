@@ -62,7 +62,7 @@ public final class WriteRgbwRequest extends SbusRequest {
      * reg[3] = white
      *
      * @param channelNo the offset of the register written.
-     * @param reg array of registers containing the RGBW and temporisation values
+     * @param reg array of registers containing the RGBW  values
      */
     public WriteRgbwRequest(int channelNo, Register[] reg) {
         super();
@@ -78,12 +78,12 @@ public final class WriteRgbwRequest extends SbusRequest {
 
         if (m_NonWordDataHandler == null) {
             try {
-                // Get registers for RGBW values (4 bytes) and temporisation (1 word)
-                Register[] regs = procimg.getRegisterRange(0, 5);
+                // Get registers for RGBW values (4 bytes)
+                Register[] regs = procimg.getRegisterRange(0, 4);
                 // Update register values
                 regs[0].setValue(this.getLoopNumber());
                 for (int i = 1; i < regs.length; i++) {
-                    regs[i].setValue(this.getRegister(i).toBytes());
+                    regs[i].setValue(this.getRegister(i-1).toBytes());
                 }
             } catch (IllegalAddressException iaex) {
                 return createExceptionResponse(Sbus.ILLEGAL_ADDRESS_EXCEPTION);
@@ -130,17 +130,17 @@ public final class WriteRgbwRequest extends SbusRequest {
     }// getReference
 
     /**
-     * Sets the registers containing RGBW and temporisation values.
+     * Sets the registers containing RGBW values.
      *
-     * @param registers array of registers containing RGBW and temporisation values
+     * @param registers array of registers containing RGBW values
      */
     public void setRegisters(Register[] registers) {
         m_Registers = registers;
-        setDataLength(6);
+        setDataLength(5);
     }
 
     /**
-     * Returns the registers containing RGBW and temporisation values.
+     * Returns the registers containing RGBW values.
      *
      * @return array of registers
      */
@@ -155,7 +155,6 @@ public final class WriteRgbwRequest extends SbusRequest {
      * 1 = green
      * 2 = blue
      * 3 = white
-     * 4 = temporisation
      *
      * @param index the index of the register to retrieve
      * @return the register at the specified index
@@ -190,20 +189,20 @@ public final class WriteRgbwRequest extends SbusRequest {
     @Override
     public void writeData(DataOutput dout) throws IOException {
         dout.writeByte(m_LoopNumber);
-        dout.writeByte(m_Registers[0].toShort()); // red
-        dout.writeByte(m_Registers[1].toShort()); // green
-        dout.writeByte(m_Registers[2].toShort()); // blue
-        dout.writeByte(m_Registers[3].toShort()); // white
+        dout.writeByte(m_Registers[0].toUnsignedShort() & 0xFF); // red
+        dout.writeByte(m_Registers[1].toUnsignedShort() & 0xFF); // green
+        dout.writeByte(m_Registers[2].toUnsignedShort() & 0xFF); // blue
+        dout.writeByte(m_Registers[3].toUnsignedShort() & 0xFF); // white
     }
 
     @Override
     public void readData(DataInput din) throws IOException {
-        m_LoopNumber = din.readByte();
+        m_LoopNumber = din.readUnsignedByte();
         m_Registers = new Register[4]; // 4 for RGBW
-        m_Registers[0] = new ByteRegister(din.readByte()); // red
-        m_Registers[1] = new ByteRegister(din.readByte()); // green
-        m_Registers[2] = new ByteRegister(din.readByte()); // blue
-        m_Registers[3] = new ByteRegister(din.readByte()); // white
+        m_Registers[0] = new ByteRegister((byte) din.readUnsignedByte()); // red
+        m_Registers[1] = new ByteRegister((byte) din.readUnsignedByte()); // green
+        m_Registers[2] = new ByteRegister((byte) din.readUnsignedByte()); // blue
+        m_Registers[3] = new ByteRegister((byte) din.readUnsignedByte()); // white
         setDataLength(5);
     }
 }

@@ -54,24 +54,16 @@ public final class ReadRgbwRequest extends SbusRequest {
 
     @Override
     public SbusResponse createResponse(ProcessImageImplementation procimg) {
-        ReadStatusChannelsResponse response = null;
-        InputRegister[] inpregs = null;
-
-        // 1. get input registers range. WordCount depends on the device type (num channels + 1)
-        try {
-            inpregs = procimg.getInputRegisterRange(0, procimg.getRegisterCount() - 1);
-        } catch (IllegalAddressException iaex) {
-            return createExceptionResponse(Sbus.ILLEGAL_ADDRESS_EXCEPTION);
-        }
-        response = new ReadStatusChannelsResponse(inpregs);
-        // transfer header data
-        response.setSourceSubnetID(this.getSourceSubnetID());
-        response.setSourceUnitID(this.getSourceUnitID());
-        response.setSourceDeviceType(this.getSourceDeviceType());
-        response.setSubnetID(this.getSubnetID());
-        response.setUnitID(this.getUnitID());
-        response.setFunctionCode(this.getFunctionCode());
-        return response;
+        // For a local/server emulation: 0xDD31 success + loop + 4 bytes
+        InputRegister[] four = procimg.getInputRegisterRange(0, 3);
+        ReadRgbwResponse resp = new ReadRgbwResponse(getLoopNumber(), true, four);
+        resp.setSourceSubnetID(getSourceSubnetID());
+        resp.setSourceUnitID(getSourceUnitID());
+        resp.setSourceDeviceType(getSourceDeviceType());
+        resp.setSubnetID(getSubnetID());
+        resp.setUnitID(getUnitID());
+        resp.setFunctionCode(getFunctionCode() + 1); // 0xDD31
+        return resp;
     }// createResponse
 
     /**

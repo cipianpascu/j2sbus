@@ -53,6 +53,11 @@ public interface Sbus {
     public static final int WRITE_CUSTOM_COLORS_REQUEST = 0xDD32;
 
     /**
+     * Function code for writing color information (0xF081)
+     */
+    public static final int WRITE_PREVIEW_COLORS_REQUEST = 0xF080;
+
+    /**
      * Function code for reading status channels (0x0033)
      */
     public static final int READ_STATUS_CHANNELS_REQUEST = 0x0033;

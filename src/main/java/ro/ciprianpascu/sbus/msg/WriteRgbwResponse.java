@@ -103,7 +103,7 @@ public final class WriteRgbwResponse extends SbusResponse {
 
     @Override
     public String toString() {
-        return "WriteSingleChannelResponse: " + getStatusValue();
+        return "WriteRgbwResponse: " + getStatusValue();
     }
 
 }// class WriteSingleChannelResponse

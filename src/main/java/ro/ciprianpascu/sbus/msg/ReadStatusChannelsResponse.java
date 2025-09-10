@@ -149,7 +149,15 @@ public final class ReadStatusChannelsResponse extends SbusResponse {
 
     @Override
     public void readData(DataInput din) throws IOException {
-        setByteCount(din.readUnsignedByte());
+    	int b0 = din.readUnsignedByte();
+    	if (b0 == Sbus.FAILURE) {
+    	    // device reported failure for 0x0034
+    	    setDataLength(1);
+    	    m_Registers = new InputRegister[0];
+    	    setByteCount(0);
+    	    return;
+    	}
+    	setByteCount(b0);
 
         InputRegister[] registers = new InputRegister[getByteCount()];
         for (int k = 0; k < getByteCount(); k++) {

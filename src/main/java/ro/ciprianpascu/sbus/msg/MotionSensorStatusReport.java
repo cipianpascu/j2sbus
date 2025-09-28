@@ -37,7 +37,8 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
 public final class MotionSensorStatusReport extends SbusResponse {
 
     // instance attributes
-    private int m_ByteCount;
+    private int m_ByteCount = 8;
+    private int m_numDryContacts = 0;
     private InputRegister[] m_Registers;
 
     /**
@@ -88,7 +89,7 @@ public final class MotionSensorStatusReport extends SbusResponse {
      * @return number of dry contacts as {@link int} (9-in-1 has 2).
      */
     public int getNumberOfDryContacts() {
-        return m_Registers[0].toUnsignedShort();
+        return m_numDryContacts;
     }// getNumberOfDryContacts
 
     /**
@@ -117,7 +118,7 @@ public final class MotionSensorStatusReport extends SbusResponse {
      * @return motion status as {@link int} (1=motion, 0=no motion).
      */
     public int getMotionStatus() {
-        return m_Registers[getNumberOfDryContacts() + 1].toUnsignedShort();
+        return m_Registers[getNumberOfDryContacts() * 2].toUnsignedShort();
     }// getMotionStatus
 
     /**
@@ -126,10 +127,10 @@ public final class MotionSensorStatusReport extends SbusResponse {
      * @return LUX value as {@link int} (combined from bytes 6-7).
      */
     public int getLuxValue() {
-        int offset = getNumberOfDryContacts() + 2;
+        int offset = getNumberOfDryContacts() * 2 + 2;
         // Combine bytes 6 and 7 to form the LUX value
         int luxHigh = m_Registers[offset].toUnsignedShort();
-        int luxLow = m_Registers[offset+1].toUnsignedShort();
+        int luxLow = m_Registers[offset + 1].toUnsignedShort();
         return (luxHigh << 8) | luxLow;
     }// getLuxValue
 
@@ -181,7 +182,7 @@ public final class MotionSensorStatusReport extends SbusResponse {
 
     @Override
     public void writeData(DataOutput dout) throws IOException {
-        dout.writeByte(m_ByteCount + 1);
+        dout.writeByte(m_numDryContacts);
         for (int k = 0; k < getByteCount(); k++) {
             dout.write(m_Registers[k].getValue());
         }
@@ -189,8 +190,9 @@ public final class MotionSensorStatusReport extends SbusResponse {
 
     @Override
     public void readData(DataInput din) throws IOException {
-        setByteCount(din.readUnsignedByte());
-
+        // setByteCount(din.readUnsignedByte()); // 2 contacts + additional content 2 octets for motion and 2 octets for
+        // lux
+        m_numDryContacts = din.readUnsignedByte();
         InputRegister[] registers = new InputRegister[getByteCount()];
         for (int k = 0; k < getByteCount(); k++) {
             registers[k] = new ByteRegister(din.readByte());

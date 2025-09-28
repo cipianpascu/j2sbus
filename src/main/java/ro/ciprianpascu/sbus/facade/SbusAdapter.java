@@ -18,8 +18,6 @@ public class SbusAdapter {
 
     private UDPMasterConnection connection;
 
-
-
     /**
      * Initializes a new SBUS adapter with the specified host, port, and timeout.
      *
@@ -34,8 +32,8 @@ public class SbusAdapter {
             connection = new UDPMasterConnection();
             connection.setRemoteAddress(InetAddress.getByName(host));
             connection.setPort(port);
-            connection.setTimeout(timeout);
             connection.connect();
+            connection.setTimeout(timeout);
         } catch (Exception e) {
             throw new SbusException("Error initializing SBUS connection: " + e.getMessage());
         }

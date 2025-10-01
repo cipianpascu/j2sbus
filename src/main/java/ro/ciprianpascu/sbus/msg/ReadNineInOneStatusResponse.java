@@ -27,7 +27,7 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
 /**
  * Class implementing a {@link ReadNineInOneStatusResponse}.
  * The implementation reads status from 9-in-1 sensor device including
- * dry contacts, motion status, and LUX value. It encapsulates the 
+ * dry contacts, motion status, and LUX value. It encapsulates the
  * corresponding response message for OpCode 0xDB01.
  *
  * @author Ciprian Pascu
@@ -36,7 +36,7 @@ import ro.ciprianpascu.sbus.procimg.InputRegister;
 public final class ReadNineInOneStatusResponse extends SbusResponse {
 
     // instance attributes
-    private int m_ByteCount;
+    private int m_ByteCount = 8;
     private InputRegister[] m_Registers;
 
     /**
@@ -173,7 +173,8 @@ public final class ReadNineInOneStatusResponse extends SbusResponse {
 
     @Override
     public void readData(DataInput din) throws IOException {
-        setByteCount(din.readUnsignedByte());
+        // setByteCount(din.readUnsignedByte()); //for the moment this value is 0 most of the time.
+        din.readUnsignedByte();
 
         InputRegister[] registers = new InputRegister[getByteCount()];
         for (int k = 0; k < getByteCount(); k++) {

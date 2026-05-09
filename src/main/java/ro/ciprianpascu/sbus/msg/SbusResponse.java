@@ -81,6 +81,12 @@ public abstract class SbusResponse extends SbusMessageImpl {
             case Sbus.READ_NINE_IN_ONE_STATUS_REQUEST + 1:
                 response = new ReadNineInOneStatusResponse();
                 break;
+            case Sbus.READ_DATETIME_REQUEST + 1:
+                response = new ReadDateTimeResponse();
+                break;
+            case Sbus.WRITE_DATETIME_REQUEST + 1:
+                response = new WriteDateTimeResponse();
+                break;
             case Sbus.MOTION_SENSOR_STATUS_REPORT:
                 response = new MotionSensorStatusReport();
                 break;

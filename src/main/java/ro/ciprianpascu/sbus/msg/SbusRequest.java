@@ -90,6 +90,12 @@ public abstract class SbusRequest extends SbusMessageImpl {
             case Sbus.READ_NINE_IN_ONE_STATUS_REQUEST:
                 request = new ReadNineInOneStatusRequest();
                 break;
+            case Sbus.READ_DATETIME_REQUEST:
+                request = new ReadDateTimeRequest();
+                break;
+            case Sbus.WRITE_DATETIME_REQUEST:
+                request = new WriteDateTimeRequest();
+                break;
             case Sbus.WRITE_SINGLE_CHANNEL_REQUEST:
                 request = new WriteSingleChannelRequest(false);
                 break;

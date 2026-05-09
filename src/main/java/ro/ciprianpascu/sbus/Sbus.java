@@ -78,6 +78,16 @@ public interface Sbus {
     public static final int READ_NINE_IN_ONE_STATUS_REQUEST = 0xDB00;
 
     /**
+     * Function code for reading date time from logic module (0x02C0)
+     */
+    public static final int READ_DATETIME_REQUEST = 0x02C0;
+
+    /**
+     * Function code for writing date time to logic module (0x02C6)
+     */
+    public static final int WRITE_DATETIME_REQUEST = 0x02C6;
+
+    /**
      * Function code for motion sensor status report (0x02CA)
      */
     public static final int MOTION_SENSOR_STATUS_REPORT = 0x02CA;
